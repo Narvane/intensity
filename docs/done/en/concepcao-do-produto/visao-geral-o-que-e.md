@@ -1,89 +1,112 @@
 # Overview — What Is It?
 
-Product conception document for **Intensity**. Content derived from observable application behavior, user-facing text, and the functional structure of the repository.
+**Product Conception** document. Presents **Intensity** for anyone who needs to understand what the product is, who it serves, and what value it delivers — without technical knowledge.
 
 ---
 
-## Pitch
+## Short
 
-### Short
-
-**Intensity** helps friends and couples collect unusual experience ideas, classify them by intensity, and draw one to live meaningful moments of connection — instead of postponing the unexpected.
-
-### Medium
-
-Tired of repetitive experiences that barely bring you closer to the people who matter? **Intensity** is a mobile app for groups and couples: each person registers ideas in themed boxes, rates them from 1 to 5 in intensity, and when together they draw one experience to live in the moment. The product pushes you to act instead of waiting for chance to create memorable moments.
-
-### Detailed
-
-**Intensity** turns idea collection and drawing into a shared ritual. Invited participants create accounts, form groups, and feed **experience boxes** over time — each idea goes through suggestion, reflection, parametrization (effort, openness, novelty), and final intensity classification. At an in-person gathering, the app draws one experience from the box, with intensity-level filters. The product essence is **connection, intensity, and discovery**: it is not about completing tasks, but about living meaningful moments with presence. The observable ecosystem includes a mobile app (Android, with iOS target) and a dedicated API (**Intensity API**), with support for Portuguese, English, and Italian.
+**Intensity** is an app for friends and couples who want to break routine and truly grow closer. Over time, each person registers experience ideas in themed boxes; when the group is together, they draw one to live in the moment. The product essence is **connection, intensity, and discovery** — living meaningful moments with presence, not checking off tasks.
 
 ---
 
-## App Store / Google Play Description
+## Medium
 
-### Short
+Many people miss closeness with the people who matter. Everyday experiences repeat; the most memorable moments were usually the most unexpected — yet they get postponed while waiting for chance or the perfect opportunity.
 
-Collect unusual ideas. Draw one. And live memorable moments with the people who matter.
+**Intensity** proposes a different path: **collect unusual ideas, draw one, and live memorable moments**. It is a mobile app where groups and couples create **experience boxes**, feed them over time, and at an in-person gathering draw one idea to do together.
 
-### Medium
+The product is organized around two usage modes, presented to the user as **Experiences** (individual entry to register ideas) and **Experience Box** (group enters together to draw and live the moment). Each idea can be rated on an intensity scale from 1 to 5 — from *Light* to *Adrenaline* — and the integrated quick guide orients the group to align limits and commitment before revealing what was drawn.
 
-**Intensity** — connection, intensity, and discovery.
-
-Create boxes with friends or as a couple, add experiences over time, rate from 1 to 5, and draw when you are together. Intensity filters, suggestions by box type, and an integrated quick guide. Available in Portuguese, English, and Italian.
-
-### Detailed
-
-Missing that sense of closeness? The most memorable moments were usually the most unexpected ones — and yet they almost always get postponed. **Intensity** changes that.
-
-**How it works**
-
-- Sign up (invite-only access) and enter solo to register experiences or as a group to open the **Experience Box**.
-- Choose or create themed boxes: outings with friends, couple trips, connection moments, and other categories available in the app.
-- Register ideas with a five-step assistant: suggestion, reflection, effort/openness/novelty stars, and final intensity (from *Light* to *Adrenaline*).
-- At the gathering, draw one experience — any level, exact intensity, or up to a maximum level.
-- Before revealing, align mood, limits, and commitment; the quick guide covers consequences and gradual intensity progression.
-
-Ideal for couples and friend groups who want to break routine with intention. Developed by **Narvane**.
+The app is available in Portuguese, English, and Italian. Registration requires the email to be previously authorized.
 
 ---
 
-## Executive Summary
+## Detailed
 
-### Short
+### The problem the product addresses
 
-**Intensity** is a mobile product with API by Narvane for groups and couples to register, classify, and draw shared experiences, promoting connection through collectively planned unusual moments.
+From onboarding and quick guide copy, **Intensity** starts from three recurring perceptions:
 
-### Medium
+1. **Repetitive experiences** that barely bring you closer to the people who matter.
+2. **Missing closeness** and deeper connection.
+3. **Postponement** of unusual moments — the ones that, when lived, truly bring people closer.
 
-The repository contains two main applications: **intensity-api** (Spring Boot, PostgreSQL, JWT authentication) and a **Kotlin Multiplatform** client (Compose, Android and iOS target). The central domain revolves around **groups**, **typed boxes**, and **experiences** with an intensity scale from 1 to 5. Two modes structure usage: **Experiences** (individual registration, CURATE mode) and **Experience Box** (collective session with drawing, CONNECT mode). Registration is closed via an authorized email list. Interface languages: PT, EN, and IT.
+The product pushes you to act instead of waiting for chance to create those moments.
 
-### Detailed
+### What it is
 
-**Problem addressed (evidence: onboarding and quick guide copy):** repetitive experiences, emotional distance between close people, and postponement of distinctive moments that could bring them closer.
+**Intensity** is a mobile app to collect, classify, and draw shared experience ideas. The core concept is simple: **collect ideas over time and take the draw seriously**.
 
-**Observable solution:** collaborative boxes per group, ritualized experience drawing, multidimensional parametrization (intensity, effort, openness, novelty), and a reflection flow when creating each idea.
+Each group works with **boxes** — themed spaces where ideas are stored. Examples of types available in the product:
 
-**Functional architecture (product, not implementation):** participants → groups (combination of people who connected together) → boxes (thematic type) → experiences (content protected on the server).
+| Box type | Context |
+|----------|---------|
+| Outings with friends | Light to intense group hangouts |
+| Outings as a couple | Cafes, walks, and dates for two |
+| Trips as a couple | Getaways and destinations for two |
+| Intimate as a couple | Connection and deeper conversations |
+| Trips with friends | Day trips, weekends, or planned travel |
+| Experiences with friends | Classes, tours, and group experiences |
+| Break routine | Small routine breaks in daily life |
+| First times | Try new things calmly |
+| Light discomfort | Step a bit out of comfort zone with care |
+| Connection moments | Presence, listening, and group bonding |
+| Different experiences | Uncommon things for the group |
 
-**Main flows:** onboarding and quick guide → authentication → individual mode (select group → box → register/edit experiences) or group mode (boxes → draw with intensity filters).
+Each registered idea goes through a reflection and classification process before entering the box, helping the group consider whether everyone would accept that experience — however peculiar it may be.
 
-**Observable state:** app version `1.0.0`, invite-only access, no web client in this repository. Social rules suggested in the quick guide (consequences, swaps between levels) appear only as textual guidance — they were not found as implemented functionality in the API or database.
+### Who it is for
+
+The product is aimed at **friend groups** and **couples** who want to:
+
+- create moments of connection with intention;
+- break routine without relying on chance;
+- explore gradual experiences, respecting the group's pace.
+
+Registration is closed: only previously authorized emails can create an account. This suggests initial invite-only use, although the product does not publicly detail authorization criteria.
+
+### Value proposition
+
+| For the user | What Intensity delivers |
+|--------------|-------------------------|
+| Closeness | A dedicated space for ideas that bring people closer, not generic entertainment |
+| Intentionality | A draw ritual that turns postponed ideas into action |
+| Gradual progression | Intensity scale and filters to start light and evolve |
+| Presence | Emphasis on living the moment together, with agreements before the reveal |
+| Discovery | Suggestions and box types that invite uncommon ideas |
+
+### Essence and positioning
+
+The essence stated in the quick guide is **connection, intensity, and discovery**. The product explicitly positions itself **against a task mindset**: *it's not about completing a task; it's about living meaningful moments with presence*.
+
+The brand shown in the interface is **Intensity**. Convergent positioning fragments appear in onboarding — for example, *Collect unusual ideas. Draw one. And live memorable moments* — but **no single official tagline** was found consolidated in one place.
+
+### How the product presents itself to the user
+
+**Two entry modes:**
+
+- **Experiences** — individual login to register ideas and choose which box to add them to. Oriented to those who propose experiences over time.
+- **Experience Box** — multiple accounts enter together; the group is defined automatically. In this mode, boxes are created and the draw happens.
+
+**Recommended ritual** (per integrated quick guide):
+
+1. Everyone feeds the box over time.
+2. When everyone is together, they trigger the draw moment.
+3. Before revealing, they align mood, limits, and commitment.
+4. They define a consequence — quick guide guidance to give weight to the group's agreement.
+
+**Languages:** Portuguese, English, and Italian.
 
 ---
 
-## Evidence and Limitations
+## Gaps and limitations
 
 | Topic | Status |
 |-------|--------|
-| Brand name in UI | **Intensity** (`app.brand`, Android label) |
-| Product essence | *Connection, intensity, and discovery* (quick guide) |
-| Problem and value proposition | Four-step onboarding (`PtDictionary.kt` and EN/IT equivalents) |
-| Inferable target audience | Friend groups and couples (box types and quick guide copy) |
-| Single official tagline | **Not found** — convergent fragments exist in onboarding |
-| Name "Intensity Box" | Appears in client README; UI uses **Intensity** |
-| Business model / pricing | **Not found** in the repository |
-| Consequences and level swaps | Guidance in quick guide; **no evidence of implementation** in software |
-| Web client | **Not present** in this repository |
-
-**Primary sources:** UI dictionaries (`PtDictionary.kt`, `EnDictionary.kt`, `ItDictionary.kt`), `IntensityApp.kt`, `openapi.yaml`, database migrations (`V221__intensity2_init.sql`), `ExperienceBoxTypeCodes.kt`.
+| Single official tagline | Not found — convergent fragments exist in onboarding |
+| Business model or pricing | Not found in analyzed materials |
+| Product owner or publisher | Not identified in user-facing text |
+| Consequences and swaps between intensity levels | Appear as guidance in the quick guide; could not be validated beyond that guidance |
+| Platforms other than the mobile app | Not identified in analyzed product materials |
+| Email authorization criteria for registration | Observable behavior (email must be authorized); criteria not explained to the user |

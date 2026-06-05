@@ -1,89 +1,112 @@
 # Panoramica — Cos'è?
 
-Documento di concezione del prodotto **Intensity**. Contenuto derivato dal comportamento osservabile dell'applicazione, dai testi mostrati all'utente e dalla struttura funzionale del repository.
+Documento di **Concezione del Prodotto**. Presenta **Intensity** a chi deve capire cos'è il prodotto, a chi serve e quale valore offre — senza conoscenze tecniche.
 
 ---
 
-## Pitch
+## Breve
 
-### Breve
-
-**Intensity** aiuta amici e coppie a raccogliere idee di esperienze insolite, classificarle per intensità e sorteggiarne una per vivere momenti di connessione — invece di rimandare l'inaspettato.
-
-### Media
-
-Stanco di esperienze ripetitive che ti avvicinano poco alle persone importanti? **Intensity** è un'app mobile per gruppi e coppie: ogni persona registra idee in box tematici, le classifica da 1 a 5 per intensità e, quando sono insieme, sorteggiano un'esperienza da vivere sul momento. Il prodotto ti incoraggia ad agire invece di aspettare che sia il caso a creare momenti memorabili.
-
-### Dettagliata
-
-**Intensity** trasforma la raccolta di idee e il sorteggio in un rituale condiviso. I partecipanti invitati creano account, formano gruppi e alimentano **box di esperienze** nel tempo — ogni idea passa per suggerimento, riflessione, parametrizzazione (sforzo, apertura, novità) e classificazione finale dell'intensità. Nell'incontro di persona, l'app sorteggia un'esperienza dal box, con filtri per livello di intensità. L'essenza del prodotto è **connessione, intensità e scoperta**: non si tratta di completare compiti, ma di vivere momenti intensi con presenza. L'ecosistema osservabile include app mobile (Android, con target iOS) e API dedicata (**Intensity API**), con supporto per portoghese, inglese e italiano.
+**Intensity** è un'app per amici e coppie che vogliono uscire dalla routine e avvicinarsi davvero. Nel tempo, ogni persona registra idee di esperienze in box tematici; quando il gruppo è insieme, ne sorteggia una da vivere sul momento. L'essenza del prodotto è **connessione, intensità e scoperta** — vivere momenti intensi con presenza, non completare compiti.
 
 ---
 
-## Descrizione stile App Store / Google Play
+## Media
 
-### Breve
+Molte persone sentono la mancanza di vicinanza con chi conta. Le esperienze quotidiane si ripetono; i momenti più memorabili sono quasi sempre i più inaspettati — eppure vengono rimandati, aspettando il caso o l'occasione perfetta.
 
-Colleziona idee insolite. Sorteggia. E vivi momenti memorabili con chi conta.
+**Intensity** propone un'altra strada: **collezionare idee insolite, sorteggiare e vivere momenti memorabili**. È un'app mobile in cui gruppi e coppie creano **box di esperienze**, li alimentano nel tempo e, nell'incontro di persona, sorteggiano un'idea da realizzare insieme.
 
-### Media
+Il prodotto si organizza attorno a due modalità d'uso, presentate all'utente come **Esperienze** (accesso individuale per registrare idee) e **Box Esperienze** (il gruppo entra insieme per sorteggiare e vivere il momento). Ogni idea può essere classificata su una scala di intensità da 1 a 5 — da *Leggero* a *Adrenalina* — e la guida rapida integrata orienta il gruppo ad allineare limiti e impegno prima di rivelare ciò che è stato sorteggiato.
 
-**Intensity** — connessione, intensità e scoperta.
-
-Crea box con amici o in coppia, aggiungi esperienze nel tempo, classifica da 1 a 5 e sorteggia quando siete insieme. Filtri di intensità, suggerimenti per tipo di box e guida rapida integrata. Disponibile in portoghese, inglese e italiano.
-
-### Dettagliata
-
-Ti manca più vicinanza? I momenti più memorabili sono quasi sempre i più inaspettati — eppure vengono quasi sempre rimandati. **Intensity** cambia questo.
-
-**Come funziona**
-
-- Registrati (accesso su invito) e accedi da solo per registrare esperienze o in gruppo per aprire il **Box Esperienze**.
-- Scegli o crea box tematici: uscite con amici, viaggi di coppia, momenti di connessione e altre categorie disponibili nell'app.
-- Registra idee con un assistente in cinque passi: suggerimento, riflessione, stelle di sforzo/apertura/novità e intensità finale (da *Leggero* a *Adrenalina*).
-- Nell'incontro, sorteggia un'esperienza — qualsiasi livello, intensità esatta o fino a un livello massimo.
-- Prima di rivelare, allineate clima, limiti e impegno; la guida rapida orienta su conseguenze ed evoluzione graduale dell'intensità.
-
-Ideale per coppie e gruppi di amici che vogliono uscire dalla routine con intenzione. Sviluppato da **Narvane**.
+L'app è disponibile in portoghese, inglese e italiano. La registrazione richiede che l'e-mail sia stata precedentemente autorizzata.
 
 ---
 
-## Riassunto esecutivo
+## Dettagliata
 
-### Breve
+### Il problema che il prodotto affronta
 
-**Intensity** è un prodotto mobile con API di Narvane per gruppi e coppie che registrano, classificano e sorteggiano esperienze condivise, promuovendo la connessione attraverso momenti insoliti pianificati collettivamente.
+Dai testi di onboarding e della guida rapida, **Intensity** parte da tre percezioni ricorrenti:
 
-### Media
+1. **Esperienze ripetitive** che avvicinano poco alle persone importanti.
+2. **Mancanza di vicinanza** e di connessioni più profonde.
+3. **Rimando** dei momenti inaspettati — quelli che, quando vissuti, avvicinano davvero.
 
-Il repository contiene due applicazioni principali: **intensity-api** (Spring Boot, PostgreSQL, autenticazione JWT) e client **Kotlin Multiplatform** (Compose, Android e target iOS). Il dominio centrale ruota attorno a **gruppi**, **box tipizzati** ed **esperienze** con scala di intensità da 1 a 5. Due modalità strutturano l'uso: **Esperienze** (registrazione individuale, modalità CURATE) e **Box Esperienze** (sessione collettiva con sorteggio, modalità CONNECT). La registrazione è chiusa tramite lista di e-mail autorizzate. Lingue dell'interfaccia: PT, EN e IT.
+Il prodotto incoraggia ad agire invece di aspettare che sia il caso a creare questi momenti.
 
-### Dettagliata
+### Cos'è
 
-**Problema affrontato (evidenza: testi di onboarding e guida rapida):** esperienze ripetitive, distanza emotiva tra persone vicine e rimando di momenti distintivi che potrebbero avvicinarle.
+**Intensity** è un'app mobile per raccogliere, classificare e sorteggiare idee di esperienze condivise. Il concetto centrale è semplice: **raccogliere idee nel tempo e prendere sul serio il sorteggio**.
 
-**Soluzione osservabile:** box collaborativi per gruppo, sorteggio ritualizzato di esperienze, parametrizzazione multidimensionale (intensità, sforzo, apertura, novità) e flusso di riflessione nella creazione di ogni idea.
+Ogni gruppo lavora con **box** — spazi tematici dove le idee vengono conservate. Esempi di tipi disponibili nel prodotto:
 
-**Architettura funzionale (prodotto, non implementazione):** partecipanti → gruppi (combinazione di persone che si sono connesse insieme) → box (tipo tematico) → esperienze (contenuto protetto sul server).
+| Tipo di box | Contesto |
+|-------------|----------|
+| Uscite con amici | Uscite di gruppo da leggere a intense |
+| Uscite in coppia | Caffè, passeggiate e uscite a due |
+| Viaggi in coppia | Fughe e destinazioni a due |
+| Intimità in coppia | Connessione e conversazioni più profonde |
+| Viaggi con amici | Gite, weekend o viaggi pianificati |
+| Esperienze con amici | Corsi, tour ed esperienze di gruppo |
+| Rompi la routine | Piccole rotture della routine quotidiana |
+| Prime volte | Provare cose nuove con calma |
+| Leggero disagio | Uscire un po' dalla zona di comfort con cura |
+| Momenti di connessione | Presenza, ascolto e legame nel gruppo |
+| Esperienze diverse | Cose fuori dal comune per il gruppo |
 
-**Flussi principali:** onboarding e guida rapida → autenticazione → modalità individuale (seleziona gruppo → box → registra/modifica esperienze) o modalità di gruppo (box → sorteggio con filtri di intensità).
+Ogni idea registrata passa per un processo di riflessione e classificazione prima di entrare nel box, aiutando il gruppo a valutare se tutti accetterebbero quell'esperienza — per quanto peculiare sia.
 
-**Stato osservabile:** versione app `1.0.0`, accesso su invito, nessun client web in questo repository. Regole sociali suggerite nella guida rapida (conseguenze, scambi tra livelli) compaiono solo come orientamento testuale — non sono state trovate come funzionalità implementata nell'API o nel database.
+### Per chi è
+
+Il prodotto è rivolto a **gruppi di amici** e **coppie** che desiderano:
+
+- creare momenti di connessione con intenzione;
+- uscire dalla routine senza dipendere dal caso;
+- esplorare esperienze graduali, rispettando il ritmo del gruppo.
+
+La registrazione è chiusa: solo e-mail precedentemente autorizzate possono creare un account. Ciò suggerisce un uso iniziale su invito, sebbene il prodotto non dettagli pubblicamente i criteri di autorizzazione.
+
+### Proposta di valore
+
+| Per l'utente | Cosa offre Intensity |
+|--------------|----------------------|
+| Vicinanza | Uno spazio dedicato a idee che avvicinano, non solo intrattenimento generico |
+| Intenzionalità | Un rituale di sorteggio che trasforma idee rimandate in azione |
+| Gradualità | Scala di intensità e filtri per iniziare leggero ed evolvere |
+| Presenza | Enfasi sul vivere il momento insieme, con accordi prima della rivelazione |
+| Scoperta | Suggerimenti e tipi di box che invitano a idee fuori dal comune |
+
+### Essenza e posizionamento
+
+L'essenza dichiarata nella guida rapida è **connessione, intensità e scoperta**. Il prodotto si posiziona esplicitamente **contro la logica del compito**: *non si tratta di completare un compito; si tratta di vivere momenti intensi con presenza*.
+
+Il brand mostrato nell'interfaccia è **Intensity**. Frammenti convergenti di posizionamento compaiono nell'onboarding — ad esempio, *Colleziona idee insolite. Sorteggia. E vivi momenti memorabili* — ma **non è stata trovata una tagline ufficiale unica** consolidata in un unico luogo.
+
+### Come il prodotto si presenta all'utente
+
+**Due modalità di accesso:**
+
+- **Esperienze** — accesso individuale per registrare idee e scegliere in quale box inserirle. Orientato a chi propone esperienze nel tempo.
+- **Box Esperienze** — più account entrano insieme; il gruppo è definito automaticamente. In questa modalità si creano i box e avviene il sorteggio.
+
+**Rituale consigliato** (secondo la guida rapida integrata):
+
+1. Ogni persona alimenta il box con calma.
+2. Quando tutti sono insieme, attivano il momento del sorteggio.
+3. Prima di rivelare, allineano clima, limiti e impegno.
+4. Definiscono una conseguenza — orientamento della guida per dare peso all'accordo del gruppo.
+
+**Lingue:** portoghese, inglese e italiano.
 
 ---
 
-## Evidenze e limitazioni
+## Lacune e limitazioni
 
 | Argomento | Stato |
 |-----------|--------|
-| Nome del brand nell'interfaccia | **Intensity** (`app.brand`, etichetta Android) |
-| Essenza del prodotto | *Connessione, intensità e scoperta* (guida rapida) |
-| Problema e proposta di valore | Onboarding in quattro passi (`PtDictionary.kt` ed equivalenti EN/IT) |
-| Pubblico target inferibile | Gruppi di amici e coppie (tipi di box e testi della guida) |
-| Tagline ufficiale unica | **Non trovata** — esistono frammenti convergenti nell'onboarding |
-| Nome "Intensity Box" | Compare nel README del client; l'UI usa **Intensity** |
-| Modello di business / prezzo | **Non trovato** nel repository |
-| Conseguenze e scambi tra livelli | Orientamento nella guida; **nessuna evidenza di implementazione** nel software |
-| Client web | **Non presente** in questo repository |
-
-**Fonti principali:** dizionari dell'interfaccia (`PtDictionary.kt`, `EnDictionary.kt`, `ItDictionary.kt`), `IntensityApp.kt`, `openapi.yaml`, migrazioni del database (`V221__intensity2_init.sql`), `ExperienceBoxTypeCodes.kt`.
+| Tagline ufficiale unica | Non trovata — esistono frammenti convergenti nell'onboarding |
+| Modello di business o prezzo | Non trovato nei materiali analizzati |
+| Responsabile o editore del prodotto | Non identificato nei testi mostrati all'utente |
+| Conseguenze e scambi tra livelli di intensità | Compaiono come orientamento nella guida; non è stato possibile validare se esistono oltre a questo orientamento |
+| Altre piattaforme oltre all'app mobile | Non identificate nei materiali di prodotto analizzati |
+| Criteri di autorizzazione e-mail per la registrazione | Comportamento osservabile (l'e-mail deve essere autorizzata); criteri non spiegati all'utente |

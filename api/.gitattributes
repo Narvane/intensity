@@ -1,0 +1,2 @@
+# Scripts devem usar LF no repo para rodar no Linux (webhook, deploy)
+*.sh text eol=lf

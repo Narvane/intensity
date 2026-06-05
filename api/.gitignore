@@ -1,0 +1,22 @@
+# Maven
+target/
+pom.xml.tag
+*.jar
+*.war
+*.ear
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

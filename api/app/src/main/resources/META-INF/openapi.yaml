@@ -1,0 +1,794 @@
+openapi: 3.0.3
+info:
+  title: Intensity API
+  description: API for the Intensity product — auth, groups, experience boxes, and experiences.
+  version: 1.0.0-SNAPSHOT
+  contact:
+    name: Narvane
+
+servers:
+  - url: /
+    description: Same host as Swagger (recommended in production, e.g. narvane.com.br)
+  - url: https://narvane.com.br
+    description: Production
+  - url: http://localhost:8080
+    description: Local (change port if needed)
+
+paths:
+  /actuator/health:
+    get:
+      summary: Health check
+      tags:
+        - Actuator
+      responses:
+        '200':
+          description: OK
+
+  # Intensity
+  /intensity/api/v1/auth/registered-users:
+    get:
+      summary: List registered users
+      description: Returns users enabled to compose groups for shared login.
+      tags:
+        - Intensity
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntensityRegisteredUserResponse'
+
+  /intensity/api/v1/auth/register:
+    post:
+      summary: Register account
+      description: Creates a new participant account for Intensity and issues a session token.
+      tags:
+        - Intensity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensityRegisterRequest'
+      responses:
+        '201':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityAuthResponse'
+        '403':
+          description: Email not allowed
+        '409':
+          description: Email already registered
+
+  /intensity/api/v1/auth/login/curate:
+    post:
+      summary: Individual login
+      description: Starts an individual session to create and manage experiences.
+      tags:
+        - Intensity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensityCurateLoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityAuthResponse'
+        '401':
+          description: Invalid credentials
+
+  /intensity/api/v1/auth/login/connect:
+    post:
+      summary: Shared login
+      description: Authenticates multiple participants and defines the active group context.
+      tags:
+        - Intensity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensityConnectLoginRequest'
+      responses:
+        '200':
+          description: Group session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityAuthResponse'
+        '400':
+          description: Duplicate emails or invalid payload
+        '401':
+          description: Invalid credentials
+
+  /intensity/api/v1/auth/session/select-group:
+    post:
+      summary: Select group (curate session)
+      description: In individual mode, sets which group will be used to manage boxes and experiences.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensitySelectGroupRequest'
+      responses:
+        '200':
+          description: Group selected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityAuthResponse'
+
+  /intensity/api/v1/auth/session/select-experience-box:
+    post:
+      summary: Select experience box (curate session)
+      description: In individual mode, sets the active box used to list and manage experiences.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensitySelectBoxRequest'
+      responses:
+        '200':
+          description: Box selected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityAuthResponse'
+        '404':
+          description: Box not found
+
+  /intensity/api/v1/groups:
+    get:
+      summary: List groups for current user
+      description: Returns groups where the authenticated user participates (curate mode).
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Groups returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntensityGroupDetailResponse'
+        '403':
+          description: Invalid access mode
+
+  /intensity/api/v1/experience-boxes:
+    get:
+      summary: List experience boxes for active group
+      description: Returns boxes visible in the active group context.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of boxes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntensityExperienceBoxResponse'
+        '400':
+          description: Group not defined in token
+    post:
+      summary: Create experience box (shared session)
+      description: Creates a new box in the active group (connect mode).
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensityExperienceBoxCreateRequest'
+      responses:
+        '201':
+          description: Box created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityExperienceBoxResponse'
+        '403':
+          description: Only shared session can create boxes
+
+  /intensity/api/v1/experiences:
+    get:
+      summary: List experiences (active box)
+      description: Returns summaries of experiences registered in the selected box.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of summaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntensityExperienceSummaryResponse'
+    post:
+      summary: Create experience
+      description: Registers a new experience in the selected box.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensityExperienceUpsertRequest'
+      responses:
+        '201':
+          description: Experience created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityExperienceResponse'
+
+  /intensity/api/v1/experiences/box/{boxId}:
+    get:
+      summary: List experiences by box (connect flow)
+      description: Returns experiences for a box in CONNECT mode with optional intensity filters.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: boxId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: intensity
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: maxIntensity
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+      responses:
+        '200':
+          description: List of summaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntensityExperienceSummaryResponse'
+
+  /intensity/api/v1/experiences/box/{boxId}/{id}:
+    get:
+      summary: Get experience detail by box (connect flow)
+      description: Returns a single experience from a box in CONNECT mode.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: boxId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Experience found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityExperienceResponse'
+
+  /intensity/api/v1/experiences/activate:
+    get:
+      summary: Activate (draw) an experience
+      description: Draws an experience from a box with optional intensity filters.
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: boxId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: intensity
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: maxIntensity
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+      responses:
+        '200':
+          description: Experience activated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityExperienceResponse'
+        '400':
+          description: Invalid filter or no experiences available
+
+  /intensity/api/v1/experiences/{id}:
+    get:
+      summary: Get experience details
+      description: Returns the full experience content (author in correct context).
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Experience found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityExperienceResponse'
+    put:
+      summary: Update experience
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntensityExperienceUpsertRequest'
+      responses:
+        '200':
+          description: Experience updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntensityExperienceResponse'
+    delete:
+      summary: Delete experience
+      tags:
+        - Intensity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Experience deleted
+
+components:
+  schemas:
+    IntensityAuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          nullable: true
+          description: JWT session token
+          example: eyJhbGciOiJIUzI1NiJ9...
+        accessMode:
+          type: string
+          nullable: true
+          description: Session access mode
+          example: CURATE
+        userId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Authenticated user id (curate mode)
+        participantUserIds:
+          type: array
+          description: Authenticated participant ids (connect mode)
+          items:
+            type: string
+            format: uuid
+        groupId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Active group id for this session
+        boxId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Active box id for this session
+        experienceBoxType:
+          type: string
+          nullable: true
+          description: Active box type (level-2 code) for this session
+          example: momentos_conexao
+
+    IntensityRegisteredUserResponse:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 2c978d72-7c8f-4a86-9ccd-c98a7874602c
+        name:
+          type: string
+          example: Gustavo
+        email:
+          type: string
+          format: email
+          example: gustavo@narvane.com
+
+    IntensityRegisterRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: Gustavo
+        email:
+          type: string
+          format: email
+          example: gustavo@narvane.com
+        password:
+          type: string
+          minLength: 6
+          example: minhaSenha123
+
+    IntensityCurateLoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: gustavo@narvane.com
+        password:
+          type: string
+          example: minhaSenha123
+
+    IntensityConnectMemberCredentialRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: gustavo@narvane.com
+        password:
+          type: string
+          example: minhaSenha123
+
+    IntensityConnectLoginRequest:
+      type: object
+      required:
+        - credentials
+      properties:
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntensityConnectMemberCredentialRequest'
+
+    IntensitySelectGroupRequest:
+      type: object
+      required:
+        - groupId
+      properties:
+        groupId:
+          type: string
+          format: uuid
+          example: 5ed0740c-4f6b-4f2e-bfda-2628bba7f58a
+
+    IntensitySelectBoxRequest:
+      type: object
+      required:
+        - boxId
+      properties:
+        boxId:
+          type: string
+          format: uuid
+          example: 8c4e12d6-4ac3-4aa8-b4a6-5ef2e16da527
+
+    IntensityParticipantSnippetResponse:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 2c978d72-7c8f-4a86-9ccd-c98a7874602c
+        name:
+          type: string
+          example: Gustavo
+
+    IntensityGroupDetailResponse:
+      type: object
+      required:
+        - id
+        - participants
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 5ed0740c-4f6b-4f2e-bfda-2628bba7f58a
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntensityParticipantSnippetResponse'
+
+    IntensityExperienceBoxResponse:
+      type: object
+      required:
+        - id
+        - groupId
+        - name
+        - boxType
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Noite de conexao
+        boxType:
+          type: string
+          example: momentos_conexao
+        createdAt:
+          type: string
+          format: date-time
+
+    IntensityExperienceBoxCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Noite de conexao
+        boxType:
+          type: string
+          nullable: true
+          description: Level-2 code; omitted/invalid defaults to saidas_amigos
+          example: momentos_conexao
+
+    IntensityExperienceSummaryResponse:
+      type: object
+      required:
+        - id
+        - intensity
+        - createdBy
+        - createdAt
+        - descriptionMd5
+      properties:
+        id:
+          type: string
+          format: uuid
+        intensity:
+          type: integer
+          minimum: 1
+          maximum: 5
+        createdBy:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        descriptionMd5:
+          type: string
+
+    IntensityExperienceReflectionBlock:
+      type: object
+      required:
+        - involvesEveryone
+        - othersWouldAccept
+        - mildDiscomfort
+      properties:
+        involvesEveryone:
+          type: string
+          example: Todo mundo consegue participar com conforto.
+        othersWouldAccept:
+          type: string
+          example: Sim, a proposta e acessivel e respeita os limites do grupo.
+        mildDiscomfort:
+          type: string
+          example: Existe um leve desconforto inicial, mas sem exposicao excessiva.
+
+    IntensityExperienceResonanceBlock:
+      type: object
+      required:
+        - effortStars
+        - opennessStars
+        - noveltyStars
+      properties:
+        effortStars:
+          type: integer
+          minimum: 1
+          maximum: 5
+        opennessStars:
+          type: integer
+          minimum: 1
+          maximum: 5
+        noveltyStars:
+          type: integer
+          minimum: 1
+          maximum: 5
+
+    IntensityExperienceResponse:
+      type: object
+      required:
+        - id
+        - description
+        - intensity
+        - createdBy
+        - createdAt
+        - descriptionMd5
+      properties:
+        id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        intensity:
+          type: integer
+          minimum: 1
+          maximum: 5
+        createdBy:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        descriptionMd5:
+          type: string
+        additionalInfo:
+          $ref: '#/components/schemas/IntensityExperienceReflectionBlock'
+          nullable: true
+        parameters:
+          $ref: '#/components/schemas/IntensityExperienceResonanceBlock'
+          nullable: true
+
+    IntensityExperienceUpsertRequest:
+      type: object
+      required:
+        - description
+        - intensity
+        - involvesEveryoneJustification
+        - othersWouldAcceptJustification
+        - mildDiscomfortJustification
+        - effortStars
+        - opennessStars
+        - noveltyStars
+      properties:
+        description:
+          type: string
+          maxLength: 1000
+          example: Fazer um jantar colaborativo com todo mundo cozinhando juntos.
+        intensity:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 3
+        involvesEveryoneJustification:
+          type: string
+          maxLength: 2000
+          example: Todo mundo participa da preparacao e consegue contribuir.
+        othersWouldAcceptJustification:
+          type: string
+          maxLength: 2000
+          example: A atividade e leve, inclusiva e cabe no ritmo do grupo.
+        mildDiscomfortJustification:
+          type: string
+          maxLength: 2000
+          example: Pode gerar um pouco de vergonha no inicio, mas de forma segura.
+        effortStars:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 3
+        opennessStars:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 4
+        noveltyStars:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 2
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token
+
+security: []
+
+tags:
+  - name: Intensity
+    description: Intensity module (auth, groups, experience boxes, experiences)

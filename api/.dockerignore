@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Build outputs (we build inside the container)
+**/target/
+
+# IDE
+.idea
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings
+
+# Logs
+logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outros projetos no workspace (se houver)
+base-project
+todo

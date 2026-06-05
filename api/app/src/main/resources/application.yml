@@ -1,0 +1,69 @@
+# Origens CORS (patterns, separadas por vírgula). Produção + www; * cobre dev com allowCredentials false.
+app:
+  cors:
+    allowed-origin-patterns: "https://narvane.com.br,https://www.narvane.com.br,http://localhost:*,http://127.0.0.1:*,*"
+
+spring:
+  application:
+    name: intensity-api
+    version: 1.0.0-SNAPSHOT
+  profiles:
+    active: ${PROFILE:dev}
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://${DS_URL:localhost}:${DS_PORT:5432}/${DS_DATABASE:narvane}
+    password: ${DS_PASS:postgres}
+    username: ${DS_USER:postgres}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: 'true'
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+
+logging:
+  level:
+    root: info
+    org.springframework.web: info
+    br.com.narvane: debug
+  file:
+    name: ./logs/${spring.application.name}.log
+
+# Swagger / OpenAPI — static spec in META-INF/openapi.yaml (served at /openapi.yaml)
+# api-docs must be enabled for Swagger UI; UI uses our YAML via springdoc.swagger-ui.url
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    url: /openapi.yaml
+    disable-swagger-default-url: true
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:CHANGE_ME_TO_A_LONG_256_BIT_SECRET_FOR_PRODUCTION_1234567890}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  intensity:
+    experience-encryption-key: ${INTENSITY_EXPERIENCE_ENCRYPTION_KEY:CHANGE_ME_16_BYTE_KEY}
+
+api:
+  version: v1
+  description: Intensity API
+  url:
+    homologation: http://localhost:8080
+    production: https://narvane.com.br

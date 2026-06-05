@@ -1,0 +1,18 @@
+[
+  {
+    "id": "deploy-narvane-api",
+    "execute-command": "/opt/narvane-api/scripts/deploy.sh",
+    "command-working-directory": "/opt/narvane-api",
+    "pass-arguments-to-command": [],
+    "trigger-rule": {
+      "match": {
+        "type": "value",
+        "value": "SEU_SEGREDO_AQUI",
+        "parameter": {
+          "source": "header",
+          "name": "X-Webhook-Secret"
+        }
+      }
+    }
+  }
+]

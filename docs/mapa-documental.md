@@ -1,0 +1,88 @@
+*Todos os tópicos deverão possuir 3 versões: Curta, Média e Detalhada.*
+## 1. Concepção do Produto
+- [x] **Visão Geral - O que é?**
+- Pitch
+- Descrição estilo App Store / Google Play
+- Resumo executivo
+- [ ] **Funcionamento - Como funciona?**
+- Mecânicas
+- Fluxos principais
+- Regras de negócio
+- Conceitos fundamentais
+- [ ] **Princípios - Por que funciona assim?**
+- Filosofia do produto
+- Objetivos
+- Premissas
+- Trade-offs conceituais
+- Problemas que a solução busca resolver
+---
+## 2. Especificação da Solução
+*Transforma a ideia em algo concreto.*
+- [ ] **Modelo de Dados**
+- Entidades
+- Categorias
+- Parâmetros
+- Configurações
+- Conteúdo padrão
+- Taxonomias
+- [ ] **Experiência e Identidade**
+- Logo
+- Paleta de cores
+- Tema visual
+- Diretrizes de UX
+- Linguagem e tom de comunicação
+- [ ] **Componentes Funcionais**
+- Módulos
+- Funcionalidades
+- Telas
+- Fluxos de usuário
+---
+## 3. Arquitetura da Solução
+*Define como a solução será organizada.*
+- [ ] **Plataformas e Ambientes**
+- Web
+- Mobile
+- Backend
+- Infraestrutura
+- Ambientes de execução
+- [ ] **Artefatos**
+- Aplicações
+- Serviços
+- APIs
+- Bancos de dados
+- Bibliotecas
+- Componentes compartilhados
+- [ ] **Integrações e Comunicação**
+- Fluxos de comunicação
+- Dependências
+- Protocolos
+- Eventos
+- Contratos
+- [ ] **Decisões Arquiteturais**
+- Justificativas
+- Trade-offs
+- Restrições
+- Riscos conhecidos
+---
+## 4. Engenharia e Operação
+*Define como a solução será construída e mantida.*
+- [ ] **Ferramentas**
+- Linguagens
+- Frameworks
+- Bibliotecas
+- Serviços externos
+- [ ] **Processo de Desenvolvimento**
+- Organização do trabalho
+- Versionamento
+- Deploy
+- Testes
+- Qualidade
+- [ ] **Equipe e Responsabilidades**
+- Papéis
+- Ownership
+- Manutenção
+- Sustentação
+- [ ] **Decisões Técnicas**
+- Motivos das escolhas
+- Alternativas descartadas
+- Critérios de avaliação

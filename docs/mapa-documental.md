@@ -28,11 +28,13 @@ O agente deve capturar a **intenção** do documento e organizar o conteúdo con
 
 Cada documento produzido deve conter **três versões** do mesmo conteúdo:
 
-- **Curta** — essência em leitura rápida
-- **Média** — contexto suficiente para entendimento
-- **Detalhada** — aprofundamento **dentro do nível de abstração da camada**
+- **Curta** — essência da mensagem central
+- **Média** — a mesma mensagem com mais contexto e conexão
+- **Detalhada** — a mesma mensagem com maior profundidade conceitual, sem mudar de camada
 
 As três versões pertencem ao documento, não a cada exemplo ilustrativo.
+
+Regra estrutural: Curta, Média e Detalhada variam em densidade explicativa, não em tipo de conteúdo permitido. A versão detalhada não autoriza antecipar conteúdo da próxima camada.
 
 ### Níveis de abstração
 
@@ -53,9 +55,9 @@ Detalhes completos de abstração e conteúdo permitido por camada: ver `agent.m
 
 - [x] **Visão Geral - O que é?**
   - *Exemplos de conteúdo:* pitch; descrição estilo loja de apps; resumo executivo; essência; proposta de valor; posicionamento
-- [ ] **Funcionamento - Como funciona?**
-  - *Exemplos de conteúdo:* mecânicas; fluxos principais na experiência do usuário; regras percebidas; conceitos introdutórios
-- [ ] **Princípios - Por que funciona assim?**
+- [x] **Funcionamento - Como funciona?**
+  - *Exemplos de conteúdo:* dinâmica geral da experiência do usuário; macrofluxos percebidos; conceitos introdutórios; linguagem funcional sem parametrização
+- [x] **Princípios - Por que funciona assim?**
   - *Exemplos de conteúdo:* filosofia do produto; objetivos; premissas; trade-offs conceituais; problemas que a solução busca resolver
 
 ---

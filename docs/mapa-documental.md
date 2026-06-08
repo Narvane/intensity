@@ -66,7 +66,7 @@ Detalhes completos de abstração e conteúdo permitido por camada: ver `agent.m
 
 *Como a solução funciona do ponto de vista funcional. Público: analistas, POs, designers, QA — ainda sem implementação.*
 
-- [ ] **Modelo de Dados**
+- [x] **Modelo de Dados**
   - *Exemplos de conteúdo:* entidades; categorias; parâmetros; configurações; conteúdo padrão; taxonomias
 - [ ] **Experiência e Identidade**
   - *Exemplos de conteúdo:* logo; paleta de cores; tema visual; diretrizes de UX; linguagem e tom de comunicação

@@ -16,9 +16,9 @@ Intensity risponde a un vuoto familiare: relazioni bloccate in esperienze ripeti
 
 L'app propone un ritmo semplice: **raccogliere idee → sorteggiare → vivere un momento memorabile**. Le idee sono organizzate in **box** per contesti diversi (uscite in coppia, viaggi con amici, uscire dalla routine, ecc.). Ogni persona contribuisce da sola; quando il gruppo si riunisce, entra insieme, sorteggia dal box, allinea clima e limiti e solo allora rivela l'esperienza completa.
 
-Intensity si presenta in tre lingue — portoghese, inglese e italiano — e parla direttamente a chi sente la mancanza di vicinanza e vuole agire invece di aspettare il caso. Non si posiziona come gestore di attività o rete sociale; la sua essenza è **connessione, intensità e scoperta** — vivere momenti significativi con presenza.
+Intensity parla direttamente a chi sente la mancanza di vicinanza e vuole agire invece di aspettare il caso. Non si posiziona come gestore di attività o rete sociale; la sua essenza è **connessione, intensità e scoperta** — vivere momenti significativi con presenza.
 
-Due modalità complementari di utilizzo modellano l'esperienza: **Esperienze** (accesso individuale per registrare idee) e **Box Esperienze** (accesso di gruppo per creare box e vivere il sorteggio insieme). La registrazione sembra controllata — non aperta a chiunque senza autorizzazione preventiva — sebbene il prodotto non lo spieghi chiaramente all'utente durante l'iscrizione.
+Due modalità complementari di utilizzo modellano l'esperienza: **Esperienze** (accesso individuale per registrare idee) e **Box Esperienze** (accesso di gruppo per creare box e vivere il sorteggio insieme).
 
 ---
 
@@ -34,7 +34,7 @@ Intensity si posiziona come risposta a questa inerzia: **non aspettare che sia i
 
 In essenza, Intensity è una **banca condivisa di esperienze** per piccoli gruppi — coppie o cerchie di amici. Ogni gruppo costruisce una collezione di idee concrete ("esperienze") organizzate in **box** con nome e tema. Nel tempo, i membri alimentano il box con suggerimenti. Quando sono insieme, attivano un **momento di sorteggio**: un'esperienza viene selezionata, la sua intensità e i parametri appaiono per primi, il gruppo si allinea e poi la carta viene girata per rivelare la descrizione completa.
 
-Il prodotto è erogato come **applicazione mobile**. Nessuna interfaccia web o sito pubblico di marketing è stato trovato nelle evidenze disponibili.
+Il prodotto è erogato come **applicazione mobile**.
 
 ### A chi si rivolge
 
@@ -65,23 +65,10 @@ L'essenza dichiarata del prodotto è: **connessione, intensità e scoperta**. Ri
 
 ### Come il prodotto si presenta
 
-- **Nome del brand:** Intensity (uguale in tutte le lingue supportate)
+- **Nome del brand:** Intensity
 - **Termini chiave visibili all'utente:** Esperienza, Box, Box Esperienze, Gruppo, Intensità, Sorteggio, Rivelare, Sigillo
 - **Tono:** Diretto, incoraggiante, intimo — parla di vicinanza e coraggio
-- **Lingue:** Portoghese, inglese e italiano (interfaccia); gli esempi di suggerimento appaiono in portoghese indipendentemente dalla lingua selezionata
 
 ### Descrizione in stile app store
 
 *Intensity aiuta coppie e amici a smettere di rimandare i momenti che contano. Raccogli idee insolite di esperienze in box tematici, valuta quanto audace sembri ciascuna e, quando siete insieme — sorteggiane una e rivelatela come gruppo. Basta aspettare l'occasione perfetta. Connessione, intensità e scoperta — vissute con presenza.*
-
----
-
-## Lacune e limitazioni
-
-| Argomento | Stato |
-|-----------|-------|
-| Pubblico target formale (età, mercato, personas) | Non documentato nel prodotto |
-| Modello di business o prezzi | Non trovato |
-| Testo per app store (App Store / Play Store) | Non trovato nel repository |
-| Politica di accesso alla registrazione (iscrizione controllata) | Evidenziata nel comportamento, ma non spiegata chiaramente all'utente nell'interfaccia |
-| Versione web o desktop | Non trovata — solo app mobile |

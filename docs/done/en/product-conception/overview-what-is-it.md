@@ -16,9 +16,9 @@ Intensity addresses a familiar gap: relationships that feel stuck in repetitive 
 
 The app offers a simple rhythm: **collect ideas → draw one → live a memorable moment**. Users organize ideas in **boxes** tailored to different contexts (outings as a couple, trips with friends, breaking routine, and others). Each person can contribute ideas on their own; when the group meets, they enter together, draw from the box, align on mood and limits, and only then reveal the full experience.
 
-Intensity presents itself in three languages — Portuguese, English, and Italian — and speaks directly to people who miss closeness and want to act rather than wait for chance. It is not positioned as a task manager or social network; its essence is **connection, intensity, and discovery** — living meaningful moments with presence.
+Intensity speaks directly to people who miss closeness and want to act rather than wait for chance. It is not positioned as a task manager or social network; its essence is **connection, intensity, and discovery** — living meaningful moments with presence.
 
-Two complementary ways of using the app shape the experience: **Experiences** (individual login to register ideas) and **Experience Box** (group login to create boxes and live the draw together). Registration appears to be controlled — not open to anyone without prior authorization — though the product does not explain this clearly to the user during signup.
+Two complementary ways of using the app shape the experience: **Experiences** (individual login to register ideas) and **Experience Box** (group login to create boxes and live the draw together).
 
 ---
 
@@ -34,7 +34,7 @@ Intensity positions itself as an answer to that inertia: **do not wait for chanc
 
 At its core, Intensity is a **shared experience bank** for small groups — couples or circles of friends. Each group builds a collection of concrete ideas ("experiences") organized in **boxes** with names and themes. Over time, members feed the box with suggestions. When together, they activate a **draw moment**: one experience is selected, its intensity and parameters are shown first, the group aligns, and then the card is flipped to reveal the full description.
 
-The product is delivered as a **mobile application**. No web interface or public marketing site was found in the available evidence.
+The product is delivered as a **mobile application**.
 
 ### Who it is for
 
@@ -65,23 +65,10 @@ The product's stated essence is: **connection, intensity, and discovery**. It ex
 
 ### How the product presents itself
 
-- **Brand name:** Intensity (same in all supported languages)
+- **Brand name:** Intensity
 - **Key terms users see:** Experience, Box, Experience Box, Group, Intensity, Draw, Reveal, Seal
 - **Tone:** Direct, encouraging, intimate — speaks to feelings of closeness and courage
-- **Languages:** Portuguese, English, Italian (UI); example suggestions appear in Portuguese regardless of selected language
 
 ### App Store–style description
 
 *Intensity helps couples and friends stop postponing the moments that matter. Collect unusual experience ideas in themed boxes, rate how bold each one feels, and when you're together — draw one and reveal it as a group. No more waiting for the perfect opportunity. Connection, intensity, and discovery — lived with presence.*
-
----
-
-## Gaps and limitations
-
-| Topic | Status |
-|-------|--------|
-| Formal target audience (age, market, personas) | Not documented in the product |
-| Business model or pricing | Not found |
-| App Store / Play Store listing copy | Not found in the repository |
-| Registration access policy (controlled signup) | Evidenced in behavior but not clearly explained to the user in the interface |
-| Web or desktop version | Not found — mobile app only |

@@ -14,10 +14,6 @@ O Intensity funciona em dois ritmos complementares. **Sozinho**, cada pessoa reg
 
 ## Média
 
-### Primeiro contato
-
-No primeiro uso, o usuário vê um **onboarding** curto em quatro passos: o problema (experiências repetitivas, falta de proximidade), o insight (momentos marcantes costumam ser inusitados, mas são adiados), o chamado à ação (não espere — o Intensity encoraja a agir) e o mecanismo (colecionar ideias inusitadas, sortear, viver momentos marcantes). Um **manual rápido** está disponível no onboarding ou na tela de login.
-
 ### Duas formas de entrar
 
 O app oferece dois modos de entrada que refletem dois momentos da mesma jornada:
@@ -31,7 +27,7 @@ Um **grupo** é formado automaticamente pela combinação única de pessoas que 
 
 ### A fase de coleta (ao longo do tempo)
 
-Ao contribuir sozinho pelo modo **Experiências**, o usuário escolhe um grupo, depois uma caixinha dentro desse grupo, e vê as experiências que cadastrou naquela sessão. Pode **criar uma nova experiência** por um fluxo guiado com cinco etapas conceituais:
+Ao contribuir sozinho pelo modo **Experiências**, o usuário escolhe um grupo, depois uma caixinha dentro desse grupo, e vê as experiências que cadastrou naquela sessão. Pode **criar uma nova experiência** por um fluxo guiado. Inicialmente idealizado em cinco etapas ilustrativas — não como especificação fixa, mas como exemplo de como uma ideia pode ser moldada:
 
 1. **Sugestão** — descrever uma ideia ou tocar em um exemplo como inspiração
 2. **Reflexão** — considerar se todos aceitariam a ideia, por mais peculiar que seja, e explicar por quê
@@ -59,7 +55,7 @@ Quando o grupo entra na **Caixa de Experiências**, vê suas caixinhas e pode ab
 
 ### Ritmo social recomendado
 
-O manual rápido descreve um ritmo que o produto encoraja, mas não impõe: cada pessoa alimenta a caixinha ao longo do tempo; quando todos estão juntos, ativam o sorteio; antes de revelar, alinham clima, limites e compromisso.
+É recomendado — embora o produto não exija — seguir um ritmo como este: cada pessoa alimenta a caixinha ao longo do tempo; quando todos estão juntos, ativam o sorteio; antes de revelar, alinham clima, limites e compromisso.
 
 ---
 
@@ -74,17 +70,6 @@ Contribuir ideias (sozinho)  →  Reunir-se como grupo  →  Sortear  →  Alinh
 ```
 
 Esse ciclo pode se repetir na mesma caixinha conforme novas experiências são adicionadas e novos momentos de sorteio acontecem.
-
-### Onboarding como narrativa do produto
-
-Os quatro passos do onboarding não são apenas instrução — contam uma história que espelha a lógica do produto:
-
-1. **Reconhecimento** — você sente a dor de experiências repetitivas e superficiais e sente falta de proximidade real
-2. **Insight** — os momentos que você lembra foram inusitados, mas você continua adiando
-3. **Agência** — esperar a oportunidade perfeita é a armadilha; o Intensity existe para encorajar a agir
-4. **Mecanismo** — a resposta é simples: colecionar ideias inusitadas, sortear, viver momentos marcantes
-
-Essa narrativa reaparece no manual rápido e molda como o produto espera que os usuários pensem sobre sua relação com o app.
 
 ### Por que existem dois modos de entrada
 
@@ -103,7 +88,7 @@ Dentro de um grupo, **caixinhas** segmentam experiências por tema e ocasião. F
 
 ### Criar uma experiência — o que o usuário percorre
 
-O fluxo de criação em cinco etapas guia o proponente de uma ideia bruta a uma contribuição considerada:
+O fluxo de criação foi inicialmente idealizado como um caminho que guia o proponente de uma ideia bruta a uma contribuição considerada. As cinco etapas a seguir ilustram esse caminho — são um exemplo da experiência pretendida, não uma especificação definitiva, e o fluxo pode mudar ao longo do tempo:
 
 **Sugestão** reduz a barreira de entrada. Quem não tem ideias pode tocar em exemplos temáticos que preenchem o campo de descrição — editável em qualquer etapa.
 
@@ -127,28 +112,12 @@ Virar a carta é um gesto deliberado: **revelar** o texto completo da experiênc
 
 Se o sorteio não combina com o momento, o grupo pode **voltar ao sorteio** e tentar de novo.
 
-### O que o usuário vê vs. o que o manual recomenda
+### Práticas sociais recomendadas além do app
 
-O app implementa o ciclo coletar-sortear-revelar e o assistente de criação. O manual rápido recomenda ainda práticas que existem **apenas como orientação**, não como funcionalidades:
+O app implementa o ciclo coletar-sortear-revelar e o assistente de criação. Também é recomendado adotar práticas que existem **apenas como orientação**, não como funcionalidades:
 
 - Definir uma **consequência** (custo real se alguém desistir) antes de revelar
 - **Trocar** experiências de intensidades diferentes (ex.: trocar um sorteio de alta intensidade por dois de intensidade menor)
 - **Progressão gradual** pelos níveis de intensidade ao longo do tempo
 
 Essas regras sociais enriquecem a experiência, mas não são impostas ou rastreadas pelo aplicativo.
-
-### Idioma e acessibilidade
-
-O usuário pode alternar a interface entre português, inglês e italiano. A marca do produto permanece "Intensity" em todos os idiomas. Exemplos de sugestão no fluxo de criação aparecem em português independentemente do idioma selecionado.
-
----
-
-## Lacunas e limitações
-
-| Tópico | Status |
-|--------|--------|
-| Definição e rastreamento de consequências | Descrito apenas no manual rápido — nenhuma interface encontrada |
-| Regras de troca por intensidade | Descritas no manual rápido — não implementadas no app |
-| Questionário completo de reflexão | Campos adicionais existem nas estruturas de dados, mas apenas uma pergunta é feita no fluxo de criação |
-| Exemplos de sugestão em inglês e italiano | Exemplos aparecem apenas em português |
-| Imposição do ritmo social recomendado | O manual descreve um fluxo; o app não bloqueia nem lembra o usuário de segui-lo passo a passo |

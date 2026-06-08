@@ -14,10 +14,6 @@ Intensity works in two complementary rhythms. **Alone**, each person registers e
 
 ## Medium
 
-### First contact
-
-On first launch, users see a short **onboarding** in four steps: the problem (repetitive experiences, lack of closeness), the insight (memorable moments are usually unexpected but get postponed), the call to action (do not wait — Intensity pushes you to act), and the mechanism (collect unusual ideas, draw one, live memorable moments). A **quick guide** is available from onboarding or the login screen.
-
 ### Two ways to enter
 
 The app offers two entry modes that reflect two moments in the same journey:
@@ -31,7 +27,7 @@ A **group** is formed automatically by the unique combination of people who log 
 
 ### The collect phase (over time)
 
-When contributing alone through **Experiences**, the user picks a group, then a box within that group, and sees the experiences they registered in that session. They can **create a new experience** through a guided flow with five conceptual stages:
+When contributing alone through **Experiences**, the user picks a group, then a box within that group, and sees the experiences they registered in that session. They can **create a new experience** through a guided flow. As initially conceived, that path can be understood in five illustrative stages — not as a fixed specification, but as an example of how an idea might be shaped:
 
 1. **Suggestion** — describe an idea or tap an example for inspiration
 2. **Reflection** — consider whether everyone would accept the idea, however unusual, and explain why
@@ -59,7 +55,7 @@ When the group enters **Experience Box**, they see their boxes and can open one.
 
 ### Recommended social rhythm
 
-The quick guide describes a rhythm the product encourages but does not enforce: each person feeds the box over time; when everyone is together, they trigger the draw; before revealing, they align on mood, limits, and commitment.
+It is recommended — though not required by the product — to follow a rhythm like this: each person feeds the box over time; when everyone is together, they trigger the draw; before revealing, they align on mood, limits, and commitment.
 
 ---
 
@@ -74,17 +70,6 @@ Contribute ideas (alone)  →  Gather as a group  →  Draw  →  Align  →  Re
 ```
 
 This cycle can repeat within the same box as new experiences are added and new draw moments happen.
-
-### Onboarding as product narrative
-
-The four onboarding steps are not merely instructional — they tell a story that mirrors the product logic:
-
-1. **Recognition** — you feel the pain of repetitive, shallow experiences and miss real closeness
-2. **Insight** — the moments you remember were unusual, yet you keep postponing them
-3. **Agency** — waiting for the perfect opportunity is the trap; Intensity exists to push you to act
-4. **Mechanism** — the answer is simple: collect unusual ideas, draw one, live memorable moments
-
-This narrative reappears in the quick guide and shapes how the product expects users to think about their relationship with the app.
 
 ### Why two entry modes exist
 
@@ -103,7 +88,7 @@ Within a group, **boxes** segment experiences by theme and occasion. Eleven box 
 
 ### Creating an experience — what the user goes through
 
-The five-stage creation flow guides the proposer from a raw idea to a considered contribution:
+The creation flow was initially conceived as a path that guides the proposer from a raw idea to a considered contribution. The following five stages illustrate that path — they are an example of the intended experience, not a definitive specification, and the flow may change over time:
 
 **Suggestion** lowers the barrier to entry. Users who lack ideas can tap themed examples that populate the description field — editable at any stage.
 
@@ -127,28 +112,12 @@ Flipping the card is a deliberate gesture: **reveal** the full experience text. 
 
 If the draw does not fit the moment, the group can go **back to draw** and try again.
 
-### What users see vs. what the guide recommends
+### Recommended practices beyond the app
 
-The app implements the collect-draw-reveal loop and the creation wizard. The quick guide additionally recommends practices that exist **only as guidance**, not as app features:
+The app implements the collect-draw-reveal loop and the creation wizard. It is also recommended to adopt practices that exist **only as guidance**, not as app features:
 
 - Defining a **consequence** (a real cost if someone backs out) before revealing
 - **Swapping** experiences of different intensity levels (e.g., trading one high-intensity draw for two lower ones)
 - **Gradual progression** through intensity levels over time
 
 These social rules enrich the experience but are not enforced or tracked by the application.
-
-### Language and accessibility
-
-Users can switch the interface among Portuguese, English, and Italian. The product brand remains "Intensity" across languages. Example suggestions in the creation flow appear in Portuguese regardless of the selected interface language.
-
----
-
-## Gaps and limitations
-
-| Topic | Status |
-|-------|--------|
-| Consequence definition and tracking | Described in the quick guide only — no interface found |
-| Intensity swap rules | Described in the quick guide only — not implemented in the app |
-| Full reflection questionnaire | Additional reflection fields exist in data structures but only one question is asked in the creation flow |
-| Suggestion examples in English and Italian | Examples appear in Portuguese only |
-| Enforcement of the recommended social rhythm | The guide describes a flow; the app does not block or remind users to follow it step by step |

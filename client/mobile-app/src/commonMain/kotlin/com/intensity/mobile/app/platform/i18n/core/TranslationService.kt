@@ -42,7 +42,7 @@ fun ts(language: AppLanguage, portugueseText: String): String {
 private fun resolveSuggestionByLanguage(language: AppLanguage, key: String): String? {
     return when (language) {
         AppLanguage.PT -> SuggestionPacksPt.resolve(key)
-        AppLanguage.EN -> SuggestionPacksPt.resolve(key)
-        AppLanguage.IT -> SuggestionPacksPt.resolve(key)
+        AppLanguage.EN -> SuggestionPacksEn.resolve(key)
+        AppLanguage.IT -> SuggestionPacksIt.resolve(key)
     }
 }

@@ -1,6 +1,6 @@
 # Princípios — Por que funciona assim?
 
-Este documento captura a filosofia, os objetivos e as premissas conceituais por trás do Intensity — por que o produto é desenhado dessa forma e quais problemas busca resolver. Baseia-se na narrativa do próprio produto (onboarding, manual rápido) e em escolhas de design observáveis, não em intenção dos desenvolvedores.
+Este documento captura a filosofia, os objetivos e as premissas conceituais por trás do Intensity — por que o produto é desenhado dessa forma e quais problemas busca resolver. Baseia-se nos princípios orientadores do produto e em escolhas de design observáveis, não em intenção dos desenvolvedores.
 
 **Público:** usuários, stakeholders, gestores, investidores e analistas de produto — sem conhecimento técnico.
 
@@ -26,7 +26,7 @@ O produto não tenta gerar ideias do zero. Parte do pressuposto de que as pessoa
 
 ### Filosofia orientadora
 
-O manual rápido declara a essência do produto diretamente:
+A essência do produto é:
 
 - **Conexão, intensidade e descoberta**
 - **Não é sobre cumprir tarefa** — é sobre viver momentos marcantes com **presença**
@@ -41,8 +41,8 @@ Cada escolha de design relevante serve essa filosofia: o sorteio é aleatório, 
 | **Levar o sorteio a sério** | A aleatoriedade é ferramenta de decisão, não entretenimento |
 | **Decidir antes de revelar** | Mostrar intensidade primeiro; alinhar clima, limites e compromisso; depois virar a carta |
 | **Respeitar o grupo** | Reflexão antes de adicionar ideia; justificativa visível por transparência |
-| **Crescer gradualmente** | Começar por experiências mais leves; evoluir intensidade ao longo do tempo (orientado no manual) |
-| **Responsabilização importa** | Definir consequências com custo real antes de revelar (orientação social no manual) |
+| **Crescer gradualmente** | Começar por experiências mais leves; evoluir intensidade ao longo do tempo |
+| **Responsabilização importa** | Definir consequências com custo real antes de revelar |
 
 ### Trade-offs conceituais
 
@@ -56,9 +56,7 @@ O Intensity faz escolhas deliberadas que moldam a experiência:
 
 **Aleatoriedade estruturada.** O sorteio é aleatório, mas o grupo pode delimitá-lo por nível de intensidade. A aleatoriedade propõe; o grupo dispõe.
 
-**Acesso controlado.** O cadastro exige autorização prévia. O produto parece desenhado para círculos convidados, não signup público aberto — embora isso não seja comunicado claramente na interface.
-
-**Orientação em vez de imposição.** Práticas sociais como consequências, trocas e progressão gradual são ensinadas no manual rápido, mas não construídas no app. O produto confia que o grupo adotará o playbook voluntariamente.
+**Adoção voluntária.** Consequências, trocas e progressão gradual enriquecem a experiência quando o grupo escolhe abraçá-las — o produto confia que cada grupo encontrará seu próprio ritmo.
 
 ### O que o Intensity não é
 
@@ -67,7 +65,7 @@ Entender os princípios também significa reconhecer limites:
 - **Não é gerenciador de tarefas** ou rastreador de hábitos
 - **Não é rede social** para compartilhar com desconhecidos
 - **Não é plataforma de conteúdo** com experiências curadas pelo produto — todas as ideias vêm do grupo
-- **Não é jogo de azar** — o manual alerta explicitamente contra tratar o sorteio levianamente
+- **Não é jogo de azar** — leve o sorteio a sério; não o trate levianamente
 
 ---
 
@@ -90,7 +88,7 @@ Isso não é apenas marketing — é a **espinha dorsal do raciocínio** do prod
 
 ### O princípio da aleatoriedade deliberada
 
-Muitos produtos usam aleatoriedade para gamificação. O Intensity inverte essa expectativa: a primeira regra do manual é **levar o sorteio a sério**. A aleatoriedade aqui funciona como **mecanismo de equidade e compromisso** — quando o grupo concorda em sortear, o resultado tem peso. Ninguém escolheu unilateralmente; todos aceitaram o processo.
+Muitos produtos usam aleatoriedade para gamificação. O Intensity inverte essa expectativa: a regra central é **levar o sorteio a sério**. A aleatoriedade aqui funciona como **mecanismo de equidade e compromisso** — quando o grupo concorda em sortear, o resultado tem peso. Ninguém escolheu unilateralmente; todos aceitaram o processo.
 
 Esse princípio explica por que o produto mostra intensidade e parâmetros **antes** da descrição completa: o grupo se compromete com o *nível* da experiência antes de conhecer a ideia *específica*. Podem aceitar, sortear de novo com filtro mais leve ou pausar — mas não são pegos de surpresa pelo conteúdo.
 
@@ -108,15 +106,13 @@ Não é um sistema de veto (o grupo vê o resultado só no sorteio), mas planta 
 
 ### O princípio da intensidade gradual
 
-O manual recomenda começar por níveis mais baixos de intensidade e evoluir gradualmente. Também sugere trocas entre níveis e uso de filtros no sorteio. Essas práticas reconhecem que **confiança e coragem se constroem com o tempo** — um grupo que pula direto para as experiências mais ousadas pode quebrar o contrato social de que o produto depende.
+Comece por níveis mais baixos de intensidade e evolua gradualmente. Use trocas entre níveis e filtros no sorteio quando o momento pedir. Essas práticas reconhecem que **confiança e coragem se constroem com o tempo** — um grupo que pula direto para as experiências mais ousadas pode quebrar o contrato social de que o produto depende.
 
-Esse princípio é **apenas orientação** no produto atual. O app oferece filtros e níveis de intensidade, mas não impõe progressão nem regras de troca.
+O Intensity oferece filtros e níveis de intensidade; progressão e regras de troca permanecem como escolhas que o grupo faz junto.
 
 ### O princípio da responsabilização social
 
-O manual dedica seção inteira a **consequências** — definir custo real antes de revelar, escalá-lo se alguém desistir e ajustar por trocas. Reflete a crença de que experiências compartilhadas precisam de **contratos sociais** além do app.
-
-Nenhuma interface para definir ou rastrear consequências foi encontrada. O princípio vive no **playbook** do produto, não na **máquina**. Grupos que o adotam fortalecem a seriedade do sorteio; grupos que o ignoram dependem só de confiança.
+Defina **consequências** antes de revelar — um custo real combinado pelo grupo, escalado se alguém desistir e ajustado quando houver trocas. Experiências compartilhadas precisam de **contratos sociais** que vão além do app. Grupos que abraçam essa prática fortalecem a seriedade do sorteio; quem prefere uma abordagem mais leve depende da confiança mútua.
 
 ### O princípio da soberania do grupo
 
@@ -132,9 +128,7 @@ Isso explica por que o modo Caixa de Experiências exige que todos entrem juntos
 
 **Texto oculto até revelar vs. transparência total.** Mostrar tudo de início seria mais simples. Revelação adiada cria momento ritual e força alinhamento de intensidade primeiro. Trade-off: atrito. Benefício: consentimento, antecipação e decisão compartilhada.
 
-**Orientação manual vs. regras embutidas.** Consequências, trocas e progressão são ensinadas, mas não impostas. Trade-off: grupos podem ignorar o playbook. Benefício: flexibilidade para dinâmicas e maturidades relacionais diferentes.
-
-**Cadastro controlado vs. acesso aberto.** O produto limita quem pode criar contas. Trade-off: crescimento mais lento. Benefício: confiança dentro de um círculo conhecido — coerente com experiências íntimas em grupo.
+**Orientação em vez de regras rígidas.** Consequências, trocas e progressão são práticas sociais recomendadas, não exigências impostas. Trade-off: grupos podem adaptá-las ou ignorá-las. Benefício: flexibilidade para dinâmicas e maturidades relacionais diferentes.
 
 ### Objetivos que o produto persegue
 
@@ -146,15 +140,3 @@ Sintetizando as evidências, o Intensity busca:
 4. **Equilibrar surpresa e consentimento** pelo ritual de sorteio e revelação
 5. **Encorajar presença** no momento de viver uma experiência
 6. **Construir normas de grupo** de respeito, coragem gradual e responsabilização
-
----
-
-## Lacunas e limitações
-
-| Tópico | Status |
-|--------|--------|
-| Declaração explícita de trade-offs pela equipe de produto | Não encontrada — trade-offs são inferidos das escolhas de design |
-| Intenção de desenvolvedores ou stakeholders além dos textos ao usuário | Não documentada |
-| Consequências, trocas e progressão gradual como funcionalidades | Descritas no manual rápido; não validadas como comportamento implementado |
-| Racional do cadastro controlado | Comportamento evidenciado; explicação ao usuário não encontrada |
-| Visão de longo prazo ou roadmap do produto | Não encontrada |

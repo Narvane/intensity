@@ -1,6 +1,6 @@
 # Principles — Why It Works This Way
 
-This document captures the philosophy, objectives, and conceptual premises behind Intensity — why the product is designed the way it is, and which problems it seeks to solve. It is based on the product's own narrative (onboarding, quick guide) and observable design choices, not on developer intent.
+This document captures the philosophy, objectives, and conceptual premises behind Intensity — why the product is designed the way it is, and which problems it seeks to solve. It is based on the product's guiding principles and observable design choices, not on developer intent.
 
 **Audience:** users, stakeholders, managers, investors, and product analysts — no technical knowledge required.
 
@@ -26,7 +26,7 @@ The product does not try to generate ideas from nothing. It assumes people alrea
 
 ### Guiding philosophy
 
-The quick guide states the product essence directly:
+The product essence is:
 
 - **Connection, intensity, and discovery**
 - **Not about completing a task** — about living meaningful moments with **presence**
@@ -41,8 +41,8 @@ Every major design choice serves this philosophy: the draw is random but serious
 | **Take the draw seriously** | Randomness is a decision tool, not entertainment |
 | **Decide before revealing** | Show intensity first; align mood, limits, and commitment; then flip the card |
 | **Respect the group** | Reflection before adding an idea; justification visible for transparency |
-| **Grow gradually** | Start with lighter experiences; evolve intensity over time (guided in the manual) |
-| **Accountability matters** | Define consequences with real cost before revealing (social guidance in the manual) |
+| **Grow gradually** | Start with lighter experiences; evolve intensity over time |
+| **Accountability matters** | Define consequences with real cost before revealing |
 
 ### Conceptual trade-offs
 
@@ -56,9 +56,7 @@ Intensity makes deliberate choices that shape the experience:
 
 **Structured randomness.** The draw is random, but the group can scope it by intensity level. Randomness proposes; the group disposes.
 
-**Closed access.** Registration requires prior authorization. The product appears designed for invited circles rather than open public signup — though this is not clearly communicated in the user interface.
-
-**Guidance over enforcement.** Social practices like consequences, swaps, and gradual intensity progression are taught in the quick guide but not built into the app. The product trusts the group to adopt the playbook voluntarily.
+**Voluntary adoption.** Consequences, swaps, and gradual intensity progression enrich the experience when the group chooses to embrace them — the product trusts each group to find its own rhythm.
 
 ### What Intensity is not
 
@@ -67,7 +65,7 @@ Understanding the principles also means recognizing boundaries:
 - It is **not a task manager** or habit tracker
 - It is **not a social network** for sharing with strangers
 - It is **not a content platform** with curated experiences from the product itself — all ideas come from the group
-- It is **not a game of chance** — the manual explicitly warns against treating the draw lightly
+- It is **not a game of chance** — take the draw seriously; do not treat it lightly
 
 ---
 
@@ -90,7 +88,7 @@ This is not marketing fluff — it is the **reasoning backbone** of the product.
 
 ### The principle of deliberate randomness
 
-Many products use randomness for gamification. Intensity inverts that expectation: the quick guide's first rule is to **take the draw seriously**. Randomness here functions as a **fairness and commitment mechanism** — when the group agrees to draw, the result carries weight. Nobody chose it unilaterally; everyone accepted the process.
+Many products use randomness for gamification. Intensity inverts that expectation: the central rule is to **take the draw seriously**. Randomness here functions as a **fairness and commitment mechanism** — when the group agrees to draw, the result carries weight. Nobody chose it unilaterally; everyone accepted the process.
 
 This principle explains why the product shows intensity and parameters **before** the full description: the group commits to the *level* of experience before knowing the *specific* idea. They can accept, re-draw with a lighter filter, or pause — but they do not get ambushed by content.
 
@@ -108,15 +106,13 @@ This is not a veto system (the group sees the result only at draw time), but it 
 
 ### The principle of gradual intensity
 
-The quick guide recommends starting with lower intensity levels and evolving gradually. It also suggests swaps between intensity levels and using filters during the draw. These practices acknowledge that **trust and courage build over time** — a group that jumps straight to the boldest experiences may break the social contract the product depends on.
+Start with lower intensity levels and evolve gradually. Use swaps between intensity levels and filters during the draw when the moment calls for it. These practices acknowledge that **trust and courage build over time** — a group that jumps straight to the boldest experiences may break the social contract the product depends on.
 
-This principle is **guidance only** in the current product. The app provides intensity filters and levels but does not enforce progression or swap rules.
+Intensity provides intensity filters and levels; progression and swap rules remain choices the group makes together.
 
 ### The principle of social accountability
 
-The manual dedicates an entire section to **consequences** — defining a real cost before revealing, scaling it if someone backs out, and adjusting for swaps. This reflects a belief that shared experiences need **social contracts** beyond the app itself.
-
-No interface for defining or tracking consequences was found. The principle lives in the product's **playbook**, not in its **machinery**. Groups that adopt it strengthen the draw's seriousness; groups that skip it rely on trust alone.
+Define **consequences** before revealing — a real cost agreed upon by the group, scaled if someone backs out, and adjusted when swaps occur. Shared experiences need **social contracts** that go beyond the app itself. Groups that embrace this practice strengthen the draw's seriousness; those that prefer a lighter approach rely on trust alone.
 
 ### The principle of group sovereignty
 
@@ -132,9 +128,7 @@ This explains the Experience Box entry mode requiring all members to log in toge
 
 **Hidden text until reveal vs. full transparency.** Showing everything upfront would be simpler. Delayed reveal creates a ritual moment and forces intensity alignment first. Trade-off: friction. Benefit: consent, anticipation, and shared decision.
 
-**Manual guidance vs. built-in rules.** Consequences, swaps, and progression are taught but not enforced. Trade-off: groups may ignore the playbook. Benefit: flexibility for different relationship dynamics and maturity levels.
-
-**Controlled registration vs. open access.** The product limits who can create accounts. Trade-off: slower growth. Benefit: trust within a known circle — consistent with intimate group experiences.
+**Guidance over rigid rules.** Consequences, swaps, and progression are recommended social practices, not imposed requirements. Trade-off: groups may adapt or skip them. Benefit: flexibility for different relationship dynamics and maturity levels.
 
 ### Objectives the product pursues
 
@@ -146,15 +140,3 @@ Synthesizing the evidence, Intensity aims to:
 4. **Balance surprise with consent** through the draw-and-reveal ritual
 5. **Encourage presence** in the moment of living an experience
 6. **Build group norms** of respect, gradual courage, and accountability
-
----
-
-## Gaps and limitations
-
-| Topic | Status |
-|-------|--------|
-| Explicit statement of trade-offs by the product team | Not found — trade-offs are inferred from design choices |
-| Developer or stakeholder intent beyond user-facing texts | Not documented |
-| Consequences, swaps, and gradual progression as product features | Described in the quick guide only; not validated as implemented behavior |
-| Rationale for controlled registration | Behavior evidenced; user-facing explanation not found |
-| Long-term product vision or roadmap | Not found |

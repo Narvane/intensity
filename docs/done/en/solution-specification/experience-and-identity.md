@@ -193,14 +193,3 @@ Navigation is linear and state-driven — no tab bar or persistent sidebar. Back
 ### Accessibility observations
 
 Contrast follows theme defaults. Intensity and parameters use color **and** text labels (subtitles, helper descriptions). Focus and keyboard navigation could not be fully validated from static analysis. Screen reader labels were not exhaustively audited.
-
----
-
-## Lacunas e limitações
-
-- **Custom logo asset** — only a standard box icon is used; no raster or vector brand mark beyond the icon + wordmark combination was found.
-- **Responsive breakpoints** — the app targets mobile; tablet and desktop layout adaptations were not observed.
-- **Accessibility audit** — contrast, keyboard navigation, and screen reader coverage were not fully validated.
-- **Partial translation** — some dynamic suggestion texts may pass through without full localization in all languages; keyed interface strings are fully translated in PT, EN, and IT.
-- **User-customizable theme** — only system light/dark is supported; no in-app theme picker.
-- **Consequence UI** — the quick guide references consequences as social guidance; no dedicated consequence input screen was found in the interface.

@@ -193,14 +193,3 @@ La navigazione è lineare e guidata dallo stato — senza barra tab o sidebar pe
 ### Osservazioni accessibilità
 
 Il contrasto segue i default del tema. Intensità e parametri usano colore **e** etichette testuali (sottotitoli, descrizioni di aiuto). Focus e navigazione da tastiera non hanno potuto essere completamente validati da analisi statica. Le etichette per screen reader non sono state verificate esaustivamente.
-
----
-
-## Lacunas e limitações
-
-- **Logo personalizzato** — viene usata solo un'icona scatola standard; nessun marchio raster o vettoriale oltre alla combinazione icona + wordmark è stato trovato.
-- **Breakpoint responsive** — l'app è orientata al mobile; adattamenti per tablet e desktop non sono stati osservati.
-- **Audit accessibilità** — contrasto, navigazione da tastiera e copertura screen reader non sono stati completamente validati.
-- **Traduzione parziale** — alcuni testi dinamici di suggerimento possono passare senza localizzazione completa in tutte le lingue; le stringhe interfaccia con chiave sono completamente tradotte in PT, EN e IT.
-- **Tema personalizzabile** — è supportato solo chiaro/scuro di sistema; nessun selettore tema nell'app.
-- **Interfaccia conseguenza** — la guida rapida fa riferimento alle conseguenze come orientamento sociale; nessuna schermata di inserimento conseguenza è stata trovata nell'interfaccia.

@@ -193,14 +193,3 @@ A navegação é linear e orientada por estado — sem barra de abas ou barra la
 ### Observações de acessibilidade
 
 O contraste segue os padrões do tema. Intensidade e parâmetros usam cor **e** rótulos textuais (subtítulos, descrições auxiliares). Foco e navegação por teclado não puderam ser totalmente validados por análise estática. Rótulos para leitores de tela não foram auditados exaustivamente.
-
----
-
-## Lacunas e limitações
-
-- **Logo personalizado** — apenas ícone de caixa padrão é usado; nenhuma marca raster ou vetorial além da combinação ícone + wordmark foi encontrada.
-- **Breakpoints responsivos** — o app visa mobile; adaptações para tablet e desktop não foram observadas.
-- **Auditoria de acessibilidade** — contraste, navegação por teclado e cobertura de leitores de tela não foram totalmente validados.
-- **Tradução parcial** — alguns textos dinâmicos de sugestão podem passar sem localização completa em todos os idiomas; strings de interface com chave estão totalmente traduzidas em PT, EN e IT.
-- **Tema personalizável** — apenas claro/escuro do sistema é suportado; sem seletor de tema no app.
-- **Interface de consequência** — o guia rápido referencia consequências como orientação social; nenhuma tela de entrada de consequência foi encontrada na interface.

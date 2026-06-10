@@ -8,7 +8,7 @@ Questo documento descrive il modello dati funzionale di Intensity — le entità
 
 ## Breve
 
-Il dominio di Intensity ruota attorno ai **partecipanti** che formano **gruppi**, raccolgono **esperienze** in **scatole** tematiche e vivono insieme il momento di **estrazione e rivelazione**. I **suggerimenti predefiniti per tipo di scatola** orientano la creazione delle esperienze — fungono da tutorial implicito e cambiano in base al tipo di scatola attivo. Ogni esperienza porta una descrizione, un livello di **intensità** complessivo (1–5), tre **parametri** (sforzo, apertura, novità) e la **riflessione** del proponente. Undici **tipi di scatola** organizzano le idee per contesto; due **modalità di accesso** (Esperienze e Scatola delle Esperienze) definiscono chi può fare cosa. La registrazione è controllata da una **lista di autorizzazione**; i risultati dell'estrazione sono transitori e non vengono memorizzati.
+Il dominio di Intensity ruota attorno ai **partecipanti** che formano **gruppi**, raccolgono **esperienze** in **scatole** tematiche e vivono insieme il momento di **estrazione e rivelazione**. I **suggerimenti predefiniti per tipo di scatola** orientano la creazione delle esperienze — fungono da tutorial implicito e cambiano in base al tipo di scatola attivo. Ogni esperienza porta una descrizione, un livello di **intensità** complessivo (1–5), tre **parametri** (sforzo, apertura, novità) e la **riflessione** del proponente. Undici **tipi di scatola** organizzano le idee per contesto; due **modalità di accesso** (Esperienze e Scatola delle Esperienze) definiscono chi può fare cosa. I risultati dell'estrazione sono transitori e non vengono memorizzati.
 
 ---
 
@@ -19,7 +19,6 @@ Il dominio di Intensity ruota attorno ai **partecipanti** che formano **gruppi**
 | Entità | Cosa rappresenta |
 |--------|------------------|
 | **Partecipante** | Persona registrata (nome visualizzato, email, credenziali) che può contribuire e unirsi ai gruppi |
-| **Voce nella lista di autorizzazione** | Email pre-approvata autorizzata a registrarsi |
 | **Gruppo** | Insieme di partecipanti entrati insieme in modalità Scatola delle Esperienze — identificato da quella combinazione esatta |
 | **Scatola** | Contenitore nominato e tematico dove vengono raccolte le esperienze di un gruppo |
 | **Esperienza** | Idea concreta da fare insieme, autoria di un partecipante, appartenente a una scatola |
@@ -28,7 +27,6 @@ Il dominio di Intensity ruota attorno ai **partecipanti** che formano **gruppi**
 ### Come si collegano
 
 ```
-Lista di autorizzazione  →  autorizza  →  Partecipante
 Partecipante  ↔  Gruppo  (molti-a-molti, tramite chi entra insieme)
 Gruppo  →  possiede  →  Scatola  (uno-a-molti)
 Scatola  →  contiene  →  Esperienza  (uno-a-molti)
@@ -61,7 +59,6 @@ Un **gruppo** non viene nominato manualmente — emerge dalla combinazione unica
 
 ### Parametri e predefiniti
 
-- La registrazione richiede un'email nella lista di autorizzazione
 - Tipo di scatola predefinito se non specificato: **Uscite con amici**
 - Intensità predefinita nella procedura guidata e nel filtro di estrazione: **3**
 - Intensità suggerita: media arrotondata delle tre valutazioni dei parametri (il proponente può modificarla)
@@ -76,9 +73,9 @@ Un **gruppo** non viene nominato manualmente — emerge dalla combinazione unica
 
 Un **partecipante** è chi ha completato la registrazione. Ha un **nome visualizzato** (mostrato nelle liste di gruppo), un'**email** (identità di accesso) e **credenziali** (email + password).
 
-Prima di diventare partecipante, l'email deve comparire nella **lista di autorizzazione alla registrazione**. È un controllo amministrativo — non un concetto gestito dall'utente nell'app, ma definisce chi può entrare. Voci di esempio includono `proponente@intensity.app`, `membro1@intensity.app` e `membro2@intensity.app`.
+**Accesso alla Scatola delle Esperienze:** entrando in questa modalità, l'interfaccia mostra una o più card di credenziali — ciascuna con campi email e password. Ce n'è sempre almeno una; un controllo **+** ne aggiunge un'altra quando più persone giocano insieme. Ogni card deve essere compilata con le credenziali di un partecipante registrato per formare il gruppo. Gli utenti registrati non compaiono in un elenco da selezionare; le credenziali vanno inserite manualmente in ogni card.
 
-I partecipanti registrati compaiono nell'interfaccia di accesso della Scatola delle Esperienze così il gruppo può selezionare chi è presente.
+**Dispositivo condiviso per giocare:** registrarsi e contribuire con esperienze avviene individualmente, ciascuno sul proprio dispositivo. Giocare insieme — navigare scatole, estrarre, rivelare — avviene su **un unico telefono condiviso**, in genere chi presta il proprio al gruppo. Non esiste un ruolo esplicito di "host"; l'aspettativa è semplicemente che il gruppo non giochi ciascuno sul proprio telefono durante il rituale.
 
 **Non modellato:** foto profilo, preferenze di notifica o impostazioni per utente oltre a ciò che il client memorizza localmente (come la lingua dell'interfaccia).
 
@@ -160,7 +157,7 @@ Sebbene non sia un'entità gestita dall'utente, il **contesto di sessione** deli
 | Modalità | Chi entra | Operazioni di dominio |
 |----------|-----------|----------------------|
 | **Esperienze** | Un partecipante | Registrare, modificare, eliminare esperienze; scegliere gruppo e scatola |
-| **Scatola delle Esperienze** | Più partecipanti insieme | Formare gruppo, creare scatole, navigare, estrarre, rivelare |
+| **Scatola delle Esperienze** | Più partecipanti insieme su un unico dispositivo condiviso | Formare gruppo, creare scatole, navigare, estrarre, rivelare |
 
 ### Risultato dell'estrazione (transitorio)
 
@@ -179,12 +176,6 @@ Un'**estrazione** seleziona casualmente un'esperienza da una scatola. **Non vien
 ### Panoramica delle relazioni
 
 ```
-                    ┌─────────────────────┐
-                    │ Voce nella lista    │
-                    │  di autorizzazione  │
-                    └──────────┬──────────┘
-                               │ autorizza
-                               ▼
 ┌──────────────┐      ┌────────────────┐      ┌──────────────┐
 │ Partecipante │◄────►│     Gruppo     │─────►│    Scatola   │
 └──────┬───────┘      └────────────────┘      └──────┬───────┘
@@ -292,17 +283,10 @@ Memorizzata sul client; non fa parte del modello di dominio persistito.
 | Tipo di scatola predefinito | Uscite con amici |
 | Intensità predefinita (procedura guidata e filtro) | 3 |
 | Modifica/eliminazione solo dall'autore | Solo l'autore dell'esperienza può modificarla o rimuoverla |
-| Registrazione con lista di autorizzazione | L'email deve essere nella lista prima della registrazione |
 
 ---
 
 ### Contenuti predefiniti e incorporati
-
-#### Lista di autorizzazione alla registrazione (esempi seed)
-
-- `proponente@intensity.app`
-- `membro1@intensity.app`
-- `membro2@intensity.app`
 
 #### Suggerimenti predefiniti per tipo di scatola
 
@@ -568,7 +552,6 @@ La guida rapida e il documento dei principi raccomandano pratiche che **non hann
 | Usare nella Camada 2 | Evitare |
 |----------------------|---------|
 | Partecipante | Tabella utenti, nomi di classi |
-| Voce nella lista di autorizzazione | Tabella email consentite |
 | Gruppo | Fingerprint, ID gruppo |
 | Scatola | Tabella scatole esperienza |
 | Esperienza | Cifratura descrizione, riga |
@@ -577,18 +560,3 @@ La guida rapida e il documento dei principi raccomandano pratiche che **non hann
 | Sigillo di integrità | Campo hash descrizione |
 | Modalità Esperienze / Scatola delle Esperienze | Codici interni di modalità |
 | Proponente | Etichette interne di ruolo |
-
----
-
-## Lacune e limitazioni
-
-| Argomento | Stato |
-|-----------|-------|
-| Modello riflessione vs interfaccia | Tre campi supportati; solo uno raccolto oggi |
-| Ciclo di vita della scatola | Rinominare, modificare o eliminare non osservati |
-| Denominazione del gruppo | Nessun nome visibile — solo lista partecipanti |
-| Persistenza estrazione | Estrazioni ed eventi di rivelazione non memorizzati |
-| Pratiche sociali | Conseguenze, scambi, progressione — solo guida |
-| Localizzazione suggerimenti | Pacchetti localizzati disponibili in portoghese, inglese e italiano |
-| Profilo partecipante | Nessun avatar, preferenze o notifiche oltre nome/email |
-| Sezioni tipo di scatola | Sezioni esistono nel catalogo; interfaccia mostra elenco piatto |

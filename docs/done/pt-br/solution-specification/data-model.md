@@ -8,7 +8,7 @@ Este documento descreve o modelo de dados funcional do Intensity — as entidade
 
 ## Curta
 
-O domínio do Intensity gira em torno de **participantes** que formam **grupos**, coletam **experiências** em **caixinhas** temáticas e vivem juntos o momento de **sorteio e revelação**. **Sugestões pré-definidas por tipo de caixinha** orientam a criação de experiências — funcionam como tutorial implícito e mudam conforme o tipo da caixinha ativa. Cada experiência carrega uma descrição, um nível de **intensidade** geral (1–5), três **parâmetros** (esforço, abertura, novidade) e a **reflexão** do proponente. Onze **tipos de caixinha** organizam ideias por contexto; dois **modos de acesso** (Experiências e Caixa de Experiências) definem quem pode fazer o quê. O cadastro é controlado por uma **lista de permissão**; resultados de sorteio são transitórios e não são armazenados.
+O domínio do Intensity gira em torno de **participantes** que formam **grupos**, coletam **experiências** em **caixinhas** temáticas e vivem juntos o momento de **sorteio e revelação**. **Sugestões pré-definidas por tipo de caixinha** orientam a criação de experiências — funcionam como tutorial implícito e mudam conforme o tipo da caixinha ativa. Cada experiência carrega uma descrição, um nível de **intensidade** geral (1–5), três **parâmetros** (esforço, abertura, novidade) e a **reflexão** do proponente. Onze **tipos de caixinha** organizam ideias por contexto; dois **modos de acesso** (Experiências e Caixa de Experiências) definem quem pode fazer o quê. Resultados de sorteio são transitórios e não são armazenados.
 
 ---
 
@@ -19,7 +19,6 @@ O domínio do Intensity gira em torno de **participantes** que formam **grupos**
 | Entidade | O que representa |
 |----------|------------------|
 | **Participante** | Pessoa cadastrada (nome de exibição, e-mail, credenciais) que pode contribuir e entrar em grupos |
-| **Entrada na lista de permissão** | E-mail pré-aprovado autorizado a se cadastrar |
 | **Grupo** | Conjunto de participantes que entraram juntos no modo Caixa de Experiências — identificado por essa combinação exata |
 | **Caixinha** | Recipiente nomeado e temático onde as experiências de um grupo são coletadas |
 | **Experiência** | Ideia concreta para fazer juntos, autoria de um participante, pertencente a uma caixinha |
@@ -28,7 +27,6 @@ O domínio do Intensity gira em torno de **participantes** que formam **grupos**
 ### Como se conectam
 
 ```
-Lista de permissão  →  autoriza  →  Participante
 Participante  ↔  Grupo  (muitos-para-muitos, via quem entra junto)
 Grupo  →  possui  →  Caixinha  (um-para-muitos)
 Caixinha  →  contém  →  Experiência  (um-para-muitos)
@@ -61,7 +59,6 @@ Um **grupo** não é nomeado manualmente — emerge da combinação única de pa
 
 ### Parâmetros e padrões
 
-- Cadastro exige e-mail na lista de permissão
 - Tipo de caixinha padrão quando não especificado: **Saídas com amigos**
 - Intensidade padrão no assistente e no filtro de sorteio: **3**
 - Intensidade sugerida: média arredondada das três avaliações de parâmetros (proponente pode alterar)
@@ -76,9 +73,9 @@ Um **grupo** não é nomeado manualmente — emerge da combinação única de pa
 
 Um **participante** é quem concluiu o cadastro. Possui **nome de exibição** (mostrado nas listas de grupo), **e-mail** (identidade de login) e **credenciais** (e-mail + senha).
 
-Antes de se tornar participante, o e-mail deve constar na **lista de permissão de cadastro**. É um controle administrativo — não um conceito que o usuário gerencia no app, mas define quem pode entrar. Entradas de exemplo incluem `proponente@intensity.app`, `membro1@intensity.app` e `membro2@intensity.app`.
+**Login na Caixa de Experiências:** ao entrar nesse modo, a interface exibe um ou mais cards de credenciais — cada um com campos de e-mail e senha. Há sempre pelo menos um card; um controle **+** adiciona outro quando mais pessoas vão jogar juntas. Cada card deve ser preenchido com as credenciais de um participante cadastrado para formar o grupo. Usuários cadastrados não aparecem em lista para seleção; as credenciais são digitadas manualmente em cada card.
 
-Participantes cadastrados aparecem na interface de login da Caixa de Experiências para que o grupo selecione quem está presente.
+**Celular compartilhado para jogar:** cadastrar e registrar experiências acontece individualmente, cada um no seu dispositivo. Jogar juntos — navegar caixinhas, sortear, revelar — acontece em **um único celular compartilhado**, em geral quem empresta o aparelho ao grupo. Não existe papel explícito de "host"; a expectativa é simplesmente que o grupo não jogue cada um no seu celular durante o ritual.
 
 **Não modelado:** foto de perfil, preferências de notificação ou configurações por usuário além do que o cliente armazena localmente (como idioma da interface).
 
@@ -160,7 +157,7 @@ Embora não seja uma entidade gerenciada pelo usuário, o **contexto de sessão*
 | Modo | Quem entra | Operações de domínio |
 |------|------------|----------------------|
 | **Experiências** | Um participante | Registrar, editar, excluir experiências; escolher grupo e caixinha |
-| **Caixa de Experiências** | Vários participantes juntos | Formar grupo, criar caixinhas, navegar, sortear, revelar |
+| **Caixa de Experiências** | Vários participantes juntos em um único dispositivo compartilhado | Formar grupo, criar caixinhas, navegar, sortear, revelar |
 
 ### Resultado de sorteio (transitório)
 
@@ -179,12 +176,6 @@ Um **sorteio** seleciona aleatoriamente uma experiência de uma caixinha. **Não
 ### Visão geral dos relacionamentos
 
 ```
-                    ┌─────────────────────┐
-                    │ Entrada na lista    │
-                    │   de permissão      │
-                    └──────────┬──────────┘
-                               │ autoriza
-                               ▼
 ┌──────────────┐      ┌────────────────┐      ┌──────────────┐
 │ Participante │◄────►│     Grupo      │─────►│   Caixinha   │
 └──────┬───────┘      └────────────────┘      └──────┬───────┘
@@ -292,17 +283,10 @@ Armazenado no cliente; não faz parte do modelo de domínio persistido.
 | Tipo de caixinha padrão | Saídas com amigos |
 | Intensidade padrão (assistente e filtro) | 3 |
 | Edição/exclusão só pelo autor | Apenas o autor da experiência pode alterar ou remover |
-| Cadastro com lista de permissão | E-mail deve estar na lista antes do cadastro |
 
 ---
 
 ### Conteúdo padrão e embutido
-
-#### Lista de permissão de cadastro (exemplos de seed)
-
-- `proponente@intensity.app`
-- `membro1@intensity.app`
-- `membro2@intensity.app`
 
 #### Sugestões pré-definidas por tipo de caixinha
 
@@ -565,7 +549,6 @@ O guia rápido e o documento de princípios recomendam práticas que **não têm
 | Usar na Camada 2 | Evitar |
 |------------------|--------|
 | Participante | Tabela de usuários, nomes de classes |
-| Entrada na lista de permissão | Tabela de e-mails permitidos |
 | Grupo | Fingerprint, ID de grupo |
 | Caixinha | Tabela de caixinhas de experiência |
 | Experiência | Cifra de descrição, linha |
@@ -574,18 +557,3 @@ O guia rápido e o documento de princípios recomendam práticas que **não têm
 | Selo de integridade | Campo de hash da descrição |
 | Modo Experiências / Caixa de Experiências | Códigos internos de modo |
 | Proponente | Rótulos internos de papel |
-
----
-
-## Lacunas e limitações
-
-| Tópico | Status |
-|--------|--------|
-| Modelo de reflexão vs interface | Três campos suportados; apenas um coletado hoje |
-| Ciclo de vida da caixinha | Renomear, editar ou excluir não observados |
-| Nomeação de grupo | Sem nome visível — apenas lista de participantes |
-| Persistência de sorteio | Sorteios e eventos de revelação não são armazenados |
-| Práticas sociais | Consequências, trocas, progressão — apenas orientação |
-| Localização das sugestões | Pacotes localizados disponíveis em português, inglês e italiano |
-| Perfil do participante | Sem avatar, preferências ou notificações além de nome/e-mail |
-| Seções de tipo de caixinha | Seções existem no catálogo; interface mostra lista plana |

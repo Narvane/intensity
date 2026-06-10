@@ -8,7 +8,7 @@ This document describes the functional data model of Intensity — the domain en
 
 ## Short
 
-Intensity's domain revolves around **participants** who form **groups**, collect **experiences** inside themed **boxes**, and live a **draw-and-reveal** moment together. **Pre-defined suggestions by box type** guide experience creation — they function as an implicit tutorial and change with the active box type. Each experience carries a description, an overall **intensity** level (1–5), three **parameters** (effort, openness, novelty), and a proposer's **reflection**. Eleven **box types** organize ideas by context; two **access modes** (Experiences and Experience Box) scope who can do what. Registration is gated by an **allowlist**; draw results are transient and not stored.
+Intensity's domain revolves around **participants** who form **groups**, collect **experiences** inside themed **boxes**, and live a **draw-and-reveal** moment together. **Pre-defined suggestions by box type** guide experience creation — they function as an implicit tutorial and change with the active box type. Each experience carries a description, an overall **intensity** level (1–5), three **parameters** (effort, openness, novelty), and a proposer's **reflection**. Eleven **box types** organize ideas by context; two **access modes** (Experiences and Experience Box) scope who can do what. Draw results are transient and not stored.
 
 ---
 
@@ -19,7 +19,6 @@ Intensity's domain revolves around **participants** who form **groups**, collect
 | Entity | What it represents |
 |--------|---------------------|
 | **Participant** | A registered person (display name, email, credentials) who can contribute and join groups |
-| **Registration allowlist entry** | A pre-approved email permitted to sign up |
 | **Group** | The set of participants who entered Experience Box mode together — identified by that exact combination |
 | **Box** | A named, themed container where a group's experiences are collected |
 | **Experience** | A concrete idea to do together, authored by one participant, belonging to one box |
@@ -28,7 +27,6 @@ Intensity's domain revolves around **participants** who form **groups**, collect
 ### How they connect
 
 ```
-Allowlist  →  permits  →  Participant
 Participant  ↔  Group  (many-to-many, via who logs in together)
 Group  →  owns  →  Box  (one-to-many)
 Box  →  contains  →  Experience  (one-to-many)
@@ -61,7 +59,6 @@ A **group** is not manually named — it emerges from the unique combination of 
 
 ### Parameters and defaults
 
-- Registration requires an allowlisted email
 - Default box type when unspecified: **Outings with friends**
 - Default wizard intensity and draw-filter level: **3**
 - Suggested intensity: rounded average of the three parameter ratings (proposer may override)
@@ -76,9 +73,9 @@ A **group** is not manually named — it emerges from the unique combination of 
 
 A **participant** is anyone who completed registration. They have a **display name** (shown in group lists), an **email** (login identity), and **credentials** (email + password).
 
-Before becoming a participant, an email must appear on the **registration allowlist**. This is an administrative gate — not a concept users manage in the app, but it defines who may join. Example seed entries include `proponente@intensity.app`, `membro1@intensity.app`, and `membro2@intensity.app`.
+**Experience Box login:** entering Experience Box mode shows one or more credential cards — each with email and password fields. There is always at least one card; a **+** control adds another when more people are playing together. Every card must be filled with a registered participant's credentials to form the group. Registered users are not listed for selection; credentials are entered manually on each card.
 
-Registered participants appear in the Experience Box login UI so groups can select who is present.
+**Shared device for play:** registering and contributing experiences happens individually, each on their own device. Playing together — browsing boxes, drawing, revealing — happens on **one shared phone**, typically whoever lends their device to the group. There is no explicit "host" role; the expectation is simply that the group does not each play on their own phone during the ritual.
 
 **Not modeled:** profile photos, notification preferences, or per-user settings beyond what the client stores locally (such as UI language).
 
@@ -160,7 +157,7 @@ While not a user-managed entity, **session context** scopes every operation:
 | Mode | Who enters | Domain operations |
 |------|------------|-------------------|
 | **Experiences** | One participant | Register, edit, delete experiences; choose group and box |
-| **Experience Box** | Multiple participants together | Form group, create boxes, browse, draw, reveal |
+| **Experience Box** | Multiple participants together on one shared device | Form group, create boxes, browse, draw, reveal |
 
 ### Draw result (transient)
 
@@ -179,11 +176,6 @@ A **draw** randomly selects one experience from a box. It is **not persisted** �
 ### Entity relationship overview
 
 ```
-                    ┌─────────────────────┐
-                    │  Allowlist entry    │
-                    └──────────┬──────────┘
-                               │ permits
-                               ▼
 ┌──────────────┐      ┌────────────────┐      ┌──────────────┐
 │ Participant  │◄────►│     Group      │─────►│     Box      │
 └──────┬───────┘      └────────────────┘      └──────┬───────┘
@@ -291,17 +283,10 @@ Stored on the client; not part of the persisted domain model.
 | Default box type | Outings with friends |
 | Default intensity (wizard and draw filter) | 3 |
 | Author-only edit/delete | Only the experience author may modify or remove it |
-| Allowlist-gated registration | Email must be on allowlist before signup |
 
 ---
 
 ### Default and embedded content
-
-#### Registration allowlist (seed examples)
-
-- `proponente@intensity.app`
-- `membro1@intensity.app`
-- `membro2@intensity.app`
 
 #### Pre-defined suggestions by box type
 
@@ -567,7 +552,6 @@ The quick guide and principles document recommend practices that **have no corre
 | Use in Layer 2 | Avoid |
 |----------------|-------|
 | Participant | User table, entity class names |
-| Registration allowlist entry | Allowed emails table |
 | Group | Fingerprint, group ID |
 | Box | Experience box table |
 | Experience | Description cipher, row |
@@ -576,18 +560,3 @@ The quick guide and principles document recommend practices that **have no corre
 | Integrity seal | Description hash field |
 | Experiences mode / Experience Box mode | Internal mode codes |
 | Proposer | Internal role labels |
-
----
-
-## Gaps and limitations
-
-| Topic | Status |
-|-------|--------|
-| Reflection model vs UI | Three fields supported; only one collected today |
-| Box lifecycle | No rename, edit, or delete observed |
-| Group naming | No user-facing name — participant list only |
-| Draw persistence | Draws and reveal events are not stored |
-| Social practices | Consequences, swaps, progression — guidance only |
-| Suggestion localization | Localized packs available for Portuguese, English, and Italian |
-| Participant profile | No avatar, preferences, or notifications beyond name/email |
-| Box type sections | Catalog sections exist in code; UI shows flat list |

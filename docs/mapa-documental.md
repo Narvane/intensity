@@ -68,9 +68,9 @@ Detalhes completos de abstração e conteúdo permitido por camada: ver `agent.m
 
 - [x] **Modelo de Dados**
   - *Exemplos de conteúdo:* entidades; categorias; parâmetros; configurações; conteúdo padrão; taxonomias
-- [ ] **Experiência e Identidade**
+- [x] **Experiência e Identidade**
   - *Exemplos de conteúdo:* logo; paleta de cores; tema visual; diretrizes de UX; linguagem e tom de comunicação
-- [ ] **Componentes Funcionais**
+- [x] **Componentes Funcionais**
   - *Exemplos de conteúdo:* módulos funcionais; funcionalidades; telas; fluxos de usuário
 
 ---

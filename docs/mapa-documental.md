@@ -79,13 +79,13 @@ Detalhes completos de abstração e conteúdo permitido por camada: ver `agent.m
 
 *Como a solução está organizada. Público: arquitetos e engenheiros seniores.*
 
-- [ ] **Plataformas e Ambientes**
+- [x] **Plataformas e Ambientes**
   - *Exemplos de conteúdo:* web; mobile; backend; infraestrutura; ambientes de execução
-- [ ] **Artefatos**
+- [x] **Artefatos**
   - *Exemplos de conteúdo:* aplicações; serviços; APIs; bancos de dados; bibliotecas; componentes compartilhados
-- [ ] **Integrações e Comunicação**
+- [x] **Integrações e Comunicação**
   - *Exemplos de conteúdo:* fluxos de comunicação; dependências; protocolos; eventos; contratos
-- [ ] **Decisões Arquiteturais**
+- [x] **Decisões Arquiteturais**
   - *Exemplos de conteúdo:* justificativas; trade-offs; restrições; riscos conhecidos
 
 ---

@@ -94,7 +94,8 @@
     "inviteComingSoon": "Aceite de convite chega em um slice posterior. O formato do código está correto.",
     "errors": {
       "network": "Não foi possível contactar o servidor. Verifique a conexão e tente novamente.",
-      "invalidInviteCode": "Informe um código de convite válido com 6 caracteres."
+      "invalidInviteCode": "Informe um código de convite válido com 6 caracteres.",
+      "groupMembershipConflict": "Essas credenciais pertencem a grupos diferentes. Entre com membros do mesmo grupo."
     }
   },
   "unknownSession": {
@@ -152,7 +153,8 @@
     "previewToggle": "Prévia como os outros veem",
     "showFull": "Mostrar texto completo",
     "previewAsOthers": "Os outros veem só intensidade e selo — assim.",
-    "validationError": "Verifique intensidade e parâmetros (níveis 1–5)."
+    "validationError": "Verifique intensidade e parâmetros (níveis 1–5).",
+    "notAuthor": "Somente o autor pode editar ou excluir esta experiência."
   },
   "assistant": {
     "title": "Assistente de criação",

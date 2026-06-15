@@ -94,7 +94,8 @@
     "inviteComingSoon": "Invite acceptance arrives in a later slice. The code format is valid.",
     "errors": {
       "network": "Could not reach the server. Check your connection and try again.",
-      "invalidInviteCode": "Enter a valid 6-character invite code."
+      "invalidInviteCode": "Enter a valid 6-character invite code.",
+      "groupMembershipConflict": "These credentials belong to different groups. Sign in with members of the same group."
     }
   },
   "unknownSession": {
@@ -152,7 +153,8 @@
     "previewToggle": "Preview as others see",
     "showFull": "Show full text",
     "previewAsOthers": "Others see intensity and seal only — like this.",
-    "validationError": "Check intensity and parameters (levels 1–5)."
+    "validationError": "Check intensity and parameters (levels 1–5).",
+    "notAuthor": "Only the author can edit or delete this experience."
   },
   "assistant": {
     "title": "Creation assistant",

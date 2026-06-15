@@ -60,6 +60,10 @@ export function AuthPage() {
 
   const handleError = (err: unknown) => {
     if (err instanceof ApiError) {
+      if (err.code === 'GROUP_MEMBERSHIP_CONFLICT') {
+        setError(t('auth.errors.groupMembershipConflict'));
+        return;
+      }
       setError(err.message);
       return;
     }

@@ -21,4 +21,15 @@ public interface GrupoRepository extends JpaRepository<Grupo, UUID> {
 	Optional<UUID> findGroupIdByExactMembers(
 			@Param("participantIds") List<UUID> participantIds,
 			@Param("memberCount") long memberCount);
+
+	@Query("""
+			SELECT gp.id.grupoId
+			FROM GrupoParticipante gp
+			WHERE gp.id.participanteId IN :participantIds
+			GROUP BY gp.id.grupoId
+			HAVING COUNT(DISTINCT gp.id.participanteId) = :participantCount
+			""")
+	List<UUID> findGroupIdsContainingAllParticipants(
+			@Param("participantIds") List<UUID> participantIds,
+			@Param("participantCount") long participantCount);
 }

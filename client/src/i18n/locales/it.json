@@ -94,7 +94,8 @@
     "inviteComingSoon": "L'accettazione invito arriverà in uno slice successivo. Il formato del codice è valido.",
     "errors": {
       "network": "Impossibile contattare il server. Controlla la connessione e riprova.",
-      "invalidInviteCode": "Inserisci un codice invito valido di 6 caratteri."
+      "invalidInviteCode": "Inserisci un codice invito valido di 6 caratteri.",
+      "groupMembershipConflict": "Queste credenziali appartengono a gruppi diversi. Accedi con membri dello stesso gruppo."
     }
   },
   "unknownSession": {
@@ -152,7 +153,8 @@
     "previewToggle": "Anteprima come vedono gli altri",
     "showFull": "Mostra testo completo",
     "previewAsOthers": "Gli altri vedono solo intensità e sigillo — così.",
-    "validationError": "Controlla intensità e parametri (livelli 1–5)."
+    "validationError": "Controlla intensità e parametri (livelli 1–5).",
+    "notAuthor": "Solo l'autore può modificare o eliminare questa esperienza."
   },
   "assistant": {
     "title": "Assistente di creazione",

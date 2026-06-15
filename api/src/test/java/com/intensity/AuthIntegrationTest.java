@@ -97,6 +97,46 @@ class AuthIntegrationTest {
 
 	@Test
 	@Order(5)
+	void jointLoginReturnsConflictWhenParticipantsBelongToDifferentGroups() throws Exception {
+		mockMvc.perform(post("/v1/auth/grupo")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "credentials": [
+								    { "email": "carol@example.com", "password": "password123" }
+								  ]
+								}
+								"""))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(post("/v1/auth/grupo")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "credentials": [
+								    { "email": "bob@example.com", "password": "password123" }
+								  ]
+								}
+								"""))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(post("/v1/auth/grupo")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "credentials": [
+								    { "email": "carol@example.com", "password": "password123" },
+								    { "email": "bob@example.com", "password": "password123" }
+								  ]
+								}
+								"""))
+				.andExpect(status().isConflict())
+				.andExpect(jsonPath("$.code").value("GROUP_MEMBERSHIP_CONFLICT"))
+				.andExpect(jsonPath("$.message").value("Credentials belong to different groups."));
+	}
+
+	@Test
+	@Order(6)
 	void jointLoginCreatesOrReopensGroup() throws Exception {
 		register("Alice", "alice@example.com");
 		register("Bob", "bob@example.com");

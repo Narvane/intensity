@@ -148,7 +148,10 @@
     "otherSummary": "Contributo di {{author}} — solo intensità e sigillo fino alla rivelazione.",
     "anonymous": "Membro del gruppo",
     "edit": "Modifica",
-    "delete": "Elimina"
+    "delete": "Elimina",
+    "previewToggle": "Anteprima come vedono gli altri",
+    "showFull": "Mostra testo completo",
+    "previewAsOthers": "Gli altri vedono solo intensità e sigillo — così."
   },
   "assistant": {
     "title": "Assistente di creazione",

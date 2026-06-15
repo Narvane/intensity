@@ -148,7 +148,10 @@
     "otherSummary": "Contribuição de {{author}} — apenas intensidade e selo até a revelação.",
     "anonymous": "Membro do grupo",
     "edit": "Editar",
-    "delete": "Excluir"
+    "delete": "Excluir",
+    "previewToggle": "Prévia como os outros veem",
+    "showFull": "Mostrar texto completo",
+    "previewAsOthers": "Os outros veem só intensidade e selo — assim."
   },
   "assistant": {
     "title": "Assistente de criação",

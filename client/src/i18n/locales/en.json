@@ -148,7 +148,10 @@
     "otherSummary": "Contribution by {{author}} — intensity and seal only until reveal.",
     "anonymous": "Group member",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "previewToggle": "Preview as others see",
+    "showFull": "Show full text",
+    "previewAsOthers": "Others see intensity and seal only — like this."
   },
   "assistant": {
     "title": "Creation assistant",

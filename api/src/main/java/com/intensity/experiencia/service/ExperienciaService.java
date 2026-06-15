@@ -2,7 +2,6 @@ package com.intensity.experiencia.service;
 
 import com.intensity.caixinha.entity.Caixinha;
 import com.intensity.caixinha.repository.CaixinhaRepository;
-import com.intensity.common.AccessMode;
 import com.intensity.common.AuthPrincipal;
 import com.intensity.common.exception.ApiException;
 import com.intensity.experiencia.dto.CreateExperienceRequest;
@@ -28,18 +27,21 @@ public class ExperienciaService {
 	private final ParticipanteRepository participanteRepository;
 	private final GrupoParticipanteRepository grupoParticipanteRepository;
 	private final SealService sealService;
+	private final ExperienceVisibilityPolicy visibilityPolicy;
 
 	public ExperienciaService(
 			ExperienciaRepository experienciaRepository,
 			CaixinhaRepository caixinhaRepository,
 			ParticipanteRepository participanteRepository,
 			GrupoParticipanteRepository grupoParticipanteRepository,
-			SealService sealService) {
+			SealService sealService,
+			ExperienceVisibilityPolicy visibilityPolicy) {
 		this.experienciaRepository = experienciaRepository;
 		this.caixinhaRepository = caixinhaRepository;
 		this.participanteRepository = participanteRepository;
 		this.grupoParticipanteRepository = grupoParticipanteRepository;
 		this.sealService = sealService;
+		this.visibilityPolicy = visibilityPolicy;
 	}
 
 	@Transactional(readOnly = true)
@@ -144,8 +146,8 @@ public class ExperienciaService {
 
 	private ExperienceResponse toResponse(
 			Experiencia experiencia, UUID viewerId, AuthPrincipal principal) {
-		boolean isAuthor = experiencia.getAuthor().getId().equals(viewerId);
-		boolean fullAccess = isAuthor || principal.accessMode() == AccessMode.EXPERIENCE_BOX;
+		boolean fullAccess = visibilityPolicy.hasFullContent(
+				principal, experiencia.getAuthor().getId(), viewerId);
 		ExperienceParametersDto parameters = new ExperienceParametersDto(
 				experiencia.getEffort(), experiencia.getOpenness(), experiencia.getNovelty());
 

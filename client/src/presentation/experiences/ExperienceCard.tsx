@@ -1,54 +1,68 @@
+import { useState } from 'react';
 import type { Experience } from '@domain/experience/experienceTypes';
+import {
+  canManageExperience,
+  isSummaryOnlyView,
+  shouldShowDescription,
+  shouldShowReflection,
+} from '@domain/experience/experienceVisibility';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { ExperienceContentBlock } from '../components/ExperienceContentBlock';
+import { ExperienceSummaryMeta } from '../components/ExperienceSummaryMeta';
 import styles from './ExperienceCard.module.css';
 
 interface ExperienceCardProps {
   experience: Experience;
-  isOwn: boolean;
+  participantId?: string;
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-export function ExperienceCard({ experience, isOwn, onEdit, onDelete }: ExperienceCardProps) {
+export function ExperienceCard({
+  experience,
+  participantId,
+  onEdit,
+  onDelete,
+}: ExperienceCardProps) {
   const { t } = useI18n();
+  const isAuthor = canManageExperience(experience, participantId);
+  const [previewAsOthers, setPreviewAsOthers] = useState(false);
+
+  const listOptions = { isAuthor, previewAsOthers };
+  const summaryOnly = isSummaryOnlyView(experience, 'EXPERIENCES_LIST', listOptions);
+  const showDescription = shouldShowDescription(experience, 'EXPERIENCES_LIST', listOptions);
+  const showReflection = shouldShowReflection(experience, 'EXPERIENCES_LIST', listOptions);
 
   return (
     <article className={styles.card} data-intensity={experience.intensity}>
-      <header className={styles.header}>
-        <span className={styles.intensity}>
-          {t('experiences.intensityLabel', { level: experience.intensity })}
-        </span>
-        <span className={styles.seal} title={t('experiences.sealLabel')}>
-          {experience.seal}
-        </span>
-      </header>
+      <ExperienceSummaryMeta experience={experience} />
 
-      <p className={styles.params}>
-        {t('experiences.paramsSummary', {
-          effort: experience.parameters.effort,
-          openness: experience.parameters.openness,
-          novelty: experience.parameters.novelty,
-        })}
-      </p>
-
-      {isOwn && experience.description && (
-        <>
-          <p className={styles.description}>{experience.description}</p>
-          {experience.reflection && (
-            <p className={styles.reflection}>{experience.reflection}</p>
-          )}
-        </>
-      )}
-
-      {!isOwn && (
+      {summaryOnly && (
         <p className={styles.summary}>
-          {t('experiences.otherSummary', { author: experience.authorDisplayName ?? t('experiences.anonymous') })}
+          {isAuthor && previewAsOthers
+            ? t('experiences.previewAsOthers')
+            : t('experiences.otherSummary', {
+                author: experience.authorDisplayName ?? t('experiences.anonymous'),
+              })}
         </p>
       )}
 
-      {isOwn && (
+      {(showDescription || showReflection) && (
+        <ExperienceContentBlock
+          experience={{
+            ...experience,
+            description: showDescription ? experience.description : undefined,
+            reflection: showReflection ? experience.reflection : undefined,
+          }}
+        />
+      )}
+
+      {isAuthor && (
         <div className={styles.actions}>
+          <Button variant="ghost" onClick={() => setPreviewAsOthers((current) => !current)}>
+            {previewAsOthers ? t('experiences.showFull') : t('experiences.previewToggle')}
+          </Button>
           <Button variant="ghost" onClick={onEdit}>
             {t('experiences.edit')}
           </Button>

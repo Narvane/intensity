@@ -125,7 +125,7 @@ export function ExperienceListPage() {
             <ExperienceCard
               key={experience.id}
               experience={experience}
-              isOwn={experience.authorId === session?.participantId}
+              participantId={session?.participantId}
               onEdit={() => openEditAssistant(experience)}
               onDelete={() => void handleDelete(experience)}
             />

@@ -117,6 +117,7 @@ class ExperienciaIntegrationTest {
 				.andExpect(jsonPath("$", hasSize(1)))
 				.andExpect(jsonPath("$[0].summaryOnly").value(true))
 				.andExpect(jsonPath("$[0].description").doesNotExist())
+				.andExpect(jsonPath("$[0].reflection").doesNotExist())
 				.andExpect(jsonPath("$[0].seal").value(aliceSeal));
 	}
 

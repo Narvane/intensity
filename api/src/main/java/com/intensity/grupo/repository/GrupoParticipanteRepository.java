@@ -18,4 +18,7 @@ public interface GrupoParticipanteRepository extends JpaRepository<GrupoParticip
 
 	@Query("SELECT COUNT(gp) FROM GrupoParticipante gp WHERE gp.id.grupoId = :groupId")
 	long countMembersByGroupId(@Param("groupId") UUID groupId);
+
+	@Query("SELECT gp.id.participanteId FROM GrupoParticipante gp WHERE gp.id.grupoId = :groupId")
+	List<UUID> findParticipantIdsByGroupId(@Param("groupId") UUID groupId);
 }

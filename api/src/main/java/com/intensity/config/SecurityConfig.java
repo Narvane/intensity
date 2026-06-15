@@ -31,6 +31,8 @@ public class SecurityConfig {
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 						.requestMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/grupo", "/v1/participantes")
 						.permitAll()
+						.requestMatchers(HttpMethod.GET, "/v1/convites/validar")
+						.permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, exception) -> {

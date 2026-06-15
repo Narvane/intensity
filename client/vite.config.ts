@@ -11,6 +11,7 @@ export default defineConfig({
       '@domain': path.resolve(__dirname, 'src/domain'),
       '@adapters': path.resolve(__dirname, 'src/adapters'),
       '@presentation': path.resolve(__dirname, 'src/presentation'),
+      '@i18n': path.resolve(__dirname, 'src/i18n'),
     },
   },
   server: {

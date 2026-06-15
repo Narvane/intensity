@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "Intensity"
+  },
+  "bootstrap": {
+    "loading": "Loading Intensity…",
+    "error": "Could not load your preferences.",
+    "retry": "Try again"
+  },
+  "onboarding": {
+    "stepIndicator": "Step {{current}} of {{total}}",
+    "next": "Next",
+    "back": "Back",
+    "openQuickGuide": "Open quick guide",
+    "getStarted": "Get started",
+    "steps": {
+      "1": {
+        "title": "Same routines, less closeness",
+        "body": "Many of us repeat the same outings and conversations. They are comfortable — but they rarely bring us closer to the people who matter."
+      },
+      "2": {
+        "title": "You miss deeper connection",
+        "body": "You want to feel present with your partner or friends — not just busy together. Something honest is missing from the routine."
+      },
+      "3": {
+        "title": "The best moments keep waiting",
+        "body": "The most memorable experiences are often the unusual ones — yet we postpone them, waiting for a perfect moment that may never come."
+      },
+      "4": {
+        "title": "Intensity helps you act",
+        "body": "Collect unusual ideas in shared boxes. When you are together, draw one, align as a group, reveal it — and live the moment with presence."
+      }
+    }
+  },
+  "quickGuide": {
+    "title": "Quick guide",
+    "close": "Close",
+    "sections": {
+      "rhythm": {
+        "title": "The rhythm",
+        "body": "Contribute ideas alone → meet as a group → draw → align → reveal → live the moment."
+      },
+      "modes": {
+        "title": "Two modes",
+        "experiences": "Experiences — register ideas on your own phone.",
+        "experienceBox": "Experience Box — create boxes, invite people, and run the draw together on one shared phone."
+      },
+      "draw": {
+        "title": "Take the draw seriously",
+        "body": "Randomness is a commitment device, not a game. If the moment is not right, draw again together."
+      },
+      "transparency": {
+        "title": "Transparency",
+        "body": "Experiences are not encrypted. Everyone in the group can see contributions — honesty is part of the social contract."
+      }
+    }
+  },
+  "auth": {
+    "title": "Sign in",
+    "placeholder": "Authentication screens arrive in the next release slice. Use the help icon anytime to reopen the quick guide.",
+    "helpLabel": "Open quick guide"
+  }
+}

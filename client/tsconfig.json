@@ -15,13 +15,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
       "@app/*": ["src/app/*"],
       "@domain/*": ["src/domain/*"],
       "@adapters/*": ["src/adapters/*"],
-      "@presentation/*": ["src/presentation/*"]
+      "@presentation/*": ["src/presentation/*"],
+      "@i18n/*": ["src/i18n/*"]
     }
   },
   "include": ["src"]

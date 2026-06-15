@@ -1,0 +1,17 @@
+.mark {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2dd4bf, #14b8a6 55%, #f97316);
+  color: #042f2e;
+}
+
+.large {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 2.25rem;
+}

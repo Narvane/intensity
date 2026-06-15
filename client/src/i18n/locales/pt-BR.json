@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "Intensity"
+  },
+  "bootstrap": {
+    "loading": "Carregando Intensity…",
+    "error": "Não foi possível carregar suas preferências.",
+    "retry": "Tentar novamente"
+  },
+  "onboarding": {
+    "stepIndicator": "Passo {{current}} de {{total}}",
+    "next": "Próximo",
+    "back": "Voltar",
+    "openQuickGuide": "Abrir guia rápido",
+    "getStarted": "Começar",
+    "steps": {
+      "1": {
+        "title": "Mesmas rotinas, menos proximidade",
+        "body": "Muitos de nós repetimos os mesmos programas e conversas. São confortáveis — mas raramente nos aproximam das pessoas que importam."
+      },
+      "2": {
+        "title": "Você sente falta de conexão",
+        "body": "Você quer estar presente com seu par ou amigos — não apenas ocupados juntos. Algo honesto falta na rotina."
+      },
+      "3": {
+        "title": "Os melhores momentos ficam esperando",
+        "body": "As experiências mais marcantes costumam ser as incomuns — e mesmo assim as adiamos, esperando o momento perfeito que talvez nunca chegue."
+      },
+      "4": {
+        "title": "Intensity ajuda você a agir",
+        "body": "Colete ideias incomuns em caixinhas compartilhadas. Quando estiverem juntos, sorteiem uma, alinhem-se, revelem — e vivam o momento com presença."
+      }
+    }
+  },
+  "quickGuide": {
+    "title": "Guia rápido",
+    "close": "Fechar",
+    "sections": {
+      "rhythm": {
+        "title": "O ritmo",
+        "body": "Contribua sozinho → reúna-se em grupo → sorteio → alinhamento → revelação → vivam o momento."
+      },
+      "modes": {
+        "title": "Dois modos",
+        "experiences": "Experiences — registre ideias no seu celular.",
+        "experienceBox": "Experience Box — criem caixinhas, convidem pessoas e façam o sorteio juntos em um celular compartilhado."
+      },
+      "draw": {
+        "title": "Leve o sorteio a sério",
+        "body": "O acaso é um dispositivo de compromisso, não um jogo. Se o momento não servir, sorteiem de novo juntos."
+      },
+      "transparency": {
+        "title": "Transparência",
+        "body": "Experiências não são criptografadas. Todos no grupo podem ver as contribuições — a honestidade faz parte do acordo social."
+      }
+    }
+  },
+  "auth": {
+    "title": "Entrar",
+    "placeholder": "As telas de autenticação chegam no próximo slice. Use o ícone de ajuda para reabrir o guia rápido.",
+    "helpLabel": "Abrir guia rápido"
+  }
+}

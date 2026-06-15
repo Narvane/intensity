@@ -1,0 +1,31 @@
+.page {
+  min-height: 100dvh;
+  padding: calc(var(--space-page) + env(safe-area-inset-top, 0)) var(--space-page)
+    calc(var(--space-page) + env(safe-area-inset-bottom, 0));
+  background: radial-gradient(circle at top, #1b2a41 0%, var(--color-bg) 60%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.panel {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.panel h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+}
+
+.panel p {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}

@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "Intensity"
+  },
+  "bootstrap": {
+    "loading": "Caricamento di Intensity…",
+    "error": "Impossibile caricare le preferenze.",
+    "retry": "Riprova"
+  },
+  "onboarding": {
+    "stepIndicator": "Passo {{current}} di {{total}}",
+    "next": "Avanti",
+    "back": "Indietro",
+    "openQuickGuide": "Apri guida rapida",
+    "getStarted": "Inizia",
+    "steps": {
+      "1": {
+        "title": "Stesse routine, meno vicinanza",
+        "body": "Molti di noi ripetono le stesse uscite e conversazioni. Sono comode — ma raramente ci avvicinano alle persone che contano."
+      },
+      "2": {
+        "title": "Senti la mancanza di connessione",
+        "body": "Vuoi essere presente con il partner o con gli amici — non solo occupati insieme. Nella routine manca qualcosa di autentico."
+      },
+      "3": {
+        "title": "I momenti migliori restano in attesa",
+        "body": "Le esperienze più memorabili sono spesso le insolite — eppure le rimandiamo, aspettando un momento perfetto che forse non arriverà mai."
+      },
+      "4": {
+        "title": "Intensity ti aiuta ad agire",
+        "body": "Raccogli idee insolite in scatole condivise. Quando siete insieme, estraete una, allineatevi, rivelatela — e vivete il momento con presenza."
+      }
+    }
+  },
+  "quickGuide": {
+    "title": "Guida rapida",
+    "close": "Chiudi",
+    "sections": {
+      "rhythm": {
+        "title": "Il ritmo",
+        "body": "Contribuisci da solo → riunitevi → estrazione → allineamento → rivelazione → vivete il momento."
+      },
+      "modes": {
+        "title": "Due modalità",
+        "experiences": "Experiences — registra idee sul tuo telefono.",
+        "experienceBox": "Experience Box — create scatole, invitate persone e fate l'estrazione insieme su un telefono condiviso."
+      },
+      "draw": {
+        "title": "Prendi l'estrazione sul serio",
+        "body": "Il caso è uno strumento di impegno, non un gioco. Se il momento non è quello giusto, estraete di nuovo insieme."
+      },
+      "transparency": {
+        "title": "Trasparenza",
+        "body": "Le esperienze non sono crittografate. Tutti nel gruppo possono vedere i contributi — l'onestà fa parte del patto sociale."
+      }
+    }
+  },
+  "auth": {
+    "title": "Accedi",
+    "placeholder": "Le schermate di autenticazione arriveranno nel prossimo slice. Usa l'icona di aiuto per riaprire la guida rapida.",
+    "helpLabel": "Apri guida rapida"
+  }
+}

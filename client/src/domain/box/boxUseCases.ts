@@ -49,6 +49,14 @@ export class DeleteBoxUseCase {
   }
 }
 
+export class LeaveGroupUseCase {
+  constructor(private readonly api: ApiClient) {}
+
+  execute(groupId: string, token: string): Promise<void> {
+    return this.api.delete(`/v1/grupos/${groupId}/membros`, token);
+  }
+}
+
 export class SelectGroupUseCase {
   constructor(private readonly navigation: NavigationPort) {}
 

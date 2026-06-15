@@ -119,7 +119,17 @@
     "empty": "Join a group via invite or sign in to Experience Box with others.",
     "memberCount": "{{count}} members",
     "openBoxes": "Open boxes",
-    "invite": "Invite"
+    "invite": "Invite",
+    "leave": "Leave group",
+    "leaveSuccess": "You left the group.",
+    "leaveDialog": {
+      "title": "Leave this group?",
+      "message": "You will lose access to this group's boxes. Experiences you added will stay in the group.",
+      "sessionMessage": "Everyone in this Experience Box session will leave the group. Experiences you added will stay unless the group is removed.",
+      "lastMemberMessage": "This removes the last members from the group. All boxes, experiences, and pending invites will be deleted permanently.",
+      "confirm": "Leave group",
+      "cancel": "Cancel"
+    }
   },
   "boxes": {
     "title": "Choose a box",

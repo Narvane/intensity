@@ -5,9 +5,10 @@ import { useAppLogout } from '@app/useAppLogout';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
 import type { Box } from '@domain/box/boxTypes';
-import { DeleteBoxUseCase, ListBoxesUseCase } from '@domain/box/boxUseCases';
+import { DeleteBoxUseCase, LeaveGroupUseCase, ListBoxesUseCase, ListGroupsUseCase } from '@domain/box/boxUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { ShareInviteSheet } from '../invite/ShareInviteSheet';
+import { LeaveGroupDialog } from '../groups/LeaveGroupDialog';
 import { BoxCard } from '../components/BoxCard';
 import { Button } from '../components/Button';
 import { DeleteBoxDialog } from './DeleteBoxDialog';
@@ -16,18 +17,24 @@ import styles from './BoxHomePage.module.css';
 export function BoxHomePage() {
   const { t } = useI18n();
   const { session } = useSession();
-  const { navigation, setNavigation } = useNavigation();
+  const { navigation, setNavigation, clearNavigation } = useNavigation();
   const logout = useAppLogout();
   const navigate = useNavigate();
   const api = useMemo(() => createApiClient(), []);
   const listBoxes = useMemo(() => new ListBoxesUseCase(api), [api]);
+  const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const deleteBox = useMemo(() => new DeleteBoxUseCase(api), [api]);
+  const leaveGroup = useMemo(() => new LeaveGroupUseCase(api), [api]);
 
   const [boxes, setBoxes] = useState<Box[]>([]);
+  const [groupMemberCount, setGroupMemberCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
+  const [leaveOpen, setLeaveOpen] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const [leaveError, setLeaveError] = useState<string | null>(null);
   const [boxToDelete, setBoxToDelete] = useState<Box | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -41,14 +48,18 @@ export function BoxHomePage() {
     setError(null);
 
     try {
-      const items = await listBoxes.execute(session.groupId, session.token);
+      const [items, groups] = await Promise.all([
+        listBoxes.execute(session.groupId, session.token),
+        listGroups.execute(session.token),
+      ]);
       setBoxes(items);
+      setGroupMemberCount(groups.find((group) => group.id === session.groupId)?.memberCount ?? 0);
     } catch (err: unknown) {
       setError(err instanceof ApiError ? err.message : t('common.error'));
     } finally {
       setLoading(false);
     }
-  }, [listBoxes, session?.groupId, session?.token, t]);
+  }, [listBoxes, listGroups, session?.groupId, session?.token, t]);
 
   useEffect(() => {
     void loadBoxes();
@@ -94,6 +105,29 @@ export function BoxHomePage() {
     }
   };
 
+  const confirmLeave = async () => {
+    if (!session?.token || !session.groupId) {
+      return;
+    }
+
+    setLeaving(true);
+    setLeaveError(null);
+
+    try {
+      await leaveGroup.execute(session.groupId, session.token);
+      await clearNavigation();
+      setLeaveOpen(false);
+      await logout();
+      navigate('/auth', { replace: true });
+    } catch (err) {
+      setLeaveError(err instanceof ApiError ? err.message : t('common.error'));
+    } finally {
+      setLeaving(false);
+    }
+  };
+
+  const leavingCount = session?.members?.length ?? 1;
+
   return (
     <main className={styles.page}>
       <header className={styles.header}>
@@ -111,6 +145,17 @@ export function BoxHomePage() {
         {session?.groupId && session.token && (
           <Button variant="secondary" onClick={() => setShareOpen(true)}>
             {t('invite.share.action')}
+          </Button>
+        )}
+        {session?.groupId && session.token && (
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setLeaveError(null);
+              setLeaveOpen(true);
+            }}
+          >
+            {t('groups.leave')}
           </Button>
         )}
       </div>
@@ -175,6 +220,21 @@ export function BoxHomePage() {
           if (!deleting) {
             setBoxToDelete(null);
             setDeleteError(null);
+          }
+        }}
+      />
+
+      <LeaveGroupDialog
+        open={leaveOpen}
+        memberCount={groupMemberCount}
+        leavingCount={leavingCount}
+        leaving={leaving}
+        error={leaveError}
+        onConfirm={() => void confirmLeave()}
+        onCancel={() => {
+          if (!leaving) {
+            setLeaveOpen(false);
+            setLeaveError(null);
           }
         }}
       />

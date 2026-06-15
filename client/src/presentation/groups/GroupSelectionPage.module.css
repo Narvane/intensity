@@ -51,6 +51,17 @@
   gap: 0.5rem;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.success {
+  margin: 0 0 1rem;
+  color: #86efac;
+}
+
 .row {
   width: 100%;
   display: flex;

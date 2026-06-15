@@ -119,7 +119,17 @@
     "empty": "Entre em um grupo via convite ou entre no Experience Box com outros.",
     "memberCount": "{{count}} membros",
     "openBoxes": "Abrir caixinhas",
-    "invite": "Convidar"
+    "invite": "Convidar",
+    "leave": "Sair do grupo",
+    "leaveSuccess": "Você saiu do grupo.",
+    "leaveDialog": {
+      "title": "Sair deste grupo?",
+      "message": "Você perderá acesso às caixinhas deste grupo. As experiências que você adicionou permanecem no grupo.",
+      "sessionMessage": "Todos nesta sessão do Experience Box sairão do grupo. As experiências adicionadas permanecem, a menos que o grupo seja removido.",
+      "lastMemberMessage": "Isso remove os últimos membros do grupo. Todas as caixinhas, experiências e convites pendentes serão excluídos permanentemente.",
+      "confirm": "Sair do grupo",
+      "cancel": "Cancelar"
+    }
   },
   "boxes": {
     "title": "Escolha uma caixinha",

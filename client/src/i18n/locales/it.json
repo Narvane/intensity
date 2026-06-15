@@ -119,7 +119,17 @@
     "empty": "Unisciti a un gruppo via invito o accedi a Experience Box con altri.",
     "memberCount": "{{count}} membri",
     "openBoxes": "Apri scatole",
-    "invite": "Invita"
+    "invite": "Invita",
+    "leave": "Lascia il gruppo",
+    "leaveSuccess": "Hai lasciato il gruppo.",
+    "leaveDialog": {
+      "title": "Lasciare questo gruppo?",
+      "message": "Perderai l'accesso alle scatole di questo gruppo. Le esperienze che hai aggiunto resteranno nel gruppo.",
+      "sessionMessage": "Tutti in questa sessione Experience Box lasceranno il gruppo. Le esperienze aggiunte restano, a meno che il gruppo non venga rimosso.",
+      "lastMemberMessage": "Questo rimuove gli ultimi membri dal gruppo. Tutte le scatole, le esperienze e gli inviti in sospeso saranno eliminati permanentemente.",
+      "confirm": "Lascia il gruppo",
+      "cancel": "Annulla"
+    }
   },
   "boxes": {
     "title": "Scegli una scatola",

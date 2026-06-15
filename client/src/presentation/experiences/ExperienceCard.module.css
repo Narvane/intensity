@@ -1,0 +1,76 @@
+.card {
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+.card[data-intensity='1'] {
+  border-left: 3px solid #22c55e;
+}
+
+.card[data-intensity='2'] {
+  border-left: 3px solid #84cc16;
+}
+
+.card[data-intensity='3'] {
+  border-left: 3px solid #eab308;
+}
+
+.card[data-intensity='4'] {
+  border-left: 3px solid #f97316;
+}
+
+.card[data-intensity='5'] {
+  border-left: 3px solid #ef4444;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.intensity {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.seal {
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  color: var(--color-teal);
+}
+
+.params {
+  margin: 0 0 0.65rem;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.description,
+.reflection {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.reflection {
+  margin-top: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+}
+
+.summary {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}

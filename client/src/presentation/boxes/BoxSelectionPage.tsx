@@ -85,6 +85,7 @@ export function BoxSelectionPage() {
                   groupId,
                   boxId: box.id,
                   boxName: box.name,
+                  boxType: box.type,
                 }).then(() => {
                   navigate(`/groups/${groupId}/boxes/${box.id}/experiences`);
                 });

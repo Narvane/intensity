@@ -25,8 +25,16 @@ export class ApiClient {
     return this.request<T>('POST', path, body, token);
   }
 
+  async put<T>(path: string, body: unknown, token?: string): Promise<T> {
+    return this.request<T>('PUT', path, body, token);
+  }
+
+  async delete(path: string, token?: string): Promise<void> {
+    await this.request<void>('DELETE', path, undefined, token);
+  }
+
   private async request<T>(
-    method: 'GET' | 'POST',
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     path: string,
     body: unknown | undefined,
     token?: string,

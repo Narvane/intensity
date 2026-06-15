@@ -8,6 +8,7 @@ import com.intensity.common.AccessMode;
 import com.intensity.common.AuthPrincipal;
 import com.intensity.common.exception.ApiException;
 import com.intensity.grupo.entity.Grupo;
+import com.intensity.experiencia.repository.ExperienciaRepository;
 import com.intensity.grupo.repository.GrupoParticipanteRepository;
 import com.intensity.grupo.repository.GrupoRepository;
 import org.springframework.http.HttpStatus;
@@ -23,14 +24,17 @@ public class CaixinhaService {
 	private final CaixinhaRepository caixinhaRepository;
 	private final GrupoRepository grupoRepository;
 	private final GrupoParticipanteRepository grupoParticipanteRepository;
+	private final ExperienciaRepository experienciaRepository;
 
 	public CaixinhaService(
 			CaixinhaRepository caixinhaRepository,
 			GrupoRepository grupoRepository,
-			GrupoParticipanteRepository grupoParticipanteRepository) {
+			GrupoParticipanteRepository grupoParticipanteRepository,
+			ExperienciaRepository experienciaRepository) {
 		this.caixinhaRepository = caixinhaRepository;
 		this.grupoRepository = grupoRepository;
 		this.grupoParticipanteRepository = grupoParticipanteRepository;
+		this.experienciaRepository = experienciaRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -91,13 +95,14 @@ public class CaixinhaService {
 	}
 
 	private BoxResponse toResponse(Caixinha caixinha) {
+		long experienceCount = experienciaRepository.countByCaixinha_Id(caixinha.getId());
 		return new BoxResponse(
 				caixinha.getId(),
 				caixinha.getGrupo().getId(),
 				caixinha.getName(),
 				caixinha.getType(),
 				caixinha.getCreatedAt(),
-				0L);
+				experienceCount);
 	}
 
 	private ApiException forbidden() {

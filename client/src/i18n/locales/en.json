@@ -138,8 +138,60 @@
   "experiences": {
     "title": "Experiences",
     "empty": "No experiences in this box yet.",
-    "comingNext": "Contributions arrive in the next slice.",
-    "defaultBoxName": "Selected box"
+    "defaultBoxName": "Selected box",
+    "create": "Add experience",
+    "createFirst": "Create the first experience",
+    "transparency": "Experiences are not encrypted. Everyone in the group can see contributions — honesty is part of the social contract.",
+    "intensityLabel": "Level {{level}}",
+    "sealLabel": "Integrity seal",
+    "paramsSummary": "Effort {{effort}} · Openness {{openness}} · Novelty {{novelty}}",
+    "otherSummary": "Contribution by {{author}} — intensity and seal only until reveal.",
+    "anonymous": "Group member",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "assistant": {
+    "title": "Creation assistant",
+    "editTitle": "Edit experience",
+    "stepIndicator": "Step {{current}} of {{total}}",
+    "next": "Next",
+    "descriptionCard": "Your idea",
+    "descriptionEmpty": "Describe the experience you want to suggest.",
+    "suggestionItem": "{{type}} — idea {{number}}",
+    "suggestedIntensity": "Suggested level: {{level}}",
+    "saveFinish": "Save and finish",
+    "saveAnother": "Save and create another",
+    "saveChanges": "Save changes",
+    "fields": {
+      "description": "Description",
+      "reflection": "Reflection",
+      "effort": "Effort",
+      "openness": "Openness",
+      "novelty": "Novelty",
+      "intensity": "Intensity"
+    },
+    "steps": {
+      "suggestion": {
+        "title": "Suggestion",
+        "body": "Write the idea or tap a chip for inspiration — it will not save automatically."
+      },
+      "reflection": {
+        "title": "Reflection",
+        "body": "Why would the group accept this idea together?"
+      },
+      "parameters": {
+        "title": "Parameters",
+        "body": "Rate effort, openness, and novelty from 1 to 5."
+      },
+      "classification": {
+        "title": "Classification",
+        "body": "Confirm or adjust the overall intensity level."
+      },
+      "review": {
+        "title": "Review",
+        "body": "Check everything before saving."
+      }
+    }
   },
   "boxTypes": {
     "SAIDAS_COM_AMIGOS": {

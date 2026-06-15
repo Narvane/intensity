@@ -138,8 +138,60 @@
   "experiences": {
     "title": "Esperienze",
     "empty": "Non ci sono ancora esperienze in questa scatola.",
-    "comingNext": "I contributi arriveranno nel prossimo slice.",
-    "defaultBoxName": "Scatola selezionata"
+    "defaultBoxName": "Scatola selezionata",
+    "create": "Aggiungi esperienza",
+    "createFirst": "Crea la prima esperienza",
+    "transparency": "Le esperienze non sono crittografate. Tutti nel gruppo possono vedere i contributi — l'onestà fa parte del patto sociale.",
+    "intensityLabel": "Livello {{level}}",
+    "sealLabel": "Sigillo di integrità",
+    "paramsSummary": "Sforzo {{effort}} · Apertura {{openness}} · Novità {{novelty}}",
+    "otherSummary": "Contributo di {{author}} — solo intensità e sigillo fino alla rivelazione.",
+    "anonymous": "Membro del gruppo",
+    "edit": "Modifica",
+    "delete": "Elimina"
+  },
+  "assistant": {
+    "title": "Assistente di creazione",
+    "editTitle": "Modifica esperienza",
+    "stepIndicator": "Passo {{current}} di {{total}}",
+    "next": "Avanti",
+    "descriptionCard": "La tua idea",
+    "descriptionEmpty": "Descrivi l'esperienza che vuoi suggerire.",
+    "suggestionItem": "{{type}} — idea {{number}}",
+    "suggestedIntensity": "Livello suggerito: {{level}}",
+    "saveFinish": "Salva e concludi",
+    "saveAnother": "Salva e creane un'altra",
+    "saveChanges": "Salva modifiche",
+    "fields": {
+      "description": "Descrizione",
+      "reflection": "Riflessione",
+      "effort": "Sforzo",
+      "openness": "Apertura",
+      "novelty": "Novità",
+      "intensity": "Intensità"
+    },
+    "steps": {
+      "suggestion": {
+        "title": "Suggerimento",
+        "body": "Scrivi l'idea o tocca un chip per ispirazione — non salva automaticamente."
+      },
+      "reflection": {
+        "title": "Riflessione",
+        "body": "Perché il gruppo accetterebbe questa idea insieme?"
+      },
+      "parameters": {
+        "title": "Parametri",
+        "body": "Valuta sforzo, apertura e novità da 1 a 5."
+      },
+      "classification": {
+        "title": "Classificazione",
+        "body": "Conferma o regola il livello complessivo di intensità."
+      },
+      "review": {
+        "title": "Revisione",
+        "body": "Controlla tutto prima di salvare."
+      }
+    }
   },
   "boxTypes": {
     "SAIDAS_COM_AMIGOS": {

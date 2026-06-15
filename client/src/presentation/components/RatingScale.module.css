@@ -1,0 +1,36 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.scale {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.scale button {
+  flex: 1;
+  min-height: 2.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.active {
+  background: rgba(20, 184, 166, 0.25);
+  border-color: var(--color-teal);
+  font-weight: 700;
+}
+
+.inactive {
+  opacity: 0.85;
+}

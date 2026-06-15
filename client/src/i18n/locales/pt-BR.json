@@ -138,8 +138,60 @@
   "experiences": {
     "title": "Experiências",
     "empty": "Ainda não há experiências nesta caixinha.",
-    "comingNext": "Contribuições chegam no próximo slice.",
-    "defaultBoxName": "Caixinha selecionada"
+    "defaultBoxName": "Caixinha selecionada",
+    "create": "Adicionar experiência",
+    "createFirst": "Criar a primeira experiência",
+    "transparency": "Experiências não são criptografadas. Todos no grupo podem ver as contribuições — a honestidade faz parte do acordo social.",
+    "intensityLabel": "Nível {{level}}",
+    "sealLabel": "Selo de integridade",
+    "paramsSummary": "Esforço {{effort}} · Abertura {{openness}} · Novidade {{novelty}}",
+    "otherSummary": "Contribuição de {{author}} — apenas intensidade e selo até a revelação.",
+    "anonymous": "Membro do grupo",
+    "edit": "Editar",
+    "delete": "Excluir"
+  },
+  "assistant": {
+    "title": "Assistente de criação",
+    "editTitle": "Editar experiência",
+    "stepIndicator": "Passo {{current}} de {{total}}",
+    "next": "Próximo",
+    "descriptionCard": "Sua ideia",
+    "descriptionEmpty": "Descreva a experiência que você quer sugerir.",
+    "suggestionItem": "{{type}} — ideia {{number}}",
+    "suggestedIntensity": "Nível sugerido: {{level}}",
+    "saveFinish": "Salvar e concluir",
+    "saveAnother": "Salvar e criar outra",
+    "saveChanges": "Salvar alterações",
+    "fields": {
+      "description": "Descrição",
+      "reflection": "Reflexão",
+      "effort": "Esforço",
+      "openness": "Abertura",
+      "novelty": "Novidade",
+      "intensity": "Intensidade"
+    },
+    "steps": {
+      "suggestion": {
+        "title": "Sugestão",
+        "body": "Escreva a ideia ou toque em um chip para inspiração — não salva automaticamente."
+      },
+      "reflection": {
+        "title": "Reflexão",
+        "body": "Por que o grupo aceitaria essa ideia juntos?"
+      },
+      "parameters": {
+        "title": "Parâmetros",
+        "body": "Avalie esforço, abertura e novidade de 1 a 5."
+      },
+      "classification": {
+        "title": "Classificação",
+        "body": "Confirme ou ajuste o nível geral de intensidade."
+      },
+      "review": {
+        "title": "Revisão",
+        "body": "Confira tudo antes de salvar."
+      }
+    }
   },
   "boxTypes": {
     "SAIDAS_COM_AMIGOS": {

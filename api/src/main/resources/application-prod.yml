@@ -16,3 +16,9 @@ management:
   endpoint:
     health:
       show-details: never
+
+intensity:
+  cors:
+    allowed-origin-patterns:
+      - https://localhost
+      - capacitor://localhost

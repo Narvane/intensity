@@ -57,7 +57,64 @@
   },
   "auth": {
     "title": "Sign in",
-    "placeholder": "Authentication screens arrive in the next release slice. Use the help icon anytime to reopen the quick guide.",
-    "helpLabel": "Open quick guide"
+    "helpLabel": "Open quick guide",
+    "tabsLabel": "Authentication modes",
+    "loading": "Signing in…",
+    "tabs": {
+      "experiences": "Experiences",
+      "experienceBox": "Experience Box",
+      "register": "Register",
+      "invite": "Invite code"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "displayName": "Display name"
+    },
+    "experiences": {
+      "title": "Experiences",
+      "submit": "Sign in"
+    },
+    "experienceBox": {
+      "title": "Experience Box",
+      "hint": "Enter everyone present in the room. Each person uses their own credentials.",
+      "participant": "Participant {{number}}",
+      "addParticipant": "Add participant",
+      "submit": "Enter together"
+    },
+    "register": {
+      "title": "Create account",
+      "submit": "Register"
+    },
+    "invite": {
+      "title": "Join via invite",
+      "codeLabel": "6-character code",
+      "submit": "Continue"
+    },
+    "inviteComingSoon": "Invite acceptance arrives in a later slice. The code format is valid.",
+    "errors": {
+      "network": "Could not reach the server. Check your connection and try again.",
+      "invalidInviteCode": "Enter a valid 6-character invite code."
+    }
+  },
+  "unknownSession": {
+    "title": "Unrecognized session",
+    "body": "Your saved session could not be restored. You can sign out completely or enter Experience Box mode again.",
+    "logout": "Sign out",
+    "enterExperienceBox": "Enter Experience Box"
+  },
+  "session": {
+    "experiencesMode": "Experiences mode",
+    "experienceBoxMode": "Experience Box mode",
+    "logout": "Sign out"
+  },
+  "groups": {
+    "title": "Choose a group",
+    "placeholder": "Group selection and contribution flows arrive in the next slice.",
+    "signedInAs": "Signed in as {{name}}"
+  },
+  "boxHome": {
+    "title": "Box home",
+    "placeholder": "Box list and creation arrive in the next slice. Your group session is active."
   }
 }

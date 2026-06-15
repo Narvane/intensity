@@ -57,7 +57,64 @@
   },
   "auth": {
     "title": "Entrar",
-    "placeholder": "As telas de autenticação chegam no próximo slice. Use o ícone de ajuda para reabrir o guia rápido.",
-    "helpLabel": "Abrir guia rápido"
+    "helpLabel": "Abrir guia rápido",
+    "tabsLabel": "Modos de autenticação",
+    "loading": "Entrando…",
+    "tabs": {
+      "experiences": "Experiences",
+      "experienceBox": "Experience Box",
+      "register": "Cadastro",
+      "invite": "Código convite"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Senha",
+      "displayName": "Nome de exibição"
+    },
+    "experiences": {
+      "title": "Experiences",
+      "submit": "Entrar"
+    },
+    "experienceBox": {
+      "title": "Experience Box",
+      "hint": "Informe todos presentes na sala. Cada pessoa usa suas próprias credenciais.",
+      "participant": "Participante {{number}}",
+      "addParticipant": "Adicionar participante",
+      "submit": "Entrar juntos"
+    },
+    "register": {
+      "title": "Criar conta",
+      "submit": "Cadastrar"
+    },
+    "invite": {
+      "title": "Entrar via convite",
+      "codeLabel": "Código de 6 caracteres",
+      "submit": "Continuar"
+    },
+    "inviteComingSoon": "Aceite de convite chega em um slice posterior. O formato do código está correto.",
+    "errors": {
+      "network": "Não foi possível contactar o servidor. Verifique a conexão e tente novamente.",
+      "invalidInviteCode": "Informe um código de convite válido com 6 caracteres."
+    }
+  },
+  "unknownSession": {
+    "title": "Sessão desconhecida",
+    "body": "Não foi possível restaurar sua sessão salva. Você pode sair completamente ou entrar novamente no Experience Box.",
+    "logout": "Sair",
+    "enterExperienceBox": "Entrar no Experience Box"
+  },
+  "session": {
+    "experiencesMode": "Modo Experiences",
+    "experienceBoxMode": "Modo Experience Box",
+    "logout": "Sair"
+  },
+  "groups": {
+    "title": "Escolha um grupo",
+    "placeholder": "Seleção de grupo e contribuição chegam no próximo slice.",
+    "signedInAs": "Conectado como {{name}}"
+  },
+  "boxHome": {
+    "title": "Box home",
+    "placeholder": "Lista e criação de caixinhas chegam no próximo slice. A sessão de grupo está ativa."
   }
 }

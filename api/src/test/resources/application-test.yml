@@ -8,6 +8,12 @@ spring:
     show-sql: false
   flyway:
     enabled: true
+    clean-disabled: false
+
+intensity:
+  jwt:
+    secret: test-secret-key-must-be-at-least-32-characters-long
+    expiration-seconds: 3600
 
 springdoc:
   api-docs:

@@ -95,11 +95,11 @@ paths:
               $ref: '#/components/schemas/RegisterParticipantRequest'
       responses:
         '201':
-          description: Participant created
+          description: Participant created with initial session token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participant'
+                $ref: '#/components/schemas/RegisterParticipantResponse'
         '403':
           $ref: '#/components/responses/Forbidden'
         '409':
@@ -590,6 +590,21 @@ components:
           type: string
           format: password
           minLength: 8
+
+    RegisterParticipantResponse:
+      type: object
+      required: [id, displayName, email, token]
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        email:
+          type: string
+          format: email
+        token:
+          type: string
 
     Participant:
       type: object

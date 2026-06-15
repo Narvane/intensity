@@ -57,7 +57,64 @@
   },
   "auth": {
     "title": "Accedi",
-    "placeholder": "Le schermate di autenticazione arriveranno nel prossimo slice. Usa l'icona di aiuto per riaprire la guida rapida.",
-    "helpLabel": "Apri guida rapida"
+    "helpLabel": "Apri guida rapida",
+    "tabsLabel": "Modalità di autenticazione",
+    "loading": "Accesso…",
+    "tabs": {
+      "experiences": "Experiences",
+      "experienceBox": "Experience Box",
+      "register": "Registrazione",
+      "invite": "Codice invito"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "displayName": "Nome visualizzato"
+    },
+    "experiences": {
+      "title": "Experiences",
+      "submit": "Accedi"
+    },
+    "experienceBox": {
+      "title": "Experience Box",
+      "hint": "Inserisci tutte le persone presenti. Ognuna usa le proprie credenziali.",
+      "participant": "Partecipante {{number}}",
+      "addParticipant": "Aggiungi partecipante",
+      "submit": "Entra insieme"
+    },
+    "register": {
+      "title": "Crea account",
+      "submit": "Registrati"
+    },
+    "invite": {
+      "title": "Unisciti via invito",
+      "codeLabel": "Codice di 6 caratteri",
+      "submit": "Continua"
+    },
+    "inviteComingSoon": "L'accettazione invito arriverà in uno slice successivo. Il formato del codice è valido.",
+    "errors": {
+      "network": "Impossibile contattare il server. Controlla la connessione e riprova.",
+      "invalidInviteCode": "Inserisci un codice invito valido di 6 caratteri."
+    }
+  },
+  "unknownSession": {
+    "title": "Sessione non riconosciuta",
+    "body": "La sessione salvata non può essere ripristinata. Puoi uscire completamente o entrare di nuovo in Experience Box.",
+    "logout": "Esci",
+    "enterExperienceBox": "Entra in Experience Box"
+  },
+  "session": {
+    "experiencesMode": "Modalità Experiences",
+    "experienceBoxMode": "Modalità Experience Box",
+    "logout": "Esci"
+  },
+  "groups": {
+    "title": "Scegli un gruppo",
+    "placeholder": "Selezione gruppo e contributi arriveranno nel prossimo slice.",
+    "signedInAs": "Connesso come {{name}}"
+  },
+  "boxHome": {
+    "title": "Box home",
+    "placeholder": "Lista e creazione scatole arriveranno nel prossimo slice. La sessione di gruppo è attiva."
   }
 }

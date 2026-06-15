@@ -1,0 +1,1 @@
+-- Baseline migration (F-1-S2). Domain schema arrives in F0-S2 onward.

@@ -1,0 +1,43 @@
+# Build outputs
+target/
+dist/
+build/
+*.class
+*.jar
+!api/.mvn/wrapper/maven-wrapper.jar
+
+# Dependencies
+node_modules/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment secrets (never commit)
+.env
+.env.local
+.env.production.local
+api/.env
+
+# Logs
+*.log
+logs/
+
+# Capacitor / native (generated sync artifacts)
+client/android/app/build/
+client/ios/App/build/
+client/ios/App/Pods/
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Maven wrapper (keep jar)
+!.mvn/wrapper/maven-wrapper.jar

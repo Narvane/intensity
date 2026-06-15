@@ -1,0 +1,80 @@
+name: API CI
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'api/**'
+      - '.github/workflows/api-ci.yml'
+  pull_request:
+    paths:
+      - 'api/**'
+      - '.github/workflows/api-ci.yml'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/api
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run tests
+        working-directory: api
+        run: ./mvnw -B test
+
+      - name: Log in to GHCR
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=sha,prefix=
+
+      - name: Build and push Docker image
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+        uses: docker/build-push-action@v6
+        with:
+          context: api
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Trigger deploy webhook
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+        env:
+          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+          DEPLOY_WEBHOOK_SECRET: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}
+        run: |
+          if [ -n "$DEPLOY_WEBHOOK_URL" ]; then
+            curl -fsS -X POST "$DEPLOY_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -H "X-Deploy-Secret: ${DEPLOY_WEBHOOK_SECRET}" \
+              -d "{\"image\":\"${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\",\"sha\":\"${{ github.sha }}\"}"
+          else
+            echo "DEPLOY_WEBHOOK_URL not configured; skipping VPS deploy trigger."
+          fi

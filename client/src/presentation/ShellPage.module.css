@@ -1,0 +1,43 @@
+.shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  background: radial-gradient(circle at top, #1b2a41 0%, #0f1724 55%, #0a1018 100%);
+  color: #f4f7fb;
+  text-align: center;
+}
+
+.brandMark {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2dd4bf, #14b8a6);
+  color: #042f2e;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 20rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.meta {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}

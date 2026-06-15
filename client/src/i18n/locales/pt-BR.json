@@ -197,6 +197,11 @@
       }
     }
   },
+  "seal": {
+    "label": "Selo",
+    "hint": "Derivado da descrição. Indica que o texto não foi alterado silenciosamente.",
+    "reviewNote": "O Selo é gerado a partir da descrição ao salvar."
+  },
   "intensity": {
     "levels": {
       "1": "Leve",

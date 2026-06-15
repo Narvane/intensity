@@ -197,6 +197,11 @@
       }
     }
   },
+  "seal": {
+    "label": "Seal",
+    "hint": "Derived from the description. It signals the text has not been silently changed.",
+    "reviewNote": "The Seal is generated from your description when you save."
+  },
   "intensity": {
     "levels": {
       "1": "Light",

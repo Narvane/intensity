@@ -197,6 +197,11 @@
       }
     }
   },
+  "seal": {
+    "label": "Sigillo",
+    "hint": "Derivato dalla descrizione. Segnala che il testo non è stato alterato silenziosamente.",
+    "reviewNote": "Il Sigillo viene generato dalla descrizione al salvataggio."
+  },
   "intensity": {
     "levels": {
       "1": "Leggero",

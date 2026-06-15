@@ -123,8 +123,8 @@ class ExperienciaIntegrationTest {
 
 	@Test
 	@Order(4)
-	void authorCanUpdateExperience() throws Exception {
-		mockMvc.perform(put("/v1/experiencias/{experienceId}", experienceId)
+	void authorCanUpdateExperienceAndSealRecalculatesOnDescriptionChange() throws Exception {
+		MvcResult descriptionUpdate = mockMvc.perform(put("/v1/experiencias/{experienceId}", experienceId)
 						.header("Authorization", "Bearer " + aliceToken)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
@@ -137,7 +137,28 @@ class ExperienciaIntegrationTest {
 								"""))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.intensity").value(3))
-				.andExpect(jsonPath("$.seal", notNullValue()));
+				.andExpect(jsonPath("$.seal", notNullValue()))
+				.andReturn();
+
+		String updatedSeal = objectMapper
+				.readTree(descriptionUpdate.getResponse().getContentAsString())
+				.get("seal")
+				.asText();
+		org.junit.jupiter.api.Assertions.assertNotEquals(aliceSeal, updatedSeal);
+
+		mockMvc.perform(put("/v1/experiencias/{experienceId}", experienceId)
+						.header("Authorization", "Bearer " + aliceToken)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "description": "Sunset picnic by the lake",
+								  "reflection": "Updated reflection only.",
+								  "intensity": 3,
+								  "parameters": { "effort": 2, "openness": 3, "novelty": 3 }
+								}
+								"""))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.seal").value(updatedSeal));
 	}
 
 	@Test

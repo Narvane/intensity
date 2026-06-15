@@ -9,9 +9,3 @@
   flex-direction: column;
   gap: 0.65rem;
 }
-
-.seal {
-  font-family: ui-monospace, monospace;
-  font-size: 0.8rem;
-  color: var(--color-teal);
-}

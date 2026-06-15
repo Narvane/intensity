@@ -17,6 +17,7 @@ import {
 import { getSuggestions } from '../../content/suggestion-packs/index';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { IntegritySeal } from '../components/IntegritySeal';
 import { RatingScale } from '../components/RatingScale';
 import styles from './CreationAssistant.module.css';
 
@@ -299,6 +300,19 @@ export function CreationAssistant({
                 <dt>{t('assistant.fields.intensity')}</dt>
                 <dd>{intensity}</dd>
               </div>
+              {editing?.seal ? (
+                <div>
+                  <dt>{t('seal.label')}</dt>
+                  <dd>
+                    <IntegritySeal seal={editing.seal} compact />
+                  </dd>
+                </div>
+              ) : (
+                <div>
+                  <dt>{t('seal.label')}</dt>
+                  <dd>{t('seal.reviewNote')}</dd>
+                </div>
+              )}
             </dl>
           </section>
         )}

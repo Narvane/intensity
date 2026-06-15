@@ -10,6 +10,10 @@ import java.util.HexFormat;
 @Component
 public class SealService {
 
+	/**
+	 * Integrity seal derived from description text only.
+	 * Recalculated on create and whenever description changes on update.
+	 */
 	public String computeFromDescription(String description) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");

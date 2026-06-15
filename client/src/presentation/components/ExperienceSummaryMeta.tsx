@@ -1,4 +1,5 @@
 import type { Experience } from '@domain/experience/experienceTypes';
+import { IntegritySeal } from './IntegritySeal';
 import { IntensityBadge } from './IntensityBadge';
 import { ParameterRow } from './ParameterRow';
 import styles from './ExperienceSummaryMeta.module.css';
@@ -13,7 +14,7 @@ export function ExperienceSummaryMeta({ experience, compact = false }: Experienc
     <div className={compact ? styles.compact : styles.meta}>
       <IntensityBadge level={experience.intensity} />
       <ParameterRow parameters={experience.parameters} />
-      <span className={styles.seal}>{experience.seal}</span>
+      <IntegritySeal seal={experience.seal} compact={compact} />
     </div>
   );
 }

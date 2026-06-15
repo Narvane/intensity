@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { useInviteDeepLink } from '@app/useInviteDeepLink';
 import {
   RequireExperienceBoxSessionRoute,
   RequireExperiencesSessionRoute,
@@ -17,6 +18,8 @@ import { InvitePreviewPage } from '@presentation/invite/InvitePreviewPage';
 import { UnknownSessionPage } from '@presentation/unknown-session/UnknownSessionPage';
 
 export function AppRouter() {
+  useInviteDeepLink();
+
   return (
     <Routes>
       <Route path="/" element={<BootstrapPage />} />

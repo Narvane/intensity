@@ -1,0 +1,11 @@
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}

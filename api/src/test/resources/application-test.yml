@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:intensity;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    show-sql: false
+  flyway:
+    enabled: true
+    clean-disabled: false
+
+intensity:
+  jwt:
+    secret: test-secret-key-must-be-at-least-32-characters-long
+    expiration-seconds: 3600
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

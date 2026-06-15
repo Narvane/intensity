@@ -1,0 +1,337 @@
+{
+  "app": {
+    "name": "Intensity"
+  },
+  "bootstrap": {
+    "loading": "Loading Intensity…",
+    "error": "Could not load your preferences.",
+    "retry": "Try again"
+  },
+  "onboarding": {
+    "stepIndicator": "Step {{current}} of {{total}}",
+    "next": "Next",
+    "back": "Back",
+    "openQuickGuide": "Open quick guide",
+    "getStarted": "Get started",
+    "steps": {
+      "1": {
+        "title": "Same routines, less closeness",
+        "body": "Many of us repeat the same outings and conversations. They are comfortable — but they rarely bring us closer to the people who matter."
+      },
+      "2": {
+        "title": "You miss deeper connection",
+        "body": "You want to feel present with your partner or friends — not just busy together. Something honest is missing from the routine."
+      },
+      "3": {
+        "title": "The best moments keep waiting",
+        "body": "The most memorable experiences are often the unusual ones — yet we postpone them, waiting for a perfect moment that may never come."
+      },
+      "4": {
+        "title": "Intensity helps you act",
+        "body": "Collect unusual ideas in shared boxes. When you are together, draw one, align as a group, reveal it — and live the moment with presence."
+      }
+    }
+  },
+  "quickGuide": {
+    "title": "Quick guide",
+    "close": "Close",
+    "sections": {
+      "rhythm": {
+        "title": "The rhythm",
+        "body": "Contribute ideas alone → meet as a group → draw → align → reveal → live the moment."
+      },
+      "modes": {
+        "title": "Two modes",
+        "experiences": "Experiences — register ideas on your own phone.",
+        "experienceBox": "Experience Box — create boxes, invite people, and run the draw together on one shared phone."
+      },
+      "draw": {
+        "title": "Take the draw seriously",
+        "body": "Randomness is a commitment device, not a game. If the moment is not right, draw again together."
+      },
+      "transparency": {
+        "title": "Transparency",
+        "body": "Experiences are not encrypted. Everyone in the group can see contributions — honesty is part of the social contract."
+      }
+    }
+  },
+  "auth": {
+    "title": "Sign in",
+    "helpLabel": "Open quick guide",
+    "tabsLabel": "Authentication modes",
+    "loading": "Signing in…",
+    "tabs": {
+      "experiences": "Experiences",
+      "experienceBox": "Experience Box",
+      "register": "Register",
+      "invite": "Invite code"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "displayName": "Display name"
+    },
+    "experiences": {
+      "title": "Experiences",
+      "submit": "Sign in"
+    },
+    "experienceBox": {
+      "title": "Experience Box",
+      "hint": "Enter everyone present in the room. Each person uses their own credentials.",
+      "participant": "Participant {{number}}",
+      "addParticipant": "Add participant",
+      "submit": "Enter together"
+    },
+    "register": {
+      "title": "Create account",
+      "submit": "Register"
+    },
+    "invite": {
+      "title": "Join via invite",
+      "codeLabel": "6-character code",
+      "submit": "Continue"
+    },
+    "inviteComingSoon": "Invite acceptance arrives in a later slice. The code format is valid.",
+    "errors": {
+      "network": "Could not reach the server. Check your connection and try again.",
+      "invalidInviteCode": "Enter a valid 6-character invite code.",
+      "groupMembershipConflict": "These credentials belong to different groups. Sign in with members of the same group."
+    }
+  },
+  "unknownSession": {
+    "title": "Unrecognized session",
+    "body": "Your saved session could not be restored. You can sign out completely or enter Experience Box mode again.",
+    "logout": "Sign out",
+    "enterExperienceBox": "Enter Experience Box"
+  },
+  "session": {
+    "experiencesMode": "Experiences mode",
+    "experienceBoxMode": "Experience Box mode",
+    "logout": "Sign out"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong. Try again.",
+    "back": "Back"
+  },
+  "groups": {
+    "title": "Choose a group",
+    "empty": "Join a group via invite or sign in to Experience Box with others.",
+    "memberCount": "{{count}} members",
+    "openBoxes": "Open boxes",
+    "invite": "Invite",
+    "leave": "Leave group",
+    "leaveSuccess": "You left the group.",
+    "leaveDialog": {
+      "title": "Leave this group?",
+      "message": "You will lose access to this group's boxes. Experiences you added will stay in the group.",
+      "sessionMessage": "Everyone in this Experience Box session will leave the group. Experiences you added will stay unless the group is removed.",
+      "lastMemberMessage": "This removes the last members from the group. All boxes, experiences, and pending invites will be deleted permanently.",
+      "confirm": "Leave group",
+      "cancel": "Cancel"
+    }
+  },
+  "boxes": {
+    "title": "Choose a box",
+    "empty": "Create a box together in Experience Box mode."
+  },
+  "boxHome": {
+    "title": "Box home",
+    "create": "Create box",
+    "empty": "No boxes yet in this group.",
+    "createFirst": "Create the first box",
+    "open": "Open",
+    "delete": "Delete box",
+    "menuLabel": "Box actions",
+    "deleteSuccess": "\"{{name}}\" was deleted.",
+    "deleteDialog": {
+      "title": "Delete \"{{name}}\"?",
+      "message": "This permanently removes {{count}} experiences in this box.",
+      "confirm": "Delete box",
+      "cancel": "Cancel"
+    }
+  },
+  "invite": {
+    "preview": {
+      "accent": "Join via invite",
+      "title": "Group preview",
+      "membersTitle": "People in this group",
+      "expiresAt": "Valid until {{date}}",
+      "authRequired": "Sign in or create an account to accept this invite.",
+      "accept": "Accept invite",
+      "signInToAccept": "Sign in to accept",
+      "registerToAccept": "Create account to accept",
+      "backToAuth": "Back to sign in"
+    },
+    "share": {
+      "action": "Invite",
+      "title": "Share invite",
+      "close": "Close",
+      "codeLabel": "Invite code",
+      "expiresAt": "Expires on {{date}}",
+      "share": "Share invite",
+      "copyCode": "Copy code",
+      "copied": "Copied to clipboard.",
+      "message": "Join our group on Intensity — {{link}}. Or enter the code: {{code}}"
+    },
+    "errors": {
+      "gone": "This invite is no longer available.",
+      "notFound": "Invite not found.",
+      "alreadyMember": "You are already a member of this group.",
+      "invalidCode": "Enter a valid 6-character invite code.",
+      "missingReference": "Enter an invite code or open a valid invite link."
+    }
+  },
+  "createBox": {
+    "title": "Create box",
+    "nameLabel": "Box name",
+    "typeLabel": "Box type",
+    "submit": "Create"
+  },
+  "experiences": {
+    "title": "Experiences",
+    "empty": "No experiences in this box yet.",
+    "defaultBoxName": "Selected box",
+    "create": "Add experience",
+    "createFirst": "Create the first experience",
+    "transparency": "Experiences are not encrypted. Everyone in the group can see contributions — honesty is part of the social contract.",
+    "intensityLabel": "Level {{level}}",
+    "sealLabel": "Integrity seal",
+    "paramsSummary": "Effort {{effort}} · Openness {{openness}} · Novelty {{novelty}}",
+    "otherSummary": "Contribution by {{author}} — intensity and seal only until reveal.",
+    "anonymous": "Group member",
+    "edit": "Edit",
+    "delete": "Delete",
+    "previewToggle": "Preview as others see",
+    "showFull": "Show full text",
+    "previewAsOthers": "Others see intensity and seal only — like this.",
+    "validationError": "Check intensity and parameters (levels 1–5).",
+    "notAuthor": "Only the author can edit or delete this experience."
+  },
+  "assistant": {
+    "title": "Creation assistant",
+    "editTitle": "Edit experience",
+    "stepIndicator": "Step {{current}} of {{total}}",
+    "next": "Next",
+    "descriptionCard": "Your idea",
+    "descriptionEmpty": "Describe the experience you want to suggest.",
+    "suggestionItem": "{{type}} — idea {{number}}",
+    "suggestedIntensity": "Suggested: level {{level}} — {{name}}",
+    "saveFinish": "Save and finish",
+    "saveAnother": "Save and create another",
+    "saveChanges": "Save changes",
+    "fields": {
+      "description": "Description",
+      "reflection": "Reflection",
+      "effort": "Effort",
+      "openness": "Openness",
+      "novelty": "Novelty",
+      "intensity": "Intensity"
+    },
+    "steps": {
+      "suggestion": {
+        "title": "Suggestion",
+        "body": "Write the idea or tap a chip for inspiration — it will not save automatically."
+      },
+      "reflection": {
+        "title": "Reflection",
+        "body": "Why would the group accept this idea together?"
+      },
+      "parameters": {
+        "title": "Parameters",
+        "body": "Rate effort, openness, and novelty from 1 to 5."
+      },
+      "classification": {
+        "title": "Classification",
+        "body": "Confirm or adjust the overall intensity level."
+      },
+      "review": {
+        "title": "Review",
+        "body": "Check everything before saving."
+      }
+    }
+  },
+  "seal": {
+    "label": "Seal",
+    "hint": "Derived from the description. It signals the text has not been silently changed.",
+    "reviewNote": "The Seal is generated from your description when you save."
+  },
+  "intensity": {
+    "levels": {
+      "1": "Light",
+      "2": "Uncomfortable",
+      "3": "Courage",
+      "4": "Bold",
+      "5": "Adrenaline"
+    },
+    "levelNamed": "Level {{level}} — {{name}}",
+    "parametersLabel": "Experience parameters"
+  },
+  "sharedMoment": {
+    "defaultBoxName": "Selected box",
+    "filtersLabel": "Intensity filter",
+    "intensityLevel": "Intensity level",
+    "drawAny": "Draw",
+    "drawExact": "Draw {{name}} (level {{level}})",
+    "drawUpTo": "Draw up to {{name}} (level {{level}})",
+    "choosing": "Choosing…",
+    "emptyBox": "No experiences yet. Add ideas in Experiences mode on your phones.",
+    "emptyFilter": "No experiences match this filter.",
+    "coverLabel": "Draw result",
+    "alignmentHint": "Take a moment together before revealing the full description.",
+    "reveal": "Reveal",
+    "backToDraw": "Back to draw",
+    "byAuthor": "By {{author}}",
+    "filter": {
+      "ANY": "Any",
+      "EXACT": "Exact",
+      "UP_TO": "Up to"
+    }
+  },
+  "boxTypes": {
+    "SAIDAS_COM_AMIGOS": {
+      "title": "Outings with friends",
+      "hint": "Social plans outside the routine"
+    },
+    "SAIDAS_EM_CASAL": {
+      "title": "Outings as a couple",
+      "hint": "Dates and shared adventures"
+    },
+    "VIAGENS_EM_CASAL": {
+      "title": "Couple trips",
+      "hint": "Getaways for two"
+    },
+    "INTIMO_EM_CASAL": {
+      "title": "Intimate as a couple",
+      "hint": "Closeness and trust"
+    },
+    "VIAGENS_COM_AMIGOS": {
+      "title": "Trips with friends",
+      "hint": "Travel memories together"
+    },
+    "EXPERIENCIAS_COM_AMIGOS": {
+      "title": "Experiences with friends",
+      "hint": "Unusual things to try together"
+    },
+    "SAIR_DA_ROTINA": {
+      "title": "Break the routine",
+      "hint": "Small escapes from autopilot"
+    },
+    "PRIMEIRAS_VEZES": {
+      "title": "First times",
+      "hint": "New things you have never tried"
+    },
+    "DESCONFORTO_LEVE": {
+      "title": "Light discomfort",
+      "hint": "Gentle pushes outside comfort zone"
+    },
+    "MOMENTOS_DE_CONEXAO": {
+      "title": "Connection moments",
+      "hint": "Presence and honest sharing"
+    },
+    "EXPERIENCIAS_DIFERENTES": {
+      "title": "Different experiences",
+      "hint": "Surprising and offbeat ideas"
+    }
+  }
+}

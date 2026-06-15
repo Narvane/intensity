@@ -1,0 +1,21 @@
+.card {
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--intensity-accent);
+  background: var(--color-bg-elevated);
+}
+
+.summary {
+  margin: 0.65rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}

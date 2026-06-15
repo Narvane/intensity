@@ -1,0 +1,337 @@
+{
+  "app": {
+    "name": "Intensity"
+  },
+  "bootstrap": {
+    "loading": "Caricamento di Intensity…",
+    "error": "Impossibile caricare le preferenze.",
+    "retry": "Riprova"
+  },
+  "onboarding": {
+    "stepIndicator": "Passo {{current}} di {{total}}",
+    "next": "Avanti",
+    "back": "Indietro",
+    "openQuickGuide": "Apri guida rapida",
+    "getStarted": "Inizia",
+    "steps": {
+      "1": {
+        "title": "Stesse routine, meno vicinanza",
+        "body": "Molti di noi ripetono le stesse uscite e conversazioni. Sono comode — ma raramente ci avvicinano alle persone che contano."
+      },
+      "2": {
+        "title": "Senti la mancanza di connessione",
+        "body": "Vuoi essere presente con il partner o con gli amici — non solo occupati insieme. Nella routine manca qualcosa di autentico."
+      },
+      "3": {
+        "title": "I momenti migliori restano in attesa",
+        "body": "Le esperienze più memorabili sono spesso le insolite — eppure le rimandiamo, aspettando un momento perfetto che forse non arriverà mai."
+      },
+      "4": {
+        "title": "Intensity ti aiuta ad agire",
+        "body": "Raccogli idee insolite in scatole condivise. Quando siete insieme, estraete una, allineatevi, rivelatela — e vivete il momento con presenza."
+      }
+    }
+  },
+  "quickGuide": {
+    "title": "Guida rapida",
+    "close": "Chiudi",
+    "sections": {
+      "rhythm": {
+        "title": "Il ritmo",
+        "body": "Contribuisci da solo → riunitevi → estrazione → allineamento → rivelazione → vivete il momento."
+      },
+      "modes": {
+        "title": "Due modalità",
+        "experiences": "Experiences — registra idee sul tuo telefono.",
+        "experienceBox": "Experience Box — create scatole, invitate persone e fate l'estrazione insieme su un telefono condiviso."
+      },
+      "draw": {
+        "title": "Prendi l'estrazione sul serio",
+        "body": "Il caso è uno strumento di impegno, non un gioco. Se il momento non è quello giusto, estraete di nuovo insieme."
+      },
+      "transparency": {
+        "title": "Trasparenza",
+        "body": "Le esperienze non sono crittografate. Tutti nel gruppo possono vedere i contributi — l'onestà fa parte del patto sociale."
+      }
+    }
+  },
+  "auth": {
+    "title": "Accedi",
+    "helpLabel": "Apri guida rapida",
+    "tabsLabel": "Modalità di autenticazione",
+    "loading": "Accesso…",
+    "tabs": {
+      "experiences": "Experiences",
+      "experienceBox": "Experience Box",
+      "register": "Registrazione",
+      "invite": "Codice invito"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "displayName": "Nome visualizzato"
+    },
+    "experiences": {
+      "title": "Experiences",
+      "submit": "Accedi"
+    },
+    "experienceBox": {
+      "title": "Experience Box",
+      "hint": "Inserisci tutte le persone presenti. Ognuna usa le proprie credenziali.",
+      "participant": "Partecipante {{number}}",
+      "addParticipant": "Aggiungi partecipante",
+      "submit": "Entra insieme"
+    },
+    "register": {
+      "title": "Crea account",
+      "submit": "Registrati"
+    },
+    "invite": {
+      "title": "Unisciti via invito",
+      "codeLabel": "Codice di 6 caratteri",
+      "submit": "Continua"
+    },
+    "inviteComingSoon": "L'accettazione invito arriverà in uno slice successivo. Il formato del codice è valido.",
+    "errors": {
+      "network": "Impossibile contattare il server. Controlla la connessione e riprova.",
+      "invalidInviteCode": "Inserisci un codice invito valido di 6 caratteri.",
+      "groupMembershipConflict": "Queste credenziali appartengono a gruppi diversi. Accedi con membri dello stesso gruppo."
+    }
+  },
+  "unknownSession": {
+    "title": "Sessione non riconosciuta",
+    "body": "La sessione salvata non può essere ripristinata. Puoi uscire completamente o entrare di nuovo in Experience Box.",
+    "logout": "Esci",
+    "enterExperienceBox": "Entra in Experience Box"
+  },
+  "session": {
+    "experiencesMode": "Modalità Experiences",
+    "experienceBoxMode": "Modalità Experience Box",
+    "logout": "Esci"
+  },
+  "common": {
+    "loading": "Caricamento…",
+    "error": "Qualcosa è andato storto. Riprova.",
+    "back": "Indietro"
+  },
+  "groups": {
+    "title": "Scegli un gruppo",
+    "empty": "Unisciti a un gruppo via invito o accedi a Experience Box con altri.",
+    "memberCount": "{{count}} membri",
+    "openBoxes": "Apri scatole",
+    "invite": "Invita",
+    "leave": "Lascia il gruppo",
+    "leaveSuccess": "Hai lasciato il gruppo.",
+    "leaveDialog": {
+      "title": "Lasciare questo gruppo?",
+      "message": "Perderai l'accesso alle scatole di questo gruppo. Le esperienze che hai aggiunto resteranno nel gruppo.",
+      "sessionMessage": "Tutti in questa sessione Experience Box lasceranno il gruppo. Le esperienze aggiunte restano, a meno che il gruppo non venga rimosso.",
+      "lastMemberMessage": "Questo rimuove gli ultimi membri dal gruppo. Tutte le scatole, le esperienze e gli inviti in sospeso saranno eliminati permanentemente.",
+      "confirm": "Lascia il gruppo",
+      "cancel": "Annulla"
+    }
+  },
+  "boxes": {
+    "title": "Scegli una scatola",
+    "empty": "Create una scatola insieme in modalità Experience Box."
+  },
+  "boxHome": {
+    "title": "Box home",
+    "create": "Crea scatola",
+    "empty": "Non ci sono ancora scatole in questo gruppo.",
+    "createFirst": "Crea la prima scatola",
+    "open": "Apri",
+    "delete": "Elimina scatola",
+    "menuLabel": "Azioni scatola",
+    "deleteSuccess": "\"{{name}}\" è stata eliminata.",
+    "deleteDialog": {
+      "title": "Eliminare \"{{name}}\"?",
+      "message": "Questo rimuove permanentemente {{count}} esperienze in questa scatola.",
+      "confirm": "Elimina scatola",
+      "cancel": "Annulla"
+    }
+  },
+  "invite": {
+    "preview": {
+      "accent": "Entra via invito",
+      "title": "Anteprima del gruppo",
+      "membersTitle": "Persone in questo gruppo",
+      "expiresAt": "Valido fino al {{date}}",
+      "authRequired": "Accedi o crea un account per accettare questo invito.",
+      "accept": "Accetta invito",
+      "signInToAccept": "Accedi per accettare",
+      "registerToAccept": "Registrati per accettare",
+      "backToAuth": "Torna all'accesso"
+    },
+    "share": {
+      "action": "Invita",
+      "title": "Condividi invito",
+      "close": "Chiudi",
+      "codeLabel": "Codice invito",
+      "expiresAt": "Scade il {{date}}",
+      "share": "Condividi invito",
+      "copyCode": "Copia codice",
+      "copied": "Copiato negli appunti.",
+      "message": "Unisciti al nostro gruppo su Intensity — {{link}}. Oppure inserisci il codice: {{code}}"
+    },
+    "errors": {
+      "gone": "Questo invito non è più disponibile.",
+      "notFound": "Invito non trovato.",
+      "alreadyMember": "Sei già membro di questo gruppo.",
+      "invalidCode": "Inserisci un codice invito valido di 6 caratteri.",
+      "missingReference": "Inserisci un codice invito o apri un link valido."
+    }
+  },
+  "createBox": {
+    "title": "Crea scatola",
+    "nameLabel": "Nome della scatola",
+    "typeLabel": "Tipo di scatola",
+    "submit": "Crea"
+  },
+  "experiences": {
+    "title": "Esperienze",
+    "empty": "Non ci sono ancora esperienze in questa scatola.",
+    "defaultBoxName": "Scatola selezionata",
+    "create": "Aggiungi esperienza",
+    "createFirst": "Crea la prima esperienza",
+    "transparency": "Le esperienze non sono crittografate. Tutti nel gruppo possono vedere i contributi — l'onestà fa parte del patto sociale.",
+    "intensityLabel": "Livello {{level}}",
+    "sealLabel": "Sigillo di integrità",
+    "paramsSummary": "Sforzo {{effort}} · Apertura {{openness}} · Novità {{novelty}}",
+    "otherSummary": "Contributo di {{author}} — solo intensità e sigillo fino alla rivelazione.",
+    "anonymous": "Membro del gruppo",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "previewToggle": "Anteprima come vedono gli altri",
+    "showFull": "Mostra testo completo",
+    "previewAsOthers": "Gli altri vedono solo intensità e sigillo — così.",
+    "validationError": "Controlla intensità e parametri (livelli 1–5).",
+    "notAuthor": "Solo l'autore può modificare o eliminare questa esperienza."
+  },
+  "assistant": {
+    "title": "Assistente di creazione",
+    "editTitle": "Modifica esperienza",
+    "stepIndicator": "Passo {{current}} di {{total}}",
+    "next": "Avanti",
+    "descriptionCard": "La tua idea",
+    "descriptionEmpty": "Descrivi l'esperienza che vuoi suggerire.",
+    "suggestionItem": "{{type}} — idea {{number}}",
+    "suggestedIntensity": "Suggerito: livello {{level}} — {{name}}",
+    "saveFinish": "Salva e concludi",
+    "saveAnother": "Salva e creane un'altra",
+    "saveChanges": "Salva modifiche",
+    "fields": {
+      "description": "Descrizione",
+      "reflection": "Riflessione",
+      "effort": "Sforzo",
+      "openness": "Apertura",
+      "novelty": "Novità",
+      "intensity": "Intensità"
+    },
+    "steps": {
+      "suggestion": {
+        "title": "Suggerimento",
+        "body": "Scrivi l'idea o tocca un chip per ispirazione — non salva automaticamente."
+      },
+      "reflection": {
+        "title": "Riflessione",
+        "body": "Perché il gruppo accetterebbe questa idea insieme?"
+      },
+      "parameters": {
+        "title": "Parametri",
+        "body": "Valuta sforzo, apertura e novità da 1 a 5."
+      },
+      "classification": {
+        "title": "Classificazione",
+        "body": "Conferma o regola il livello complessivo di intensità."
+      },
+      "review": {
+        "title": "Revisione",
+        "body": "Controlla tutto prima di salvare."
+      }
+    }
+  },
+  "seal": {
+    "label": "Sigillo",
+    "hint": "Derivato dalla descrizione. Segnala che il testo non è stato alterato silenziosamente.",
+    "reviewNote": "Il Sigillo viene generato dalla descrizione al salvataggio."
+  },
+  "intensity": {
+    "levels": {
+      "1": "Leggero",
+      "2": "Scomodo",
+      "3": "Coraggio",
+      "4": "Audace",
+      "5": "Adrenalina"
+    },
+    "levelNamed": "Livello {{level}} — {{name}}",
+    "parametersLabel": "Parametri dell'esperienza"
+  },
+  "sharedMoment": {
+    "defaultBoxName": "Scatola selezionata",
+    "filtersLabel": "Filtro intensità",
+    "intensityLevel": "Livello di intensità",
+    "drawAny": "Estrai",
+    "drawExact": "Estrai {{name}} (livello {{level}})",
+    "drawUpTo": "Estrai fino a {{name}} (livello {{level}})",
+    "choosing": "Scelta in corso…",
+    "emptyBox": "Non ci sono ancora esperienze. Aggiungete idee in modalità Experiences sui telefoni.",
+    "emptyFilter": "Nessuna esperienza corrisponde a questo filtro.",
+    "coverLabel": "Risultato estrazione",
+    "alignmentHint": "Prendetevi un momento insieme prima di rivelare la descrizione completa.",
+    "reveal": "Rivela",
+    "backToDraw": "Torna all'estrazione",
+    "byAuthor": "Di {{author}}",
+    "filter": {
+      "ANY": "Qualsiasi",
+      "EXACT": "Esatto",
+      "UP_TO": "Fino a"
+    }
+  },
+  "boxTypes": {
+    "SAIDAS_COM_AMIGOS": {
+      "title": "Uscite con amici",
+      "hint": "Programmi sociali fuori dalla routine"
+    },
+    "SAIDAS_EM_CASAL": {
+      "title": "Uscite di coppia",
+      "hint": "Appuntamenti e avventure insieme"
+    },
+    "VIAGENS_EM_CASAL": {
+      "title": "Viaggi di coppia",
+      "hint": "Fughe per due"
+    },
+    "INTIMO_EM_CASAL": {
+      "title": "Intimo di coppia",
+      "hint": "Vicinanza e fiducia"
+    },
+    "VIAGENS_COM_AMIGOS": {
+      "title": "Viaggi con amici",
+      "hint": "Ricordi di viaggio insieme"
+    },
+    "EXPERIENCIAS_COM_AMIGOS": {
+      "title": "Esperienze con amici",
+      "hint": "Cose insolite da provare insieme"
+    },
+    "SAIR_DA_ROTINA": {
+      "title": "Uscire dalla routine",
+      "hint": "Piccole fughe dal pilota automatico"
+    },
+    "PRIMEIRAS_VEZES": {
+      "title": "Prime volte",
+      "hint": "Cose nuove che non avete mai fatto"
+    },
+    "DESCONFORTO_LEVE": {
+      "title": "Disagio leggero",
+      "hint": "Spinte gentili fuori dalla zona di comfort"
+    },
+    "MOMENTOS_DE_CONEXAO": {
+      "title": "Momenti di connessione",
+      "hint": "Presenza e condivisione onesta"
+    },
+    "EXPERIENCIAS_DIFERENTES": {
+      "title": "Esperienze diverse",
+      "hint": "Idee sorprendenti e fuori dagli schemi"
+    }
+  }
+}

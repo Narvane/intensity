@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/intensity}
+    username: ${SPRING_DATASOURCE_USERNAME:intensity}
+    password: ${SPRING_DATASOURCE_PASSWORD:intensity}
+  jpa:
+    show-sql: false
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+management:
+  endpoint:
+    health:
+      show-details: never
+
+intensity:
+  cors:
+    allowed-origin-patterns:
+      - https://localhost
+      - capacitor://localhost

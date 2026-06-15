@@ -1,0 +1,38 @@
+.button {
+  min-height: var(--touch-min);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.primary {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  color: #042f2e;
+  font-weight: 600;
+}
+
+.secondary {
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.fullWidth {
+  width: 100%;
+}

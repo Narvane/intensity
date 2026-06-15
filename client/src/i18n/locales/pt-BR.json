@@ -1,0 +1,337 @@
+{
+  "app": {
+    "name": "Intensity"
+  },
+  "bootstrap": {
+    "loading": "Carregando Intensity…",
+    "error": "Não foi possível carregar suas preferências.",
+    "retry": "Tentar novamente"
+  },
+  "onboarding": {
+    "stepIndicator": "Passo {{current}} de {{total}}",
+    "next": "Próximo",
+    "back": "Voltar",
+    "openQuickGuide": "Abrir guia rápido",
+    "getStarted": "Começar",
+    "steps": {
+      "1": {
+        "title": "Mesmas rotinas, menos proximidade",
+        "body": "Muitos de nós repetimos os mesmos programas e conversas. São confortáveis — mas raramente nos aproximam das pessoas que importam."
+      },
+      "2": {
+        "title": "Você sente falta de conexão",
+        "body": "Você quer estar presente com seu par ou amigos — não apenas ocupados juntos. Algo honesto falta na rotina."
+      },
+      "3": {
+        "title": "Os melhores momentos ficam esperando",
+        "body": "As experiências mais marcantes costumam ser as incomuns — e mesmo assim as adiamos, esperando o momento perfeito que talvez nunca chegue."
+      },
+      "4": {
+        "title": "Intensity ajuda você a agir",
+        "body": "Colete ideias incomuns em caixinhas compartilhadas. Quando estiverem juntos, sorteiem uma, alinhem-se, revelem — e vivam o momento com presença."
+      }
+    }
+  },
+  "quickGuide": {
+    "title": "Guia rápido",
+    "close": "Fechar",
+    "sections": {
+      "rhythm": {
+        "title": "O ritmo",
+        "body": "Contribua sozinho → reúna-se em grupo → sorteio → alinhamento → revelação → vivam o momento."
+      },
+      "modes": {
+        "title": "Dois modos",
+        "experiences": "Experiences — registre ideias no seu celular.",
+        "experienceBox": "Experience Box — criem caixinhas, convidem pessoas e façam o sorteio juntos em um celular compartilhado."
+      },
+      "draw": {
+        "title": "Leve o sorteio a sério",
+        "body": "O acaso é um dispositivo de compromisso, não um jogo. Se o momento não servir, sorteiem de novo juntos."
+      },
+      "transparency": {
+        "title": "Transparência",
+        "body": "Experiências não são criptografadas. Todos no grupo podem ver as contribuições — a honestidade faz parte do acordo social."
+      }
+    }
+  },
+  "auth": {
+    "title": "Entrar",
+    "helpLabel": "Abrir guia rápido",
+    "tabsLabel": "Modos de autenticação",
+    "loading": "Entrando…",
+    "tabs": {
+      "experiences": "Experiences",
+      "experienceBox": "Experience Box",
+      "register": "Cadastro",
+      "invite": "Código convite"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Senha",
+      "displayName": "Nome de exibição"
+    },
+    "experiences": {
+      "title": "Experiences",
+      "submit": "Entrar"
+    },
+    "experienceBox": {
+      "title": "Experience Box",
+      "hint": "Informe todos presentes na sala. Cada pessoa usa suas próprias credenciais.",
+      "participant": "Participante {{number}}",
+      "addParticipant": "Adicionar participante",
+      "submit": "Entrar juntos"
+    },
+    "register": {
+      "title": "Criar conta",
+      "submit": "Cadastrar"
+    },
+    "invite": {
+      "title": "Entrar via convite",
+      "codeLabel": "Código de 6 caracteres",
+      "submit": "Continuar"
+    },
+    "inviteComingSoon": "Aceite de convite chega em um slice posterior. O formato do código está correto.",
+    "errors": {
+      "network": "Não foi possível contactar o servidor. Verifique a conexão e tente novamente.",
+      "invalidInviteCode": "Informe um código de convite válido com 6 caracteres.",
+      "groupMembershipConflict": "Essas credenciais pertencem a grupos diferentes. Entre com membros do mesmo grupo."
+    }
+  },
+  "unknownSession": {
+    "title": "Sessão desconhecida",
+    "body": "Não foi possível restaurar sua sessão salva. Você pode sair completamente ou entrar novamente no Experience Box.",
+    "logout": "Sair",
+    "enterExperienceBox": "Entrar no Experience Box"
+  },
+  "session": {
+    "experiencesMode": "Modo Experiences",
+    "experienceBoxMode": "Modo Experience Box",
+    "logout": "Sair"
+  },
+  "common": {
+    "loading": "Carregando…",
+    "error": "Algo deu errado. Tente novamente.",
+    "back": "Voltar"
+  },
+  "groups": {
+    "title": "Escolha um grupo",
+    "empty": "Entre em um grupo via convite ou entre no Experience Box com outros.",
+    "memberCount": "{{count}} membros",
+    "openBoxes": "Abrir caixinhas",
+    "invite": "Convidar",
+    "leave": "Sair do grupo",
+    "leaveSuccess": "Você saiu do grupo.",
+    "leaveDialog": {
+      "title": "Sair deste grupo?",
+      "message": "Você perderá acesso às caixinhas deste grupo. As experiências que você adicionou permanecem no grupo.",
+      "sessionMessage": "Todos nesta sessão do Experience Box sairão do grupo. As experiências adicionadas permanecem, a menos que o grupo seja removido.",
+      "lastMemberMessage": "Isso remove os últimos membros do grupo. Todas as caixinhas, experiências e convites pendentes serão excluídos permanentemente.",
+      "confirm": "Sair do grupo",
+      "cancel": "Cancelar"
+    }
+  },
+  "boxes": {
+    "title": "Escolha uma caixinha",
+    "empty": "Criem uma caixinha juntos no modo Experience Box."
+  },
+  "boxHome": {
+    "title": "Box home",
+    "create": "Criar caixinha",
+    "empty": "Ainda não há caixinhas neste grupo.",
+    "createFirst": "Criar a primeira caixinha",
+    "open": "Abrir",
+    "delete": "Excluir caixinha",
+    "menuLabel": "Ações da caixinha",
+    "deleteSuccess": "\"{{name}}\" foi excluída.",
+    "deleteDialog": {
+      "title": "Excluir \"{{name}}\"?",
+      "message": "Isso remove permanentemente {{count}} experiências nesta caixinha.",
+      "confirm": "Excluir caixinha",
+      "cancel": "Cancelar"
+    }
+  },
+  "invite": {
+    "preview": {
+      "accent": "Entrar via convite",
+      "title": "Prévia do grupo",
+      "membersTitle": "Pessoas neste grupo",
+      "expiresAt": "Válido até {{date}}",
+      "authRequired": "Entre ou crie uma conta para aceitar este convite.",
+      "accept": "Aceitar convite",
+      "signInToAccept": "Entrar para aceitar",
+      "registerToAccept": "Cadastrar para aceitar",
+      "backToAuth": "Voltar para entrar"
+    },
+    "share": {
+      "action": "Convidar",
+      "title": "Compartilhar convite",
+      "close": "Fechar",
+      "codeLabel": "Código do convite",
+      "expiresAt": "Expira em {{date}}",
+      "share": "Compartilhar convite",
+      "copyCode": "Copiar código",
+      "copied": "Copiado para a área de transferência.",
+      "message": "Entre no nosso grupo no Intensity — {{link}}. Ou digite o código: {{code}}"
+    },
+    "errors": {
+      "gone": "Este convite não está mais disponível.",
+      "notFound": "Convite não encontrado.",
+      "alreadyMember": "Você já é membro deste grupo.",
+      "invalidCode": "Informe um código de convite válido com 6 caracteres.",
+      "missingReference": "Informe um código de convite ou abra um link válido."
+    }
+  },
+  "createBox": {
+    "title": "Criar caixinha",
+    "nameLabel": "Nome da caixinha",
+    "typeLabel": "Tipo de caixinha",
+    "submit": "Criar"
+  },
+  "experiences": {
+    "title": "Experiências",
+    "empty": "Ainda não há experiências nesta caixinha.",
+    "defaultBoxName": "Caixinha selecionada",
+    "create": "Adicionar experiência",
+    "createFirst": "Criar a primeira experiência",
+    "transparency": "Experiências não são criptografadas. Todos no grupo podem ver as contribuições — a honestidade faz parte do acordo social.",
+    "intensityLabel": "Nível {{level}}",
+    "sealLabel": "Selo de integridade",
+    "paramsSummary": "Esforço {{effort}} · Abertura {{openness}} · Novidade {{novelty}}",
+    "otherSummary": "Contribuição de {{author}} — apenas intensidade e selo até a revelação.",
+    "anonymous": "Membro do grupo",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "previewToggle": "Prévia como os outros veem",
+    "showFull": "Mostrar texto completo",
+    "previewAsOthers": "Os outros veem só intensidade e selo — assim.",
+    "validationError": "Verifique intensidade e parâmetros (níveis 1–5).",
+    "notAuthor": "Somente o autor pode editar ou excluir esta experiência."
+  },
+  "assistant": {
+    "title": "Assistente de criação",
+    "editTitle": "Editar experiência",
+    "stepIndicator": "Passo {{current}} de {{total}}",
+    "next": "Próximo",
+    "descriptionCard": "Sua ideia",
+    "descriptionEmpty": "Descreva a experiência que você quer sugerir.",
+    "suggestionItem": "{{type}} — ideia {{number}}",
+    "suggestedIntensity": "Sugerido: nível {{level}} — {{name}}",
+    "saveFinish": "Salvar e concluir",
+    "saveAnother": "Salvar e criar outra",
+    "saveChanges": "Salvar alterações",
+    "fields": {
+      "description": "Descrição",
+      "reflection": "Reflexão",
+      "effort": "Esforço",
+      "openness": "Abertura",
+      "novelty": "Novidade",
+      "intensity": "Intensidade"
+    },
+    "steps": {
+      "suggestion": {
+        "title": "Sugestão",
+        "body": "Escreva a ideia ou toque em um chip para inspiração — não salva automaticamente."
+      },
+      "reflection": {
+        "title": "Reflexão",
+        "body": "Por que o grupo aceitaria essa ideia juntos?"
+      },
+      "parameters": {
+        "title": "Parâmetros",
+        "body": "Avalie esforço, abertura e novidade de 1 a 5."
+      },
+      "classification": {
+        "title": "Classificação",
+        "body": "Confirme ou ajuste o nível geral de intensidade."
+      },
+      "review": {
+        "title": "Revisão",
+        "body": "Confira tudo antes de salvar."
+      }
+    }
+  },
+  "seal": {
+    "label": "Selo",
+    "hint": "Derivado da descrição. Indica que o texto não foi alterado silenciosamente.",
+    "reviewNote": "O Selo é gerado a partir da descrição ao salvar."
+  },
+  "intensity": {
+    "levels": {
+      "1": "Leve",
+      "2": "Desconfortável",
+      "3": "Coragem",
+      "4": "Ousado",
+      "5": "Adrenalina"
+    },
+    "levelNamed": "Nível {{level}} — {{name}}",
+    "parametersLabel": "Parâmetros da experiência"
+  },
+  "sharedMoment": {
+    "defaultBoxName": "Caixinha selecionada",
+    "filtersLabel": "Filtro de intensidade",
+    "intensityLevel": "Nível de intensidade",
+    "drawAny": "Sortear",
+    "drawExact": "Sortear {{name}} (nível {{level}})",
+    "drawUpTo": "Sortear até {{name}} (nível {{level}})",
+    "choosing": "Sorteando…",
+    "emptyBox": "Ainda não há experiências. Adicionem ideias no modo Experiences nos celulares.",
+    "emptyFilter": "Nenhuma experiência corresponde a este filtro.",
+    "coverLabel": "Resultado do sorteio",
+    "alignmentHint": "Tomem um momento juntos antes de revelar a descrição completa.",
+    "reveal": "Revelar",
+    "backToDraw": "Voltar ao sorteio",
+    "byAuthor": "Por {{author}}",
+    "filter": {
+      "ANY": "Qualquer",
+      "EXACT": "Exato",
+      "UP_TO": "Até"
+    }
+  },
+  "boxTypes": {
+    "SAIDAS_COM_AMIGOS": {
+      "title": "Saídas com amigos",
+      "hint": "Programas sociais fora da rotina"
+    },
+    "SAIDAS_EM_CASAL": {
+      "title": "Saídas em casal",
+      "hint": "Encontros e aventuras a dois"
+    },
+    "VIAGENS_EM_CASAL": {
+      "title": "Viagens em casal",
+      "hint": "Escapadas para dois"
+    },
+    "INTIMO_EM_CASAL": {
+      "title": "Íntimo em casal",
+      "hint": "Proximidade e confiança"
+    },
+    "VIAGENS_COM_AMIGOS": {
+      "title": "Viagens com amigos",
+      "hint": "Memórias de viagem juntos"
+    },
+    "EXPERIENCIAS_COM_AMIGOS": {
+      "title": "Experiências com amigos",
+      "hint": "Coisas incomuns para tentar juntos"
+    },
+    "SAIR_DA_ROTINA": {
+      "title": "Sair da rotina",
+      "hint": "Pequenas fugas do piloto automático"
+    },
+    "PRIMEIRAS_VEZES": {
+      "title": "Primeiras vezes",
+      "hint": "Coisas novas que vocês nunca fizeram"
+    },
+    "DESCONFORTO_LEVE": {
+      "title": "Desconforto leve",
+      "hint": "Empurrões gentis fora da zona de conforto"
+    },
+    "MOMENTOS_DE_CONEXAO": {
+      "title": "Momentos de conexão",
+      "hint": "Presença e compartilhamento honesto"
+    },
+    "EXPERIENCIAS_DIFERENTES": {
+      "title": "Experiências diferentes",
+      "hint": "Ideias surpreendentes e fora do comum"
+    }
+  }
+}

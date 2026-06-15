@@ -1,0 +1,66 @@
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: calc(var(--space-page) + env(safe-area-inset-top, 0))
+    var(--space-page)
+    calc(var(--space-page) + env(safe-area-inset-bottom, 0));
+  background: radial-gradient(circle at top, #1b2a41 0%, var(--color-bg) 55%);
+}
+
+.loading {
+  margin: auto;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.indicator {
+  margin: 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.progress {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+}
+
+.progress span {
+  height: 0.25rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.25);
+}
+
+.progressActive {
+  background: linear-gradient(90deg, #14b8a6, #f97316);
+}
+
+.copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.copy h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.copy p {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

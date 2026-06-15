@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/intensity
+    username: intensity
+    password: intensity
+  jpa:
+    show-sql: false
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+intensity:
+  cors:
+    allowed-origin-patterns:
+      - http://localhost:*
+      - http://127.0.0.1:*
+      - http://192.168.*.*:*
+      - http://10.*.*.*:*
+      - https://localhost

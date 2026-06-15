@@ -1,0 +1,44 @@
+.wrapper {
+  perspective: 1000px;
+}
+
+.card {
+  width: 100%;
+  min-height: 14rem;
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  min-height: 14rem;
+  transform-style: preserve-3d;
+  transition: transform 0.65s ease;
+}
+
+.revealed .inner {
+  transform: rotateY(180deg);
+}
+
+.cover,
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--intensity-accent);
+  background: var(--color-bg-elevated);
+  padding: 1.25rem;
+}
+
+.face {
+  transform: rotateY(180deg);
+}
+
+.coverLabel {
+  margin: 0 0 0.75rem;
+  color: var(--color-blue);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}

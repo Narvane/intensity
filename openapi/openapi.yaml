@@ -1,0 +1,844 @@
+openapi: 3.1.0
+info:
+  title: Intensity API
+  version: 1.0.0
+  license:
+    name: Proprietary
+  description: |
+    REST API v1 for Intensity — groups, boxes, experiences, and invites.
+    Canonical product spec: `/newdocs/en/`.
+servers:
+  - url: http://localhost:8080
+    description: Local development
+  - url: https://api.intensity.example
+    description: Production
+
+tags:
+  - name: Auth
+    description: Authentication for Experiences and Experience Box modes
+  - name: Participants
+    description: Participant registration
+  - name: Groups
+    description: Group membership and listing
+  - name: Invites
+    description: Invite create, validate, accept, revoke
+  - name: Boxes
+    description: Box list, create, delete
+  - name: Experiences
+    description: Experience CRUD in boxes
+
+security:
+  - bearerAuth: []
+
+paths:
+  /v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: Experiences mode login
+      operationId: loginExperiences
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authenticated session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/auth/grupo:
+    post:
+      tags: [Auth]
+      summary: Experience Box joint login
+      operationId: loginExperienceBox
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JointLoginRequest'
+      responses:
+        '200':
+          description: Group session opened or created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JointAuthSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/participantes:
+    post:
+      tags: [Participants]
+      summary: Register participant (allowlist required)
+      operationId: registerParticipant
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterParticipantRequest'
+      responses:
+        '201':
+          description: Participant created with initial session token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterParticipantResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/grupos:
+    get:
+      tags: [Groups]
+      summary: List groups for authenticated participant
+      operationId: listGroups
+      responses:
+        '200':
+          description: Groups where caller is a member
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /v1/grupos/{groupId}/membros:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      tags: [Groups]
+      summary: List group members
+      operationId: listGroupMembers
+      responses:
+        '200':
+          description: Member list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupMember'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Groups]
+      summary: Leave group (self)
+      operationId: leaveGroup
+      responses:
+        '204':
+          description: Left group or group deleted when last member
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/grupos/{groupId}/convites:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      tags: [Invites]
+      summary: List active invites for a group
+      operationId: listGroupInvites
+      responses:
+        '200':
+          description: Active invites
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invite'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      tags: [Invites]
+      summary: Create invite
+      operationId: createInvite
+      responses:
+        '201':
+          description: Invite created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invite'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/convites/validar:
+    get:
+      tags: [Invites]
+      summary: Validate invite by code or link token
+      operationId: validateInvite
+      security: []
+      parameters:
+        - name: code
+          in: query
+          required: false
+          schema:
+            type: string
+            pattern: '^[A-HJ-NP-Z2-9]{6}$'
+          description: 6-character Crockford code
+        - name: t
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+          description: Link token from deep link
+      responses:
+        '200':
+          description: Invite preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitePreview'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          $ref: '#/components/responses/Gone'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/convites/{inviteId}/aceitar:
+    parameters:
+      - $ref: '#/components/parameters/InviteId'
+    post:
+      tags: [Invites]
+      summary: Accept invite
+      operationId: acceptInvite
+      responses:
+        '200':
+          description: Membership confirmed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptInviteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '410':
+          $ref: '#/components/responses/Gone'
+
+  /v1/convites/{inviteId}:
+    parameters:
+      - $ref: '#/components/parameters/InviteId'
+    delete:
+      tags: [Invites]
+      summary: Revoke invite
+      operationId: revokeInvite
+      responses:
+        '204':
+          description: Invite revoked
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          $ref: '#/components/responses/Gone'
+
+  /v1/grupos/{groupId}/caixinhas:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      tags: [Boxes]
+      summary: List boxes in a group
+      operationId: listGroupBoxes
+      responses:
+        '200':
+          description: Boxes in group
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Box'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/caixinhas:
+    post:
+      tags: [Boxes]
+      summary: Create box (Experience Box session or group member)
+      operationId: createBox
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBoxRequest'
+      responses:
+        '201':
+          description: Box created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Box'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/caixinhas/{boxId}:
+    parameters:
+      - $ref: '#/components/parameters/BoxId'
+    delete:
+      tags: [Boxes]
+      summary: Delete box and cascade experiences
+      operationId: deleteBox
+      responses:
+        '204':
+          description: Box deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/caixinhas/{boxId}/experiencias:
+    parameters:
+      - $ref: '#/components/parameters/BoxId'
+    get:
+      tags: [Experiences]
+      summary: List experiences in box
+      operationId: listBoxExperiences
+      responses:
+        '200':
+          description: Experiences visible per visibility rules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Experience'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      tags: [Experiences]
+      summary: Create experience in box
+      operationId: createExperience
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExperienceRequest'
+      responses:
+        '201':
+          description: Experience created with integrity seal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experience'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/experiencias/{experienceId}:
+    parameters:
+      - $ref: '#/components/parameters/ExperienceId'
+    put:
+      tags: [Experiences]
+      summary: Update experience (author only)
+      operationId: updateExperience
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExperienceRequest'
+      responses:
+        '200':
+          description: Experience updated; seal recalculated if description changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experience'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      tags: [Experiences]
+      summary: Delete experience (author only)
+      operationId: deleteExperience
+      responses:
+        '204':
+          description: Experience deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    GroupId:
+      name: groupId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    BoxId:
+      name: boxId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ExperienceId:
+      name: experienceId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    InviteId:
+      name: inviteId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    Unauthorized:
+      description: Invalid or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Not allowed for current participant or session
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Business conflict (e.g. joint login spans different groups)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Gone:
+      description: Invite expired or revoked
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Validation failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          example: GROUP_MEMBERSHIP_CONFLICT
+        message:
+          type: string
+          example: Credentials belong to different groups.
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    JointLoginRequest:
+      type: object
+      required: [credentials]
+      properties:
+        credentials:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/LoginRequest'
+
+    AuthSession:
+      type: object
+      required: [token, participantId, displayName, accessMode]
+      properties:
+        token:
+          type: string
+        participantId:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        accessMode:
+          type: string
+          enum: [EXPERIENCES]
+
+    JointAuthSession:
+      type: object
+      required: [token, groupId, members, accessMode]
+      properties:
+        token:
+          type: string
+        groupId:
+          type: string
+          format: uuid
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupMember'
+        accessMode:
+          type: string
+          enum: [EXPERIENCE_BOX]
+
+    RegisterParticipantRequest:
+      type: object
+      required: [displayName, email, password]
+      properties:
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 80
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    RegisterParticipantResponse:
+      type: object
+      required: [id, displayName, email, token]
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        email:
+          type: string
+          format: email
+        token:
+          type: string
+
+    Participant:
+      type: object
+      required: [id, displayName, email]
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        email:
+          type: string
+          format: email
+
+    Group:
+      type: object
+      required: [id, memberCount, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        memberCount:
+          type: integer
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+
+    GroupMember:
+      type: object
+      required: [participantId, displayName]
+      properties:
+        participantId:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+
+    BoxType:
+      type: string
+      enum:
+        - SAIDAS_COM_AMIGOS
+        - SAIDAS_EM_CASAL
+        - VIAGENS_EM_CASAL
+        - INTIMO_EM_CASAL
+        - VIAGENS_COM_AMIGOS
+        - EXPERIENCIAS_COM_AMIGOS
+        - SAIR_DA_ROTINA
+        - PRIMEIRAS_VEZES
+        - DESCONFORTO_LEVE
+        - MOMENTOS_DE_CONEXAO
+        - EXPERIENCIAS_DIFERENTES
+      default: SAIDAS_COM_AMIGOS
+
+    Box:
+      type: object
+      required: [id, groupId, name, type, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 80
+        type:
+          $ref: '#/components/schemas/BoxType'
+        createdAt:
+          type: string
+          format: date-time
+        experienceCount:
+          type: integer
+          minimum: 0
+
+    CreateBoxRequest:
+      type: object
+      required: [groupId, name]
+      properties:
+        groupId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 80
+        type:
+          $ref: '#/components/schemas/BoxType'
+
+    ExperienceParameters:
+      type: object
+      required: [effort, openness, novelty]
+      properties:
+        effort:
+          type: integer
+          minimum: 1
+          maximum: 5
+        openness:
+          type: integer
+          minimum: 1
+          maximum: 5
+        novelty:
+          type: integer
+          minimum: 1
+          maximum: 5
+
+    Experience:
+      type: object
+      required:
+        - id
+        - boxId
+        - authorId
+        - intensity
+        - parameters
+        - seal
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        boxId:
+          type: string
+          format: uuid
+        authorId:
+          type: string
+          format: uuid
+        authorDisplayName:
+          type: string
+        description:
+          type: string
+          maxLength: 1000
+          description: Full text visible to author or after reveal
+        reflection:
+          type: string
+          maxLength: 2000
+        intensity:
+          type: integer
+          minimum: 1
+          maximum: 5
+        parameters:
+          $ref: '#/components/schemas/ExperienceParameters'
+        seal:
+          type: string
+          description: Integrity seal derived from description (UI term Seal, not hash)
+        summaryOnly:
+          type: boolean
+          description: When true, description and reflection are omitted for non-authors
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateExperienceRequest:
+      type: object
+      required: [description, reflection, intensity, parameters]
+      properties:
+        description:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        reflection:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        intensity:
+          type: integer
+          minimum: 1
+          maximum: 5
+        parameters:
+          $ref: '#/components/schemas/ExperienceParameters'
+
+    UpdateExperienceRequest:
+      allOf:
+        - $ref: '#/components/schemas/CreateExperienceRequest'
+
+    InviteStatus:
+      type: string
+      enum: [ACTIVE, ACCEPTED, REVOKED, EXPIRED]
+
+    Invite:
+      type: object
+      required: [id, groupId, code, linkToken, expiresAt, status, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        code:
+          type: string
+          pattern: '^[A-HJ-NP-Z2-9]{6}$'
+        linkToken:
+          type: string
+          format: uuid
+        expiresAt:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/InviteStatus'
+        createdAt:
+          type: string
+          format: date-time
+
+    InvitePreview:
+      type: object
+      required: [inviteId, groupId, members, expiresAt, status]
+      properties:
+        inviteId:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupMember'
+        expiresAt:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/InviteStatus'
+
+    AcceptInviteResponse:
+      type: object
+      required: [groupId, membershipConfirmed]
+      properties:
+        groupId:
+          type: string
+          format: uuid
+        membershipConfirmed:
+          type: boolean

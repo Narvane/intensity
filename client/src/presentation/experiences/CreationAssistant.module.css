@@ -1,0 +1,158 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: end center;
+  padding: 0.75rem;
+  background: rgba(3, 7, 18, 0.72);
+}
+
+.panel {
+  width: min(100%, 32rem);
+  max-height: calc(100dvh - 1.5rem);
+  overflow: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  padding: 1rem;
+}
+
+.header h2 {
+  margin: 0.35rem 0 0;
+  font-size: 1.25rem;
+}
+
+.stepLabel {
+  margin: 0.35rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.progress {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.35rem;
+  margin: 1rem 0;
+}
+
+.progressActive,
+.progressIdle {
+  height: 0.35rem;
+  border-radius: 999px;
+}
+
+.progressActive {
+  background: var(--color-brown);
+}
+
+.progressIdle {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.descriptionCard {
+  margin-bottom: 1rem;
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+.cardLabel {
+  margin: 0 0 0.35rem;
+  color: var(--color-brown);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cardText {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.step h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.step p {
+  margin: 0 0 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.field span {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.field textarea {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  padding: 0.65rem 0.85rem;
+  font: inherit;
+  resize: vertical;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.suggestionChip {
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: rgba(180, 83, 9, 0.12);
+  color: var(--color-text);
+  padding: 0.45rem 0.75rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.hint {
+  margin-bottom: 0.75rem !important;
+  color: var(--color-teal) !important;
+}
+
+.summary {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary dt {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.summary dd {
+  margin: 0.15rem 0 0;
+  line-height: 1.5;
+}
+
+.error {
+  margin: 0.75rem 0 0;
+  color: #fca5a5;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}

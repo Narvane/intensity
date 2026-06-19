@@ -29,6 +29,7 @@ intensity:
     expiration-seconds: 86400
   cors:
     allowed-origin-patterns:
+      - http://localhost
       - http://localhost:*
       - http://127.0.0.1:*
       - http://192.168.*.*:*

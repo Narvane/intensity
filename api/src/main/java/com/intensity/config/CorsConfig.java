@@ -17,7 +17,7 @@ public class CorsConfig {
 	CorsConfigurationSource corsConfigurationSource(CorsProperties properties) {
 		List<String> patterns = properties.allowedOriginPatterns();
 		if (patterns == null || patterns.isEmpty()) {
-			patterns = List.of("http://localhost:*");
+			patterns = List.of("http://localhost", "http://localhost:*");
 		}
 
 		CorsConfiguration configuration = new CorsConfiguration();

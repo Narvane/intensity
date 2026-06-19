@@ -3,9 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  padding: calc(var(--space-page) + env(safe-area-inset-top, 0))
-    var(--space-page)
-    calc(var(--space-page) + env(safe-area-inset-bottom, 0));
+  padding: var(--space-page);
+  padding-bottom: calc(var(--space-page) + var(--safe-area-bottom));
   background:
     radial-gradient(circle at top right, rgba(255, 201, 77, 0.35), transparent 28%),
     var(--bg);

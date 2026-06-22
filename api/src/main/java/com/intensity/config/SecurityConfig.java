@@ -28,7 +28,8 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/actuator/health").permitAll()
-						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/openapi.yaml")
+						.permitAll()
 						.requestMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/group", "/v1/participants")
 						.permitAll()
 						.requestMatchers(HttpMethod.GET, "/v1/invites/validate")

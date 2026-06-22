@@ -23,7 +23,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 	@Test
 	@Order(1)
 	void registerAllowlistedEmailReturnsCreatedWithToken() throws Exception {
-		mockMvc.perform(post("/v1/participantes")
+		mockMvc.perform(post("/v1/participants")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{
@@ -40,7 +40,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 	@Test
 	@Order(2)
 	void registerNonAllowlistedEmailReturnsForbidden() throws Exception {
-		mockMvc.perform(post("/v1/participantes")
+		mockMvc.perform(post("/v1/participants")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{
@@ -92,7 +92,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 	@Test
 	@Order(5)
 	void jointLoginReturnsConflictWhenParticipantsBelongToDifferentGroups() throws Exception {
-		mockMvc.perform(post("/v1/auth/grupo")
+		mockMvc.perform(post("/v1/auth/group")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{
@@ -103,7 +103,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 								"""))
 				.andExpect(status().isOk());
 
-		mockMvc.perform(post("/v1/auth/grupo")
+		mockMvc.perform(post("/v1/auth/group")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{
@@ -114,7 +114,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 								"""))
 				.andExpect(status().isOk());
 
-		mockMvc.perform(post("/v1/auth/grupo")
+		mockMvc.perform(post("/v1/auth/group")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{
@@ -135,7 +135,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 		register("Alice", "alice@example.com");
 		register("Bob", "bob@example.com");
 
-		String firstResponse = mockMvc.perform(post("/v1/auth/grupo")
+		String firstResponse = mockMvc.perform(post("/v1/auth/group")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{
@@ -155,7 +155,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 
 		String groupId = com.jayway.jsonpath.JsonPath.read(firstResponse, "$.groupId");
 
-		mockMvc.perform(post("/v1/auth/grupo")
+		mockMvc.perform(post("/v1/auth/group")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{
@@ -170,7 +170,7 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 	}
 
 	private void register(String displayName, String email) throws Exception {
-		mockMvc.perform(post("/v1/participantes")
+		mockMvc.perform(post("/v1/participants")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("""
 						{

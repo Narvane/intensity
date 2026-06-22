@@ -45,7 +45,7 @@ export class RegisterParticipantUseCase {
   ) {}
 
   async execute(input: RegisterInput): Promise<SessionState> {
-    const response = await this.api.post<RegisterResponse>('/v1/participantes', input);
+    const response = await this.api.post<RegisterResponse>('/v1/participants', input);
     const session: SessionState = {
       token: response.token,
       accessMode: 'EXPERIENCES',
@@ -83,7 +83,7 @@ export class LoginExperienceBoxUseCase {
   ) {}
 
   async execute(credentials: LoginInput[]): Promise<SessionState> {
-    const response = await this.api.post<JointAuthSessionResponse>('/v1/auth/grupo', {
+    const response = await this.api.post<JointAuthSessionResponse>('/v1/auth/group', {
       credentials,
     });
     const session: SessionState = {

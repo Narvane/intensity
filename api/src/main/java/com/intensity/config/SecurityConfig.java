@@ -29,9 +29,9 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/actuator/health").permitAll()
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-						.requestMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/grupo", "/v1/participantes")
+						.requestMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/group", "/v1/participants")
 						.permitAll()
-						.requestMatchers(HttpMethod.GET, "/v1/convites/validar")
+						.requestMatchers(HttpMethod.GET, "/v1/invites/validate")
 						.permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

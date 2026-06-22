@@ -1,6 +1,6 @@
 package com.intensity;
 
-import com.intensity.convite.service.InviteExpirationPolicy;
+import com.intensity.invite.service.InviteExpirationPolicy;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

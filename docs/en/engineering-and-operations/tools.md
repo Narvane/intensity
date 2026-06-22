@@ -106,11 +106,11 @@ BaaS, Kubernetes, React Native, KMP, message brokers, CDN, GraphQL, gRPC, WebSoc
 
 ```
 api/src/.../
-├── participante/
-├── grupo/
-├── convite/      ← invite module
-├── caixinha/
-└── experiencia/
+├── participant/
+├── group/
+├── invite/      ← invite module
+├── box/
+└── experience/
 ```
 
 Each folder: `controller`, `service`, `repository`, `dto`, `entity`.
@@ -122,9 +122,9 @@ Cognitive structure: `Sistema → Domínio → Contexto → Capacidade → Caso 
 Example paths:
 
 ```
-client/src/.../grupo/convite/GerarConviteUseCase.ts
-client/src/.../caixinha/excluir/ExcluirCaixinhaUseCase.ts
-client/src/.../sorteio/ExecutarSorteioUseCase.ts
+client/src/.../invite/CreateInviteUseCase.ts
+client/src/.../box/boxUseCases.ts
+client/src/.../draw/ExecuteDrawUseCase.ts
 ```
 
 ### OpenAPI
@@ -142,5 +142,5 @@ No third-party deep-link SaaS in baseline.
 
 ## Decisions assumed in this rewrite
 
-- **`convite/`** module added to API folder structure.
+- **`invite/`** module added to API folder structure.
 - Deep link hosting uses existing VPS + Caddy static file or API redirect endpoint.

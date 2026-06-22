@@ -46,7 +46,7 @@ Client stores token locally for subsequent requests
 **Joint login (Experience Box)**
 
 ```
-Client POST /auth/grupo { credentials[] }
+Client POST /auth/group { credentials[] }
   ← { token(s), groupId, members[] }
   OR 409 if credentials span incompatible groups
 ```
@@ -54,32 +54,32 @@ Client POST /auth/grupo { credentials[] }
 **Invite lifecycle**
 
 ```
-POST /grupos/{id}/convites        → { code, linkToken, expiresAt }
-GET  /convites/validar?code=      → { groupPreview, expiresAt, status }
-POST /convites/{id}/aceitar       → { groupId, membership confirmed }
-DELETE /convites/{id}             → revoked
+POST /groups/{id}/invites        → { code, linkToken, expiresAt }
+GET  /invites/validate?code=      → { groupPreview, expiresAt, status }
+POST /invites/{id}/accept       → { groupId, membership confirmed }
+DELETE /invites/{id}             → revoked
 ```
 
 **Experience registration (Experiences mode)**
 
 ```
 Client collects assistant input locally
-POST /caixinhas/{id}/experiencias { description, intensity, params, reflection }
+POST /boxes/{id}/experiences { description, intensity, params, reflection }
   ← persisted experience with seal
 ```
 
 **Box deletion (Experience Box mode)**
 
 ```
-DELETE /caixinhas/{id}
+DELETE /boxes/{id}
   ← 204; cascade removes experiences server-side
-Client refreshes GET /grupos/{id}/caixinhas
+Client refreshes GET /groups/{id}/boxes
 ```
 
 **Draw ritual (no API write)**
 
 ```
-GET /caixinhas/{id}/experiencias → pool
+GET /boxes/{id}/experiences → pool
 Client filters, randomizes, reveals locally
 (no POST for draw result)
 ```
@@ -106,19 +106,19 @@ REST errors return `{ code, message }` with appropriate HTTP status. Client maps
 | Resource | Operations |
 |----------|------------|
 | `/auth/login` | POST single participant |
-| `/auth/grupo` | POST multi participant joint session |
-| `/participantes` | POST register |
-| `/grupos` | GET list for participant; POST implicit via auth |
-| `/grupos/{id}/membros` | GET; DELETE self (leave) |
-| `/grupos/{id}/convites` | POST create; GET list active |
-| `/convites/validar` | GET by code or token |
-| `/convites/{id}/aceitar` | POST |
-| `/convites/{id}` | DELETE revoke |
-| `/grupos/{id}/caixinhas` | GET list |
-| `/caixinhas` | POST create |
-| `/caixinhas/{id}` | DELETE (cascade) |
-| `/caixinhas/{id}/experiencias` | GET list; POST create |
-| `/experiencias/{id}` | PUT update; DELETE (author only) |
+| `/auth/group` | POST multi participant joint session |
+| `/participants` | POST register |
+| `/groups` | GET list for participant; POST implicit via auth |
+| `/groups/{id}/members` | GET; DELETE self (leave) |
+| `/groups/{id}/invites` | POST create; GET list active |
+| `/invites/validate` | GET by code or token |
+| `/invites/{id}/accept` | POST |
+| `/invites/{id}` | DELETE revoke |
+| `/groups/{id}/boxes` | GET list |
+| `/boxes` | POST create |
+| `/boxes/{id}` | DELETE (cascade) |
+| `/boxes/{id}/experiences` | GET list; POST create |
+| `/experiences/{id}` | PUT update; DELETE (author only) |
 
 Version prefix `/v1` implied; breaking changes require `/v2` per technical decisions.
 
@@ -130,9 +130,9 @@ Deep link format (illustrative):
 https://app.intensity.example/join?t={linkToken}
 ```
 
-Mobile OS routes to installed app → client calls `GET /convites/validar?t=` → preview screen.
+Mobile OS routes to installed app → client calls `GET /invites/validate?t=` → preview screen.
 
-Code path: user enters `AB12CD` → `GET /convites/validar?code=AB12CD`.
+Code path: user enters `AB12CD` → `GET /invites/validate?code=AB12CD`.
 
 Both channels resolve the same invite record.
 

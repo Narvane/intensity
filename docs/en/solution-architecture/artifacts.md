@@ -68,11 +68,11 @@ Intensity comprises **three persisted artifacts**: **mobile client**, **REST API
 
 Vertical slices by domain folder:
 
-- `participante/` — registration, profile, auth
-- `grupo/` — membership, joint-login resolution, leave
-- `convite/` — invite lifecycle
-- `caixinha/` — box CRUD including delete with cascade
-- `experiencia/` — experience CRUD
+- `participant/` — registration, profile, auth
+- `group/` — membership, joint-login resolution, leave
+- `invite/` — invite lifecycle
+- `box/` — box CRUD including delete with cascade
+- `experience/` — experience CRUD
 
 Each module: Controller, Service, Repository, DTO, Entity.
 
@@ -80,11 +80,11 @@ Each module: Controller, Service, Repository, DTO, Entity.
 
 Examples aligned with Clean Architecture layers on client:
 
-- `grupo/` — creation, participants, boxes, invites, configuration
-- `caixinha/` — list, create, delete
-- `experiencia/` — creation assistant, listing, editing
-- `sorteio/` — draw use case, intensity filter policy, reveal orchestrator
-- `convite/` — generate, share, accept, preview
+- `group/` — creation, participants, boxes, invites, configuration
+- `box/` — list, create, delete
+- `experience/` — creation assistant, listing, editing
+- `draw/` — draw use case, intensity filter policy, reveal orchestrator
+- `invite/` — generate, share, accept, preview
 
 ---
 
@@ -98,7 +98,7 @@ Built with React 19, TypeScript, Vite 6, Capacitor 7. Output: static `dist/` syn
 
 **Invite artifact flow:** client requests invite creation → API returns `{ linkToken, code, expiresAt }` → client constructs deep link and share message locally.
 
-**Delete box flow:** client sends `DELETE /caixinhas/{id}` → API cascade deletes experiences → client refreshes box list.
+**Delete box flow:** client sends `DELETE /boxes/{id}` → API cascade deletes experiences → client refreshes box list.
 
 ### API artifact
 
@@ -113,22 +113,22 @@ Spring Boot 3.5 on Java 21. Exposes OpenAPI-documented REST endpoints. Schema mi
 | Box service | Delete verifies caller is group member; cascade experiences |
 | Experience service | Author-only update/delete |
 
-Example domain helpers: `GrupoCapacidadeVerifier`, `ExperienciaDuplicataChecker`, `ConviteExpiracaoPolicy`.
+Example domain helpers: `GroupMembershipService`, `ExperienceVisibilityPolicy`, `InviteExpirationPolicy`.
 
 ### Database artifact
 
 PostgreSQL 16. Normalized relational schema with foreign keys:
 
 ```
-participante
-grupo
-grupo_participante (join)
-convite
-caixinha → grupo
-experiencia → caixinha, participante (author)
+participant
+"group" (reserved SQL identifier)
+group_participant (join)
+invite
+box → group
+experience → box, participant (author)
 ```
 
-Cascade: deleting `caixinha` deletes related `experiencia` rows. Deleting `grupo` deletes boxes, experiences, invites, memberships.
+Cascade: deleting `box` deletes related `experience` rows. Deleting `group` deletes boxes, experiences, invites, memberships.
 
 ### Shared nothing
 
@@ -140,5 +140,5 @@ Message brokers, BFF layer, suggestion CMS, analytics pipeline, identity provide
 
 ## Decisions assumed in this rewrite
 
-- **`convite/`** is a new API domain module with persisted invite entity.
+- **`invite/`** is a new API domain module with persisted invite entity.
 - Box delete is a **server-enforced cascade**, not client-only removal.

@@ -46,18 +46,18 @@ Intensity uses **Java 21 + Spring Boot 3.5** with **PostgreSQL 16** and **Flyway
 
 ### DT-12 — API structure
 
-Domain-first folders (`participante/`, `grupo/`, `convite/`, `caixinha/`, `experiencia/`). Each module: Controller → Service → Repository. Anemic entities; business rules in services. DTOs at REST boundary.
+Domain-first folders (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Each module: Controller → Service → Repository. Anemic entities; business rules in services. DTOs at REST boundary.
 
-Not full DDD aggregates — pragmatic CRUD with explicit policies (`ConviteExpiracaoPolicy`, `GrupoCapacidadeVerifier`).
+Not full DDD aggregates — pragmatic CRUD with explicit policies (`InviteExpirationPolicy`, `GroupMembershipService`).
 
 ### DT-13 — Client structure
 
 Use cases independent of React components. Example:
 
 ```
-ExecutarSorteioUseCase
-ExcluirCaixinhaUseCase
-AceitarConviteUseCase
+ExecuteDrawUseCase
+BoxService (delete)
+AcceptInviteUseCase
 ```
 
 Presentation components call use cases; use cases call API adapters.
@@ -70,7 +70,7 @@ Presentation components call use cases; use cases call API adapters.
 
 ### DT-15 — Box delete
 
-`experiencia.caixinha_id` FK with `ON DELETE CASCADE`. Service verifies membership before delete. Transaction wraps delete + audit log hook (optional future).
+`experience.box_id` FK with `ON DELETE CASCADE`. Service verifies membership before delete. Transaction wraps delete + audit log hook (optional future).
 
 **Why:** Prevent orphaned experiences; single authoritative operation.
 
@@ -84,7 +84,7 @@ Relational model fits groups, memberships, invites, boxes, experiences. JSON col
 
 ### DT-03 — Flyway + Hibernate
 
-Flyway owns schema truth; Hibernate validates mapping. Migration `V{n}__add_convite.sql` and `V{n}__caixinha_cascade.sql` exemplify incremental evolution.
+Flyway owns schema truth; Hibernate validates mapping. Migration `V{n}__add_invite.sql` and `V{n}__box_cascade.sql` exemplify incremental evolution.
 
 ### DT-06 — Monorepo
 
@@ -100,7 +100,7 @@ Automated API path reduces friction; client stays manual due to store review unp
 
 ### DT-10 — API compatibility
 
-Adding optional fields or new endpoints (`POST convites`, `DELETE caixinhas`) is compatible. Removing fields or changing semantics requires `/v2` and coordinated client release.
+Adding optional fields or new endpoints (`POST /invites`, `DELETE /boxes`) is compatible. Removing fields or changing semantics requires `/v2` and coordinated client release.
 
 ### DT-11 — No OTA
 
@@ -127,4 +127,4 @@ Capacitor web assets ship with store builds only. Faster API deploy cycle intent
 ## Decisions assumed in this rewrite
 
 - **DT-14** and **DT-15** support new invite and box deletion features.
-- **`convite/`** module follows same DT-12 pattern as existing domains.
+- **`invite/`** module follows same DT-12 pattern as existing domains.

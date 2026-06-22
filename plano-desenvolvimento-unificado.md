@@ -209,8 +209,8 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 - Validar tabela contra OpenAPI e suite de testes atual (baseline verde)
 
 **DoD:**
-- [ ] Documento `docs/engineering-and-operations/rename-map.md` ou seção no PR com tabela completa
-- [ ] `./mvnw test` e `npm test` verdes no baseline
+- [x] Documento `docs/engineering-and-operations/rename-map.md` ou seção no PR com tabela completa
+- [x] `./mvnw test` e `npm test` verdes no baseline
 
 ---
 
@@ -224,8 +224,8 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 - Atualizar `@ref:openapi` no mapa se necessário
 
 **DoD:**
-- [ ] OpenAPI reflete tabela de tradução
-- [ ] Nenhum path REST em português no YAML
+- [x] OpenAPI reflete tabela de tradução
+- [x] Nenhum path REST em português no YAML
 
 ---
 
@@ -241,9 +241,9 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 5. Testes unitários e de integração
 
 **DoD:**
-- [ ] Pacotes `com.intensity.{participant,group,box,experience,invite}`
-- [ ] Controllers mapeiam paths do OpenAPI atualizado
-- [ ] `./mvnw test` verde
+- [x] Pacotes `com.intensity.{participant,group,box,experience,invite}`
+- [x] Controllers mapeiam paths do OpenAPI atualizado
+- [x] `./mvnw test` verde
 
 ---
 
@@ -257,9 +257,9 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 - Se greenfield exclusivo: avaliar consolidar apenas se histórico não estiver em produção
 
 **DoD:**
-- [ ] Entidades JPA e schema alinhados
-- [ ] `flyway migrate` em banco limpo funciona do zero
-- [ ] `./mvnw test` (testcontainers ou H2) verde
+- [x] Entidades JPA e schema alinhados
+- [x] `flyway migrate` em banco limpo funciona do zero
+- [x] `./mvnw test` (testcontainers ou H2) verde
 
 ---
 
@@ -276,8 +276,8 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 **Não alterar:** `client/src/i18n/locales/*.json` (copy de usuário), exceto chaves que espelhem código interno (improvável)
 
 **DoD:**
-- [ ] `npm test` e `npm run build` verdes
-- [ ] Nenhuma chamada HTTP a path em português
+- [x] `npm test` e `npm run build` verdes
+- [x] Nenhuma chamada HTTP a path em português
 
 ---
 
@@ -291,7 +291,7 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 - `./mvnw test` + `npm test` + build completo
 
 **DoD:**
-- [ ] Repositório compila e testa sem referências PT em código
+- [x] Repositório compila e testa sem referências PT em código
 
 ---
 
@@ -308,8 +308,8 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 **Não traduzir:** prosa de produto em pt-br/it além de refs técnicas a código.
 
 **DoD:**
-- [ ] Exemplos em `technical-decisions.md` mostram `ExecuteDrawUseCase`, `participant/`, `group/`
-- [ ] Mapa de refs atualizado; `validate-refs` verde
+- [x] Exemplos em `technical-decisions.md` mostram `ExecuteDrawUseCase`, `participant/`, `group/`
+- [x] Mapa de refs atualizado; `validate-refs` verde
 
 ---
 
@@ -318,11 +318,11 @@ Expandir na Slice CODE-0 com inventário completo (métodos, colunas, DTOs, test
 **Objetivo:** provar entrega coordenada.
 
 **Checklist:**
-- [ ] `./mvnw test` (API)
-- [ ] `npm test` + `npm run build` (client)
-- [ ] OpenAPI vs controllers (springdoc ou diff manual)
-- [ ] `scripts/validate-refs` (ou equivalente)
-- [ ] Grep: sem `participante`, `grupo`, `caixinha`, `experiencia`, `convite`, `sorteio` em código (exceto i18n e comentários históricos se explicitamente permitidos)
+- [x] `./mvnw test` (API)
+- [x] `npm test` + `npm run build` (client)
+- [x] OpenAPI vs controllers (springdoc ou diff manual)
+- [x] `scripts/validate-refs` (ou equivalente)
+- [x] Grep: sem `participante`, `grupo`, `caixinha`, `experiencia`, `convite`, `sorteio` em código (exceto i18n e comentários históricos se explicitamente permitidos)
 
 ---
 
@@ -498,4 +498,4 @@ Diff focado + nota curta: decisões tomadas, @refs novos, riscos remanescentes
 
 ---
 
-*Fases A e B concluídas (DOC-1…3, REF-1…3). Próxima: Fase C — código em inglês.*
+*Fases A, B e C concluídas (DOC-1…3, REF-1…3, CODE-0…7). Próxima: Fase D — visual, deploy e agentes.*

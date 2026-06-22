@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { shareInviteContent } from '@adapters/share/ShareAdapter';
 import { createApiClient } from '@adapters/api/ApiClient';
-import type { Invite } from '@domain/convite/inviteTypes';
-import { resolveInviteError } from '@domain/convite/inviteErrors';
+import type { Invite } from '@domain/invite/inviteTypes';
+import { resolveInviteError } from '@domain/invite/inviteErrors';
 import {
   buildInviteLink,
   buildInviteShareMessage,
   formatInviteExpiry,
-} from '@domain/convite/invitePresentation';
-import { CreateInviteUseCase } from '@domain/convite/inviteUseCases';
+} from '@domain/invite/invitePresentation';
+import { CreateInviteUseCase } from '@domain/invite/inviteUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import styles from './ShareInviteSheet.module.css';

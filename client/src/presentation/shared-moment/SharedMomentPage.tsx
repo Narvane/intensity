@@ -5,13 +5,13 @@ import { useAppLogout } from '@app/useAppLogout';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
 import { ListExperiencesUseCase } from '@domain/experience/experienceUseCases';
-import { ExecutarSorteioUseCase } from '@domain/sorteio/ExecutarSorteioUseCase';
+import { ExecuteDrawUseCase } from '@domain/draw/ExecuteDrawUseCase';
 import {
   DEFAULT_INTENSITY_FILTER,
   type IntensityFilter,
   type IntensityFilterMode,
-} from '@domain/sorteio/FiltroIntensidadePolicy';
-import { RevelacaoOrchestrator } from '@domain/sorteio/RevelacaoOrchestrator';
+} from '@domain/draw/IntensityFilterPolicy';
+import { RevelationOrchestrator } from '@domain/draw/RevelationOrchestrator';
 import { SlidersHorizontal, Sparkles } from 'lucide-react';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
@@ -19,7 +19,7 @@ import { RatingScale } from '../components/RatingScale';
 import { DrawResultCard } from './DrawResultCard';
 import styles from './SharedMomentPage.module.css';
 
-const orchestrator = new RevelacaoOrchestrator();
+const orchestrator = new RevelationOrchestrator();
 
 export function SharedMomentPage() {
   const { boxId = '' } = useParams();
@@ -30,7 +30,7 @@ export function SharedMomentPage() {
   const navigate = useNavigate();
   const api = useMemo(() => createApiClient(), []);
   const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
-  const drawUseCase = useMemo(() => new ExecutarSorteioUseCase(), []);
+  const drawUseCase = useMemo(() => new ExecuteDrawUseCase(), []);
 
   const [filter, setFilter] = useState<IntensityFilter>(DEFAULT_INTENSITY_FILTER);
   const [drawSession, setDrawSession] = useState(orchestrator.createIdleSession());

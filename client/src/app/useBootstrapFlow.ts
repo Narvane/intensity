@@ -8,7 +8,7 @@ import {
   initialBootstrapState,
   type BootstrapState,
 } from '@domain/bootstrap/BootstrapState';
-import { parseInviteDeepLinkUrl } from '@domain/convite/invitePresentation';
+import { parseInviteDeepLinkUrl } from '@domain/invite/invitePresentation';
 
 export function useBootstrapFlow() {
   const navigate = useNavigate();

@@ -55,7 +55,7 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /v1/auth/grupo:
+  /v1/auth/group:
     post:
       tags: [Auth]
       summary: Experience Box joint login
@@ -81,7 +81,7 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /v1/participantes:
+  /v1/participants:
     post:
       tags: [Participants]
       summary: Register participant (allowlist required)
@@ -107,7 +107,7 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /v1/grupos:
+  /v1/groups:
     get:
       tags: [Groups]
       summary: List groups for authenticated participant
@@ -124,7 +124,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  /v1/grupos/{groupId}/membros:
+  /v1/groups/{groupId}/members:
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
@@ -160,7 +160,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  /v1/grupos/{groupId}/convites:
+  /v1/groups/{groupId}/invites:
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
@@ -200,7 +200,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  /v1/convites/validar:
+  /v1/invites/validate:
     get:
       tags: [Invites]
       summary: Validate invite by code or link token
@@ -235,7 +235,7 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /v1/convites/{inviteId}/aceitar:
+  /v1/invites/{inviteId}/accept:
     parameters:
       - $ref: '#/components/parameters/InviteId'
     post:
@@ -260,7 +260,7 @@ paths:
         '410':
           $ref: '#/components/responses/Gone'
 
-  /v1/convites/{inviteId}:
+  /v1/invites/{inviteId}:
     parameters:
       - $ref: '#/components/parameters/InviteId'
     delete:
@@ -279,7 +279,7 @@ paths:
         '410':
           $ref: '#/components/responses/Gone'
 
-  /v1/grupos/{groupId}/caixinhas:
+  /v1/groups/{groupId}/boxes:
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
@@ -302,7 +302,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  /v1/caixinhas:
+  /v1/boxes:
     post:
       tags: [Boxes]
       summary: Create box (Experience Box session or group member)
@@ -327,7 +327,7 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /v1/caixinhas/{boxId}:
+  /v1/boxes/{boxId}:
     parameters:
       - $ref: '#/components/parameters/BoxId'
     delete:
@@ -344,7 +344,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  /v1/caixinhas/{boxId}/experiencias:
+  /v1/boxes/{boxId}/experiences:
     parameters:
       - $ref: '#/components/parameters/BoxId'
     get:
@@ -392,7 +392,7 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /v1/experiencias/{experienceId}:
+  /v1/experiences/{experienceId}:
     parameters:
       - $ref: '#/components/parameters/ExperienceId'
     put:

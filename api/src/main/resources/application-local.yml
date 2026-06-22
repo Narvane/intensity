@@ -11,6 +11,8 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+    url: /openapi.yaml
+    disable-swagger-default-url: true
 
 intensity:
   cors:

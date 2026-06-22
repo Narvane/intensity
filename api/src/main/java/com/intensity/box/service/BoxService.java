@@ -1,0 +1,129 @@
+package com.intensity.box.service;
+
+import com.intensity.box.dto.BoxResponse;
+import com.intensity.box.dto.CreateBoxRequest;
+import com.intensity.box.entity.Box;
+import com.intensity.box.repository.BoxRepository;
+import com.intensity.common.AccessMode;
+import com.intensity.common.AuthPrincipal;
+import com.intensity.common.exception.ApiException;
+import com.intensity.group.entity.Group;
+import com.intensity.experience.repository.ExperienceRepository;
+import com.intensity.group.repository.GroupParticipantRepository;
+import com.intensity.group.repository.GroupRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+public class BoxService {
+
+	private final BoxRepository boxRepository;
+	private final GroupRepository groupRepository;
+	private final GroupParticipantRepository groupParticipantRepository;
+	private final ExperienceRepository experienceRepository;
+
+	public BoxService(
+			BoxRepository boxRepository,
+			GroupRepository groupRepository,
+			GroupParticipantRepository groupParticipantRepository,
+			ExperienceRepository experienceRepository) {
+		this.boxRepository = boxRepository;
+		this.groupRepository = groupRepository;
+		this.groupParticipantRepository = groupParticipantRepository;
+		this.experienceRepository = experienceRepository;
+	}
+
+	@Transactional(readOnly = true)
+	public List<BoxResponse> listByGroup(UUID groupId, AuthPrincipal principal) {
+		ensureCanAccessGroup(groupId, principal);
+		ensureGroupExists(groupId);
+
+		return boxRepository.findAllByGroup_IdOrderByCreatedAtDesc(groupId).stream()
+				.map(this::toResponse)
+				.toList();
+	}
+
+	@Transactional
+	public BoxResponse create(CreateBoxRequest request, AuthPrincipal principal) {
+		UUID groupId = request.groupId();
+		ensureCanCreateBox(groupId, principal);
+		Group group = ensureGroupExists(groupId);
+
+		Box box = new Box(group, request.name(), request.type());
+		boxRepository.save(box);
+
+		return toResponse(box);
+	}
+
+	@Transactional
+	public void delete(UUID boxId, AuthPrincipal principal) {
+		if (principal.accessMode() != AccessMode.EXPERIENCE_BOX) {
+			throw forbidden();
+		}
+
+		Box box = boxRepository
+				.findById(boxId)
+				.orElseThrow(() -> new ApiException(
+						HttpStatus.NOT_FOUND, "BOX_NOT_FOUND", "Box not found."));
+
+		if (!box.getGroup().getId().equals(principal.groupId())) {
+			throw forbidden();
+		}
+
+		boxRepository.delete(box);
+	}
+
+	private Group ensureGroupExists(UUID groupId) {
+		return groupRepository
+				.findById(groupId)
+				.orElseThrow(() -> new ApiException(
+						HttpStatus.NOT_FOUND, "GROUP_NOT_FOUND", "Group not found."));
+	}
+
+	private void ensureCanAccessGroup(UUID groupId, AuthPrincipal principal) {
+		if (principal.accessMode() == AccessMode.EXPERIENCE_BOX) {
+			if (!groupId.equals(principal.groupId())) {
+				throw forbidden();
+			}
+			return;
+		}
+
+		ensureMember(groupId, principal.participantId());
+	}
+
+	private void ensureCanCreateBox(UUID groupId, AuthPrincipal principal) {
+		if (principal.accessMode() == AccessMode.EXPERIENCE_BOX) {
+			if (!groupId.equals(principal.groupId())) {
+				throw forbidden();
+			}
+			return;
+		}
+
+		ensureMember(groupId, principal.participantId());
+	}
+
+	private void ensureMember(UUID groupId, UUID participantId) {
+		if (!groupParticipantRepository.existsById_GroupIdAndId_ParticipantId(groupId, participantId)) {
+			throw forbidden();
+		}
+	}
+
+	private BoxResponse toResponse(Box box) {
+		long experienceCount = experienceRepository.countByBox_Id(box.getId());
+		return new BoxResponse(
+				box.getId(),
+				box.getGroup().getId(),
+				box.getName(),
+				box.getType(),
+				box.getCreatedAt(),
+				experienceCount);
+	}
+
+	private ApiException forbidden() {
+		return new ApiException(HttpStatus.FORBIDDEN, "FORBIDDEN", "Not allowed for current session.");
+	}
+}

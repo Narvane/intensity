@@ -7,7 +7,7 @@ export class ListGroupsUseCase {
   constructor(private readonly api: ApiClient) {}
 
   execute(token: string): Promise<Group[]> {
-    return this.api.get<Group[]>('/v1/grupos', token);
+    return this.api.get<Group[]>('/v1/groups', token);
   }
 }
 
@@ -15,7 +15,7 @@ export class ListBoxesUseCase {
   constructor(private readonly api: ApiClient) {}
 
   execute(groupId: string, token: string): Promise<Box[]> {
-    return this.api.get<Box[]>(`/v1/grupos/${groupId}/caixinhas`, token);
+    return this.api.get<Box[]>(`/v1/groups/${groupId}/boxes`, token);
   }
 }
 
@@ -30,7 +30,7 @@ export class CreateBoxUseCase {
 
   execute(token: string, input: CreateBoxInput): Promise<Box> {
     return this.api.post<Box>(
-      '/v1/caixinhas',
+      '/v1/boxes',
       {
         groupId: input.groupId,
         name: input.name.trim(),
@@ -45,7 +45,7 @@ export class DeleteBoxUseCase {
   constructor(private readonly api: ApiClient) {}
 
   execute(boxId: string, token: string): Promise<void> {
-    return this.api.delete(`/v1/caixinhas/${boxId}`, token);
+    return this.api.delete(`/v1/boxes/${boxId}`, token);
   }
 }
 
@@ -53,7 +53,7 @@ export class LeaveGroupUseCase {
   constructor(private readonly api: ApiClient) {}
 
   execute(groupId: string, token: string): Promise<void> {
-    return this.api.delete(`/v1/grupos/${groupId}/membros`, token);
+    return this.api.delete(`/v1/groups/${groupId}/members`, token);
   }
 }
 

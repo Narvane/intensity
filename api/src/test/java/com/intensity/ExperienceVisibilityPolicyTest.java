@@ -1,6 +1,6 @@
 package com.intensity;
 
-import com.intensity.experiencia.service.ExperienceVisibilityPolicy;
+import com.intensity.experience.service.ExperienceVisibilityPolicy;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

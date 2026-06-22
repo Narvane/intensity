@@ -1,6 +1,6 @@
 package com.intensity;
 
-import com.intensity.convite.service.InviteCodeGenerator;
+import com.intensity.invite.service.InviteCodeGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

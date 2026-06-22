@@ -40,6 +40,8 @@ services:
     image: caddy:2-alpine
     container_name: intensity-proxy
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - api
     ports:

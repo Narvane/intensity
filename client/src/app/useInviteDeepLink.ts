@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { App } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
-import { parseInviteDeepLinkUrl } from '@domain/convite/invitePresentation';
+import { parseInviteDeepLinkUrl } from '@domain/invite/invitePresentation';
 
 export function useInviteDeepLink() {
   const navigate = useNavigate();

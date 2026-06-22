@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class SealServiceTest {
 
-	private final com.intensity.experiencia.service.SealService sealService =
-			new com.intensity.experiencia.service.SealService();
+	private final com.intensity.experience.service.SealService sealService =
+			new com.intensity.experience.service.SealService();
 
 	@Test
 	void sealIsDeterministicForSameDescription() {

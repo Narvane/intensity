@@ -19,6 +19,7 @@ import { getSuggestions } from '../../content/suggestion-packs/index';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import { IntegritySeal } from '../components/IntegritySeal';
+import { ParameterStarField } from '../components/ParameterStarField';
 import { RatingScale } from '../components/RatingScale';
 import styles from './CreationAssistant.module.css';
 
@@ -229,36 +230,38 @@ export function CreationAssistant({
           <section className={styles.step}>
             <h3>{t('assistant.steps.parameters.title')}</h3>
             <p>{t('assistant.steps.parameters.body')}</p>
-            <RatingScale
-              label={t('assistant.fields.effort')}
+            <div className={styles.parameterFields}>
+            <ParameterStarField
+              parameterKey="effort"
               value={parameters.effort}
-              tone="effort"
+              showHint
               onChange={(effort) => {
                 const next = { ...parameters, effort };
                 setParameters(next);
                 applySuggestedIntensity(next);
               }}
             />
-            <RatingScale
-              label={t('assistant.fields.openness')}
+            <ParameterStarField
+              parameterKey="openness"
               value={parameters.openness}
-              tone="openness"
+              showHint
               onChange={(openness) => {
                 const next = { ...parameters, openness };
                 setParameters(next);
                 applySuggestedIntensity(next);
               }}
             />
-            <RatingScale
-              label={t('assistant.fields.novelty')}
+            <ParameterStarField
+              parameterKey="novelty"
               value={parameters.novelty}
-              tone="novelty"
+              showHint
               onChange={(novelty) => {
                 const next = { ...parameters, novelty };
                 setParameters(next);
                 applySuggestedIntensity(next);
               }}
             />
+            </div>
           </section>
         )}
 

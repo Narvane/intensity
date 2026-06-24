@@ -1,0 +1,121 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.35rem;
+}
+
+.picker {
+  padding: 0.85rem 0.5rem;
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--surface-sunken) 80%, white);
+}
+
+.cover {
+  gap: 0.25rem;
+}
+
+.inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-chip);
+  background: var(--surface-sunken);
+}
+
+.inline .icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.inline .icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.inline .label {
+  font-size: 0.75rem;
+  margin-right: 0.15rem;
+}
+
+.inline .hint {
+  display: none;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  stroke-width: 2.25;
+}
+
+.field[data-param='effort'] .icon {
+  color: var(--param-effort);
+}
+
+.field[data-param='openness'] .icon {
+  color: var(--param-openness);
+}
+
+.field[data-param='novelty'] .icon {
+  color: var(--param-novelty);
+}
+
+.label {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.hint {
+  margin: 0.15rem 0 0;
+  max-width: 22rem;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.inlineGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.inlineGroup .field {
+  flex: 1 1 7.5rem;
+  min-width: 6.5rem;
+  padding: 0.55rem 0.35rem;
+  border-radius: var(--radius-input);
+  background: var(--surface-sunken);
+}
+
+.inlineGroup .label {
+  font-size: 0.78rem;
+}
+
+.coverGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.coverGroup .field {
+  width: 100%;
+  max-width: 12rem;
+}
+
+.coverGroup .label {
+  font-size: 0.85rem;
+}

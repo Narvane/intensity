@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
+import { useExperienceBoxSessionEnd } from '@app/useExperienceBoxSessionEnd';
 import { useAppLogout } from '@app/useAppLogout';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
@@ -12,9 +14,17 @@ import {
   type IntensityFilterMode,
 } from '@domain/draw/IntensityFilterPolicy';
 import { RevelationOrchestrator } from '@domain/draw/RevelationOrchestrator';
+import { RecordExperienceBoxDrawUseCase } from '@domain/session/RecordExperienceBoxDrawUseCase';
+import {
+  canPerformDraw,
+  remainingDraws,
+} from '@domain/session/experienceBoxSessionPolicy';
 import { SlidersHorizontal, Sparkles } from 'lucide-react';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { NavButton } from '../components/NavButton';
+import { ScreenHeader } from '../components/ScreenHeader';
+import { SessionModeChrome } from '../components/SessionModeChrome';
 import { RatingScale } from '../components/RatingScale';
 import { DrawResultCard } from './DrawResultCard';
 import styles from './SharedMomentPage.module.css';
@@ -24,13 +34,19 @@ const orchestrator = new RevelationOrchestrator();
 export function SharedMomentPage() {
   const { boxId = '' } = useParams();
   const { t } = useI18n();
-  const { session } = useSession();
+  const { session, saveSession } = useSession();
   const { navigation } = useNavigation();
   const logout = useAppLogout();
+  const endExperienceBoxSession = useExperienceBoxSessionEnd();
   const navigate = useNavigate();
   const api = useMemo(() => createApiClient(), []);
+  const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
   const drawUseCase = useMemo(() => new ExecuteDrawUseCase(), []);
+  const recordDraw = useMemo(
+    () => new RecordExperienceBoxDrawUseCase(sessionPort),
+    [sessionPort],
+  );
 
   const [filter, setFilter] = useState<IntensityFilter>(DEFAULT_INTENSITY_FILTER);
   const [drawSession, setDrawSession] = useState(orchestrator.createIdleSession());
@@ -41,7 +57,21 @@ export function SharedMomentPage() {
   const [statusMessage, setStatusMessage] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  const drawCount = session?.experienceBox?.drawCount ?? 0;
+  const drawsLeft = remainingDraws(drawCount);
+  const canDraw = canPerformDraw(drawCount);
+
   const boxName = navigation.boxName ?? t('sharedMoment.defaultBoxName');
+
+  useEffect(() => {
+    if (!session || session.accessMode !== 'EXPERIENCE_BOX') {
+      return;
+    }
+
+    if (!canDraw) {
+      void endExperienceBoxSession('draw_limit');
+    }
+  }, [canDraw, endExperienceBoxSession, session]);
 
   const drawButtonLabel = () => {
     const name = t(`intensity.levels.${filter.level}`);
@@ -65,6 +95,11 @@ export function SharedMomentPage() {
       return;
     }
 
+    if (!canDraw) {
+      await endExperienceBoxSession('draw_limit');
+      return;
+    }
+
     setDrawing(true);
     setError(null);
     setEmptyFilter(false);
@@ -85,8 +120,14 @@ export function SharedMomentPage() {
         return;
       }
 
+      const { session: updatedSession, limitReached } = await recordDraw.execute(session);
+      await saveSession(updatedSession);
       setDrawSession(orchestrator.applyDraw(orchestrator.createIdleSession(), result));
       setStatusMessage(t('sharedMoment.statusDrawn'));
+
+      if (limitReached) {
+        await endExperienceBoxSession('draw_limit');
+      }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('common.error'));
     } finally {
@@ -99,20 +140,20 @@ export function SharedMomentPage() {
       <p className="srOnly" aria-live="polite" aria-atomic="true">
         {statusMessage}
       </p>
-      <header className={styles.header}>
-        <div>
-          <p className={styles.mode}>{t('session.experienceBoxMode')}</p>
-          <h1>{boxName}</h1>
-        </div>
-        <div className={styles.headerActions}>
-          <Button variant="ghost" onClick={() => navigate('/box-home')}>
-            {t('common.back')}
-          </Button>
-          <Button variant="ghost" onClick={() => void logout()}>
-            {t('session.logout')}
-          </Button>
-        </div>
-      </header>
+      <ScreenHeader
+        leading={<NavButton action="back" onClick={() => navigate('/box-home')} />}
+        trailing={<NavButton action="logout" onClick={() => void logout()} />}
+      >
+        <SessionModeChrome
+          mode="EXPERIENCE_BOX"
+          title={boxName}
+          members={session?.members}
+        />
+      </ScreenHeader>
+
+      <p className={styles.drawsRemaining}>
+        {t('session.drawsRemaining', { count: drawsLeft })}
+      </p>
 
       <section className={styles.ritual}>
         <div className={styles.envelope} aria-hidden="true">
@@ -165,7 +206,7 @@ export function SharedMomentPage() {
 
       {drawSession.phase === 'idle' && (
         <div className={styles.drawArea}>
-          <Button fullWidth disabled={drawing} onClick={() => void handleDraw()}>
+          <Button fullWidth disabled={drawing || !canDraw} onClick={() => void handleDraw()}>
             {drawing ? t('sharedMoment.choosing') : drawButtonLabel()}
           </Button>
 

@@ -1,0 +1,65 @@
+.explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--teal) 8%, var(--surface));
+  box-shadow: var(--shadow-soft);
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  align-self: flex-start;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-chip);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.typeBadge[data-family='friends'] {
+  background: color-mix(in srgb, var(--teal) 18%, white);
+  color: var(--purple);
+}
+
+.typeBadge[data-family='couple'] {
+  background: color-mix(in srgb, var(--coral) 18%, white);
+  color: var(--purple);
+}
+
+.typeBadge[data-family='growth'] {
+  background: color-mix(in srgb, var(--yellow) 24%, white);
+  color: var(--color-brown);
+}
+
+.typeBadge[data-family='connection'] {
+  background: color-mix(in srgb, var(--purple) 14%, white);
+  color: var(--purple);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.description {
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.meta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}

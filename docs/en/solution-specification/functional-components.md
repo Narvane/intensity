@@ -185,7 +185,7 @@ Lists boxes in selected group. Empty state: "Create a box together in Experience
 
 ### Experience list
 
-Shows contributions in active box. Own items: full text, edit, delete. Others' items: intensity + seal summary only (no description). Actions: create (+), toggle reveal preview for own items, logout, back.
+Shows contributions in active box. Own items: intensity, parameters, and seal always visible; description and reflection revealed by the author via eye icon; edit and delete in the card footer. Others' items: intensity + seal summary only (no description). Page actions: create (+), logout, back.
 
 **Edit experience:** author opens edit from item menu → same fields as assistant (pre-filled) → save.
 
@@ -203,7 +203,7 @@ Name field, type picker (flat 11-type list), create button. Validation: name req
 
 Filter chips + optional intensity selector (defaults to 3 — Courage). Draw button label adapts to filter mode. Loading: "Choosing…". Empty box: hint card to add experiences via Experiences mode. Empty filter pool: "No experiences available."
 
-Post-draw: alignment hint (amber dashed), reveal button, back to draw. Revealed state shows author name and reflection.
+Post-draw: alignment hint (amber dashed), reveal button, back to draw. Revealed state shows full description and reflection, without identifying the author.
 
 ### Unknown session
 

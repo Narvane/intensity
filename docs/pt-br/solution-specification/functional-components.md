@@ -185,7 +185,7 @@ Lista caixinhas no grupo selecionado. Estado vazio: "Criem uma caixinha juntos n
 
 ### Lista de experiências
 
-Mostra contribuições na caixinha ativa. Itens próprios: texto completo, editar, excluir. Itens de outros: apenas resumo de intensidade + selo (sem descrição). Ações: criar (+), alternar prévia de revelação para itens próprios, logout, voltar.
+Mostra contribuições na caixinha ativa. Itens próprios: intensidade, parâmetros e selo sempre visíveis; descrição e reflexão reveláveis pelo autor via ícone de olho; editar e excluir no rodapé do card. Itens de outros: apenas resumo de intensidade + selo (sem descrição). Ações da página: criar (+), logout, voltar.
 
 **Editar experiência:** autor abre edição no menu do item → mesmos campos do assistente (pré-preenchidos) → salvar.
 
@@ -203,7 +203,7 @@ Campo de nome, seletor de tipo (lista plana de 11 tipos), botão criar. Validaç
 
 Chips de filtro + seletor de intensidade opcional (padrão 3 — Coragem). Rótulo do botão de sortear adapta ao modo de filtro. Carregando: "Escolhendo…". Caixinha vazia: carta de dica para adicionar experiências via modo Experiências. Pool de filtro vazio: "Nenhuma experiência disponível."
 
-Pós-sorteio: dica de alinhamento (âmbar tracejado), botão revelar, voltar ao sorteio. Estado revelado mostra nome do autor e reflexão.
+Pós-sorteio: dica de alinhamento (âmbar tracejado), botão revelar, voltar ao sorteio. Estado revelado mostra descrição completa e reflexão, sem identificar o autor.
 
 ### Sessão desconhecida
 

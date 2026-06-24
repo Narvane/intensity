@@ -185,7 +185,7 @@ Elenca scatole nel gruppo selezionato. Stato vuoto: "Crea una scatola insieme in
 
 ### Elenco esperienze
 
-Mostra contributi nella scatola attiva. Propri elementi: testo completo, modifica, elimina. Elementi altrui: solo riepilogo intensità + sigillo (nessuna descrizione). Azioni: crea (+), toggle anteprima rivelazione per propri elementi, logout, indietro.
+Mostra contributi nella scatola attiva. Propri elementi: intensità, parametri e sigillo sempre visibili; descrizione e riflessione rivelabili dall'autore tramite icona occhio; modifica ed elimina nel piè di pagina della carta. Elementi altrui: solo riepilogo intensità + sigillo (nessuna descrizione). Azioni pagina: crea (+), logout, indietro.
 
 **Modifica esperienza:** l'autore apre modifica dal menu elemento → stessi campi dell'assistente (pre-compilati) → salva.
 
@@ -203,7 +203,7 @@ Campo nome, selettore tipo (elenco piatto 11 tipi), pulsante crea. Validazione: 
 
 Chip filtro + selettore intensità opzionale (predefinito 3 — Coraggio). Etichetta pulsante estrazione si adatta alla modalità filtro. Caricamento: "Scelta in corso…". Scatola vuota: carta suggerimento per aggiungere esperienze via modalità Esperienze. Pool filtro vuoto: "Nessuna esperienza disponibile."
 
-Post-estrazione: suggerimento allineamento (ambra tratteggiato), pulsante rivela, torna all'estrazione. Stato rivelato mostra nome autore e riflessione.
+Post-estrazione: suggerimento allineamento (ambra tratteggiato), pulsante rivela, torna all'estrazione. Stato rivelato mostra descrizione completa e riflessione, senza identificare l'autore.
 
 ### Sessione sconosciuta
 

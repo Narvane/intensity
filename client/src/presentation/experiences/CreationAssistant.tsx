@@ -15,11 +15,15 @@ import {
   CreateExperienceUseCase,
   UpdateExperienceUseCase,
 } from '@domain/experience/experienceUseCases';
-import { getSuggestions } from '../../content/suggestion-packs/index';
+import type { ExperienceSuggestion } from '../../content/suggestion-packs';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { NavButton } from '../components/NavButton';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { IntegritySeal } from '../components/IntegritySeal';
+import { ParameterStarField } from '../components/ParameterStarField';
 import { RatingScale } from '../components/RatingScale';
+import { SuggestionExplorer } from '../suggestions/SuggestionExplorer';
 import styles from './CreationAssistant.module.css';
 
 interface CreationAssistantProps {
@@ -43,7 +47,7 @@ export function CreationAssistant({
   onClose,
   onSaved,
 }: CreationAssistantProps) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const api = useMemo(() => createApiClient(), []);
   const createExperience = useMemo(() => new CreateExperienceUseCase(api), [api]);
   const updateExperience = useMemo(() => new UpdateExperienceUseCase(api), [api]);
@@ -57,10 +61,13 @@ export function CreationAssistant({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const suggestions = useMemo(
-    () => getSuggestions(locale, boxType, intensity as 1 | 2 | 3 | 4 | 5),
-    [boxType, intensity, locale],
-  );
+  const applySuggestion = (suggestion: ExperienceSuggestion) => {
+    setDescription(suggestion.description);
+    setReflection(suggestion.reflection);
+    setParameters(suggestion.parameters);
+    setIntensity(suggestion.intensity);
+    setIntensityTouched(true);
+  };
 
   useEffect(() => {
     if (!open) {
@@ -155,15 +162,16 @@ export function CreationAssistant({
   return (
     <div className={styles.backdrop} role="dialog" aria-modal="true">
       <section className={styles.panel}>
-        <header className={styles.header}>
-          <Button variant="ghost" onClick={onClose}>
-            {t('common.back')}
-          </Button>
-          <h2>{editing ? t('assistant.editTitle') : t('assistant.title')}</h2>
-          <p className={styles.stepLabel}>
-            {t('assistant.stepIndicator', { current: step, total: STEP_COUNT })}
-          </p>
-        </header>
+        <ScreenHeader
+          trailing={<NavButton action="close" onClick={onClose} />}
+        >
+          <div className={styles.headerBody}>
+            <h2>{editing ? t('assistant.editTitle') : t('assistant.title')}</h2>
+            <p className={styles.stepLabel}>
+              {t('assistant.stepIndicator', { current: step, total: STEP_COUNT })}
+            </p>
+          </div>
+        </ScreenHeader>
 
         <div className={styles.progress} aria-hidden="true">
           {Array.from({ length: STEP_COUNT }, (_, index) => (
@@ -185,6 +193,8 @@ export function CreationAssistant({
           <section className={styles.step}>
             <h3>{t('assistant.steps.suggestion.title')}</h3>
             <p>{t('assistant.steps.suggestion.body')}</p>
+            <SuggestionExplorer boxType={boxType} onAccept={applySuggestion} />
+            <p className={styles.hint}>{t('suggestions.explorer.manualHint')}</p>
             <label className={styles.field}>
               <span>{t('assistant.fields.description')}</span>
               <textarea
@@ -194,18 +204,6 @@ export function CreationAssistant({
                 onChange={(event) => setDescription(event.target.value)}
               />
             </label>
-            <div className={styles.suggestions}>
-              {suggestions.map((suggestion) => (
-                <button
-                  key={suggestion}
-                  type="button"
-                  className={styles.suggestionChip}
-                  onClick={() => setDescription(suggestion)}
-                >
-                  {suggestion}
-                </button>
-              ))}
-            </div>
           </section>
         )}
 
@@ -229,36 +227,38 @@ export function CreationAssistant({
           <section className={styles.step}>
             <h3>{t('assistant.steps.parameters.title')}</h3>
             <p>{t('assistant.steps.parameters.body')}</p>
-            <RatingScale
-              label={t('assistant.fields.effort')}
+            <div className={styles.parameterFields}>
+            <ParameterStarField
+              parameterKey="effort"
               value={parameters.effort}
-              tone="effort"
+              showHint
               onChange={(effort) => {
                 const next = { ...parameters, effort };
                 setParameters(next);
                 applySuggestedIntensity(next);
               }}
             />
-            <RatingScale
-              label={t('assistant.fields.openness')}
+            <ParameterStarField
+              parameterKey="openness"
               value={parameters.openness}
-              tone="openness"
+              showHint
               onChange={(openness) => {
                 const next = { ...parameters, openness };
                 setParameters(next);
                 applySuggestedIntensity(next);
               }}
             />
-            <RatingScale
-              label={t('assistant.fields.novelty')}
+            <ParameterStarField
+              parameterKey="novelty"
               value={parameters.novelty}
-              tone="novelty"
+              showHint
               onChange={(novelty) => {
                 const next = { ...parameters, novelty };
                 setParameters(next);
                 applySuggestedIntensity(next);
               }}
             />
+            </div>
           </section>
         )}
 
@@ -328,9 +328,7 @@ export function CreationAssistant({
 
         <footer className={styles.footer}>
           {step > 1 && (
-            <Button variant="ghost" onClick={() => setStep((current) => current - 1)}>
-              {t('common.back')}
-            </Button>
+            <NavButton action="back" onClick={() => setStep((current) => current - 1)} />
           )}
 
           {step < STEP_COUNT && (

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ApiError } from '@adapters/api/ApiClient';
+import { createDefaultPendingInviteAdapter } from '@adapters/invite/PendingInvitePreferencesAdapter';
 import { createApiClient, createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import {
   LoginExperienceBoxUseCase,
@@ -8,10 +9,17 @@ import {
   RegisterParticipantUseCase,
   ValidateInviteCodeFormatUseCase,
 } from '@domain/auth/authUseCases';
-import { HelpCircle } from 'lucide-react';
+import {
+  getMemoryPendingReturnPath,
+  hydratePendingInvite,
+  resolvePostAuthDestination,
+} from '@domain/invite/pendingInvite';
+import { consumeExperienceBoxSessionEndReason } from '@domain/session/experienceBoxSessionEnd';
 import { useI18n } from '../../i18n/I18nContext';
 import { BrandMark } from '../components/BrandMark';
+import { AuthModeIntro } from '../components/AuthModeIntro';
 import { Button } from '../components/Button';
+import { NavButton } from '../components/NavButton';
 import { QuickGuideOverlay } from '../quick-guide/QuickGuideOverlay';
 import styles from './AuthPage.module.css';
 
@@ -37,6 +45,7 @@ export function AuthPage() {
   const { refresh } = useSession();
   const api = useMemo(() => createApiClient(), []);
   const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
+  const pendingInvitePort = useMemo(() => createDefaultPendingInviteAdapter(), []);
 
   const registerUseCase = useMemo(
     () => new RegisterParticipantUseCase(api, sessionPort),
@@ -56,6 +65,7 @@ export function AuthPage() {
   const [quickGuideOpen, setQuickGuideOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [sessionNotice, setSessionNotice] = useState<string | null>(null);
 
   const [experiencesForm, setExperiencesForm] = useState<CredentialForm>(emptyCredential);
   const [boxCredentials, setBoxCredentials] = useState<CredentialForm[]>([emptyCredential()]);
@@ -65,6 +75,7 @@ export function AuthPage() {
     password: '',
   });
   const [inviteCode, setInviteCode] = useState('');
+  const [pendingReturnPath, setPendingReturnPath] = useState<string | null>(null);
 
   useEffect(() => {
     if (authState.panel) {
@@ -72,12 +83,32 @@ export function AuthPage() {
     }
   }, [authState.panel]);
 
-  const afterAuthNavigate = () => {
+  useEffect(() => {
+    const endReason = consumeExperienceBoxSessionEndReason();
+    if (endReason === 'draw_limit') {
+      setSessionNotice(t('session.experienceBoxEnded'));
+      setPanel('experienceBox');
+    }
+  }, [t]);
+
+  useEffect(() => {
     if (authState.returnTo) {
-      navigate(authState.returnTo, { replace: true });
+      setPendingReturnPath(authState.returnTo);
       return;
     }
-    navigate('/groups', { replace: true });
+
+    void hydratePendingInvite(pendingInvitePort).then((pending) => {
+      if (pending?.returnPath) {
+        setPendingReturnPath(pending.returnPath);
+      }
+    });
+  }, [authState.returnTo, pendingInvitePort]);
+
+  const resolveExperiencesDestination = () =>
+    resolvePostAuthDestination(authState.returnTo, pendingReturnPath ?? getMemoryPendingReturnPath());
+
+  const afterAuthNavigate = () => {
+    navigate(resolveExperiencesDestination(), { replace: true });
   };
 
   const handleError = (err: unknown) => {
@@ -98,11 +129,7 @@ export function AuthPage() {
     try {
       await loginExperiencesUseCase.execute(experiencesForm);
       await refresh();
-      if (authState.returnTo) {
-        navigate(authState.returnTo, { replace: true });
-        return;
-      }
-      navigate('/groups');
+      navigate(resolveExperiencesDestination(), { replace: true });
     } catch (err) {
       handleError(err);
     } finally {
@@ -159,15 +186,18 @@ export function AuthPage() {
   return (
     <>
       <main className={styles.page}>
-        <header className={styles.header}>
-          <BrandMark />
-          <Button
-            variant="ghost"
-            aria-label={t('auth.helpLabel')}
+        <header className={styles.brandBar}>
+          <BrandMark
+            variant="wordmark"
+            size="auth"
+            accessibleName={t('app.name')}
+          />
+          <NavButton
+            action="help"
+            iconOnly
+            className={styles.helpButton}
             onClick={() => setQuickGuideOpen(true)}
-          >
-            <HelpCircle aria-hidden="true" />
-          </Button>
+          />
         </header>
 
         <nav className={styles.tabs} aria-label={t('auth.tabsLabel')}>
@@ -177,9 +207,13 @@ export function AuthPage() {
               type="button"
               className={
                 panel === tab
-                  ? tab === 'invite'
-                    ? `${styles.tabActive} ${styles.tabActiveInvite}`
-                    : styles.tabActive
+                  ? tab === 'experiences'
+                    ? `${styles.tabActive} ${styles.tabActiveExperiences}`
+                    : tab === 'experienceBox'
+                      ? `${styles.tabActive} ${styles.tabActiveExperienceBox}`
+                      : tab === 'invite'
+                        ? `${styles.tabActive} ${styles.tabActiveInvite}`
+                        : styles.tabActive
                   : styles.tab
               }
               onClick={() => {
@@ -195,7 +229,7 @@ export function AuthPage() {
         <section className={`${styles.panel} ${panelClass}`}>
           {panel === 'experiences' && (
             <>
-              <h1>{t('auth.experiences.title')}</h1>
+              <AuthModeIntro mode="EXPERIENCES" />
               <label className={styles.field}>
                 <span>{t('auth.fields.email')}</span>
                 <input
@@ -232,7 +266,7 @@ export function AuthPage() {
 
           {panel === 'experienceBox' && (
             <>
-              <h1>{t('auth.experienceBox.title')}</h1>
+              <AuthModeIntro mode="EXPERIENCE_BOX" />
               <p className={styles.hint}>{t('auth.experienceBox.hint')}</p>
               {boxCredentials.map((credential, index) => (
                 <div key={index} className={styles.credentialCard}>
@@ -345,6 +379,12 @@ export function AuthPage() {
                 {t('auth.invite.submit')}
               </Button>
             </>
+          )}
+
+          {sessionNotice && (
+            <p className={styles.notice} role="status">
+              {sessionNotice}
+            </p>
           )}
 
           {error && (

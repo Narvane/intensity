@@ -12,6 +12,9 @@ import { ShareInviteSheet } from '../invite/ShareInviteSheet';
 import { LeaveGroupDialog } from '../groups/LeaveGroupDialog';
 import { BoxCard } from '../components/BoxCard';
 import { Button } from '../components/Button';
+import { NavButton } from '../components/NavButton';
+import { ScreenHeader } from '../components/ScreenHeader';
+import { SessionModeChrome } from '../components/SessionModeChrome';
 import { DeleteBoxDialog } from './DeleteBoxDialog';
 import styles from './BoxHomePage.module.css';
 
@@ -131,15 +134,15 @@ export function BoxHomePage() {
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <div>
-          <p className={styles.mode}>{t('session.experienceBoxMode')}</p>
-          <h1>{t('boxHome.title')}</h1>
-        </div>
-        <Button variant="ghost" onClick={() => void logout()}>
-          {t('session.logout')}
-        </Button>
-      </header>
+      <ScreenHeader
+        trailing={<NavButton action="logout" onClick={() => void logout()} />}
+      >
+        <SessionModeChrome
+          mode="EXPERIENCE_BOX"
+          title={t('boxHome.title')}
+          members={session?.members}
+        />
+      </ScreenHeader>
 
       <div className={styles.toolbar}>
         <Button onClick={() => navigate('/box-home/create')}>{t('boxHome.create')}</Button>
@@ -149,15 +152,13 @@ export function BoxHomePage() {
           </Button>
         )}
         {session?.groupId && session.token && (
-          <Button
-            variant="ghost"
+          <NavButton
+            action="leave"
             onClick={() => {
               setLeaveError(null);
               setLeaveOpen(true);
             }}
-          >
-            {t('groups.leave')}
-          </Button>
+          />
         )}
       </div>
 

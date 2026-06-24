@@ -72,11 +72,15 @@
       "displayName": "Nome de exibição"
     },
     "experiences": {
-      "title": "Experiences",
+      "title": "Login",
+      "product": "Experiences",
+      "subtitle": "Crie experiências individualmente",
       "submit": "Entrar"
     },
     "experienceBox": {
-      "title": "Experience Box",
+      "title": "Jogar",
+      "product": "Experience Box",
+      "subtitle": "Sorteie caixas de experiências",
       "hint": "Informe todos presentes na sala. Cada pessoa usa suas próprias credenciais.",
       "participant": "Participante {{number}}",
       "addParticipant": "Adicionar participante",
@@ -105,16 +109,30 @@
     "enterExperienceBox": "Entrar no Experience Box"
   },
   "session": {
-    "experiencesMode": "Modo Experiences",
-    "experienceBoxMode": "Modo Experience Box",
-    "logout": "Sair"
+    "experiencesMode": "Experiences",
+    "experiencesSubtitle": "Sua sessão individual",
+    "experienceBoxMode": "Experience Box",
+    "experienceBoxSubtitle": "Sala compartilhada para sortear",
+    "greeting": "Olá, {{name}}",
+    "roomLabel": "Na sala agora",
+    "logout": "Sair",
+    "drawsRemaining": "Sorteios restantes: {{count}}",
+    "experienceBoxEnded": "A sessão em grupo terminou. Entrem juntos de novo para continuar."
   },
   "common": {
     "loading": "Carregando…",
     "error": "Algo deu errado. Tente novamente.",
     "back": "Voltar",
+    "close": "Fechar",
     "offlineBanner": "Você está offline. Ações destrutivas ficam desativadas até a conexão voltar.",
     "offlineDestructiveBlocked": "Reconecte-se para confirmar esta ação."
+  },
+  "nav": {
+    "back": "Voltar para a tela anterior",
+    "close": "Fechar",
+    "logout": "Sair da sessão",
+    "help": "Abrir guia rápido",
+    "leave": "Sair do grupo"
   },
   "groups": {
     "title": "Escolha sua turma",
@@ -135,7 +153,12 @@
   },
   "boxes": {
     "title": "Escolha uma caixinha",
-    "empty": "Criem uma caixinha juntos no modo Experience Box."
+    "create": "Criar caixinha",
+    "createFirst": "Criar primeira caixinha",
+    "createIntro": "Dê um nome e escolha o tipo temático. Depois vocês podem convidar mais pessoas para o grupo.",
+    "emptyTitle": "Nenhuma caixinha ainda",
+    "empty": "Criem a primeira caixinha do grupo para começar a registrar experiências juntos.",
+    "createdSuccess": "Caixinha \"{{name}}\" criada! Convide mais pessoas para o grupo."
   },
   "boxHome": {
     "title": "Suas caixinhas",
@@ -186,9 +209,17 @@
   },
   "createBox": {
     "title": "Criar caixinha",
+    "intro": "Dê um nome e escolha o tema que combina com o grupo.",
+    "nameStep": "1. Nome",
+    "nameHint": "Como vocês vão reconhecer esta caixinha na lista.",
     "nameLabel": "Nome da caixinha",
+    "namePlaceholder": "Ex.: Fim de semana especial",
+    "typeStep": "2. Tipo temático",
+    "typeHint": "O tipo orienta o clima das ideias — escolha o que combina com vocês.",
     "typeLabel": "Tipo de caixinha",
-    "submit": "Criar"
+    "defaultsStep": "3. Ideias padrão (opcional)",
+    "submit": "Criar caixinha",
+    "partialFillError": "A caixinha foi criada, mas {{count}} ideia(s) não puderam ser adicionadas. Tente incluí-las manualmente."
   },
   "experiences": {
     "title": "Experiências",
@@ -201,12 +232,11 @@
     "sealLabel": "Selo de integridade",
     "paramsSummary": "Esforço {{effort}} · Abertura {{openness}} · Novidade {{novelty}}",
     "otherSummary": "Carta guardada por {{author}} — intensidade e selo ficam visíveis até a revelação.",
+    "revealDescription": "Mostrar descrição e reflexão",
+    "hideDescription": "Ocultar descrição e reflexão",
     "anonymous": "Membro do grupo",
     "edit": "Editar",
     "delete": "Excluir",
-    "previewToggle": "Prévia como os outros veem",
-    "showFull": "Mostrar texto completo",
-    "previewAsOthers": "Os outros veem só intensidade e selo — assim.",
     "validationError": "Verifique intensidade e parâmetros (níveis 1–5).",
     "notAuthor": "Somente o autor pode editar ou excluir esta experiência.",
     "deleteSuccess": "Experiência excluída.",
@@ -240,7 +270,7 @@
     "steps": {
       "suggestion": {
         "title": "Sugestão",
-        "body": "Escreva a ideia ou toque em um chip para inspiração — não salva automaticamente."
+        "body": "Explore ideias do pacote desta caixinha ou escreva a sua — nada é salvo até você confirmar."
       },
       "reflection": {
         "title": "Reflexão",
@@ -248,7 +278,7 @@
       },
       "parameters": {
         "title": "O tempero",
-        "body": "Dê notas para esforço, abertura e novidade."
+        "body": "Toque nas estrelas para classificar esforço, abertura e novidade."
       },
       "classification": {
         "title": "Classificação",
@@ -258,6 +288,27 @@
         "title": "Revisão",
         "body": "Confira tudo antes de salvar."
       }
+    }
+  },
+  "suggestions": {
+    "placeholder": {
+      "description": "[placeholder] {{type}} — nível {{level}} — ideia {{idea}}",
+      "reflection": "[placeholder] Reflexão para {{type}} — nível {{level}} — ideia {{idea}}"
+    },
+    "intensityLabel": "Nível {{level}}",
+    "explorer": {
+      "filterLabel": "Filtrar por intensidade",
+      "intensity": "Intensidade {{level}}",
+      "another": "Outra sugestão",
+      "use": "Usar esta ideia",
+      "manualHint": "Ou escreva sua própria ideia abaixo."
+    },
+    "createBox": {
+      "flag": "Preencher com ideias padrão",
+      "flagHint": "Adicione experiências prontas para sorteio — marque as que quiser incluir.",
+      "chooseTypeFirst": "Escolha um tipo de caixinha para ver as ideias disponíveis.",
+      "selectedCount": "{{count}} ideia(s) selecionada(s)",
+      "groupIntensity": "Nível {{level}}"
     }
   },
   "seal": {
@@ -275,6 +326,35 @@
     },
     "levelNamed": "Nível {{level}} — {{name}}",
     "parametersLabel": "Parâmetros da experiência"
+  },
+  "parameters": {
+    "effort": {
+      "hints": {
+        "1": "Dá para fazer no dia a dia, sem planejamento especial.",
+        "2": "Exige um pouco de organização, mas nada extraordinário.",
+        "3": "Precisa reservar tempo e energia de propósito.",
+        "4": "É exigente — vale combinar antes com o grupo.",
+        "5": "Muito exigente fisicamente ou logisticamente; preparem-se juntos."
+      }
+    },
+    "openness": {
+      "hints": {
+        "1": "Pouca exposição — confortável para quase todos.",
+        "2": "Um gesto de sinceridade leve, sem se expor demais.",
+        "3": "Pedem honestidade gentil e alguma vulnerabilidade.",
+        "4": "Exige coragem para se mostrar um pouco mais.",
+        "5": "Alta exposição emocional ou social — só se o grupo estiver pronto."
+      }
+    },
+    "novelty": {
+      "hints": {
+        "1": "Bem dentro do hábito do grupo.",
+        "2": "Um desvio pequeno da rotina.",
+        "3": "Algo diferente do que costumam fazer.",
+        "4": "Bem distante do habitual — surpreende o grupo.",
+        "5": "Totalmente fora da zona de conforto habitual."
+      }
+    }
   },
   "sharedMoment": {
     "defaultBoxName": "Caixinha selecionada",
@@ -294,7 +374,6 @@
     "alignmentHint": "Respirem juntos antes de abrir a carta completa.",
     "reveal": "Abrir carta",
     "backToDraw": "Sortear outra carta",
-    "byAuthor": "Por {{author}}",
     "filter": {
       "ANY": "Qualquer",
       "EXACT": "Exato",
@@ -302,6 +381,12 @@
     }
   },
   "boxTypes": {
+    "families": {
+      "friends": "Amigos",
+      "couple": "Casal",
+      "growth": "Crescimento",
+      "connection": "Conexão"
+    },
     "SAIDAS_COM_AMIGOS": {
       "title": "Saídas com amigos",
       "hint": "Programas sociais fora da rotina"

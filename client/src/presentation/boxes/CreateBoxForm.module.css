@@ -1,0 +1,105 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.form[data-variant='experiences'] .sectionTitle {
+  color: var(--purple);
+}
+
+.form[data-variant='experiences'] .field input:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.15;
+}
+
+.sectionHint {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field input {
+  min-height: var(--touch-min);
+  border-radius: var(--radius-input);
+  border: 1px solid var(--color-border);
+  background: var(--surface);
+  color: var(--color-text);
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+}
+
+.field input::placeholder {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.error {
+  margin: 0;
+  color: var(--danger);
+}
+
+.warning {
+  margin: 0;
+  color: var(--color-brown);
+  line-height: 1.45;
+}
+
+.flag {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  cursor: pointer;
+}
+
+.flag input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.flag strong {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.flagHint {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.selectionCount {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-top: 0.25rem;
+}

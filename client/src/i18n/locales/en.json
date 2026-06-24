@@ -72,11 +72,15 @@
       "displayName": "Display name"
     },
     "experiences": {
-      "title": "Experiences",
+      "title": "Sign in",
+      "product": "Experiences",
+      "subtitle": "Create experiences on your own",
       "submit": "Sign in"
     },
     "experienceBox": {
-      "title": "Experience Box",
+      "title": "Play",
+      "product": "Experience Box",
+      "subtitle": "Draw experience boxes together",
       "hint": "Enter everyone present in the room. Each person uses their own credentials.",
       "participant": "Participant {{number}}",
       "addParticipant": "Add participant",
@@ -105,16 +109,30 @@
     "enterExperienceBox": "Enter Experience Box"
   },
   "session": {
-    "experiencesMode": "Experiences mode",
-    "experienceBoxMode": "Experience Box mode",
-    "logout": "Sign out"
+    "experiencesMode": "Experiences",
+    "experiencesSubtitle": "Your individual session",
+    "experienceBoxMode": "Experience Box",
+    "experienceBoxSubtitle": "Shared room to draw together",
+    "greeting": "Hi, {{name}}",
+    "roomLabel": "In the room now",
+    "logout": "Sign out",
+    "drawsRemaining": "Draws remaining: {{count}}",
+    "experienceBoxEnded": "The group session has ended. Sign in together again to continue."
   },
   "common": {
     "loading": "Loading…",
     "error": "Something went wrong. Try again.",
     "back": "Back",
+    "close": "Close",
     "offlineBanner": "You are offline. Destructive actions stay disabled until the connection returns.",
     "offlineDestructiveBlocked": "Reconnect to confirm this action."
+  },
+  "nav": {
+    "back": "Go back",
+    "close": "Close",
+    "logout": "Sign out of session",
+    "help": "Open quick guide",
+    "leave": "Leave group"
   },
   "groups": {
     "title": "Choose a group",
@@ -135,7 +153,12 @@
   },
   "boxes": {
     "title": "Choose a box",
-    "empty": "Create a box together in Experience Box mode."
+    "create": "Create box",
+    "createFirst": "Create first box",
+    "createIntro": "Pick a name and thematic type. You can invite more people to the group afterward.",
+    "emptyTitle": "No boxes yet",
+    "empty": "Create the group's first box to start logging experiences together.",
+    "createdSuccess": "Box \"{{name}}\" created! Invite more people to the group."
   },
   "boxHome": {
     "title": "Your boxes",
@@ -186,9 +209,17 @@
   },
   "createBox": {
     "title": "Create box",
+    "intro": "Pick a name and the theme that fits your group.",
+    "nameStep": "1. Name",
+    "nameHint": "How you'll recognize this box in the list.",
     "nameLabel": "Box name",
+    "namePlaceholder": "e.g. Special weekend",
+    "typeStep": "2. Thematic type",
+    "typeHint": "The type sets the mood for ideas — choose what fits you.",
     "typeLabel": "Box type",
-    "submit": "Create"
+    "defaultsStep": "3. Default ideas (optional)",
+    "submit": "Create box",
+    "partialFillError": "The box was created, but {{count}} idea(s) could not be added. Try adding them manually."
   },
   "experiences": {
     "title": "Experiences",
@@ -201,12 +232,11 @@
     "sealLabel": "Integrity seal",
     "paramsSummary": "Effort {{effort}} · Openness {{openness}} · Novelty {{novelty}}",
     "otherSummary": "Contribution by {{author}} — intensity and seal only until reveal.",
+    "revealDescription": "Show description and reflection",
+    "hideDescription": "Hide description and reflection",
     "anonymous": "Group member",
     "edit": "Edit",
     "delete": "Delete",
-    "previewToggle": "Preview as others see",
-    "showFull": "Show full text",
-    "previewAsOthers": "Others see intensity and seal only — like this.",
     "validationError": "Check intensity and parameters (levels 1–5).",
     "notAuthor": "Only the author can edit or delete this experience.",
     "deleteSuccess": "Experience deleted.",
@@ -240,7 +270,7 @@
     "steps": {
       "suggestion": {
         "title": "Suggestion",
-        "body": "Write the idea or tap a chip for inspiration — it will not save automatically."
+        "body": "Browse ideas from this box's pack or write your own — nothing is saved until you confirm."
       },
       "reflection": {
         "title": "Reflection",
@@ -248,7 +278,7 @@
       },
       "parameters": {
         "title": "Parameters",
-        "body": "Rate effort, openness, and novelty from 1 to 5."
+        "body": "Tap the stars to rate effort, openness, and novelty."
       },
       "classification": {
         "title": "Classification",
@@ -258,6 +288,27 @@
         "title": "Review",
         "body": "Check everything before saving."
       }
+    }
+  },
+  "suggestions": {
+    "placeholder": {
+      "description": "[placeholder] {{type}} — level {{level}} — idea {{idea}}",
+      "reflection": "[placeholder] Reflection for {{type}} — level {{level}} — idea {{idea}}"
+    },
+    "intensityLabel": "Level {{level}}",
+    "explorer": {
+      "filterLabel": "Filter by intensity",
+      "intensity": "Intensity {{level}}",
+      "another": "Another suggestion",
+      "use": "Use this idea",
+      "manualHint": "Or write your own idea below."
+    },
+    "createBox": {
+      "flag": "Fill with default ideas",
+      "flagHint": "Add ready-made experiences for the draw — check the ones you want to include.",
+      "chooseTypeFirst": "Choose a box type to see available ideas.",
+      "selectedCount": "{{count}} idea(s) selected",
+      "groupIntensity": "Level {{level}}"
     }
   },
   "seal": {
@@ -275,6 +326,35 @@
     },
     "levelNamed": "Level {{level}} — {{name}}",
     "parametersLabel": "Experience parameters"
+  },
+  "parameters": {
+    "effort": {
+      "hints": {
+        "1": "Easy to do in everyday life, no special planning needed.",
+        "2": "Takes a little organizing, but nothing extraordinary.",
+        "3": "Needs intentional time and energy set aside.",
+        "4": "Quite demanding — worth agreeing as a group first.",
+        "5": "Very demanding physically or logistically; prepare together."
+      }
+    },
+    "openness": {
+      "hints": {
+        "1": "Little exposure — comfortable for almost everyone.",
+        "2": "A light gesture of sincerity, without overexposing yourself.",
+        "3": "Asks for gentle honesty and some vulnerability.",
+        "4": "Takes courage to show yourself a bit more.",
+        "5": "High emotional or social exposure — only when the group is ready."
+      }
+    },
+    "novelty": {
+      "hints": {
+        "1": "Well within the group's usual habits.",
+        "2": "A small break from the routine.",
+        "3": "Different from what you usually do together.",
+        "4": "Far from the usual — surprises the group.",
+        "5": "Completely outside the group's comfort zone."
+      }
+    }
   },
   "sharedMoment": {
     "defaultBoxName": "Selected box",
@@ -294,7 +374,6 @@
     "alignmentHint": "Take a breath together before opening the full card.",
     "reveal": "Open card",
     "backToDraw": "Draw another card",
-    "byAuthor": "By {{author}}",
     "filter": {
       "ANY": "Any",
       "EXACT": "Exact",
@@ -302,6 +381,12 @@
     }
   },
   "boxTypes": {
+    "families": {
+      "friends": "Friends",
+      "couple": "Couple",
+      "growth": "Growth",
+      "connection": "Connection"
+    },
     "SAIDAS_COM_AMIGOS": {
       "title": "Outings with friends",
       "hint": "Social plans outside the routine"

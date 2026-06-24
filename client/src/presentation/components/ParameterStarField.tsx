@@ -9,7 +9,7 @@ interface ParameterStarFieldProps {
   value: number;
   onChange?: (value: number) => void;
   showHint?: boolean;
-  layout?: 'picker' | 'cover' | 'inline';
+  layout?: 'picker' | 'cover' | 'inline' | 'list' | 'drawCover';
 }
 
 export function ParameterStarField({
@@ -41,7 +41,13 @@ export function ParameterStarField({
         label={label}
         readOnly={readOnly}
         onChange={onChange}
-        size={layout === 'cover' || layout === 'inline' ? 'sm' : 'md'}
+        size={
+          layout === 'drawCover'
+            ? 'xs'
+            : layout === 'cover' || layout === 'inline' || layout === 'list'
+              ? 'sm'
+              : 'md'
+        }
       />
       {hint && (
         <p className={styles.hint} aria-live="polite">
@@ -54,23 +60,36 @@ export function ParameterStarField({
 
 interface ParameterStarsGroupProps {
   parameters: ExperienceParameters;
-  layout?: 'inline' | 'cover';
+  layout?: 'inline' | 'cover' | 'list' | 'drawCover';
 }
 
 export function ParameterStarsGroup({ parameters, layout = 'inline' }: ParameterStarsGroupProps) {
   const { t } = useI18n();
+  const groupClass =
+    layout === 'drawCover'
+      ? styles.drawCoverGroup
+      : layout === 'cover'
+        ? styles.coverGroup
+        : layout === 'list'
+          ? styles.listGroup
+          : styles.inlineGroup;
+  const itemLayout =
+    layout === 'drawCover'
+      ? 'drawCover'
+      : layout === 'cover'
+        ? 'cover'
+        : layout === 'list'
+          ? 'list'
+          : 'inline';
 
   return (
-    <div
-      className={layout === 'cover' ? styles.coverGroup : styles.inlineGroup}
-      aria-label={t('intensity.parametersLabel')}
-    >
+    <div className={groupClass} aria-label={t('intensity.parametersLabel')}>
       {(['effort', 'openness', 'novelty'] as ParameterKey[]).map((key) => (
         <ParameterStarField
           key={key}
           parameterKey={key}
           value={parameters[key]}
-          layout={layout === 'cover' ? 'cover' : 'inline'}
+          layout={itemLayout}
         />
       ))}
     </div>

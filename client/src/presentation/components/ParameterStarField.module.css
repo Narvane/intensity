@@ -46,6 +46,48 @@
   display: none;
 }
 
+.list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.4rem;
+  row-gap: 0.2rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border-radius: var(--radius-input);
+  background: var(--surface-sunken);
+  text-align: left;
+}
+
+.list .icon {
+  grid-column: 1;
+  grid-row: 1;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.list .icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.list .label {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.list .rating {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-content: flex-start;
+}
+
+.list .hint {
+  grid-column: 1 / -1;
+}
+
 .icon {
   display: grid;
   place-items: center;
@@ -118,4 +160,43 @@
 
 .coverGroup .label {
   font-size: 0.85rem;
+}
+
+.drawCover {
+  gap: 0.12rem;
+  padding: 0.15rem 0.1rem;
+}
+
+.drawCover .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.drawCover .icon svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.drawCover .label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.drawCoverGroup {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.drawCoverGroup .field {
+  min-width: 0;
+}
+
+.listGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
 }

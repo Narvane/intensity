@@ -136,16 +136,21 @@
   },
   "groups": {
     "title": "Scegli un gruppo",
-    "empty": "Unisciti a un gruppo via invito o accedi a Experience Box con altri.",
+    "empty": "Non fai ancora parte di nessun gruppo.",
+    "emptyHint": "Chiedi un invito a chi è già in un gruppo oppure entra con un link o codice invito.",
     "memberCount": "{{count}} membri",
+    "memberPreview": {
+      "pair": "{{first}} e {{second}}",
+      "overflow": "{{names}} e +{{count}}"
+    },
     "openBoxes": "Apri scatole",
     "invite": "Invita",
     "leave": "Lascia il gruppo",
     "leaveSuccess": "Hai lasciato il gruppo.",
     "leaveDialog": {
       "title": "Lasciare questo gruppo?",
-      "message": "Perderai l'accesso alle scatole di questo gruppo. Le esperienze che hai aggiunto resteranno nel gruppo.",
-      "sessionMessage": "Tutti in questa sessione Experience Box lasceranno il gruppo. Le esperienze aggiunte restano, a meno che il gruppo non venga rimosso.",
+      "message": "Perderai l'accesso alle scatole di questo gruppo. Le esperienze che hai aggiunto in questo gruppo saranno rimosse permanentemente.",
+      "sessionMessage": "Tutti in questa sessione Experience Box lasceranno il gruppo. Le esperienze aggiunte in questo gruppo saranno rimosse permanentemente, a meno che l'intero gruppo non venga eliminato.",
       "lastMemberMessage": "Questo rimuove gli ultimi membri dal gruppo. Tutte le scatole, le esperienze e gli inviti in sospeso saranno eliminati permanentemente.",
       "confirm": "Lascia il gruppo",
       "cancel": "Annulla"
@@ -370,6 +375,7 @@
     "emptyBox": "Non ci sono ancora esperienze. Aggiungete idee in modalità Experiences sui telefoni.",
     "emptyFilter": "Nessuna esperienza corrisponde a questo filtro.",
     "coverLabel": "La vostra carta è uscita!",
+    "intensityLabel": "Intensità",
     "ritualHint": "Toccate insieme quando siete pronti ad aprire la prossima sorpresa.",
     "alignmentHint": "Respirate insieme prima di aprire la carta completa.",
     "reveal": "Apri carta",

@@ -136,16 +136,21 @@
   },
   "groups": {
     "title": "Escolha sua turma",
-    "empty": "Entre por convite ou reúna a turma no Experience Box.",
+    "empty": "Você ainda não faz parte de nenhuma turma.",
+    "emptyHint": "Peça um convite a quem já está em um grupo ou use um link ou código de convite para entrar.",
     "memberCount": "{{count}} membros",
+    "memberPreview": {
+      "pair": "{{first}} e {{second}}",
+      "overflow": "{{names}} e +{{count}}"
+    },
     "openBoxes": "Abrir caixinhas",
     "invite": "Convidar",
     "leave": "Sair do grupo",
     "leaveSuccess": "Você saiu do grupo.",
     "leaveDialog": {
       "title": "Sair deste grupo?",
-      "message": "Você perderá acesso às caixinhas deste grupo. As experiências que você adicionou permanecem no grupo.",
-      "sessionMessage": "Todos nesta sessão do Experience Box sairão do grupo. As experiências adicionadas permanecem, a menos que o grupo seja removido.",
+      "message": "Você perderá acesso às caixinhas deste grupo. As experiências que você adicionou neste grupo serão removidas permanentemente.",
+      "sessionMessage": "Todos nesta sessão do Experience Box sairão do grupo. As experiências que vocês adicionaram neste grupo serão removidas permanentemente, a menos que o grupo inteiro seja excluído.",
       "lastMemberMessage": "Isso remove os últimos membros do grupo. Todas as caixinhas, experiências e convites pendentes serão excluídos permanentemente.",
       "confirm": "Sair do grupo",
       "cancel": "Cancelar"
@@ -370,6 +375,7 @@
     "emptyBox": "Ainda não há experiências. Adicionem ideias no modo Experiences nos celulares.",
     "emptyFilter": "Nenhuma experiência corresponde a este filtro.",
     "coverLabel": "Sua carta saiu!",
+    "intensityLabel": "Intensidade",
     "ritualHint": "Toquem juntos quando estiverem prontos para abrir a próxima surpresa.",
     "alignmentHint": "Respirem juntos antes de abrir a carta completa.",
     "reveal": "Abrir carta",

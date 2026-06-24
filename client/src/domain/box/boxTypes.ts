@@ -25,8 +25,14 @@ export interface Box {
   experienceCount: number;
 }
 
+export interface GroupMember {
+  participantId: string;
+  displayName: string;
+}
+
 export interface Group {
   id: string;
   memberCount: number;
   createdAt: string;
+  members: GroupMember[];
 }

@@ -50,7 +50,7 @@ Participant → Invite     (creator and acceptor roles)
 |-------|--------|
 | Joint login (Experience Box) | If member combination is new, creates group; if existing, reopens it |
 | Accept invite | Adds participant to group membership |
-| Leave group | Removes participant from membership; their authored experiences remain in boxes |
+| Leave group | Removes participant from membership; their authored experiences are removed from boxes in that group |
 | Last member leaves | Group, its boxes, experiences, and pending invites are removed |
 
 ### Invite rules

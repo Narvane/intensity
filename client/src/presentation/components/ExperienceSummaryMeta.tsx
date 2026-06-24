@@ -15,7 +15,7 @@ export function ExperienceSummaryMeta({ experience, compact = false }: Experienc
       <IntensityBadge level={experience.intensity} />
       <ParameterStarsGroup
         parameters={experience.parameters}
-        layout={compact ? 'cover' : 'inline'}
+        layout={compact ? 'cover' : 'list'}
       />
       <IntegritySeal seal={experience.seal} compact={compact} />
     </div>

@@ -621,7 +621,7 @@ components:
 
     Group:
       type: object
-      required: [id, memberCount, createdAt]
+      required: [id, memberCount, createdAt, members]
       properties:
         id:
           type: string
@@ -632,6 +632,10 @@ components:
         createdAt:
           type: string
           format: date-time
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupMember'
 
     GroupMember:
       type: object

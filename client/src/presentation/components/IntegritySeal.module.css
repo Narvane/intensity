@@ -34,3 +34,23 @@
 .compact .value {
   font-size: 0.8rem;
 }
+
+.minimal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  opacity: 0.5;
+  color: var(--color-text-muted);
+}
+
+.minimal .icon {
+  width: 0.7rem;
+  height: 0.7rem;
+  stroke-width: 2.5;
+}
+
+.minimal .value {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}

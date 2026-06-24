@@ -138,7 +138,7 @@ Carta de descrição persistente e indicador de progresso de cinco segmentos ao 
 
 - **Modos de filtro:** Qualquer (sem filtro de intensidade), Exata (nível fixo 1–5), Até (máximo inclusivo)
 - **Ação de sortear:** seleção aleatória entre experiências elegíveis na caixinha
-- **Carta de resultado:** capa de intensidade (nível, parâmetros, selo) antes da revelação
+- **Carta de resultado:** capa com número de intensidade em destaque, parâmetros compactos e selo discreto antes da revelação
 - **Dica de alinhamento:** solicita acordo do grupo antes de virar a carta
 - **Revelar:** virada no eixo Y para ler descrição completa
 - **Retorno:** voltar ao sorteio para nova seleção
@@ -177,11 +177,11 @@ Exibe: primeiros nomes / nomes de exibição dos membros do grupo, expiração d
 
 ### Seleção de grupo (Experiências)
 
-Lista grupos onde o participante é membro. Estado vazio: "Entre em um grupo via convite ou entre na Caixa de Experiências com outros." Cada linha mostra contagem de membros e dica opcional de última atividade. Ações: selecionar grupo, **Convidar** (compartilhar novo convite), **Sair do grupo** (confirmar).
+Lista grupos onde o participante é membro. Estado vazio orienta entrada por convite global. Cada card mostra nomes dos membros (preview) e cor distinta por grupo; toque abre a seleção de caixinhas. **Convidar** e **Sair do grupo** ficam na seleção de caixinhas, não nesta listagem.
 
 ### Seleção de caixinha (Experiências)
 
-Lista caixinhas no grupo selecionado. Estado vazio: "Criem uma caixinha juntos no modo Caixa de Experiências." Selecionar caixinha → lista de experiências.
+Lista caixinhas no grupo selecionado. Toolbar: criar caixinha, **Convidar**, **Sair do grupo** (confirmar). Estado vazio: "Criem uma caixinha juntos no modo Caixa de Experiências." Selecionar caixinha → lista de experiências.
 
 ### Lista de experiências
 

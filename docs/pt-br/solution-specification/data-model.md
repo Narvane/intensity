@@ -50,7 +50,7 @@ Participante → Convite    (papéis de criador e aceitador)
 |--------|--------|
 | Login conjunto (Caixa de Experiências) | Se a combinação de membros é nova, cria grupo; se existente, reabre |
 | Aceitar convite | Adiciona participante à membresia do grupo |
-| Sair do grupo | Remove participante da membresia; experiências autoria permanecem nas caixinhas |
+| Sair do grupo | Remove participante da membresia; experiências do autor são removidas das caixinhas do grupo |
 | Último membro sai | Grupo, suas caixinhas, experiências e convites pendentes são removidos |
 
 ### Regras de convite

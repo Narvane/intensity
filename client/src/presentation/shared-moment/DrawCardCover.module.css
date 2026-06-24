@@ -1,0 +1,16 @@
+.cover {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+}
+
+.sealSlot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

@@ -7,6 +7,7 @@ import {
 } from '@app/routeGuards';
 import { AuthPage } from '@presentation/auth/AuthPage';
 import { BoxSelectionPage } from '@presentation/boxes/BoxSelectionPage';
+import { CreateBoxExperiencesPage } from '@presentation/boxes/CreateBoxExperiencesPage';
 import { BoxHomePage } from '@presentation/box-home/BoxHomePage';
 import { CreateBoxPage } from '@presentation/box-home/CreateBoxPage';
 import { SharedMomentPage } from '@presentation/shared-moment/SharedMomentPage';
@@ -32,6 +33,7 @@ export function AppRouter() {
       <Route element={<RequireExperiencesSessionRoute />}>
         <Route path="/groups" element={<GroupSelectionPage />} />
         <Route path="/groups/:groupId/boxes" element={<BoxSelectionPage />} />
+        <Route path="/groups/:groupId/boxes/create" element={<CreateBoxExperiencesPage />} />
         <Route
           path="/groups/:groupId/boxes/:boxId/experiences"
           element={<ExperienceListPage />}

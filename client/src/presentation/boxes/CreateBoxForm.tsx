@@ -13,7 +13,7 @@ export type CreateBoxVariant = 'experienceBox' | 'experiences';
 export interface CreateBoxFormProps {
   groupId: string;
   token: string;
-  /** Visual accent for the hosting mode; Experiences styling lands in a later task. */
+  /** Visual accent for the hosting mode. */
   variant?: CreateBoxVariant;
   cancelPath?: string;
   /** Called after a successful create. When omitted, navigates to `successPath`. */

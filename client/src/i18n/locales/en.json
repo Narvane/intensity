@@ -143,7 +143,12 @@
   },
   "boxes": {
     "title": "Choose a box",
-    "empty": "Create a box together in Experience Box mode."
+    "create": "Create box",
+    "createFirst": "Create first box",
+    "createIntro": "Pick a name and thematic type. You can invite more people to the group afterward.",
+    "emptyTitle": "No boxes yet",
+    "empty": "Create the group's first box to start logging experiences together.",
+    "createdSuccess": "Box \"{{name}}\" created! Invite more people to the group."
   },
   "boxHome": {
     "title": "Your boxes",

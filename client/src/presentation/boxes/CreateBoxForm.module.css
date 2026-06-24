@@ -4,8 +4,13 @@
   gap: 1.35rem;
 }
 
-.form[data-variant='experiences'] {
-  /* Hook for Experiences route — accent can diverge in a follow-up task. */
+.form[data-variant='experiences'] .sectionTitle {
+  color: var(--purple);
+}
+
+.form[data-variant='experiences'] .field input:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
 }
 
 .section {

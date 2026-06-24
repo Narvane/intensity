@@ -143,7 +143,12 @@
   },
   "boxes": {
     "title": "Scegli una scatola",
-    "empty": "Create una scatola insieme in modalità Experience Box."
+    "create": "Crea scatola",
+    "createFirst": "Crea la prima scatola",
+    "createIntro": "Scegli un nome e un tipo tematico. Poi potete invitare altre persone al gruppo.",
+    "emptyTitle": "Nessuna scatola ancora",
+    "empty": "Create la prima scatola del gruppo per iniziare a registrare esperienze insieme.",
+    "createdSuccess": "Scatola \"{{name}}\" creata! Invitate altre persone al gruppo."
   },
   "boxHome": {
     "title": "Le tue scatole",

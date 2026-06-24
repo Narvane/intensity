@@ -1,0 +1,50 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSession } from '@app/SessionProvider';
+import { useI18n } from '../../i18n/I18nContext';
+import { CreateBoxForm } from './CreateBoxForm';
+import { Button } from '../components/Button';
+import { SessionModeChrome } from '../components/SessionModeChrome';
+import styles from './CreateBoxExperiencesPage.module.css';
+
+export function CreateBoxExperiencesPage() {
+  const { groupId = '' } = useParams();
+  const { t } = useI18n();
+  const { session } = useSession();
+  const navigate = useNavigate();
+
+  if (!session?.token || !groupId) {
+    return null;
+  }
+
+  const boxesPath = `/groups/${groupId}/boxes`;
+
+  return (
+    <main className={styles.page}>
+      <header className={styles.header}>
+        <SessionModeChrome
+          mode="EXPERIENCES"
+          title={t('createBox.title')}
+          participantDisplayName={session.displayName}
+        />
+        <Button variant="ghost" onClick={() => navigate(boxesPath)}>
+          {t('common.back')}
+        </Button>
+      </header>
+
+      <p className={styles.intro}>{t('boxes.createIntro')}</p>
+
+      <CreateBoxForm
+        groupId={groupId}
+        token={session.token}
+        variant="experiences"
+        cancelPath={boxesPath}
+        onSuccess={(box) => {
+          navigate(boxesPath, {
+            replace: true,
+            state: { openInvite: true, createdBoxName: box.name },
+          });
+        }}
+      />
+    </main>
+  );
+}

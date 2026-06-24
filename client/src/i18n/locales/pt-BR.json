@@ -143,7 +143,12 @@
   },
   "boxes": {
     "title": "Escolha uma caixinha",
-    "empty": "Criem uma caixinha juntos no modo Experience Box."
+    "create": "Criar caixinha",
+    "createFirst": "Criar primeira caixinha",
+    "createIntro": "Dê um nome e escolha o tipo temático. Depois vocês podem convidar mais pessoas para o grupo.",
+    "emptyTitle": "Nenhuma caixinha ainda",
+    "empty": "Criem a primeira caixinha do grupo para começar a registrar experiências juntos.",
+    "createdSuccess": "Caixinha \"{{name}}\" criada! Convide mais pessoas para o grupo."
   },
   "boxHome": {
     "title": "Suas caixinhas",

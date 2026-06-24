@@ -61,8 +61,8 @@
     "tabsLabel": "Authentication modes",
     "loading": "Signing in…",
     "tabs": {
-      "experiences": "Experiences",
-      "experienceBox": "Experience Box",
+      "experiences": "Create experiences",
+      "experienceBox": "Draw",
       "register": "Register",
       "invite": "Invite code"
     },
@@ -75,7 +75,11 @@
       "title": "Sign in",
       "product": "Experiences",
       "subtitle": "Create experiences on your own",
-      "submit": "Sign in"
+      "submit": "Sign in",
+      "continue": "Continue",
+      "sessionActive": "You are still signed in on this device.",
+      "signOut": "Sign out",
+      "passwordSaved": "Password saved on this device"
     },
     "experienceBox": {
       "title": "Play",
@@ -83,6 +87,7 @@
       "subtitle": "Draw experience boxes together",
       "hint": "Enter everyone present in the room. Each person uses their own credentials.",
       "participant": "Participant {{number}}",
+      "prefilledYou": "You",
       "addParticipant": "Add participant",
       "submit": "Enter together"
     },
@@ -136,16 +141,30 @@
   },
   "groups": {
     "title": "Choose a group",
-    "empty": "Join a group via invite or sign in to Experience Box with others.",
+    "empty": "You are not in any group yet.",
+    "emptyHint": "Ask someone in a group for an invite, or join with an invite link or code.",
     "memberCount": "{{count}} members",
+    "memberPreview": {
+      "pair": "{{first}} and {{second}}",
+      "overflow": "{{names}} and +{{count}}"
+    },
     "openBoxes": "Open boxes",
+    "create": "Create group",
+    "createSuccess": "Group created.",
+    "membersStrip": "Group members",
+    "createDialog": {
+      "title": "Create a new group?",
+      "message": "The group starts with just you. To invite others, open the group and use Invite on the boxes screen.",
+      "confirm": "Create group",
+      "cancel": "Cancel"
+    },
     "invite": "Invite",
     "leave": "Leave group",
     "leaveSuccess": "You left the group.",
     "leaveDialog": {
       "title": "Leave this group?",
-      "message": "You will lose access to this group's boxes. Experiences you added will stay in the group.",
-      "sessionMessage": "Everyone in this Experience Box session will leave the group. Experiences you added will stay unless the group is removed.",
+      "message": "You will lose access to this group's boxes. Experiences you added in this group will be permanently removed.",
+      "sessionMessage": "Everyone in this Experience Box session will leave the group. Experiences you added in this group will be permanently removed, unless the entire group is deleted.",
       "lastMemberMessage": "This removes the last members from the group. All boxes, experiences, and pending invites will be deleted permanently.",
       "confirm": "Leave group",
       "cancel": "Cancel"
@@ -234,6 +253,10 @@
     "otherSummary": "Contribution by {{author}} — intensity and seal only until reveal.",
     "revealDescription": "Show description and reflection",
     "hideDescription": "Hide description and reflection",
+    "flipCard": "Flip card",
+    "unflipCard": "Flip card back",
+    "flipAll": "Flip all cards",
+    "unflipAll": "Flip all cards back",
     "anonymous": "Group member",
     "edit": "Edit",
     "delete": "Delete",
@@ -254,8 +277,9 @@
     "next": "Next",
     "descriptionCard": "Your idea",
     "descriptionEmpty": "Describe the experience you want to suggest.",
+    "descriptionPlaceholder": "Describe the experience you want to suggest.",
     "suggestionItem": "{{type}} — idea {{number}}",
-    "suggestedIntensity": "Suggested: level {{level}} — {{name}}",
+    "suggestedIntensity": "Suggested from parameter average: level {{level}} — {{name}}",
     "saveFinish": "Save and finish",
     "saveAnother": "Save and create another",
     "saveChanges": "Save changes",
@@ -270,7 +294,7 @@
     "steps": {
       "suggestion": {
         "title": "Suggestion",
-        "body": "Browse ideas from this box's pack or write your own — nothing is saved until you confirm."
+        "body": "Browse suggestions below or write directly in the description — nothing is saved until you confirm."
       },
       "reflection": {
         "title": "Reflection",
@@ -282,7 +306,8 @@
       },
       "classification": {
         "title": "Classification",
-        "body": "Confirm or adjust the overall intensity level."
+        "body": "Confirm or adjust the overall intensity level.",
+        "averageHint": "The initial suggestion comes from the rounded average of effort, openness, and novelty from the previous step."
       },
       "review": {
         "title": "Review",
@@ -297,6 +322,7 @@
     },
     "intensityLabel": "Level {{level}}",
     "explorer": {
+      "auxLabel": "Suggestions",
       "filterLabel": "Filter by intensity",
       "intensity": "Intensity {{level}}",
       "another": "Another suggestion",
@@ -369,10 +395,10 @@
     "statusRevealed": "Experience revealed.",
     "emptyBox": "No experiences yet. Add ideas in Experiences mode on your phones.",
     "emptyFilter": "No experiences match this filter.",
-    "coverLabel": "Your card is here!",
+    "intensityLabel": "Intensity",
     "ritualHint": "Tap together when you are ready to open the next surprise.",
-    "alignmentHint": "Take a breath together before opening the full card.",
-    "reveal": "Open card",
+    "alignmentHint": "Take a breath together before flipping the card; negotiate swaps if needed.",
+    "reveal": "Flip card",
     "backToDraw": "Draw another card",
     "filter": {
       "ANY": "Any",

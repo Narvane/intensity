@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { resolveGuestRouteRedirect } from '@domain/auth/guestRouteRedirect';
+import {
+  resolveExperiencesSessionContinuePath,
+  resolveGuestRouteRedirect,
+} from '@domain/auth/guestRouteRedirect';
 import type { SessionState } from '@domain/session/SessionPort';
 
 const experiencesSession: SessionState = {
@@ -7,6 +10,7 @@ const experiencesSession: SessionState = {
   accessMode: 'EXPERIENCES',
   participantId: 'p1',
   displayName: 'Alice',
+  email: 'alice@example.com',
 };
 
 const boxSession: SessionState = {
@@ -21,13 +25,23 @@ describe('resolveGuestRouteRedirect', () => {
     expect(resolveGuestRouteRedirect(null)).toBeNull();
   });
 
-  it('redirects experiences session to groups by default', () => {
-    expect(resolveGuestRouteRedirect(experiencesSession)).toBe('/groups');
+  it('allows auth page when an experiences session is active', () => {
+    expect(resolveGuestRouteRedirect(experiencesSession)).toBeNull();
+  });
+
+  it('redirects experience box session to box home', () => {
+    expect(resolveGuestRouteRedirect(boxSession)).toBe('/box-home');
+  });
+});
+
+describe('resolveExperiencesSessionContinuePath', () => {
+  it('defaults to groups', () => {
+    expect(resolveExperiencesSessionContinuePath()).toBe('/groups');
   });
 
   it('honors returnTo for invite join paths', () => {
     expect(
-      resolveGuestRouteRedirect(experiencesSession, {
+      resolveExperiencesSessionContinuePath({
         returnTo: '/join?code=AB23CD',
       }),
     ).toBe('/join?code=AB23CD');
@@ -35,7 +49,7 @@ describe('resolveGuestRouteRedirect', () => {
 
   it('honors pending return path when router state is missing', () => {
     expect(
-      resolveGuestRouteRedirect(experiencesSession, {
+      resolveExperiencesSessionContinuePath({
         pendingReturnPath: '/join?t=abc',
       }),
     ).toBe('/join?t=abc');
@@ -43,13 +57,9 @@ describe('resolveGuestRouteRedirect', () => {
 
   it('ignores invalid returnTo values', () => {
     expect(
-      resolveGuestRouteRedirect(experiencesSession, {
+      resolveExperiencesSessionContinuePath({
         returnTo: '/groups/secret',
       }),
     ).toBe('/groups');
-  });
-
-  it('redirects experience box session to box home', () => {
-    expect(resolveGuestRouteRedirect(boxSession)).toBe('/box-home');
   });
 });

@@ -31,7 +31,7 @@ Tokens de cor, tipografia, raios, sombras, componentes e movimento estão em [`d
 
 | Modo | Indicador visual (ver design system) |
 |------|--------------------------------------|
-| Experiências | Contexto de contribuição em turquesa ou roxo |
+| Experiências | Contexto de contribuição com acento roxo flat |
 | Caixa de Experiências | Contexto de ritual com destaque coral |
 | Entrar via convite | Chip amarelo ou turquesa — distinto dos painéis de login |
 
@@ -80,7 +80,7 @@ Três subpainéis dentro de uma tela de autenticação:
 
 | Painel | Indicador visual | Ação primária |
 |--------|------------------|---------------|
-| Login Experiências | Destaque turquesa ou roxo | Formulário de credencial única |
+| Login Experiências | Destaque roxo flat (`--purple`) | Formulário de credencial única |
 | Login Caixa de Experiências | Destaque coral | Cartões multi-credencial com "+" para adicionar participante |
 | Registro | Superfície neutra sobre fundo quente | Nome de exibição, e-mail, senha |
 | Entrar via convite | Chip amarelo ou turquesa | Campo de entrada de código + "Continuar" |
@@ -101,7 +101,7 @@ O catálogo tem seções internas de apresentação (amigos, casal, pessoal, soc
 
 **Carta de lista (modo Experiências):** chip de intensidade, indicadores de parâmetro, selo, descrição truncada ou oculta dependendo da autoria.
 
-**Carta de sorteio (modo Caixa de Experiências):** carta de dois lados com animação de virada no eixo Y. Capa: intensidade, parâmetros, selo. Face: descrição completa e reflexão (autoria oculta no ritual).
+**Carta de sorteio (modo Caixa de Experiências):** carta de dois lados com animação de virada no eixo Y. Capa: número de intensidade em destaque, parâmetros compactos, selo discreto. Face: descrição completa e reflexão (autoria oculta no ritual).
 
 ### Ações destrutivas
 

@@ -9,6 +9,7 @@ import {
   RegisterParticipantUseCase,
   ValidateInviteCodeFormatUseCase,
 } from '@domain/auth/authUseCases';
+import { resolveExperiencesSessionContinuePath } from '@domain/auth/guestRouteRedirect';
 import {
   getMemoryPendingReturnPath,
   hydratePendingInvite,
@@ -36,13 +37,14 @@ interface CredentialForm {
 }
 
 const emptyCredential = (): CredentialForm => ({ email: '', password: '' });
+const MASKED_PASSWORD = '••••••••';
 
 export function AuthPage() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const location = useLocation();
   const authState = (location.state as AuthLocationState | null) ?? {};
-  const { refresh } = useSession();
+  const { session, refresh, logout } = useSession();
   const api = useMemo(() => createApiClient(), []);
   const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const pendingInvitePort = useMemo(() => createDefaultPendingInviteAdapter(), []);
@@ -77,6 +79,9 @@ export function AuthPage() {
   const [inviteCode, setInviteCode] = useState('');
   const [pendingReturnPath, setPendingReturnPath] = useState<string | null>(null);
 
+  const hasExperiencesSession = session?.accessMode === 'EXPERIENCES';
+  const experiencesEmail = session?.email ?? '';
+
   useEffect(() => {
     if (authState.panel) {
       setPanel(authState.panel);
@@ -104,6 +109,32 @@ export function AuthPage() {
     });
   }, [authState.returnTo, pendingInvitePort]);
 
+  useEffect(() => {
+    if (!hasExperiencesSession) {
+      return;
+    }
+
+    setExperiencesForm({
+      email: experiencesEmail,
+      password: MASKED_PASSWORD,
+    });
+
+    setBoxCredentials((current) => {
+      const next = current.length > 0 ? [...current] : [emptyCredential()];
+      next[0] = {
+        email: experiencesEmail,
+        password: next[0]?.password ?? '',
+      };
+      return next;
+    });
+  }, [experiencesEmail, hasExperiencesSession]);
+
+  const continueExperiencesPath = () =>
+    resolveExperiencesSessionContinuePath({
+      returnTo: authState.returnTo,
+      pendingReturnPath: pendingReturnPath ?? getMemoryPendingReturnPath(),
+    });
+
   const resolveExperiencesDestination = () =>
     resolvePostAuthDestination(authState.returnTo, pendingReturnPath ?? getMemoryPendingReturnPath());
 
@@ -123,7 +154,28 @@ export function AuthPage() {
     setError(t('auth.errors.network'));
   };
 
+  const signOutExperiencesSession = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await logout();
+      setExperiencesForm(emptyCredential());
+      setBoxCredentials([emptyCredential()]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const continueExperiences = () => {
+    navigate(continueExperiencesPath(), { replace: true });
+  };
+
   const submitExperiences = async () => {
+    if (hasExperiencesSession) {
+      continueExperiences();
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -230,12 +282,16 @@ export function AuthPage() {
           {panel === 'experiences' && (
             <>
               <AuthModeIntro mode="EXPERIENCES" />
+              {hasExperiencesSession && (
+                <p className={styles.sessionActive}>{t('auth.experiences.sessionActive')}</p>
+              )}
               <label className={styles.field}>
                 <span>{t('auth.fields.email')}</span>
                 <input
                   type="email"
                   autoComplete="email"
-                  value={experiencesForm.email}
+                  disabled={hasExperiencesSession}
+                  value={hasExperiencesSession ? experiencesEmail : experiencesForm.email}
                   onChange={(event) =>
                     setExperiencesForm((current) => ({
                       ...current,
@@ -248,8 +304,12 @@ export function AuthPage() {
                 <span>{t('auth.fields.password')}</span>
                 <input
                   type="password"
-                  autoComplete="current-password"
-                  value={experiencesForm.password}
+                  autoComplete={hasExperiencesSession ? 'off' : 'current-password'}
+                  disabled={hasExperiencesSession}
+                  value={hasExperiencesSession ? MASKED_PASSWORD : experiencesForm.password}
+                  aria-label={
+                    hasExperiencesSession ? t('auth.experiences.passwordSaved') : undefined
+                  }
                   onChange={(event) =>
                     setExperiencesForm((current) => ({
                       ...current,
@@ -258,8 +318,22 @@ export function AuthPage() {
                   }
                 />
               </label>
+              {hasExperiencesSession && (
+                <button
+                  type="button"
+                  className={styles.signOutButton}
+                  disabled={loading}
+                  onClick={() => void signOutExperiencesSession()}
+                >
+                  {t('auth.experiences.signOut')}
+                </button>
+              )}
               <Button fullWidth disabled={loading} onClick={() => void submitExperiences()}>
-                {loading ? t('auth.loading') : t('auth.experiences.submit')}
+                {loading
+                  ? t('auth.loading')
+                  : hasExperiencesSession
+                    ? t('auth.experiences.continue')
+                    : t('auth.experiences.submit')}
               </Button>
             </>
           )}
@@ -268,45 +342,70 @@ export function AuthPage() {
             <>
               <AuthModeIntro mode="EXPERIENCE_BOX" />
               <p className={styles.hint}>{t('auth.experienceBox.hint')}</p>
-              {boxCredentials.map((credential, index) => (
-                <div key={index} className={styles.credentialCard}>
-                  <p className={styles.cardTitle}>
-                    {t('auth.experienceBox.participant', { number: index + 1 })}
-                  </p>
-                  <label className={styles.field}>
-                    <span>{t('auth.fields.email')}</span>
-                    <input
-                      type="email"
-                      value={credential.email}
-                      onChange={(event) =>
-                        setBoxCredentials((current) =>
-                          current.map((item, itemIndex) =>
-                            itemIndex === index
-                              ? { ...item, email: event.target.value }
-                              : item,
-                          ),
-                        )
-                      }
-                    />
-                  </label>
-                  <label className={styles.field}>
-                    <span>{t('auth.fields.password')}</span>
-                    <input
-                      type="password"
-                      value={credential.password}
-                      onChange={(event) =>
-                        setBoxCredentials((current) =>
-                          current.map((item, itemIndex) =>
-                            itemIndex === index
-                              ? { ...item, password: event.target.value }
-                              : item,
-                          ),
-                        )
-                      }
-                    />
-                  </label>
-                </div>
-              ))}
+              {boxCredentials.map((credential, index) => {
+                const isPrefilledSlot = hasExperiencesSession && index === 0;
+                return (
+                  <div
+                    key={index}
+                    className={`${styles.credentialCard} ${
+                      isPrefilledSlot ? styles.credentialCardPrefilled : ''
+                    }`}
+                  >
+                    <div className={styles.credentialCardHeader}>
+                      <p className={styles.cardTitle}>
+                        {isPrefilledSlot
+                          ? t('auth.experienceBox.prefilledYou')
+                          : t('auth.experienceBox.participant', { number: index + 1 })}
+                      </p>
+                      {isPrefilledSlot && (
+                        <button
+                          type="button"
+                          className={styles.signOutButtonInline}
+                          disabled={loading}
+                          onClick={() => void signOutExperiencesSession()}
+                        >
+                          {t('auth.experiences.signOut')}
+                        </button>
+                      )}
+                    </div>
+                    <label className={styles.field}>
+                      <span>{t('auth.fields.email')}</span>
+                      <input
+                        type="email"
+                        autoComplete="email"
+                        disabled={isPrefilledSlot}
+                        value={credential.email}
+                        onChange={(event) =>
+                          setBoxCredentials((current) =>
+                            current.map((item, itemIndex) =>
+                              itemIndex === index
+                                ? { ...item, email: event.target.value }
+                                : item,
+                            ),
+                          )
+                        }
+                      />
+                    </label>
+                    <label className={styles.field}>
+                      <span>{t('auth.fields.password')}</span>
+                      <input
+                        type="password"
+                        autoComplete="current-password"
+                        value={credential.password}
+                        onChange={(event) =>
+                          setBoxCredentials((current) =>
+                            current.map((item, itemIndex) =>
+                              itemIndex === index
+                                ? { ...item, password: event.target.value }
+                                : item,
+                            ),
+                          )
+                        }
+                      />
+                    </label>
+                  </div>
+                );
+              })}
               <Button
                 variant="secondary"
                 fullWidth
@@ -340,6 +439,7 @@ export function AuthPage() {
                 <span>{t('auth.fields.email')}</span>
                 <input
                   type="email"
+                  autoComplete="email"
                   value={registerForm.email}
                   onChange={(event) =>
                     setRegisterForm((current) => ({ ...current, email: event.target.value }))
@@ -350,6 +450,7 @@ export function AuthPage() {
                 <span>{t('auth.fields.password')}</span>
                 <input
                   type="password"
+                  autoComplete="new-password"
                   value={registerForm.password}
                   onChange={(event) =>
                     setRegisterForm((current) => ({ ...current, password: event.target.value }))

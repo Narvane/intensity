@@ -52,6 +52,7 @@ export class RegisterParticipantUseCase {
       accessMode: 'EXPERIENCES',
       participantId: response.id,
       displayName: response.displayName,
+      email: response.email,
     };
     await this.sessionPort.save(session);
     return session;
@@ -71,6 +72,7 @@ export class LoginExperiencesUseCase {
       accessMode: 'EXPERIENCES',
       participantId: response.participantId,
       displayName: response.displayName,
+      email: input.email.trim(),
     };
     await this.sessionPort.save(session);
     return session;

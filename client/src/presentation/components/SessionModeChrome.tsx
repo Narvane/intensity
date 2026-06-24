@@ -6,7 +6,8 @@ import styles from './SessionModeChrome.module.css';
 
 interface SessionModeChromeProps {
   mode: AccessMode;
-  title: string;
+  title?: string;
+  placement?: 'inline' | 'footer';
   participantDisplayName?: string;
   members?: SessionMember[];
 }
@@ -14,6 +15,7 @@ interface SessionModeChromeProps {
 export function SessionModeChrome({
   mode,
   title,
+  placement = 'inline',
   participantDisplayName,
   members,
 }: SessionModeChromeProps) {
@@ -27,7 +29,13 @@ export function SessionModeChrome({
   );
 
   return (
-    <div className={styles.chrome} data-accent={visual.accent}>
+    <div
+      className={[styles.chrome, placement === 'footer' ? styles.footerChrome : '']
+        .filter(Boolean)
+        .join(' ')}
+      data-accent={visual.accent}
+      data-placement={placement}
+    >
       <div className={styles.modeRow}>
         <div className={styles.iconBadge} aria-hidden="true">
           <ModeIcon />
@@ -55,7 +63,7 @@ export function SessionModeChrome({
         </div>
       )}
 
-      <h1 className={styles.title}>{title}</h1>
+      {title && placement === 'inline' && <h1 className={styles.title}>{title}</h1>}
     </div>
   );
 }

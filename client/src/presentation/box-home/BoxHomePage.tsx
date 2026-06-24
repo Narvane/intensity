@@ -14,7 +14,9 @@ import { BoxCard } from '../components/BoxCard';
 import { Button } from '../components/Button';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { SessionModeChrome } from '../components/SessionModeChrome';
+import { ScreenTitle } from '../components/ScreenTitle';
+import { SessionModeFooter } from '../components/SessionModeFooter';
+import footerStyles from '../components/SessionModeFooter.module.css';
 import { DeleteBoxDialog } from './DeleteBoxDialog';
 import styles from './BoxHomePage.module.css';
 
@@ -133,15 +135,11 @@ export function BoxHomePage() {
   const leavingCount = session?.members?.length ?? 1;
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
       <ScreenHeader
         trailing={<NavButton action="logout" onClick={() => void logout()} />}
       >
-        <SessionModeChrome
-          mode="EXPERIENCE_BOX"
-          title={t('boxHome.title')}
-          members={session?.members}
-        />
+        <ScreenTitle>{t('boxHome.title')}</ScreenTitle>
       </ScreenHeader>
 
       <div className={styles.toolbar}>
@@ -235,6 +233,7 @@ export function BoxHomePage() {
           }
         }}
       />
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={session?.members} />
     </main>
   );
 }

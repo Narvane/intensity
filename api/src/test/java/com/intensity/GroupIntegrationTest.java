@@ -101,7 +101,20 @@ class GroupIntegrationTest extends AbstractMockMvcIntegrationTest {
 
 	@Test
 	@Order(2)
-	void memberLeavesButGroupAndExperiencesRemain() throws Exception {
+	void listGroupsIncludesMemberNames() throws Exception {
+		mockMvc.perform(get("/v1/groups")
+						.header("Authorization", "Bearer " + aliceToken))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(1)))
+				.andExpect(jsonPath("$[0].memberCount").value(2))
+				.andExpect(jsonPath("$[0].members", hasSize(2)))
+				.andExpect(jsonPath("$[0].members[0].displayName").value("Alice"))
+				.andExpect(jsonPath("$[0].members[1].displayName").value("Bob"));
+	}
+
+	@Test
+	@Order(3)
+	void memberLeavesAndAuthoredExperiencesAreRemoved() throws Exception {
 		mockMvc.perform(delete("/v1/groups/{groupId}/members", groupId)
 						.header("Authorization", "Bearer " + aliceToken))
 				.andExpect(status().isNoContent());
@@ -117,11 +130,11 @@ class GroupIntegrationTest extends AbstractMockMvcIntegrationTest {
 		mockMvc.perform(get("/v1/boxes/{boxId}/experiences", boxId)
 						.header("Authorization", "Bearer " + bobToken))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$", hasSize(1)));
+				.andExpect(jsonPath("$", hasSize(0)));
 	}
 
 	@Test
-	@Order(3)
+	@Order(4)
 	void formerMemberCannotLeaveAgain() throws Exception {
 		mockMvc.perform(delete("/v1/groups/{groupId}/members", groupId)
 						.header("Authorization", "Bearer " + aliceToken))
@@ -130,7 +143,7 @@ class GroupIntegrationTest extends AbstractMockMvcIntegrationTest {
 	}
 
 	@Test
-	@Order(4)
+	@Order(5)
 	void lastMemberLeavingDeletesGroupCascade() throws Exception {
 		mockMvc.perform(delete("/v1/groups/{groupId}/members", groupId)
 						.header("Authorization", "Bearer " + bobToken))

@@ -8,12 +8,22 @@ interface ScreenHeaderProps {
   className?: string;
 }
 
+/**
+ * Two-row screen chrome: toolbar (leading / trailing actions) then full-width content.
+ * Page titles live in content; session mode chrome uses SessionModeFooter at the bottom.
+ */
 export function ScreenHeader({ leading, trailing, children, className }: ScreenHeaderProps) {
+  const showToolbar = Boolean(leading) || Boolean(trailing);
+
   return (
     <header className={[styles.header, className ?? ''].filter(Boolean).join(' ')}>
-      <div className={styles.leading}>{leading}</div>
-      <div className={styles.body}>{children}</div>
-      <div className={styles.trailing}>{trailing}</div>
+      {showToolbar && (
+        <div className={styles.toolbar}>
+          <div className={styles.leading}>{leading}</div>
+          <div className={styles.trailing}>{trailing}</div>
+        </div>
+      )}
+      <div className={styles.content}>{children}</div>
     </header>
   );
 }

@@ -8,7 +8,7 @@ interface StarRatingProps {
   label: string;
   readOnly?: boolean;
   onChange?: (value: number) => void;
-  size?: 'md' | 'sm';
+  size?: 'md' | 'sm' | 'xs';
 }
 
 export function StarRating({
@@ -24,7 +24,9 @@ export function StarRating({
 
   return (
     <div
-      className={`${styles.rating} ${size === 'sm' ? styles.small : ''}`}
+      className={`${styles.rating} ${
+        size === 'xs' ? styles.xs : size === 'sm' ? styles.small : ''
+      }`}
       data-param={parameterKey}
       role="group"
       aria-label={groupLabel}

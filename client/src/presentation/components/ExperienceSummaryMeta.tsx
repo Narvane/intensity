@@ -7,17 +7,34 @@ import styles from './ExperienceSummaryMeta.module.css';
 interface ExperienceSummaryMetaProps {
   experience: Experience;
   compact?: boolean;
+  variant?: 'default' | 'experienceList';
+  hideIntensity?: boolean;
 }
 
-export function ExperienceSummaryMeta({ experience, compact = false }: ExperienceSummaryMetaProps) {
+export function ExperienceSummaryMeta({
+  experience,
+  compact = false,
+  variant = 'default',
+  hideIntensity = false,
+}: ExperienceSummaryMetaProps) {
+  const isExperienceList = variant === 'experienceList';
+
   return (
-    <div className={compact ? styles.compact : styles.meta}>
-      <IntensityBadge level={experience.intensity} />
+    <div
+      className={
+        compact ? styles.compact : isExperienceList ? styles.experienceList : styles.meta
+      }
+    >
+      {!hideIntensity && <IntensityBadge level={experience.intensity} />}
       <ParameterStarsGroup
         parameters={experience.parameters}
-        layout={compact ? 'cover' : 'inline'}
+        layout={compact ? 'cover' : isExperienceList ? 'listCompact' : 'list'}
       />
-      <IntegritySeal seal={experience.seal} compact={compact} />
+      <IntegritySeal
+        seal={experience.seal}
+        compact={compact}
+        variant={isExperienceList ? 'minimal' : 'default'}
+      />
     </div>
   );
 }

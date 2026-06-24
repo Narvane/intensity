@@ -138,7 +138,7 @@ Persistent description card and five-segment progress indicator throughout.
 
 - **Filter modes:** Any (no intensity filter), Exact (fixed level 1–5), Up to (inclusive maximum)
 - **Draw action:** random selection among eligible experiences in the box
-- **Result card:** intensity cover (level, parameters, seal) before reveal
+- **Result card:** cover with hero intensity number, compact parameters, and discreet seal before reveal
 - **Alignment hint:** prompts group agreement before flipping card
 - **Reveal:** Y-axis flip to read full description
 - **Return:** back to draw for new selection
@@ -177,11 +177,11 @@ Displays: group member first names / display names, invite expiry, accept and ca
 
 ### Group selection (Experiences)
 
-Lists groups where the participant is a member. Empty state: "Join a group via invite or enter Experience Box with others." Each row shows member count and optional last activity hint. Actions: select group, **Invite** (share new invite), **Leave group** (confirm).
+Lists groups where the participant is a member. Participants with no group receive a solo group automatically. **Create group** adds a new team (starts with just the user; invite inside the group on box selection). Each card shows member name preview and a distinct color per group; tap opens box selection.
 
 ### Box selection (Experiences)
 
-Lists boxes in selected group. Empty state: "Create a box together in Experience Box mode." Select box → experience list.
+Lists boxes in selected group. Horizontal pill strip shows every member display name. Toolbar: create box, **Invite**, **Leave group** (confirm). Empty state: "Create a box together in Experience Box mode." Select box → experience list.
 
 ### Experience list
 

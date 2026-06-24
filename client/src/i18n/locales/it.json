@@ -61,8 +61,8 @@
     "tabsLabel": "Modalità di autenticazione",
     "loading": "Accesso…",
     "tabs": {
-      "experiences": "Experiences",
-      "experienceBox": "Experience Box",
+      "experiences": "Crea esperienze",
+      "experienceBox": "Sorteggio",
       "register": "Registrazione",
       "invite": "Codice invito"
     },
@@ -75,7 +75,11 @@
       "title": "Accedi",
       "product": "Experiences",
       "subtitle": "Crea esperienze in modo individuale",
-      "submit": "Accedi"
+      "submit": "Accedi",
+      "continue": "Continua",
+      "sessionActive": "Sei ancora connesso su questo dispositivo.",
+      "signOut": "Esci",
+      "passwordSaved": "Password salvata su questo dispositivo"
     },
     "experienceBox": {
       "title": "Gioca",
@@ -83,6 +87,7 @@
       "subtitle": "Sorteggia le scatole di esperienze",
       "hint": "Inserisci tutte le persone presenti. Ognuna usa le proprie credenziali.",
       "participant": "Partecipante {{number}}",
+      "prefilledYou": "Tu",
       "addParticipant": "Aggiungi partecipante",
       "submit": "Entra insieme"
     },
@@ -136,16 +141,30 @@
   },
   "groups": {
     "title": "Scegli un gruppo",
-    "empty": "Unisciti a un gruppo via invito o accedi a Experience Box con altri.",
+    "empty": "Non fai ancora parte di nessun gruppo.",
+    "emptyHint": "Chiedi un invito a chi è già in un gruppo oppure entra con un link o codice invito.",
     "memberCount": "{{count}} membri",
+    "memberPreview": {
+      "pair": "{{first}} e {{second}}",
+      "overflow": "{{names}} e +{{count}}"
+    },
     "openBoxes": "Apri scatole",
+    "create": "Crea gruppo",
+    "createSuccess": "Gruppo creato.",
+    "membersStrip": "Membri del gruppo",
+    "createDialog": {
+      "title": "Creare un nuovo gruppo?",
+      "message": "Il gruppo inizia solo con te. Per invitare altre persone, apri il gruppo e usa Invita nella schermata delle scatole.",
+      "confirm": "Crea gruppo",
+      "cancel": "Annulla"
+    },
     "invite": "Invita",
     "leave": "Lascia il gruppo",
     "leaveSuccess": "Hai lasciato il gruppo.",
     "leaveDialog": {
       "title": "Lasciare questo gruppo?",
-      "message": "Perderai l'accesso alle scatole di questo gruppo. Le esperienze che hai aggiunto resteranno nel gruppo.",
-      "sessionMessage": "Tutti in questa sessione Experience Box lasceranno il gruppo. Le esperienze aggiunte restano, a meno che il gruppo non venga rimosso.",
+      "message": "Perderai l'accesso alle scatole di questo gruppo. Le esperienze che hai aggiunto in questo gruppo saranno rimosse permanentemente.",
+      "sessionMessage": "Tutti in questa sessione Experience Box lasceranno il gruppo. Le esperienze aggiunte in questo gruppo saranno rimosse permanentemente, a meno che l'intero gruppo non venga eliminato.",
       "lastMemberMessage": "Questo rimuove gli ultimi membri dal gruppo. Tutte le scatole, le esperienze e gli inviti in sospeso saranno eliminati permanentemente.",
       "confirm": "Lascia il gruppo",
       "cancel": "Annulla"
@@ -234,6 +253,10 @@
     "otherSummary": "Contributo di {{author}} — solo intensità e sigillo fino alla rivelazione.",
     "revealDescription": "Mostra descrizione e riflessione",
     "hideDescription": "Nascondi descrizione e riflessione",
+    "flipCard": "Gira carta",
+    "unflipCard": "Riporta carta",
+    "flipAll": "Gira tutte le carte",
+    "unflipAll": "Riporta tutte le carte",
     "anonymous": "Membro del gruppo",
     "edit": "Modifica",
     "delete": "Elimina",
@@ -254,8 +277,9 @@
     "next": "Avanti",
     "descriptionCard": "La tua idea",
     "descriptionEmpty": "Descrivi l'esperienza che vuoi suggerire.",
+    "descriptionPlaceholder": "Descrivi l'esperienza che vuoi suggerire.",
     "suggestionItem": "{{type}} — idea {{number}}",
-    "suggestedIntensity": "Suggerito: livello {{level}} — {{name}}",
+    "suggestedIntensity": "Suggerito dalla media dei parametri: livello {{level}} — {{name}}",
     "saveFinish": "Salva e concludi",
     "saveAnother": "Salva e creane un'altra",
     "saveChanges": "Salva modifiche",
@@ -270,7 +294,7 @@
     "steps": {
       "suggestion": {
         "title": "Suggerimento",
-        "body": "Esplorate idee del pacchetto di questa scatola o scrivete la vostra — nulla viene salvato finché non confermate."
+        "body": "Sfogliate i suggerimenti qui sotto o scrivete direttamente nella descrizione — nulla viene salvato finché non confermate."
       },
       "reflection": {
         "title": "Riflessione",
@@ -282,7 +306,8 @@
       },
       "classification": {
         "title": "Classificazione",
-        "body": "Conferma o regola il livello complessivo di intensità."
+        "body": "Conferma o regola il livello complessivo di intensità.",
+        "averageHint": "Il suggerimento iniziale deriva dalla media arrotondata di impegno, apertura e novità del passo precedente."
       },
       "review": {
         "title": "Revisione",
@@ -297,6 +322,7 @@
     },
     "intensityLabel": "Livello {{level}}",
     "explorer": {
+      "auxLabel": "Suggerimenti",
       "filterLabel": "Filtra per intensità",
       "intensity": "Intensità {{level}}",
       "another": "Altro suggerimento",
@@ -369,10 +395,10 @@
     "statusRevealed": "Esperienza rivelata.",
     "emptyBox": "Non ci sono ancora esperienze. Aggiungete idee in modalità Experiences sui telefoni.",
     "emptyFilter": "Nessuna esperienza corrisponde a questo filtro.",
-    "coverLabel": "La vostra carta è uscita!",
+    "intensityLabel": "Intensità",
     "ritualHint": "Toccate insieme quando siete pronti ad aprire la prossima sorpresa.",
-    "alignmentHint": "Respirate insieme prima di aprire la carta completa.",
-    "reveal": "Apri carta",
+    "alignmentHint": "Respirate insieme prima di girare la carta; negoziate scambi se serve.",
+    "reveal": "Gira carta",
     "backToDraw": "Estrai un'altra carta",
     "filter": {
       "ANY": "Qualsiasi",

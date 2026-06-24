@@ -1,17 +1,25 @@
 .header {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
   gap: 0.65rem;
   margin-bottom: 1.25rem;
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  min-height: var(--touch-min);
 }
 
 .leading,
 .trailing {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.45rem;
-  min-height: var(--touch-min);
+  flex: 0 0 auto;
 }
 
 .leading {
@@ -20,14 +28,15 @@
 
 .trailing {
   justify-content: flex-end;
-}
-
-.body {
-  min-width: 0;
+  margin-left: auto;
 }
 
 .leading:empty,
 .trailing:empty {
+  display: none;
+}
+
+.content {
   min-width: 0;
-  min-height: 0;
+  width: 100%;
 }

@@ -3,6 +3,7 @@ package com.intensity.group.service;
 import com.intensity.common.AccessMode;
 import com.intensity.common.AuthPrincipal;
 import com.intensity.common.exception.ApiException;
+import com.intensity.experience.repository.ExperienceRepository;
 import com.intensity.group.entity.Group;
 import com.intensity.group.entity.GroupParticipant;
 import com.intensity.group.repository.GroupParticipantRepository;
@@ -22,12 +23,15 @@ public class GroupMembershipService {
 
 	private final GroupRepository groupRepository;
 	private final GroupParticipantRepository groupParticipantRepository;
+	private final ExperienceRepository experienceRepository;
 
 	public GroupMembershipService(
 			GroupRepository groupRepository,
-			GroupParticipantRepository groupParticipantRepository) {
+			GroupParticipantRepository groupParticipantRepository,
+			ExperienceRepository experienceRepository) {
 		this.groupRepository = groupRepository;
 		this.groupParticipantRepository = groupParticipantRepository;
+		this.experienceRepository = experienceRepository;
 	}
 
 	@Transactional
@@ -45,6 +49,8 @@ public class GroupMembershipService {
 			groupRepository.deleteById(groupId);
 			return;
 		}
+
+		experienceRepository.deleteByAuthor_IdInAndBox_Group_Id(activeLeavers, groupId);
 
 		for (UUID participantId : activeLeavers) {
 			groupParticipantRepository.deleteById(new GroupParticipant.Id(groupId, participantId));

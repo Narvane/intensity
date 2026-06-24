@@ -1,26 +1,15 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { OfflineBanner } from '@presentation/components/OfflineBanner';
 import { resolveGuestRouteRedirect } from '@domain/auth/guestRouteRedirect';
-import { getMemoryPendingReturnPath } from '@domain/invite/pendingInvite';
 import { useSession } from './SessionProvider';
-
-interface GuestLocationState {
-  returnTo?: string;
-}
 
 export function RequireGuestRoute() {
   const { session, loading } = useSession();
-  const location = useLocation();
-  const returnTo = (location.state as GuestLocationState | null)?.returnTo;
-
   if (loading) {
     return null;
   }
 
-  const redirectTo = resolveGuestRouteRedirect(session, {
-    returnTo,
-    pendingReturnPath: getMemoryPendingReturnPath(),
-  });
+  const redirectTo = resolveGuestRouteRedirect(session);
 
   if (redirectTo) {
     return <Navigate to={redirectTo} replace />;

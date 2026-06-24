@@ -85,6 +85,12 @@
   line-height: 1.5;
 }
 
+.parameterFields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
 .field {
   display: flex;
   flex-direction: column;

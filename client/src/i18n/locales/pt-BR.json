@@ -256,7 +256,7 @@
       },
       "parameters": {
         "title": "O tempero",
-        "body": "Dê notas para esforço, abertura e novidade."
+        "body": "Toque nas estrelas para classificar esforço, abertura e novidade."
       },
       "classification": {
         "title": "Classificação",
@@ -283,6 +283,35 @@
     },
     "levelNamed": "Nível {{level}} — {{name}}",
     "parametersLabel": "Parâmetros da experiência"
+  },
+  "parameters": {
+    "effort": {
+      "hints": {
+        "1": "Dá para fazer no dia a dia, sem planejamento especial.",
+        "2": "Exige um pouco de organização, mas nada extraordinário.",
+        "3": "Precisa reservar tempo e energia de propósito.",
+        "4": "É exigente — vale combinar antes com o grupo.",
+        "5": "Muito exigente fisicamente ou logisticamente; preparem-se juntos."
+      }
+    },
+    "openness": {
+      "hints": {
+        "1": "Pouca exposição — confortável para quase todos.",
+        "2": "Um gesto de sinceridade leve, sem se expor demais.",
+        "3": "Pedem honestidade gentil e alguma vulnerabilidade.",
+        "4": "Exige coragem para se mostrar um pouco mais.",
+        "5": "Alta exposição emocional ou social — só se o grupo estiver pronto."
+      }
+    },
+    "novelty": {
+      "hints": {
+        "1": "Bem dentro do hábito do grupo.",
+        "2": "Um desvio pequeno da rotina.",
+        "3": "Algo diferente do que costumam fazer.",
+        "4": "Bem distante do habitual — surpreende o grupo.",
+        "5": "Totalmente fora da zona de conforto habitual."
+      }
+    }
   },
   "sharedMoment": {
     "defaultBoxName": "Caixinha selecionada",

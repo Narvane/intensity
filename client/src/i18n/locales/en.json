@@ -256,7 +256,7 @@
       },
       "parameters": {
         "title": "Parameters",
-        "body": "Rate effort, openness, and novelty from 1 to 5."
+        "body": "Tap the stars to rate effort, openness, and novelty."
       },
       "classification": {
         "title": "Classification",
@@ -283,6 +283,35 @@
     },
     "levelNamed": "Level {{level}} — {{name}}",
     "parametersLabel": "Experience parameters"
+  },
+  "parameters": {
+    "effort": {
+      "hints": {
+        "1": "Easy to do in everyday life, no special planning needed.",
+        "2": "Takes a little organizing, but nothing extraordinary.",
+        "3": "Needs intentional time and energy set aside.",
+        "4": "Quite demanding — worth agreeing as a group first.",
+        "5": "Very demanding physically or logistically; prepare together."
+      }
+    },
+    "openness": {
+      "hints": {
+        "1": "Little exposure — comfortable for almost everyone.",
+        "2": "A light gesture of sincerity, without overexposing yourself.",
+        "3": "Asks for gentle honesty and some vulnerability.",
+        "4": "Takes courage to show yourself a bit more.",
+        "5": "High emotional or social exposure — only when the group is ready."
+      }
+    },
+    "novelty": {
+      "hints": {
+        "1": "Well within the group's usual habits.",
+        "2": "A small break from the routine.",
+        "3": "Different from what you usually do together.",
+        "4": "Far from the usual — surprises the group.",
+        "5": "Completely outside the group's comfort zone."
+      }
+    }
   },
   "sharedMoment": {
     "defaultBoxName": "Selected box",

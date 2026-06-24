@@ -256,7 +256,7 @@
       },
       "parameters": {
         "title": "Parametri",
-        "body": "Valuta sforzo, apertura e novità da 1 a 5."
+        "body": "Tocca le stelle per valutare impegno, apertura e novità."
       },
       "classification": {
         "title": "Classificazione",
@@ -283,6 +283,35 @@
     },
     "levelNamed": "Livello {{level}} — {{name}}",
     "parametersLabel": "Parametri dell'esperienza"
+  },
+  "parameters": {
+    "effort": {
+      "hints": {
+        "1": "Si può fare nella quotidianità, senza pianificazione speciale.",
+        "2": "Richiede un po' di organizzazione, ma niente di straordinario.",
+        "3": "Serve tempo ed energia dedicati di proposito.",
+        "4": "È impegnativo — meglio accordarsi prima come gruppo.",
+        "5": "Molto impegnativo fisicamente o logisticamente; preparatevi insieme."
+      }
+    },
+    "openness": {
+      "hints": {
+        "1": "Poca esposizione — comodo per quasi tutti.",
+        "2": "Un gesto leggero di sincerità, senza esporsi troppo.",
+        "3": "Chiede onestà gentile e un po' di vulnerabilità.",
+        "4": "Serve coraggio per mostrarsi un po' di più.",
+        "5": "Alta esposizione emotiva o sociale — solo se il gruppo è pronto."
+      }
+    },
+    "novelty": {
+      "hints": {
+        "1": "Ben dentro le abitudini del gruppo.",
+        "2": "Una piccola deviazione dalla routine.",
+        "3": "Qualcosa di diverso da ciò che fate di solito.",
+        "4": "Lontano dall'abituale — sorprende il gruppo.",
+        "5": "Completamente fuori dalla zona di comfort abituale."
+      }
+    }
   },
   "sharedMoment": {
     "defaultBoxName": "Scatola selezionata",

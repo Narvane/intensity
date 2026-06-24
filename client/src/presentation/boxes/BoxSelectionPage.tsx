@@ -16,6 +16,7 @@ import styles from './BoxSelectionPage.module.css';
 interface BoxSelectionLocationState {
   openInvite?: boolean;
   createdBoxName?: string;
+  partialFillFailures?: number;
 }
 
 export function BoxSelectionPage() {
@@ -34,6 +35,7 @@ export function BoxSelectionPage() {
   const [error, setError] = useState<string | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [createdBanner, setCreatedBanner] = useState<string | null>(null);
+  const [warningBanner, setWarningBanner] = useState<string | null>(null);
 
   const loadBoxes = useCallback(async () => {
     if (!session?.token || !groupId) {
@@ -65,6 +67,12 @@ export function BoxSelectionPage() {
 
     if (state.createdBoxName) {
       setCreatedBanner(t('boxes.createdSuccess', { name: state.createdBoxName }));
+    }
+
+    if (state.partialFillFailures && state.partialFillFailures > 0) {
+      setWarningBanner(
+        t('createBox.partialFillError', { count: state.partialFillFailures }),
+      );
     }
 
     setShareOpen(true);
@@ -106,6 +114,12 @@ export function BoxSelectionPage() {
       {createdBanner && (
         <p className={styles.successBanner} role="status">
           {createdBanner}
+        </p>
+      )}
+
+      {warningBanner && (
+        <p className={styles.warningBanner} role="status">
+          {warningBanner}
         </p>
       )}
 

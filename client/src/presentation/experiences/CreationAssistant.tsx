@@ -15,12 +15,13 @@ import {
   CreateExperienceUseCase,
   UpdateExperienceUseCase,
 } from '@domain/experience/experienceUseCases';
-import { getSuggestions } from '../../content/suggestion-packs/index';
+import type { ExperienceSuggestion } from '../../content/suggestion-packs';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import { IntegritySeal } from '../components/IntegritySeal';
 import { ParameterStarField } from '../components/ParameterStarField';
 import { RatingScale } from '../components/RatingScale';
+import { SuggestionExplorer } from '../suggestions/SuggestionExplorer';
 import styles from './CreationAssistant.module.css';
 
 interface CreationAssistantProps {
@@ -44,7 +45,7 @@ export function CreationAssistant({
   onClose,
   onSaved,
 }: CreationAssistantProps) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const api = useMemo(() => createApiClient(), []);
   const createExperience = useMemo(() => new CreateExperienceUseCase(api), [api]);
   const updateExperience = useMemo(() => new UpdateExperienceUseCase(api), [api]);
@@ -58,10 +59,13 @@ export function CreationAssistant({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const suggestions = useMemo(
-    () => getSuggestions(locale, boxType, intensity as 1 | 2 | 3 | 4 | 5),
-    [boxType, intensity, locale],
-  );
+  const applySuggestion = (suggestion: ExperienceSuggestion) => {
+    setDescription(suggestion.description);
+    setReflection(suggestion.reflection);
+    setParameters(suggestion.parameters);
+    setIntensity(suggestion.intensity);
+    setIntensityTouched(true);
+  };
 
   useEffect(() => {
     if (!open) {
@@ -186,6 +190,8 @@ export function CreationAssistant({
           <section className={styles.step}>
             <h3>{t('assistant.steps.suggestion.title')}</h3>
             <p>{t('assistant.steps.suggestion.body')}</p>
+            <SuggestionExplorer boxType={boxType} onAccept={applySuggestion} />
+            <p className={styles.hint}>{t('suggestions.explorer.manualHint')}</p>
             <label className={styles.field}>
               <span>{t('assistant.fields.description')}</span>
               <textarea
@@ -195,18 +201,6 @@ export function CreationAssistant({
                 onChange={(event) => setDescription(event.target.value)}
               />
             </label>
-            <div className={styles.suggestions}>
-              {suggestions.map((suggestion) => (
-                <button
-                  key={suggestion}
-                  type="button"
-                  className={styles.suggestionChip}
-                  onClick={() => setDescription(suggestion)}
-                >
-                  {suggestion}
-                </button>
-              ))}
-            </div>
           </section>
         )}
 

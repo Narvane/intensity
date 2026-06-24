@@ -207,7 +207,9 @@
     "typeStep": "2. Thematic type",
     "typeHint": "The type sets the mood for ideas — choose what fits you.",
     "typeLabel": "Box type",
-    "submit": "Create box"
+    "defaultsStep": "3. Default ideas (optional)",
+    "submit": "Create box",
+    "partialFillError": "The box was created, but {{count}} idea(s) could not be added. Try adding them manually."
   },
   "experiences": {
     "title": "Experiences",
@@ -259,7 +261,7 @@
     "steps": {
       "suggestion": {
         "title": "Suggestion",
-        "body": "Write the idea or tap a chip for inspiration — it will not save automatically."
+        "body": "Browse ideas from this box's pack or write your own — nothing is saved until you confirm."
       },
       "reflection": {
         "title": "Reflection",
@@ -277,6 +279,27 @@
         "title": "Review",
         "body": "Check everything before saving."
       }
+    }
+  },
+  "suggestions": {
+    "placeholder": {
+      "description": "[placeholder] {{type}} — level {{level}} — idea {{idea}}",
+      "reflection": "[placeholder] Reflection for {{type}} — level {{level}} — idea {{idea}}"
+    },
+    "intensityLabel": "Level {{level}}",
+    "explorer": {
+      "filterLabel": "Filter by intensity",
+      "intensity": "Intensity {{level}}",
+      "another": "Another suggestion",
+      "use": "Use this idea",
+      "manualHint": "Or write your own idea below."
+    },
+    "createBox": {
+      "flag": "Fill with default ideas",
+      "flagHint": "Add ready-made experiences for the draw — check the ones you want to include.",
+      "chooseTypeFirst": "Choose a box type to see available ideas.",
+      "selectedCount": "{{count}} idea(s) selected",
+      "groupIntensity": "Level {{level}}"
     }
   },
   "seal": {

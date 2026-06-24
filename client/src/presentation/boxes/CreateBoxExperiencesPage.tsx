@@ -38,10 +38,14 @@ export function CreateBoxExperiencesPage() {
         token={session.token}
         variant="experiences"
         cancelPath={boxesPath}
-        onSuccess={(box) => {
+        onSuccess={(box, meta) => {
           navigate(boxesPath, {
             replace: true,
-            state: { openInvite: true, createdBoxName: box.name },
+            state: {
+              openInvite: true,
+              createdBoxName: box.name,
+              partialFillFailures: meta?.partialFillFailures,
+            },
           });
         }}
       />

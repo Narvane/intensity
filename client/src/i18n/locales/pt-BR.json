@@ -207,7 +207,9 @@
     "typeStep": "2. Tipo temático",
     "typeHint": "O tipo orienta o clima das ideias — escolha o que combina com vocês.",
     "typeLabel": "Tipo de caixinha",
-    "submit": "Criar caixinha"
+    "defaultsStep": "3. Ideias padrão (opcional)",
+    "submit": "Criar caixinha",
+    "partialFillError": "A caixinha foi criada, mas {{count}} ideia(s) não puderam ser adicionadas. Tente incluí-las manualmente."
   },
   "experiences": {
     "title": "Experiências",
@@ -259,7 +261,7 @@
     "steps": {
       "suggestion": {
         "title": "Sugestão",
-        "body": "Escreva a ideia ou toque em um chip para inspiração — não salva automaticamente."
+        "body": "Explore ideias do pacote desta caixinha ou escreva a sua — nada é salvo até você confirmar."
       },
       "reflection": {
         "title": "Reflexão",
@@ -277,6 +279,27 @@
         "title": "Revisão",
         "body": "Confira tudo antes de salvar."
       }
+    }
+  },
+  "suggestions": {
+    "placeholder": {
+      "description": "[placeholder] {{type}} — nível {{level}} — ideia {{idea}}",
+      "reflection": "[placeholder] Reflexão para {{type}} — nível {{level}} — ideia {{idea}}"
+    },
+    "intensityLabel": "Nível {{level}}",
+    "explorer": {
+      "filterLabel": "Filtrar por intensidade",
+      "intensity": "Intensidade {{level}}",
+      "another": "Outra sugestão",
+      "use": "Usar esta ideia",
+      "manualHint": "Ou escreva sua própria ideia abaixo."
+    },
+    "createBox": {
+      "flag": "Preencher com ideias padrão",
+      "flagHint": "Adicione experiências prontas para sorteio — marque as que quiser incluir.",
+      "chooseTypeFirst": "Escolha um tipo de caixinha para ver as ideias disponíveis.",
+      "selectedCount": "{{count}} ideia(s) selecionada(s)",
+      "groupIntensity": "Nível {{level}}"
     }
   },
   "seal": {

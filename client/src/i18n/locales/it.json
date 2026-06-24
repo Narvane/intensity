@@ -207,7 +207,9 @@
     "typeStep": "2. Tipo tematico",
     "typeHint": "Il tipo orienta il clima delle idee — scegliete quello giusto per voi.",
     "typeLabel": "Tipo di scatola",
-    "submit": "Crea scatola"
+    "defaultsStep": "3. Idee predefinite (opzionale)",
+    "submit": "Crea scatola",
+    "partialFillError": "La scatola è stata creata, ma {{count}} idea/e non sono state aggiunte. Provate ad aggiungerle manualmente."
   },
   "experiences": {
     "title": "Esperienze",
@@ -259,7 +261,7 @@
     "steps": {
       "suggestion": {
         "title": "Suggerimento",
-        "body": "Scrivi l'idea o tocca un chip per ispirazione — non salva automaticamente."
+        "body": "Esplorate idee del pacchetto di questa scatola o scrivete la vostra — nulla viene salvato finché non confermate."
       },
       "reflection": {
         "title": "Riflessione",
@@ -277,6 +279,27 @@
         "title": "Revisione",
         "body": "Controlla tutto prima di salvare."
       }
+    }
+  },
+  "suggestions": {
+    "placeholder": {
+      "description": "[placeholder] {{type}} — livello {{level}} — idea {{idea}}",
+      "reflection": "[placeholder] Riflessione per {{type}} — livello {{level}} — idea {{idea}}"
+    },
+    "intensityLabel": "Livello {{level}}",
+    "explorer": {
+      "filterLabel": "Filtra per intensità",
+      "intensity": "Intensità {{level}}",
+      "another": "Altro suggerimento",
+      "use": "Usa questa idea",
+      "manualHint": "Oppure scrivete la vostra idea qui sotto."
+    },
+    "createBox": {
+      "flag": "Riempi con idee predefinite",
+      "flagHint": "Aggiungete esperienze pronte per l'estrazione — selezionate quelle da includere.",
+      "chooseTypeFirst": "Scegliete un tipo di scatola per vedere le idee disponibili.",
+      "selectedCount": "{{count}} idea/e selezionata/e",
+      "groupIntensity": "Livello {{level}}"
     }
   },
   "seal": {

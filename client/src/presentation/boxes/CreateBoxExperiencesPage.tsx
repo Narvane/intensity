@@ -4,7 +4,9 @@ import { useI18n } from '../../i18n/I18nContext';
 import { CreateBoxForm } from './CreateBoxForm';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { SessionModeChrome } from '../components/SessionModeChrome';
+import { ScreenTitle } from '../components/ScreenTitle';
+import { SessionModeFooter } from '../components/SessionModeFooter';
+import footerStyles from '../components/SessionModeFooter.module.css';
 import styles from './CreateBoxExperiencesPage.module.css';
 
 export function CreateBoxExperiencesPage() {
@@ -20,15 +22,11 @@ export function CreateBoxExperiencesPage() {
   const boxesPath = `/groups/${groupId}/boxes`;
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
       <ScreenHeader
         leading={<NavButton action="back" onClick={() => navigate(boxesPath)} />}
       >
-        <SessionModeChrome
-          mode="EXPERIENCES"
-          title={t('createBox.title')}
-          participantDisplayName={session.displayName}
-        />
+        <ScreenTitle>{t('createBox.title')}</ScreenTitle>
       </ScreenHeader>
 
       <p className={styles.intro}>{t('boxes.createIntro')}</p>
@@ -48,6 +46,10 @@ export function CreateBoxExperiencesPage() {
             },
           });
         }}
+      />
+      <SessionModeFooter
+        mode="EXPERIENCES"
+        participantDisplayName={session.displayName}
       />
     </main>
   );

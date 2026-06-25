@@ -9,7 +9,8 @@
     "build:store": "tsc --noEmit && vite build --mode production && node scripts/cap-sync-store.mjs",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "generate:native-assets": "node scripts/generate-native-assets.mjs"
   },
   "dependencies": {
     "@capacitor/app": "^7.0.1",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@capacitor/android": "^7.0.1",
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^7.0.1",
     "@capacitor/ios": "^7.0.1",
     "@types/react": "^19.1.8",

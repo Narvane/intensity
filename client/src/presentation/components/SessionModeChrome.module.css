@@ -108,3 +108,44 @@
   font-size: 1.75rem;
   line-height: 1.1;
 }
+
+.footerChrome {
+  gap: 0.45rem;
+}
+
+.footerChrome .modeRow {
+  gap: 0.65rem;
+}
+
+.footerChrome .iconBadge {
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.85rem;
+}
+
+.footerChrome .iconBadge svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.footerChrome .modeLabel {
+  font-size: 0.74rem;
+}
+
+.footerChrome .modeSubtitle {
+  font-size: 0.84rem;
+  line-height: 1.25;
+}
+
+.footerChrome .greeting {
+  font-size: 0.88rem;
+}
+
+.footerChrome .memberChip {
+  padding: 0.22rem 0.55rem;
+  font-size: 0.78rem;
+}
+
+.footerChrome .roomLabel {
+  font-size: 0.74rem;
+}

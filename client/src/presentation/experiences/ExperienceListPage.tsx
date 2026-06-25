@@ -21,7 +21,9 @@ import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { SessionModeChrome } from '../components/SessionModeChrome';
+import { ScreenTitle } from '../components/ScreenTitle';
+import { SessionModeFooter } from '../components/SessionModeFooter';
+import footerStyles from '../components/SessionModeFooter.module.css';
 import { CreationAssistant } from './CreationAssistant';
 import { DeleteExperienceDialog } from './DeleteExperienceDialog';
 import { ExperienceCard } from './ExperienceCard';
@@ -148,7 +150,7 @@ export function ExperienceListPage() {
   };
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
       <ScreenHeader
         leading={
           <NavButton
@@ -158,11 +160,7 @@ export function ExperienceListPage() {
         }
         trailing={<NavButton action="logout" onClick={() => void logout()} />}
       >
-        <SessionModeChrome
-          mode="EXPERIENCES"
-          title={boxName}
-          participantDisplayName={session?.displayName}
-        />
+        <ScreenTitle>{boxName}</ScreenTitle>
       </ScreenHeader>
 
       <p className={styles.transparency}>{t('experiences.transparency')}</p>
@@ -253,6 +251,10 @@ export function ExperienceListPage() {
             setDeleteError(null);
           }
         }}
+      />
+      <SessionModeFooter
+        mode="EXPERIENCES"
+        participantDisplayName={session?.displayName}
       />
     </main>
   );

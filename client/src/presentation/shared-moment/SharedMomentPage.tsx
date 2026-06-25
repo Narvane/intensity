@@ -19,12 +19,14 @@ import {
   canPerformDraw,
   remainingDraws,
 } from '@domain/session/experienceBoxSessionPolicy';
-import { SlidersHorizontal, Sparkles } from 'lucide-react';
+import { SlidersHorizontal, Sparkles, Lightbulb } from 'lucide-react';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { SessionModeChrome } from '../components/SessionModeChrome';
+import { ScreenTitle } from '../components/ScreenTitle';
+import { SessionModeFooter } from '../components/SessionModeFooter';
+import footerStyles from '../components/SessionModeFooter.module.css';
 import { RatingScale } from '../components/RatingScale';
 import { DrawResultCard } from './DrawResultCard';
 import styles from './SharedMomentPage.module.css';
@@ -136,7 +138,7 @@ export function SharedMomentPage() {
   };
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
       <p className="srOnly" aria-live="polite" aria-atomic="true">
         {statusMessage}
       </p>
@@ -144,11 +146,7 @@ export function SharedMomentPage() {
         leading={<NavButton action="back" onClick={() => navigate('/box-home')} />}
         trailing={<NavButton action="logout" onClick={() => void logout()} />}
       >
-        <SessionModeChrome
-          mode="EXPERIENCE_BOX"
-          title={boxName}
-          members={session?.members}
-        />
+        <ScreenTitle>{boxName}</ScreenTitle>
       </ScreenHeader>
 
       <p className={styles.drawsRemaining}>
@@ -236,7 +234,10 @@ export function SharedMomentPage() {
           />
 
           {drawSession.phase === 'drawn' && (
-            <p className={styles.alignmentHint}>{t('sharedMoment.alignmentHint')}</p>
+            <div className={styles.alignmentTip} role="note">
+              <Lightbulb className={styles.alignmentTipIcon} aria-hidden="true" />
+              <p>{t('sharedMoment.alignmentHint')}</p>
+            </div>
           )}
 
           <div className={styles.actions}>
@@ -265,6 +266,7 @@ export function SharedMomentPage() {
           </div>
         </>
       )}
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={session?.members} />
     </main>
   );
 }

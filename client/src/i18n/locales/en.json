@@ -75,7 +75,11 @@
       "title": "Sign in",
       "product": "Experiences",
       "subtitle": "Create experiences on your own",
-      "submit": "Sign in"
+      "submit": "Sign in",
+      "continue": "Continue",
+      "sessionActive": "You are still signed in on this device.",
+      "signOut": "Sign out",
+      "passwordSaved": "Password saved on this device"
     },
     "experienceBox": {
       "title": "Play",
@@ -83,6 +87,7 @@
       "subtitle": "Draw experience boxes together",
       "hint": "Enter everyone present in the room. Each person uses their own credentials.",
       "participant": "Participant {{number}}",
+      "prefilledYou": "You",
       "addParticipant": "Add participant",
       "submit": "Enter together"
     },
@@ -390,11 +395,10 @@
     "statusRevealed": "Experience revealed.",
     "emptyBox": "No experiences yet. Add ideas in Experiences mode on your phones.",
     "emptyFilter": "No experiences match this filter.",
-    "coverLabel": "Your card is here!",
     "intensityLabel": "Intensity",
     "ritualHint": "Tap together when you are ready to open the next surprise.",
-    "alignmentHint": "Take a breath together before opening the full card.",
-    "reveal": "Open card",
+    "alignmentHint": "Take a breath together before flipping the card; negotiate swaps if needed.",
+    "reveal": "Flip card",
     "backToDraw": "Draw another card",
     "filter": {
       "ANY": "Any",

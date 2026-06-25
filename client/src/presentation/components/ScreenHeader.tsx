@@ -10,7 +10,7 @@ interface ScreenHeaderProps {
 
 /**
  * Two-row screen chrome: toolbar (leading / trailing actions) then full-width content.
- * Keeps SessionModeChrome and titles from competing horizontally with nav buttons.
+ * Page titles live in content; session mode chrome uses SessionModeFooter at the bottom.
  */
 export function ScreenHeader({ leading, trailing, children, className }: ScreenHeaderProps) {
   const showToolbar = Boolean(leading) || Boolean(trailing);

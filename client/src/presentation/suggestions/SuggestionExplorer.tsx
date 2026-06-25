@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { Check, Shuffle } from 'lucide-react';
 import type { BoxType } from '@domain/box/boxTypes';
 import {
   pickRandomSuggestion,
@@ -58,10 +58,11 @@ export function SuggestionExplorer({ boxType, onAccept }: SuggestionExplorerProp
 
       <div className={styles.actions}>
         <button type="button" className={styles.skipButton} onClick={showAnother}>
-          <ChevronRight size={15} aria-hidden />
+          <Shuffle size={15} aria-hidden />
           {t('suggestions.explorer.another')}
         </button>
         <button type="button" className={styles.pickButton} onClick={() => onAccept(current)}>
+          <Check size={15} aria-hidden />
           {t('suggestions.explorer.use')}
         </button>
       </div>

@@ -10,6 +10,8 @@ export interface SessionState {
   accessMode: AccessMode;
   participantId?: string;
   displayName?: string;
+  /** Participant e-mail; persisted for auth UI when returning to login. */
+  email?: string;
   groupId?: string;
   members?: SessionMember[];
   experienceBox?: {

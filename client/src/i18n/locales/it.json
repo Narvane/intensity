@@ -75,7 +75,11 @@
       "title": "Accedi",
       "product": "Experiences",
       "subtitle": "Crea esperienze in modo individuale",
-      "submit": "Accedi"
+      "submit": "Accedi",
+      "continue": "Continua",
+      "sessionActive": "Sei ancora connesso su questo dispositivo.",
+      "signOut": "Esci",
+      "passwordSaved": "Password salvata su questo dispositivo"
     },
     "experienceBox": {
       "title": "Gioca",
@@ -83,6 +87,7 @@
       "subtitle": "Sorteggia le scatole di esperienze",
       "hint": "Inserisci tutte le persone presenti. Ognuna usa le proprie credenziali.",
       "participant": "Partecipante {{number}}",
+      "prefilledYou": "Tu",
       "addParticipant": "Aggiungi partecipante",
       "submit": "Entra insieme"
     },
@@ -390,11 +395,10 @@
     "statusRevealed": "Esperienza rivelata.",
     "emptyBox": "Non ci sono ancora esperienze. Aggiungete idee in modalità Experiences sui telefoni.",
     "emptyFilter": "Nessuna esperienza corrisponde a questo filtro.",
-    "coverLabel": "La vostra carta è uscita!",
     "intensityLabel": "Intensità",
     "ritualHint": "Toccate insieme quando siete pronti ad aprire la prossima sorpresa.",
-    "alignmentHint": "Respirate insieme prima di aprire la carta completa.",
-    "reveal": "Apri carta",
+    "alignmentHint": "Respirate insieme prima di girare la carta; negoziate scambi se serve.",
+    "reveal": "Gira carta",
     "backToDraw": "Estrai un'altra carta",
     "filter": {
       "ANY": "Qualsiasi",

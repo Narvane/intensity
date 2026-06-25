@@ -1,10 +1,17 @@
 .card {
   position: relative;
-  padding: 1.1rem;
-  padding-top: 3.35rem;
+  padding: 1rem 1.1rem 1.1rem;
   border-radius: var(--radius-card);
   background: var(--surface);
   box-shadow: var(--shadow-soft);
+}
+
+.metaBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin-bottom: 0.45rem;
 }
 
 .staticBody {
@@ -47,16 +54,13 @@
 }
 
 .flipButton {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 2;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--touch-min);
-  min-width: var(--touch-min);
-  padding: 0.55rem;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
+  padding: 0.45rem;
   border: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
   border-radius: var(--radius-button);
   background: var(--surface-sunken);
@@ -88,8 +92,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.85rem;
-  padding-top: 0.85rem;
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
   border-top: 1px solid var(--color-border);
 }
 

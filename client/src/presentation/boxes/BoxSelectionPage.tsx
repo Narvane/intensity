@@ -15,7 +15,9 @@ import { BoxCard } from '../components/BoxCard';
 import { Button } from '../components/Button';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { SessionModeChrome } from '../components/SessionModeChrome';
+import { ScreenTitle } from '../components/ScreenTitle';
+import { SessionModeFooter } from '../components/SessionModeFooter';
+import footerStyles from '../components/SessionModeFooter.module.css';
 import styles from './BoxSelectionPage.module.css';
 
 interface BoxSelectionLocationState {
@@ -127,18 +129,14 @@ export function BoxSelectionPage() {
   };
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
       <ScreenHeader
         leading={
           <NavButton action="back" onClick={() => navigate('/groups')} />
         }
         trailing={<NavButton action="logout" onClick={() => void logout()} />}
       >
-        <SessionModeChrome
-          mode="EXPERIENCES"
-          title={t('boxes.title')}
-          participantDisplayName={session?.displayName}
-        />
+        <ScreenTitle>{t('boxes.title')}</ScreenTitle>
       </ScreenHeader>
 
       {!loading && !error && groupMembers.length > 0 && (
@@ -241,6 +239,10 @@ export function BoxSelectionPage() {
             setLeaveError(null);
           }
         }}
+      />
+      <SessionModeFooter
+        mode="EXPERIENCES"
+        participantDisplayName={session?.displayName}
       />
     </main>
   );

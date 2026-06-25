@@ -8,12 +8,14 @@ interface ExperienceSummaryMetaProps {
   experience: Experience;
   compact?: boolean;
   variant?: 'default' | 'experienceList';
+  hideIntensity?: boolean;
 }
 
 export function ExperienceSummaryMeta({
   experience,
   compact = false,
   variant = 'default',
+  hideIntensity = false,
 }: ExperienceSummaryMetaProps) {
   const isExperienceList = variant === 'experienceList';
 
@@ -23,7 +25,7 @@ export function ExperienceSummaryMeta({
         compact ? styles.compact : isExperienceList ? styles.experienceList : styles.meta
       }
     >
-      <IntensityBadge level={experience.intensity} />
+      {!hideIntensity && <IntensityBadge level={experience.intensity} />}
       <ParameterStarsGroup
         parameters={experience.parameters}
         layout={compact ? 'cover' : isExperienceList ? 'listCompact' : 'list'}

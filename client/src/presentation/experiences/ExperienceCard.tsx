@@ -7,6 +7,7 @@ import {
 import { useI18n } from '../../i18n/I18nContext';
 import { ExperienceContentBlock } from '../components/ExperienceContentBlock';
 import { ExperienceSummaryMeta } from '../components/ExperienceSummaryMeta';
+import { IntensityBadge } from '../components/IntensityBadge';
 import styles from './ExperienceCard.module.css';
 
 interface ExperienceCardProps {
@@ -33,20 +34,26 @@ export function ExperienceCard({
   if (canFlip) {
     return (
       <article className={styles.card}>
-        <button
-          type="button"
-          className={styles.flipButton}
-          aria-pressed={flipped}
-          aria-label={flipped ? t('experiences.unflipCard') : t('experiences.flipCard')}
-          onClick={onFlipToggle}
-        >
-          <FlipHorizontal2 size={20} strokeWidth={2.25} aria-hidden />
-        </button>
-
         <div className={styles.flipShell}>
           <div className={styles.flipInner} data-flipped={flipped ? 'true' : 'false'}>
             <div className={styles.front}>
-              <ExperienceSummaryMeta experience={experience} variant="experienceList" />
+              <div className={styles.metaBar}>
+                <IntensityBadge level={experience.intensity} />
+                <button
+                  type="button"
+                  className={styles.flipButton}
+                  aria-pressed={flipped}
+                  aria-label={flipped ? t('experiences.unflipCard') : t('experiences.flipCard')}
+                  onClick={onFlipToggle}
+                >
+                  <FlipHorizontal2 size={20} strokeWidth={2.25} aria-hidden />
+                </button>
+              </div>
+              <ExperienceSummaryMeta
+                experience={experience}
+                variant="experienceList"
+                hideIntensity
+              />
               <div className={styles.actions}>
                 <button type="button" className={styles.actionButton} onClick={onEdit}>
                   <Pencil size={18} strokeWidth={2.25} aria-hidden />

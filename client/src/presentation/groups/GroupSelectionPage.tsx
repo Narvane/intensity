@@ -13,7 +13,9 @@ import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { SessionModeChrome } from '../components/SessionModeChrome';
+import { ScreenTitle } from '../components/ScreenTitle';
+import { SessionModeFooter } from '../components/SessionModeFooter';
+import footerStyles from '../components/SessionModeFooter.module.css';
 import { getGroupAccent } from '../components/groupVisuals';
 import { CreateGroupDialog } from './CreateGroupDialog';
 import styles from './GroupSelectionPage.module.css';
@@ -79,15 +81,14 @@ export function GroupSelectionPage() {
   };
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
       <ScreenHeader
+        leading={
+          <NavButton action="back" onClick={() => navigate('/auth')} />
+        }
         trailing={<NavButton action="logout" onClick={() => void logout()} />}
       >
-        <SessionModeChrome
-          mode="EXPERIENCES"
-          title={t('groups.title')}
-          participantDisplayName={session?.displayName}
-        />
+        <ScreenTitle>{t('groups.title')}</ScreenTitle>
       </ScreenHeader>
 
       {!loading && !error && (
@@ -166,6 +167,10 @@ export function GroupSelectionPage() {
             setCreateError(null);
           }
         }}
+      />
+      <SessionModeFooter
+        mode="EXPERIENCES"
+        participantDisplayName={session?.displayName}
       />
     </main>
   );

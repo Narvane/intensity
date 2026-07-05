@@ -88,12 +88,14 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 								  "description": "Sunset picnic in the park",
 								  "reflection": "We all need slow evenings together.",
 								  "intensity": 2,
-								  "parameters": { "effort": 2, "openness": 3, "novelty": 2 }
+								  "parameters": { "effort": 2, "unpredictability": 3, "novelty": 2 },
+								  "type": "explore"
 								}
 								"""))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.seal", notNullValue()))
 				.andExpect(jsonPath("$.summaryOnly").value(false))
+				.andExpect(jsonPath("$.type").value("explore"))
 				.andExpect(jsonPath("$.description").value("Sunset picnic in the park"))
 				.andReturn();
 
@@ -126,7 +128,7 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 								  "description": "Sunset picnic by the lake",
 								  "reflection": "We all need slow evenings together.",
 								  "intensity": 3,
-								  "parameters": { "effort": 2, "openness": 3, "novelty": 3 }
+								  "parameters": { "effort": 2, "unpredictability": 3, "novelty": 3 }
 								}
 								"""))
 				.andExpect(status().isOk())
@@ -148,7 +150,7 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 								  "description": "Sunset picnic by the lake",
 								  "reflection": "Updated reflection only.",
 								  "intensity": 3,
-								  "parameters": { "effort": 2, "openness": 3, "novelty": 3 }
+								  "parameters": { "effort": 2, "unpredictability": 3, "novelty": 3 }
 								}
 								"""))
 				.andExpect(status().isOk())
@@ -166,7 +168,7 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 								  "description": "Bob tries to rewrite Alice",
 								  "reflection": "Not allowed",
 								  "intensity": 2,
-								  "parameters": { "effort": 2, "openness": 2, "novelty": 2 }
+								  "parameters": { "effort": 2, "unpredictability": 2, "novelty": 2 }
 								}
 								"""))
 				.andExpect(status().isForbidden())
@@ -206,7 +208,7 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 								  "description": "Too intense",
 								  "reflection": "Nope",
 								  "intensity": 6,
-								  "parameters": { "effort": 2, "openness": 2, "novelty": 2 }
+								  "parameters": { "effort": 2, "unpredictability": 2, "novelty": 2 }
 								}
 								"""))
 				.andExpect(status().isUnprocessableEntity());
@@ -223,7 +225,7 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 								  "description": "Draw pool entry",
 								  "reflection": "For shared moment",
 								  "intensity": 3,
-								  "parameters": { "effort": 3, "openness": 3, "novelty": 3 }
+								  "parameters": { "effort": 3, "unpredictability": 3, "novelty": 3 }
 								}
 								"""))
 				.andExpect(status().isCreated());
@@ -235,6 +237,59 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].description").value("Draw pool entry"))
 				.andExpect(jsonPath("$[0].summaryOnly").value(false));
+	}
+
+	@Test
+	@Order(10)
+	void createBatchCreatesMultipleExperiences() throws Exception {
+		mockMvc.perform(post("/v1/boxes/{boxId}/experiences/batch", boxId)
+						.header("Authorization", "Bearer " + aliceToken)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "experiences": [
+								    {
+								      "description": "Blindfolded tasting round",
+								      "intensity": 2,
+								      "parameters": { "effort": 2, "unpredictability": 4, "novelty": 3 },
+								      "type": "randomness"
+								    },
+								    {
+								      "description": "Blindfolded tasting round with strangers",
+								      "reflection": "A little braver together.",
+								      "intensity": 3,
+								      "parameters": { "effort": 2, "unpredictability": 5, "novelty": 4 }
+								    }
+								  ]
+								}
+								"""))
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$", hasSize(2)))
+				.andExpect(jsonPath("$[0].type").value("randomness"))
+				.andExpect(jsonPath("$[0].reflection").doesNotExist())
+				.andExpect(jsonPath("$[1].type").value("none"))
+				.andExpect(jsonPath("$[1].reflection").value("A little braver together."));
+	}
+
+	@Test
+	@Order(11)
+	void createRejectsBatchOverLimit() throws Exception {
+		mockMvc.perform(post("/v1/boxes/{boxId}/experiences/batch", boxId)
+						.header("Authorization", "Bearer " + aliceToken)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "experiences": [
+								    { "description": "1", "intensity": 1, "parameters": { "effort": 1, "unpredictability": 1, "novelty": 1 } },
+								    { "description": "2", "intensity": 1, "parameters": { "effort": 1, "unpredictability": 1, "novelty": 1 } },
+								    { "description": "3", "intensity": 1, "parameters": { "effort": 1, "unpredictability": 1, "novelty": 1 } },
+								    { "description": "4", "intensity": 1, "parameters": { "effort": 1, "unpredictability": 1, "novelty": 1 } },
+								    { "description": "5", "intensity": 1, "parameters": { "effort": 1, "unpredictability": 1, "novelty": 1 } },
+								    { "description": "6", "intensity": 1, "parameters": { "effort": 1, "unpredictability": 1, "novelty": 1 } }
+								  ]
+								}
+								"""))
+				.andExpect(status().isUnprocessableEntity());
 	}
 
 	private String jointLoginToken() throws Exception {

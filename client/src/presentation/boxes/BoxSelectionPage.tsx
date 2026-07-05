@@ -17,7 +17,6 @@ import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { SessionModeFooter } from '../components/SessionModeFooter';
-import footerStyles from '../components/SessionModeFooter.module.css';
 import styles from './BoxSelectionPage.module.css';
 
 interface BoxSelectionLocationState {
@@ -129,7 +128,8 @@ export function BoxSelectionPage() {
   };
 
   return (
-    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
+    <>
+    <main className={styles.page}>
       <ScreenHeader
         leading={
           <NavButton action="back" onClick={() => navigate('/groups')} />
@@ -240,10 +240,11 @@ export function BoxSelectionPage() {
           }
         }}
       />
+    </main>
       <SessionModeFooter
         mode="EXPERIENCES"
         participantDisplayName={session?.displayName}
       />
-    </main>
+    </>
   );
 }

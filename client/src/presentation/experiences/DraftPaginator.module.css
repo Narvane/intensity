@@ -1,0 +1,51 @@
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--radius-chip);
+  background: color-mix(in srgb, var(--purple) 10%, white);
+  border: 1px solid color-mix(in srgb, var(--purple) 22%, white);
+}
+
+.label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--purple);
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.3rem;
+}
+
+.dot,
+.dotActive {
+  min-width: 1.55rem;
+  height: 1.55rem;
+  padding: 0 0.35rem;
+  border-radius: var(--radius-chip);
+  border: 1px solid color-mix(in srgb, var(--purple) 28%, white);
+  background: var(--surface);
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.14s ease, background 0.14s ease;
+}
+
+.dot:hover {
+  transform: scale(1.05);
+}
+
+.dotActive {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+  transform: scale(1.05);
+}

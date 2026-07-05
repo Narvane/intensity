@@ -25,10 +25,10 @@ describe('intensityTokens', () => {
 
   it('validates parameters', () => {
     expect(
-      validateExperienceParameters({ effort: 2, openness: 3, novelty: 4 }),
+      validateExperienceParameters({ effort: 2, unpredictability: 3, novelty: 4 }),
     ).toBeNull();
     expect(
-      validateExperienceParameters({ effort: 6, openness: 3, novelty: 4 }),
+      validateExperienceParameters({ effort: 6, unpredictability: 3, novelty: 4 }),
     ).toBe('effort');
   });
 });

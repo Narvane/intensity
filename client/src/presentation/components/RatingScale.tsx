@@ -4,7 +4,7 @@ interface RatingScaleProps {
   label: string;
   value: number;
   onChange: (value: number) => void;
-  tone?: 'default' | 'intensity' | 'effort' | 'openness' | 'novelty';
+  tone?: 'default' | 'intensity' | 'effort' | 'unpredictability' | 'novelty';
 }
 
 export function RatingScale({ label, value, onChange, tone = 'default' }: RatingScaleProps) {
@@ -21,7 +21,7 @@ export function RatingScale({ label, value, onChange, tone = 'default' }: Rating
               level === value ? styles.active : styles.inactive,
               tone === 'intensity' ? styles.intensityButton : '',
               tone === 'effort' ? styles.paramEffort : '',
-              tone === 'openness' ? styles.paramOpenness : '',
+              tone === 'unpredictability' ? styles.paramUnpredictability : '',
               tone === 'novelty' ? styles.paramNovelty : '',
             ]
               .filter(Boolean)

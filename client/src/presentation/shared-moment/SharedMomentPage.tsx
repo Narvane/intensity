@@ -26,7 +26,6 @@ import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { SessionModeFooter } from '../components/SessionModeFooter';
-import footerStyles from '../components/SessionModeFooter.module.css';
 import { RatingScale } from '../components/RatingScale';
 import { DrawResultCard } from './DrawResultCard';
 import styles from './SharedMomentPage.module.css';
@@ -138,7 +137,8 @@ export function SharedMomentPage() {
   };
 
   return (
-    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
+    <>
+    <main className={styles.page}>
       <p className="srOnly" aria-live="polite" aria-atomic="true">
         {statusMessage}
       </p>
@@ -266,7 +266,8 @@ export function SharedMomentPage() {
           </div>
         </>
       )}
-      <SessionModeFooter mode="EXPERIENCE_BOX" members={session?.members} />
     </main>
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={session?.members} />
+    </>
   );
 }

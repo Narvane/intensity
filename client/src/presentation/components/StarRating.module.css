@@ -8,8 +8,8 @@
   color: var(--param-effort);
 }
 
-.rating[data-param='openness'] {
-  color: var(--param-openness);
+.rating[data-param='unpredictability'] {
+  color: var(--param-unpredictability);
 }
 
 .rating[data-param='novelty'] {

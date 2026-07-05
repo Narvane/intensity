@@ -36,6 +36,9 @@ intensity:
       - http://192.168.*.*:*
       - http://10.*.*.*:*
       - https://localhost
+      - https://localhost:*
+      - capacitor://localhost
+      - ionic://localhost
 
 springdoc:
   api-docs:

@@ -26,9 +26,25 @@ describe('suggestion packs', () => {
     expect(suggestions).toHaveLength(3);
     expect(suggestions.every((item) => item.boxType === 'SAIDAS_COM_AMIGOS')).toBe(true);
     expect(suggestions.every((item) => item.intensity === 3)).toBe(true);
-    expect(suggestions.every((item) => item.description.includes('Outings with friends'))).toBe(
-      true,
-    );
+    expect(
+      suggestions.every(
+        (item) =>
+          item.description.length > 0 && !item.description.includes('[placeholder]'),
+      ),
+    ).toBe(true);
+  });
+
+  it('provides authored (non-placeholder) copy for every suggestion in all locales', () => {
+    for (const locale of ['pt-BR', 'en', 'it'] as const) {
+      for (const boxType of BOX_TYPES) {
+        for (const suggestion of listSuggestions(locale, boxType)) {
+          expect(suggestion.description).not.toContain('[placeholder]');
+          expect(suggestion.reflection).not.toContain('[placeholder]');
+          expect(suggestion.description.length).toBeGreaterThan(0);
+          expect(suggestion.reflection.length).toBeGreaterThan(0);
+        }
+      }
+    }
   });
 
   it('varies suggestions by box type', () => {

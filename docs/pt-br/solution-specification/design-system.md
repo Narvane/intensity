@@ -204,7 +204,7 @@ Nunca:
 - um modal genérico
 - um sorteador técnico
 
-Capa: chip de intensidade, parâmetros, selo. Face após revelar: descrição completa, reflexão, nome do autor. Animação de flip no eixo Y com timing lúdico (ver Movimento).
+Capa: chip de intensidade, parâmetros, selo e pill de tipo (quando houver) num canto. Face após revelar: descrição completa e reflexão (autoria oculta no ritual). Animação de flip no eixo Y com timing lúdico (ver Movimento).
 
 ### Movimento
 

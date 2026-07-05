@@ -2,6 +2,7 @@ package com.intensity.experience.controller;
 
 import com.intensity.common.AuthPrincipal;
 import com.intensity.experience.dto.CreateExperienceRequest;
+import com.intensity.experience.dto.CreateExperiencesBatchRequest;
 import com.intensity.experience.dto.ExperienceResponse;
 import com.intensity.experience.service.ExperienceService;
 import jakarta.validation.Valid;
@@ -39,6 +40,13 @@ public class ExperienceController {
 	public ExperienceResponse createExperience(
 			@PathVariable UUID boxId, @Valid @RequestBody CreateExperienceRequest request) {
 		return experienceService.create(boxId, request, AuthPrincipal.requireCurrent());
+	}
+
+	@PostMapping("/boxes/{boxId}/experiences/batch")
+	@ResponseStatus(HttpStatus.CREATED)
+	public List<ExperienceResponse> createExperiences(
+			@PathVariable UUID boxId, @Valid @RequestBody CreateExperiencesBatchRequest request) {
+		return experienceService.createBatch(boxId, request, AuthPrincipal.requireCurrent());
 	}
 
 	@PutMapping("/experiences/{experienceId}")

@@ -97,6 +97,7 @@ export function CreateBoxForm({
               reflection: suggestion.reflection,
               intensity: suggestion.intensity,
               parameters: suggestion.parameters,
+              type: 'none',
             });
           } catch {
             failedCount += 1;

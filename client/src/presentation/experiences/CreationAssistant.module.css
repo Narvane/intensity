@@ -168,6 +168,89 @@
   line-height: 1.5;
 }
 
+.draftList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.draftItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.draftItemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.draftBadge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+
+.removeDraft {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: none;
+  border-radius: var(--radius-chip);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+
+.removeDraft:hover {
+  background: color-mix(in srgb, var(--danger) 14%, white);
+  color: var(--danger);
+}
+
+.forkArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.forkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  align-self: flex-start;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-chip);
+  border: 1px dashed color-mix(in srgb, var(--purple) 45%, white);
+  background: color-mix(in srgb, var(--purple) 8%, white);
+  color: var(--purple);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.14s ease, background 0.14s ease;
+}
+
+.forkButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--purple) 14%, white);
+}
+
+.forkButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.forkHint {
+  margin: 0 !important;
+  font-size: 0.78rem !important;
+  line-height: 1.4;
+}
+
 .error {
   margin: 0.75rem 0 0;
   color: var(--danger);

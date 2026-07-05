@@ -126,13 +126,15 @@ Disponível na **página inicial da caixinha** no modo Caixa de Experiências:
 
 | Etapa | Rótulo | Ação do usuário |
 |-------|--------|-----------------|
-| 1 — Sugestão | Escrever descrição ou tocar sugestão de tipo como inspiração |
-| 2 — Reflexão | Justificar por que o grupo aceitaria a ideia |
-| 3 — Parâmetros | Avaliar esforço, abertura, novidade (1–5 estrelas cada) |
-| 4 — Classificação | Confirmar ou ajustar intensidade geral (auto-sugerida dos parâmetros) |
-| 5 — Ramificação | Revisar resumo; salvar e criar outra, ou finalizar |
+| 1 — Sugestão | Escrever descrição(ões) ou tocar sugestão como inspiração; opcionalmente **bifurcar** para criar várias experiências da mesma base |
+| 2 — Parâmetros | Avaliar esforço, imprevisível, inusitado (1–5 estrelas cada) |
+| 3 — Classificação | Confirmar ou ajustar intensidade geral (auto-sugerida dos parâmetros) |
+| 4 — Tipo | Escolher o tipo de experiência (ou "sem tipo") |
+| 5 — Interesse | Contar, opcionalmente, por que a experiência é interessante; salvar |
 
 Carta de descrição persistente e indicador de progresso de cinco segmentos ao longo de todo o fluxo.
+
+**Bifurcação:** na etapa 1, o autor pode duplicar a base para criar até 5 experiências de uma vez. Nas etapas 2–5, um paginador mostra "Experiência N de M" e itera cada experiência antes de avançar de etapa; a gravação cria todas de uma vez via lote e confirma a quantidade criada.
 
 ### Funcionalidades do momento compartilhado
 

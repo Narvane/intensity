@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import type { SessionMember } from '@domain/session/SessionPort';
 import type { AccessMode } from '@domain/session/SessionPort';
 import { useI18n } from '../../i18n/I18nContext';
@@ -23,24 +23,29 @@ export function SessionModeFooter({
     isExperiences ? 'session.experiencesMode' : 'session.experienceBoxMode',
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const footer = footerRef.current;
     if (!footer) {
       return;
     }
 
+    const root = document.documentElement;
+    root.dataset.sessionFooter = 'true';
+
     const syncHeight = () => {
-      document.documentElement.style.setProperty(
-        '--session-mode-footer-height',
-        `${footer.offsetHeight}px`,
-      );
+      root.style.setProperty('--session-mode-footer-height', `${footer.offsetHeight}px`);
     };
 
     syncHeight();
     const observer = new ResizeObserver(syncHeight);
     observer.observe(footer);
-    return () => observer.disconnect();
-  }, []);
+
+    return () => {
+      observer.disconnect();
+      delete root.dataset.sessionFooter;
+      root.style.removeProperty('--session-mode-footer-height');
+    };
+  }, [mode, participantDisplayName, members]);
 
   return (
     <footer

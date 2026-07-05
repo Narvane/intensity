@@ -204,7 +204,7 @@ Never:
 - a generic modal
 - a technical lottery widget
 
-Cover side: intensity chip, parameters, seal. Face after reveal: full description, reflection, author name. Y-axis flip animation with playful timing (see Motion).
+Cover side: intensity chip, parameters, seal, and a type pill (when set) in a corner. Face after reveal: full description and reflection (authorship hidden during the ritual). Y-axis flip animation with playful timing (see Motion).
 
 ### Motion
 

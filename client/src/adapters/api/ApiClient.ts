@@ -77,5 +77,6 @@ export class ApiClient {
 }
 
 export function createApiClient(): ApiClient {
-  return new ApiClient(import.meta.env.VITE_API_URL);
+  const baseUrl = import.meta.env.VITE_API_URL?.trim() ?? '';
+  return new ApiClient(baseUrl);
 }

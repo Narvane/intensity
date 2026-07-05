@@ -249,7 +249,7 @@
     "transparency": "Experiences are not encrypted. Everyone in the group can see contributions — honesty is part of the social contract.",
     "intensityLabel": "Level {{level}}",
     "sealLabel": "Integrity seal",
-    "paramsSummary": "Effort {{effort}} · Openness {{openness}} · Novelty {{novelty}}",
+    "paramsSummary": "Effort {{effort}} · Unpredictable {{unpredictability}} · Unusual {{novelty}}",
     "otherSummary": "Contribution by {{author}} — intensity and seal only until reveal.",
     "revealDescription": "Show description and reflection",
     "hideDescription": "Hide description and reflection",
@@ -280,39 +280,72 @@
     "descriptionPlaceholder": "Describe the experience you want to suggest.",
     "suggestionItem": "{{type}} — idea {{number}}",
     "suggestedIntensity": "Suggested from parameter average: level {{level}} — {{name}}",
-    "saveFinish": "Save and finish",
+    "saveFinish": "Create experience",
     "saveAnother": "Save and create another",
     "saveChanges": "Save changes",
+    "nextExperience": "Next experience",
+    "experienceLabel": "Experience {{number}}",
+    "interestPlaceholder": "E.g.: because it pulls everyone out of their comfort zone in a gentle way.",
+    "createdOne": "Experience created!",
+    "createdMany": "You created {{count}} experiences at once!",
+    "fork": {
+      "button": "Branch",
+      "hint": "Create several experiences from the same base — then just change the details of each one.",
+      "limit": "You reached the maximum of {{max}} experiences.",
+      "remove": "Remove experience",
+      "paginator": "Experience {{current}} of {{total}}",
+      "paginatorAria": "Navigate between experiences",
+      "dot": "Go to experience {{number}}"
+    },
     "fields": {
       "description": "Description",
       "reflection": "Reflection",
       "effort": "Effort",
-      "openness": "Openness",
-      "novelty": "Novelty",
-      "intensity": "Intensity"
+      "unpredictability": "Unpredictable",
+      "novelty": "Unusual",
+      "intensity": "Intensity",
+      "type": "Type",
+      "interest": "Why is this experience interesting?"
     },
     "steps": {
       "suggestion": {
         "title": "Suggestion",
         "body": "Browse suggestions below or write directly in the description — nothing is saved until you confirm."
       },
-      "reflection": {
-        "title": "Reflection",
-        "body": "Why would the group accept this idea together?"
-      },
       "parameters": {
         "title": "Parameters",
-        "body": "Tap the stars to rate effort, openness, and novelty."
+        "body": "Every unusual experience grows from the balance of three forces. Tap the stars to rate effort, unpredictability, and how unusual it is."
       },
       "classification": {
         "title": "Classification",
         "body": "Confirm or adjust the overall intensity level.",
-        "averageHint": "The initial suggestion comes from the rounded average of effort, openness, and novelty from the previous step."
+        "averageHint": "The initial suggestion comes from the rounded average of effort, unpredictability, and unusualness from the previous step."
       },
-      "review": {
-        "title": "Review",
-        "body": "Check everything before saving."
+      "type": {
+        "title": "Pick a type",
+        "body": "The type shows on the card cover and builds anticipation before the flip. Pick the one that fits best — or leave it untyped."
+      },
+      "interest": {
+        "title": "The finishing touch",
+        "body": "If you like, tell the group why this experience is interesting. It's optional, but it helps build excitement."
       }
+    }
+  },
+  "experienceType": {
+    "coverLabel": "Type",
+    "none": "No type",
+    "noneHint": "Leave it uncategorized",
+    "options": {
+      "explore": { "name": "Explore", "hint": "Discover places and people" },
+      "randomness": { "name": "Randomness", "hint": "Let chance decide" },
+      "exposure": { "name": "Exposure", "hint": "Embarrassment, vulnerability" },
+      "constraints": { "name": "Constraints", "hint": "Do more with less" },
+      "overcoming": { "name": "Overcoming", "hint": "Face your fears" },
+      "creativity": { "name": "Creativity", "hint": "Invent solutions" },
+      "contrast": { "name": "Contrast", "hint": "Mix incompatible worlds" },
+      "connection": { "name": "Connection", "hint": "Human interactions" },
+      "contemplation": { "name": "Contemplation", "hint": "Experiences of presence" },
+      "narrative": { "name": "Narrative", "hint": "Live out a story" }
     }
   },
   "suggestions": {
@@ -363,22 +396,22 @@
         "5": "Very demanding physically or logistically; prepare together."
       }
     },
-    "openness": {
+    "unpredictability": {
       "hints": {
-        "1": "Little exposure — comfortable for almost everyone.",
-        "2": "A light gesture of sincerity, without overexposing yourself.",
-        "3": "Asks for gentle honesty and some vulnerability.",
-        "4": "Takes courage to show yourself a bit more.",
-        "5": "High emotional or social exposure — only when the group is ready."
+        "1": "Fully planned and scripted from start to finish — almost no room for chance.",
+        "2": "Mostly mapped out, with a small opening for improvisation.",
+        "3": "A balance between plan and surprise; not everything is in your hands.",
+        "4": "Much of it is left to the moment and to other people's choices.",
+        "5": "The outcome left to chance, a dice roll, an algorithm, or strangers."
       }
     },
     "novelty": {
       "hints": {
-        "1": "Well within the group's usual habits.",
-        "2": "A small break from the routine.",
-        "3": "Different from what you usually do together.",
-        "4": "Far from the usual — surprises the group.",
-        "5": "Completely outside the group's comfort zone."
+        "1": "Very ordinary — close to what the group already does.",
+        "2": "A slight twist on the usual.",
+        "3": "Steps away from the obvious; sparks curiosity.",
+        "4": "Well out of the ordinary — surprises the group.",
+        "5": "Totally unusual, the kind no one forgets."
       }
     }
   },

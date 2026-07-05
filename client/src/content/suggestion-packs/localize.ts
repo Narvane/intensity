@@ -1,4 +1,5 @@
 import { translate, type Locale } from '../../i18n/index';
+import { getSuggestionText } from './text';
 import type { ExperienceSuggestion, ExperienceSuggestionSeed } from './types';
 
 function localizedField(
@@ -6,10 +7,9 @@ function localizedField(
   seed: ExperienceSuggestionSeed,
   field: 'description' | 'reflection',
 ): string {
-  const contentKey = `suggestions.content.${seed.id}.${field}`;
-  const content = translate(locale, contentKey);
-  if (content !== contentKey) {
-    return content;
+  const authored = getSuggestionText(seed.id, locale);
+  if (authored?.[field]) {
+    return authored[field];
   }
 
   const placeholderKey = `suggestions.placeholder.${field}`;

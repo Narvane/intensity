@@ -4,6 +4,8 @@ import com.intensity.box.entity.Box;
 import com.intensity.participant.entity.Participant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -31,7 +33,7 @@ public class Experience {
 	@Column(nullable = false, length = 1000)
 	private String description;
 
-	@Column(nullable = false, length = 2000)
+	@Column(length = 2000)
 	private String reflection;
 
 	@Column(nullable = false)
@@ -41,10 +43,14 @@ public class Experience {
 	private int effort;
 
 	@Column(nullable = false)
-	private int openness;
+	private int unpredictability;
 
 	@Column(nullable = false)
 	private int novelty;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 32)
+	private ExperienceType type;
 
 	@Column(nullable = false, length = 16)
 	private String seal;
@@ -65,22 +71,32 @@ public class Experience {
 			String reflection,
 			int intensity,
 			int effort,
-			int openness,
+			int unpredictability,
 			int novelty,
+			ExperienceType type,
 			String seal) {
 		this.id = UUID.randomUUID();
 		this.box = box;
 		this.author = author;
 		this.description = description.trim();
-		this.reflection = reflection.trim();
+		this.reflection = normalizeReflection(reflection);
 		this.intensity = intensity;
 		this.effort = effort;
-		this.openness = openness;
+		this.unpredictability = unpredictability;
 		this.novelty = novelty;
+		this.type = type == null ? ExperienceType.NONE : type;
 		this.seal = seal;
 		Instant now = Instant.now();
 		this.createdAt = now;
 		this.updatedAt = now;
+	}
+
+	private static String normalizeReflection(String reflection) {
+		if (reflection == null) {
+			return null;
+		}
+		String trimmed = reflection.trim();
+		return trimmed.isEmpty() ? null : trimmed;
 	}
 
 	public UUID getId() {
@@ -111,12 +127,16 @@ public class Experience {
 		return effort;
 	}
 
-	public int getOpenness() {
-		return openness;
+	public int getUnpredictability() {
+		return unpredictability;
 	}
 
 	public int getNovelty() {
 		return novelty;
+	}
+
+	public ExperienceType getType() {
+		return type;
 	}
 
 	public String getSeal() {
@@ -136,15 +156,17 @@ public class Experience {
 			String reflection,
 			int intensity,
 			int effort,
-			int openness,
+			int unpredictability,
 			int novelty,
+			ExperienceType type,
 			String seal) {
 		this.description = description.trim();
-		this.reflection = reflection.trim();
+		this.reflection = normalizeReflection(reflection);
 		this.intensity = intensity;
 		this.effort = effort;
-		this.openness = openness;
+		this.unpredictability = unpredictability;
 		this.novelty = novelty;
+		this.type = type == null ? ExperienceType.NONE : type;
 		this.seal = seal;
 		this.updatedAt = Instant.now();
 	}

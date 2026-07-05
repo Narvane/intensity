@@ -19,7 +19,7 @@ The domain centers on **Participant**, **Group**, **Box**, and **Experience**, p
 | **Participant** | Registered person who contributes and joins groups | Display name, email (login), credentials |
 | **Group** | Set of participants who share boxes | Member list, creation moment |
 | **Box** | Named thematic container of experiences | Name, type (1 of 11), creation moment, parent group |
-| **Experience** | Concrete idea authored by one participant | Description (≤1,000 chars), intensity (1–5), effort/openness/novelty (1–5 each), reflection (≤2,000 chars), author, registration moment, integrity seal, parent box |
+| **Experience** | Concrete idea authored by one participant | Description (≤1,000 chars), intensity (1–5), effort/unpredictability/unusualness (1–5 each), type (1 of 10 or "no type"), optional reflection (≤2,000 chars), author, registration moment, integrity seal, parent box |
 | **Invite** | Token allowing a participant to join a group | Parent group, creator, code, link token, expiry, status (active/revoked/expired/accepted) |
 | **Session context** | Operational scope (not user-managed) | Access mode, active group, active box, box type |
 | **Draw result** | Transient output of a draw — **not persisted** | Selected experience, filter applied, reveal state |
@@ -82,10 +82,14 @@ Participant → Invite     (creator and acceptor roles)
 | Parameter | Question |
 |-----------|----------|
 | Effort | How demanding is this experience? |
-| Openness | How much gentle exposure or sincerity does it require? |
-| Novelty | How different from the group's usual activities? |
+| Unpredictable | How much of the outcome is left to chance rather than the plan? |
+| Unusual | How far from the group's usual activities is it? |
 
 Suggested intensity = rounded mean of the three parameters; the proponent confirms or adjusts.
+
+### Experience type
+
+Optional label shown on the card cover before reveal to build anticipation. Default: **No type**. Other values: Explore (🌍), Randomness (🎲), Exposure (🎭), Constraints (🚧), Overcoming (⚡), Creativity (🎨), Contrast (🔀), Connection (🤝), Contemplation (🧘), Narrative (📖).
 
 ### Draw filters
 

@@ -126,13 +126,15 @@ Available from **box home** in Experience Box mode:
 
 | Step | Label | User action |
 |------|-------|-------------|
-| 1 — Suggestion | Write description or tap type suggestion as inspiration |
-| 2 — Reflection | Justify why the group would accept the idea |
-| 3 — Parameters | Rate effort, openness, novelty (1–5 stars each) |
-| 4 — Classification | Confirm or adjust overall intensity (auto-suggested from parameters) |
-| 5 — Branching | Review summary; save and create another, or finish |
+| 1 — Suggestion | Write description(s) or tap a suggestion as inspiration; optionally **branch** to create several experiences from the same base |
+| 2 — Parameters | Rate effort, unpredictability, unusualness (1–5 stars each) |
+| 3 — Classification | Confirm or adjust overall intensity (auto-suggested from parameters) |
+| 4 — Type | Choose the experience type (or "no type") |
+| 5 — Interest | Optionally tell why the experience is interesting; save |
 
 Persistent description card and five-segment progress indicator throughout.
+
+**Branching:** in step 1 the author can duplicate the base to create up to 5 experiences at once. In steps 2–5 a paginator shows "Experience N of M" and iterates each experience before moving to the next step; saving creates them all at once via a batch and confirms how many were created.
 
 ### Shared moment features
 

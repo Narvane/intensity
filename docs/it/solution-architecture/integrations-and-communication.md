@@ -64,8 +64,10 @@ DELETE /convites/{id}             → revocato
 
 ```
 Client raccoglie input assistente localmente
-POST /caixinhas/{id}/experiencias { description, intensity, params, reflection }
+POST /caixinhas/{id}/experiencias { description, intensity, params, type, reflection? }
   ← esperienza persistita con sigillo
+Ramificazione: POST /caixinhas/{id}/experiencias/batch { experiences: [...] } (fino a 5)
+  ← elenco di esperienze persistite con sigilli
 ```
 
 **Eliminazione scatola (modalità Scatola delle Esperienze)**

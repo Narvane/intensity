@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import { GitFork, Trash2 } from 'lucide-react';
 import { createApiClient } from '@adapters/api/ApiClient';
+import { useToast } from '@app/ToastProvider';
 import type { BoxType } from '@domain/box/boxTypes';
 import type { Experience, ExperienceInput } from '@domain/experience/experienceTypes';
-import {
-  DEFAULT_PARAMETERS,
-  suggestIntensity,
-} from '@domain/experience/experienceTypes';
+import { suggestIntensity } from '@domain/experience/experienceTypes';
 import {
   isValidIntensity,
   validateExperienceParameters,
@@ -13,6 +12,7 @@ import {
 import { resolveExperienceError } from '@domain/experience/experienceErrors';
 import {
   CreateExperienceUseCase,
+  CreateExperiencesBatchUseCase,
   UpdateExperienceUseCase,
 } from '@domain/experience/experienceUseCases';
 import type { ExperienceSuggestion } from '../../content/suggestion-packs';
@@ -20,10 +20,18 @@ import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { IntegritySeal } from '../components/IntegritySeal';
+import { ExperienceTypePicker } from '../components/ExperienceTypePicker';
 import { ParameterStarField } from '../components/ParameterStarField';
 import { RatingScale } from '../components/RatingScale';
 import { SuggestionExplorer } from '../suggestions/SuggestionExplorer';
+import { DraftPaginator } from './DraftPaginator';
+import {
+  MAX_DRAFTS,
+  createEmptyDraft,
+  draftFromExperience,
+  useCreationDrafts,
+  type CreationDraft,
+} from './useCreationDrafts';
 import styles from './CreationAssistant.module.css';
 
 interface CreationAssistantProps {
@@ -33,10 +41,28 @@ interface CreationAssistantProps {
   token: string;
   editing?: Experience | null;
   onClose: () => void;
-  onSaved: (experience: Experience, createAnother: boolean) => void;
+  onSaved: (saved: Experience[]) => void;
 }
 
 const STEP_COUNT = 5;
+const PARAMETER_ORDER = ['effort', 'unpredictability', 'novelty'] as const;
+const STEP_TITLE_KEYS = [
+  'assistant.steps.suggestion.title',
+  'assistant.steps.parameters.title',
+  'assistant.steps.classification.title',
+  'assistant.steps.type.title',
+  'assistant.steps.interest.title',
+];
+
+function buildInput(draft: CreationDraft): ExperienceInput {
+  return {
+    description: draft.description.trim(),
+    reflection: draft.reflection.trim(),
+    intensity: draft.intensity,
+    parameters: draft.parameters,
+    type: draft.type,
+  };
+}
 
 export function CreationAssistant({
   open,
@@ -48,105 +74,138 @@ export function CreationAssistant({
   onSaved,
 }: CreationAssistantProps) {
   const { t } = useI18n();
+  const { showToast } = useToast();
   const api = useMemo(() => createApiClient(), []);
   const createExperience = useMemo(() => new CreateExperienceUseCase(api), [api]);
+  const createBatch = useMemo(() => new CreateExperiencesBatchUseCase(api), [api]);
   const updateExperience = useMemo(() => new UpdateExperienceUseCase(api), [api]);
 
+  const {
+    drafts: draftList,
+    activeDraft,
+    activeIndex,
+    isForked,
+    canFork,
+    setActiveIndex,
+    updateDraft,
+    updateActiveDraft,
+    forkFromDraft,
+    removeDraft,
+    reset,
+  } = useCreationDrafts(() => [createEmptyDraft()]);
+
   const [step, setStep] = useState(1);
-  const [description, setDescription] = useState('');
-  const [reflection, setReflection] = useState('');
-  const [parameters, setParameters] = useState(DEFAULT_PARAMETERS);
-  const [intensity, setIntensity] = useState(3);
-  const [intensityTouched, setIntensityTouched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const suggestedIntensity = suggestIntensity(parameters);
-
-  const applySuggestion = (suggestion: ExperienceSuggestion) => {
-    setDescription(suggestion.description);
-    setReflection(suggestion.reflection);
-    setParameters(suggestion.parameters);
-    setIntensity(suggestion.intensity);
-    setIntensityTouched(true);
-  };
 
   useEffect(() => {
     if (!open) {
       return;
     }
-
-    if (editing) {
-      setStep(1);
-      setDescription(editing.description ?? '');
-      setReflection(editing.reflection ?? '');
-      setParameters(editing.parameters);
-      setIntensity(editing.intensity);
-      setIntensityTouched(true);
-      setError(null);
-      return;
-    }
-
+    reset(editing ? [draftFromExperience(editing)] : [createEmptyDraft()]);
     setStep(1);
-    setDescription('');
-    setReflection('');
-    setParameters(DEFAULT_PARAMETERS);
-    setIntensity(3);
-    setIntensityTouched(false);
     setError(null);
-  }, [open, editing]);
+  }, [open, editing, reset]);
 
   if (!open) {
     return null;
   }
 
-  const resetForAnother = () => {
-    setStep(1);
-    setDescription('');
-    setReflection('');
-    setParameters(DEFAULT_PARAMETERS);
-    setIntensity(3);
-    setIntensityTouched(false);
+  const isLastDraft = activeIndex === draftList.length - 1;
+  const isLastStep = step === STEP_COUNT;
+  const suggestedIntensity = suggestIntensity(activeDraft.parameters);
+
+  const applySuggestion = (suggestion: ExperienceSuggestion) => {
+    updateDraft(0, {
+      description: suggestion.description,
+      reflection: suggestion.reflection,
+      parameters: suggestion.parameters,
+      intensity: suggestion.intensity,
+      intensityTouched: true,
+    });
+    setActiveIndex(0);
+  };
+
+  const changeParameter = (key: (typeof PARAMETER_ORDER)[number], value: number) => {
+    const nextParameters = { ...activeDraft.parameters, [key]: value };
+    updateActiveDraft({
+      parameters: nextParameters,
+      ...(activeDraft.intensityTouched
+        ? {}
+        : { intensity: suggestIntensity(nextParameters) }),
+    });
+  };
+
+  const canAdvance =
+    step !== 1 || draftList.every((draft) => draft.description.trim().length > 0);
+
+  const goNext = () => {
     setError(null);
-  };
-
-  const applySuggestedIntensity = (nextParameters = parameters) => {
-    if (!intensityTouched) {
-      setIntensity(suggestIntensity(nextParameters));
+    if (step === 1) {
+      setStep(2);
+      setActiveIndex(0);
+      return;
     }
+    if (!isLastDraft) {
+      setActiveIndex(activeIndex + 1);
+      return;
+    }
+    setStep((current) => current + 1);
+    setActiveIndex(0);
   };
 
-  const buildInput = (): ExperienceInput => ({
-    description: description.trim(),
-    reflection: reflection.trim(),
-    intensity,
-    parameters,
-  });
+  const goBack = () => {
+    setError(null);
+    if (step === 1) {
+      return;
+    }
+    if (activeIndex > 0) {
+      setActiveIndex(activeIndex - 1);
+      return;
+    }
+    const previousStep = step - 1;
+    setStep(previousStep);
+    setActiveIndex(previousStep === 1 ? 0 : draftList.length - 1);
+  };
 
-  const save = async (createAnother: boolean) => {
+  const save = async () => {
     setLoading(true);
     setError(null);
 
-    const parameterError = validateExperienceParameters(parameters);
-    if (parameterError || !isValidIntensity(intensity)) {
+    const invalid = draftList.some(
+      (draft) =>
+        draft.description.trim().length === 0 ||
+        validateExperienceParameters(draft.parameters) !== null ||
+        !isValidIntensity(draft.intensity),
+    );
+    if (invalid) {
       setError(t('experiences.validationError'));
       setLoading(false);
       return;
     }
 
     try {
-      const input = buildInput();
-      const saved = editing
-        ? await updateExperience.execute(editing.id, token, input)
-        : await createExperience.execute(boxId, token, input);
+      const inputs = draftList.map(buildInput);
+      let saved: Experience[];
 
-      if (createAnother) {
-        resetForAnother();
+      if (editing) {
+        saved = [await updateExperience.execute(editing.id, token, inputs[0])];
+      } else if (inputs.length === 1) {
+        saved = [await createExperience.execute(boxId, token, inputs[0])];
       } else {
-        onClose();
+        saved = await createBatch.execute(boxId, token, inputs);
       }
 
-      onSaved(saved, createAnother);
+      onSaved(saved);
+      onClose();
+
+      if (!editing) {
+        showToast(
+          saved.length > 1
+            ? t('assistant.createdMany', { count: saved.length })
+            : t('assistant.createdOne'),
+        );
+      }
     } catch (err) {
       setError(resolveExperienceError(err, t));
     } finally {
@@ -154,23 +213,18 @@ export function CreationAssistant({
     }
   };
 
-  const canAdvance =
-    (step === 1 && description.trim().length > 0) ||
-    (step === 2 && reflection.trim().length > 0) ||
-    step === 3 ||
-    step === 4 ||
-    step === 5;
+  const primaryLabel = !isLastDraft ? t('assistant.nextExperience') : t('assistant.next');
 
   return (
     <div className={styles.backdrop} role="dialog" aria-modal="true">
       <section className={styles.panel}>
-        <ScreenHeader
-          trailing={<NavButton action="close" onClick={onClose} />}
-        >
+        <ScreenHeader trailing={<NavButton action="close" onClick={onClose} />}>
           <div className={styles.headerBody}>
             <h2>{editing ? t('assistant.editTitle') : t('assistant.title')}</h2>
             <p className={styles.stepLabel}>
               {t('assistant.stepIndicator', { current: step, total: STEP_COUNT })}
+              {' · '}
+              {t(STEP_TITLE_KEYS[step - 1])}
             </p>
           </div>
         </ScreenHeader>
@@ -184,93 +238,117 @@ export function CreationAssistant({
           ))}
         </div>
 
-        <div className={styles.stickyDescription}>
-          <label className={styles.descriptionField}>
-            <span>{t('assistant.fields.description')}</span>
-            <textarea
-              value={description}
-              maxLength={1000}
-              rows={3}
-              placeholder={t('assistant.descriptionPlaceholder')}
-              onChange={(event) => setDescription(event.target.value)}
+        {step > 1 && (
+          <div className={styles.stickyDescription}>
+            <DraftPaginator
+              total={draftList.length}
+              activeIndex={activeIndex}
+              onSelect={setActiveIndex}
             />
-          </label>
-        </div>
+            <label className={styles.descriptionField}>
+              <span>{t('assistant.fields.description')}</span>
+              <textarea
+                value={activeDraft.description}
+                maxLength={1000}
+                rows={2}
+                placeholder={t('assistant.descriptionPlaceholder')}
+                onChange={(event) =>
+                  updateActiveDraft({ description: event.target.value })
+                }
+              />
+            </label>
+          </div>
+        )}
 
         {step === 1 && (
           <section className={styles.step}>
             <h3>{t('assistant.steps.suggestion.title')}</h3>
             <p>{t('assistant.steps.suggestion.body')}</p>
+
+            <div className={styles.draftList}>
+              {draftList.map((draft, index) => (
+                <div key={draft.uid} className={styles.draftItem}>
+                  {isForked && (
+                    <div className={styles.draftItemHeader}>
+                      <span className={styles.draftBadge}>
+                        {t('assistant.experienceLabel', { number: index + 1 })}
+                      </span>
+                      <button
+                        type="button"
+                        className={styles.removeDraft}
+                        aria-label={t('assistant.fork.remove')}
+                        onClick={() => removeDraft(index)}
+                      >
+                        <Trash2 size={15} aria-hidden />
+                      </button>
+                    </div>
+                  )}
+                  <label className={styles.descriptionField}>
+                    {!isForked && <span>{t('assistant.fields.description')}</span>}
+                    <textarea
+                      value={draft.description}
+                      maxLength={1000}
+                      rows={3}
+                      placeholder={t('assistant.descriptionPlaceholder')}
+                      onChange={(event) =>
+                        updateDraft(index, { description: event.target.value })
+                      }
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
+
+            {!editing && (
+              <div className={styles.forkArea}>
+                <button
+                  type="button"
+                  className={styles.forkButton}
+                  disabled={!canFork}
+                  onClick={() => forkFromDraft(draftList.length - 1)}
+                >
+                  <GitFork size={16} aria-hidden />
+                  {t('assistant.fork.button')}
+                </button>
+                <p className={styles.forkHint}>
+                  {canFork
+                    ? t('assistant.fork.hint')
+                    : t('assistant.fork.limit', { max: MAX_DRAFTS })}
+                </p>
+              </div>
+            )}
+
             <SuggestionExplorer boxType={boxType} onAccept={applySuggestion} />
           </section>
         )}
 
         {step === 2 && (
           <section className={styles.step}>
-            <h3>{t('assistant.steps.reflection.title')}</h3>
-            <p>{t('assistant.steps.reflection.body')}</p>
-            <label className={styles.field}>
-              <span>{t('assistant.fields.reflection')}</span>
-              <textarea
-                value={reflection}
-                maxLength={2000}
-                rows={5}
-                onChange={(event) => setReflection(event.target.value)}
-              />
-            </label>
-          </section>
-        )}
-
-        {step === 3 && (
-          <section className={styles.step}>
             <h3>{t('assistant.steps.parameters.title')}</h3>
             <p>{t('assistant.steps.parameters.body')}</p>
             <div className={styles.parameterFields}>
-              <ParameterStarField
-                parameterKey="effort"
-                value={parameters.effort}
-                layout="wizard"
-                showHint
-                onChange={(effort) => {
-                  const next = { ...parameters, effort };
-                  setParameters(next);
-                  applySuggestedIntensity(next);
-                }}
-              />
-              <ParameterStarField
-                parameterKey="openness"
-                value={parameters.openness}
-                layout="wizard"
-                showHint
-                onChange={(openness) => {
-                  const next = { ...parameters, openness };
-                  setParameters(next);
-                  applySuggestedIntensity(next);
-                }}
-              />
-              <ParameterStarField
-                parameterKey="novelty"
-                value={parameters.novelty}
-                layout="wizard"
-                showHint
-                onChange={(novelty) => {
-                  const next = { ...parameters, novelty };
-                  setParameters(next);
-                  applySuggestedIntensity(next);
-                }}
-              />
+              {PARAMETER_ORDER.map((key) => (
+                <ParameterStarField
+                  key={key}
+                  parameterKey={key}
+                  value={activeDraft.parameters[key]}
+                  layout="wizard"
+                  showHint
+                  onChange={(value) => changeParameter(key, value)}
+                />
+              ))}
             </div>
           </section>
         )}
 
-        {step === 4 && (
+        {step === 3 && (
           <section className={styles.step}>
             <h3>{t('assistant.steps.classification.title')}</h3>
             <p>{t('assistant.steps.classification.body')}</p>
             <p className={styles.classificationNote}>
               {t('assistant.steps.classification.averageHint')}
             </p>
-            {!intensityTouched && (
+            {!activeDraft.intensityTouched && (
               <p className={styles.hint}>
                 {t('assistant.suggestedIntensity', {
                   level: suggestedIntensity,
@@ -280,47 +358,42 @@ export function CreationAssistant({
             )}
             <RatingScale
               label={t('assistant.fields.intensity')}
-              value={intensity}
+              value={activeDraft.intensity}
               tone="intensity"
-              onChange={(value) => {
-                setIntensity(value);
-                setIntensityTouched(true);
-              }}
+              onChange={(value) =>
+                updateActiveDraft({ intensity: value, intensityTouched: true })
+              }
+            />
+          </section>
+        )}
+
+        {step === 4 && (
+          <section className={styles.step}>
+            <h3>{t('assistant.steps.type.title')}</h3>
+            <p>{t('assistant.steps.type.body')}</p>
+            <ExperienceTypePicker
+              value={activeDraft.type}
+              onChange={(type) => updateActiveDraft({ type })}
             />
           </section>
         )}
 
         {step === 5 && (
           <section className={styles.step}>
-            <h3>{t('assistant.steps.review.title')}</h3>
-            <dl className={styles.summary}>
-              <div>
-                <dt>{t('assistant.fields.description')}</dt>
-                <dd>{description}</dd>
-              </div>
-              <div>
-                <dt>{t('assistant.fields.reflection')}</dt>
-                <dd>{reflection}</dd>
-              </div>
-              <div>
-                <dt>{t('assistant.fields.intensity')}</dt>
-                <dd>{intensity}</dd>
-              </div>
-              {editing?.seal &&
-              description.trim() === (editing.description ?? '').trim() ? (
-                <div>
-                  <dt>{t('seal.label')}</dt>
-                  <dd>
-                    <IntegritySeal seal={editing.seal} compact />
-                  </dd>
-                </div>
-              ) : (
-                <div>
-                  <dt>{t('seal.label')}</dt>
-                  <dd>{t('seal.reviewNote')}</dd>
-                </div>
-              )}
-            </dl>
+            <h3>{t('assistant.steps.interest.title')}</h3>
+            <p>{t('assistant.steps.interest.body')}</p>
+            <label className={styles.field}>
+              <span>{t('assistant.fields.interest')}</span>
+              <textarea
+                value={activeDraft.reflection}
+                maxLength={2000}
+                rows={5}
+                placeholder={t('assistant.interestPlaceholder')}
+                onChange={(event) =>
+                  updateActiveDraft({ reflection: event.target.value })
+                }
+              />
+            </label>
           </section>
         )}
 
@@ -331,43 +404,21 @@ export function CreationAssistant({
         )}
 
         <footer className={styles.footer}>
-          {step > 1 && (
-            <NavButton action="back" onClick={() => setStep((current) => current - 1)} />
-          )}
+          {step > 1 && <NavButton action="back" onClick={goBack} />}
 
-          {step < STEP_COUNT && (
-            <Button
-              fullWidth
-              disabled={!canAdvance}
-              onClick={() => setStep((current) => current + 1)}
-            >
-              {t('assistant.next')}
+          {(!isLastStep || !isLastDraft) && (
+            <Button fullWidth disabled={!canAdvance} onClick={goNext}>
+              {primaryLabel}
             </Button>
           )}
 
-          {step === STEP_COUNT && !editing && (
-            <>
-              <Button
-                fullWidth
-                disabled={loading}
-                onClick={() => void save(false)}
-              >
-                {loading ? t('common.loading') : t('assistant.saveFinish')}
-              </Button>
-              <Button
-                fullWidth
-                variant="secondary"
-                disabled={loading}
-                onClick={() => void save(true)}
-              >
-                {t('assistant.saveAnother')}
-              </Button>
-            </>
-          )}
-
-          {step === STEP_COUNT && editing && (
-            <Button fullWidth disabled={loading} onClick={() => void save(false)}>
-              {loading ? t('common.loading') : t('assistant.saveChanges')}
+          {isLastStep && isLastDraft && (
+            <Button fullWidth disabled={loading} onClick={() => void save()}>
+              {loading
+                ? t('common.loading')
+                : editing
+                  ? t('assistant.saveChanges')
+                  : t('assistant.saveFinish')}
             </Button>
           )}
         </footer>

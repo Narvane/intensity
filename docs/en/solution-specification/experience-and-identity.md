@@ -101,7 +101,7 @@ Catalog has internal presentation sections (friends, couple, personal, social) b
 
 **List card (Experiences mode):** intensity chip, parameter indicators, seal, truncated or hidden description depending on authorship.
 
-**Draw card (Experience Box mode):** two-sided card with Y-axis flip animation. Cover: intensity, parameters, seal. Face: full description and reflection (authorship hidden during the ritual).
+**Draw card (Experience Box mode):** two-sided card with Y-axis flip animation. Cover: intensity, parameters, seal, and a type pill (when set) in a corner. Face: full description and reflection (authorship hidden during the ritual).
 
 ### Destructive actions
 

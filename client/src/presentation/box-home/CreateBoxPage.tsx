@@ -5,7 +5,6 @@ import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { SessionModeFooter } from '../components/SessionModeFooter';
-import footerStyles from '../components/SessionModeFooter.module.css';
 import { CreateBoxForm } from '../boxes/CreateBoxForm';
 import styles from './CreateBoxPage.module.css';
 
@@ -19,7 +18,8 @@ export function CreateBoxPage() {
   }
 
   return (
-    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
+    <>
+    <main className={styles.page}>
       <ScreenHeader
         leading={<NavButton action="back" onClick={() => navigate('/box-home')} />}
       >
@@ -34,7 +34,8 @@ export function CreateBoxPage() {
         variant="experienceBox"
         onSuccess={() => navigate('/box-home')}
       />
-      <SessionModeFooter mode="EXPERIENCE_BOX" members={session.members} />
     </main>
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={session.members} />
+    </>
   );
 }

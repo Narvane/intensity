@@ -24,5 +24,13 @@ intensity:
     experience-box-expiration-seconds: ${INTENSITY_JWT_EXPERIENCE_BOX_EXPIRATION_SECONDS:14400}
   cors:
     allowed-origin-patterns:
+      # Web app (production)
+      - https://app.narvane.com.br
+      - https://*.narvane.com.br
+      # Capacitor / local shells (Android http scheme, iOS capacitor://)
+      - http://localhost
+      - http://localhost:*
       - https://localhost
+      - https://localhost:*
       - capacitor://localhost
+      - ionic://localhost

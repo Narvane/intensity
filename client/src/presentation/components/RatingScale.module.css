@@ -52,12 +52,12 @@
   color: var(--param-effort);
 }
 
-.paramOpenness.active {
-  background: color-mix(in srgb, var(--param-openness) 44%, white);
-  color: var(--text);
+.paramUnpredictability.active {
+  background: color-mix(in srgb, var(--param-unpredictability) 28%, white);
+  color: var(--param-unpredictability);
 }
 
 .paramNovelty.active {
-  background: color-mix(in srgb, var(--param-novelty) 28%, white);
-  color: var(--param-novelty);
+  background: color-mix(in srgb, var(--param-novelty) 44%, white);
+  color: var(--text);
 }

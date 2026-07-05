@@ -64,8 +64,10 @@ DELETE /invites/{id}             → revoked
 
 ```
 Client collects assistant input locally
-POST /boxes/{id}/experiences { description, intensity, params, reflection }
-  ← persisted experience with seal
+POST /boxes/{id}/experiences { description, intensity, params, type, reflection? }
+  ← experience persisted with seal
+Branching: POST /boxes/{id}/experiences/batch { experiences: [...] } (up to 5)
+  ← list of persisted experiences with seals
 ```
 
 **Box deletion (Experience Box mode)**

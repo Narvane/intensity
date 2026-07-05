@@ -55,7 +55,7 @@ Quando il gruppo apre una scatola insieme:
 
 ### Creazione di un'esperienza (vista macro)
 
-L'assistente in cinque passi guida i contributori attraverso: suggerimento → riflessione → parametri → classificazione dell'intensità → salvataggio (con variazioni opzionali). Le esperienze vengono memorizzate nella scatola scelta e diventano disponibili per future estrazioni.
+L'assistente in cinque passi guida i contributori attraverso: suggerimento → parametri → classificazione dell'intensità → tipo → interesse (opzionale), poi salvataggio. Le esperienze vengono memorizzate nella scatola scelta e diventano disponibili per future estrazioni. Il passo di suggerimento può **ramificare** la base per creare più esperienze in una volta.
 
 ---
 
@@ -69,11 +69,11 @@ La creazione di una nuova esperienza segue cinque passi illustrativi:
 
 | Passo | Scopo |
 |-------|-------|
-| **Suggerimento** | Descrivi l'idea o tocca esempi tematici per ispirazione |
-| **Riflessione** | Giustifica perché il gruppo la accetterebbe — empatia e consenso |
-| **Parametri** | Valuta impegno, apertura e innovazione (ciascuno 1–5) |
+| **Suggerimento** | Descrivi l'idea (o più, tramite ramificazione) o tocca esempi tematici per ispirazione |
+| **Parametri** | Valuta impegno, imprevedibilità e insolito (ciascuno 1–5) |
 | **Classificazione** | Conferma o regola l'intensità complessiva (suggerita dai parametri) |
-| **Ramificazione** | Rivedi il riepilogo; salva e creane un'altra, oppure termina |
+| **Tipo** | Scegli il tipo di esperienza mostrato sulla copertina della carta (o "senza tipo") |
+| **Interesse** | Racconta, opzionalmente, perché l'esperienza è interessante; salva |
 
 L'app avvisa che le esperienze **non sono crittografate** — la trasparenza fa parte del contratto sociale.
 

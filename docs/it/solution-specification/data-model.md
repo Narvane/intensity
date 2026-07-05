@@ -19,7 +19,7 @@ Il dominio ruota attorno a **Partecipante**, **Gruppo**, **Scatola** ed **Esperi
 | **Partecipante** | Persona registrata che contribuisce e si unisce ai gruppi | Nome visualizzato, email (login), credenziali |
 | **Gruppo** | Insieme di partecipanti che condividono scatole | Elenco membri, momento di creazione |
 | **Scatola** | Contenitore tematico nominato di esperienze | Nome, tipo (1 di 11), momento di creazione, gruppo padre |
-| **Esperienza** | Idea concreta creata da un partecipante | Descrizione (≤1.000 car.), intensità (1–5), impegno/apertura/novità (1–5 ciascuno), riflessione (≤2.000 car.), autore, momento di registrazione, sigillo di integrità, scatola padre |
+| **Esperienza** | Idea concreta creata da un partecipante | Descrizione (≤1.000 car.), intensità (1–5), impegno/imprevedibilità/insolito (1–5 ciascuno), tipo (1 di 10 o "senza tipo"), riflessione opzionale (≤2.000 car.), autore, momento di registrazione, sigillo di integrità, scatola padre |
 | **Invito** | Token che consente a un partecipante di unirsi a un gruppo | Gruppo padre, creatore, codice, token link, scadenza, stato (attivo/revocato/scaduto/accettato) |
 | **Contesto sessione** | Ambito operativo (non gestito dall'utente) | Modalità accesso, gruppo attivo, scatola attiva, tipo scatola |
 | **Risultato estrazione** | Output transitorio di un'estrazione — **non persistito** | Esperienza selezionata, filtro applicato, stato rivelazione |
@@ -82,10 +82,14 @@ Partecipante → Invito      (ruoli creatore e accettatore)
 | Parametro | Domanda |
 |-----------|---------|
 | Impegno | Quanto è impegnativa questa esperienza? |
-| Apertura | Quanta esposizione delicata o sincerità richiede? |
-| Novità | Quanto è diversa dalle attività usuali del gruppo? |
+| Imprevedibile | Quanto dell'esito è lasciato al caso invece che al piano? |
+| Insolito | Quanto è fuori dal comune rispetto alle abitudini del gruppo? |
 
 Intensità suggerita = media arrotondata dei tre parametri; il proponente conferma o regola.
+
+### Tipo di esperienza
+
+Etichetta opzionale mostrata sulla copertina della carta prima della rivelazione, per creare attesa. Valore predefinito: **Senza tipo**. Altri valori: Esplorare (🌍), Casualità (🎲), Esposizione (🎭), Vincoli (🚧), Superamento (⚡), Creatività (🎨), Contrasto (🔀), Connessione (🤝), Contemplazione (🧘), Narrazione (📖).
 
 ### Filtri di estrazione
 

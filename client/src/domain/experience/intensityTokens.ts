@@ -9,14 +9,14 @@ export const INTENSITY_COLORS: Record<number, string> = {
   5: '#FF6B3D',
 };
 
-export const PARAMETER_KEYS = ['effort', 'openness', 'novelty'] as const;
+export const PARAMETER_KEYS = ['effort', 'unpredictability', 'novelty'] as const;
 
 export type ParameterKey = (typeof PARAMETER_KEYS)[number];
 
 export const PARAMETER_COLORS: Record<ParameterKey, string> = {
   effort: '#2DBD9A',
-  openness: '#FFC94D',
-  novelty: '#7B5CF6',
+  unpredictability: '#7B5CF6',
+  novelty: '#FFC94D',
 };
 
 export function isValidIntensity(value: number): boolean {
@@ -33,7 +33,7 @@ export function clampIntensity(value: number): number {
 
 export interface ExperienceParametersInput {
   effort: number;
-  openness: number;
+  unpredictability: number;
   novelty: number;
 }
 

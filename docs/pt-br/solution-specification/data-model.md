@@ -19,7 +19,7 @@ O domínio centra-se em **Participante**, **Grupo**, **Caixinha** e **Experiênc
 | **Participante** | Pessoa registrada que contribui e entra em grupos | Nome de exibição, e-mail (login), credenciais |
 | **Grupo** | Conjunto de participantes que compartilham caixinhas | Lista de membros, momento de criação |
 | **Caixinha** | Contêiner temático nomeado de experiências | Nome, tipo (1 de 11), momento de criação, grupo pai |
-| **Experiência** | Ideia concreta autoria de um participante | Descrição (≤1.000 caracteres), intensidade (1–5), esforço/abertura/novidade (1–5 cada), reflexão (≤2.000 caracteres), autor, momento de registro, selo de integridade, caixinha pai |
+| **Experiência** | Ideia concreta autoria de um participante | Descrição (≤1.000 caracteres), intensidade (1–5), esforço/imprevisível/inusitado (1–5 cada), tipo (1 de 10 ou "sem tipo"), reflexão opcional (≤2.000 caracteres), autor, momento de registro, selo de integridade, caixinha pai |
 | **Convite** | Token que permite a um participante entrar em um grupo | Grupo pai, criador, código, token de link, expiração, status (ativo/revogado/expirado/aceito) |
 | **Contexto de sessão** | Escopo operacional (não gerenciado pelo usuário) | Modo de acesso, grupo ativo, caixinha ativa, tipo de caixinha |
 | **Resultado de sorteio** | Saída transitória de um sorteio — **não persistido** | Experiência selecionada, filtro aplicado, estado de revelação |
@@ -82,10 +82,14 @@ Participante → Convite    (papéis de criador e aceitador)
 | Parâmetro | Pergunta |
 |-----------|----------|
 | Esforço | Quão exigente é esta experiência? |
-| Abertura | Quanta exposição gentil ou sinceridade ela exige? |
-| Novidade | Quão diferente das atividades habituais do grupo? |
+| Imprevisível | Quanto do resultado fica nas mãos do acaso, e não do plano? |
+| Inusitado | Quão fora do comum ela é em relação ao habitual do grupo? |
 
 Intensidade sugerida = média arredondada dos três parâmetros; o proponente confirma ou ajusta.
+
+### Tipo de experiência
+
+Rótulo opcional exibido na capa da carta antes da revelação, para criar expectativa. Valor padrão: **Sem tipo**. Demais valores: Explorar (🌍), Aleatoriedade (🎲), Exposição (🎭), Restrições (🚧), Superação (⚡), Criatividade (🎨), Contraste (🔀), Conexão (🤝), Contemplação (🧘), Narrativa (📖).
 
 ### Filtros de sorteio
 

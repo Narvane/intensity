@@ -249,7 +249,7 @@
     "transparency": "Le esperienze non sono crittografate. Tutti nel gruppo possono vedere i contributi — l'onestà fa parte del patto sociale.",
     "intensityLabel": "Livello {{level}}",
     "sealLabel": "Sigillo di integrità",
-    "paramsSummary": "Sforzo {{effort}} · Apertura {{openness}} · Novità {{novelty}}",
+    "paramsSummary": "Sforzo {{effort}} · Imprevedibile {{unpredictability}} · Insolito {{novelty}}",
     "otherSummary": "Contributo di {{author}} — solo intensità e sigillo fino alla rivelazione.",
     "revealDescription": "Mostra descrizione e riflessione",
     "hideDescription": "Nascondi descrizione e riflessione",
@@ -280,39 +280,72 @@
     "descriptionPlaceholder": "Descrivi l'esperienza che vuoi suggerire.",
     "suggestionItem": "{{type}} — idea {{number}}",
     "suggestedIntensity": "Suggerito dalla media dei parametri: livello {{level}} — {{name}}",
-    "saveFinish": "Salva e concludi",
+    "saveFinish": "Crea esperienza",
     "saveAnother": "Salva e creane un'altra",
     "saveChanges": "Salva modifiche",
+    "nextExperience": "Prossima esperienza",
+    "experienceLabel": "Esperienza {{number}}",
+    "interestPlaceholder": "Es.: perché fa uscire tutti dalla zona di comfort in modo leggero.",
+    "createdOne": "Esperienza creata!",
+    "createdMany": "Hai creato {{count}} esperienze in una volta!",
+    "fork": {
+      "button": "Ramifica",
+      "hint": "Crea più esperienze dalla stessa base — poi cambia solo i dettagli di ciascuna.",
+      "limit": "Hai raggiunto il massimo di {{max}} esperienze.",
+      "remove": "Rimuovi esperienza",
+      "paginator": "Esperienza {{current}} di {{total}}",
+      "paginatorAria": "Naviga tra le esperienze",
+      "dot": "Vai all'esperienza {{number}}"
+    },
     "fields": {
       "description": "Descrizione",
       "reflection": "Riflessione",
       "effort": "Sforzo",
-      "openness": "Apertura",
-      "novelty": "Novità",
-      "intensity": "Intensità"
+      "unpredictability": "Imprevedibile",
+      "novelty": "Insolito",
+      "intensity": "Intensità",
+      "type": "Tipo",
+      "interest": "Perché questa esperienza è interessante?"
     },
     "steps": {
       "suggestion": {
         "title": "Suggerimento",
         "body": "Sfogliate i suggerimenti qui sotto o scrivete direttamente nella descrizione — nulla viene salvato finché non confermate."
       },
-      "reflection": {
-        "title": "Riflessione",
-        "body": "Perché il gruppo accetterebbe questa idea insieme?"
-      },
       "parameters": {
         "title": "Parametri",
-        "body": "Tocca le stelle per valutare impegno, apertura e novità."
+        "body": "Ogni esperienza insolita nasce dall'equilibrio di tre forze. Tocca le stelle per valutare impegno, imprevedibilità e quanto è insolita."
       },
       "classification": {
         "title": "Classificazione",
         "body": "Conferma o regola il livello complessivo di intensità.",
-        "averageHint": "Il suggerimento iniziale deriva dalla media arrotondata di impegno, apertura e novità del passo precedente."
+        "averageHint": "Il suggerimento iniziale deriva dalla media arrotondata di impegno, imprevedibilità e insolito del passo precedente."
       },
-      "review": {
-        "title": "Revisione",
-        "body": "Controlla tutto prima di salvare."
+      "type": {
+        "title": "Scegli un tipo",
+        "body": "Il tipo appare sulla copertina della carta e crea attesa prima di girarla. Scegli quello più adatto — o lascia senza tipo."
+      },
+      "interest": {
+        "title": "Il tocco finale",
+        "body": "Se vuoi, racconta perché questa esperienza è interessante. È facoltativo, ma aiuta il gruppo a entusiasmarsi."
       }
+    }
+  },
+  "experienceType": {
+    "coverLabel": "Tipo",
+    "none": "Senza tipo",
+    "noneHint": "Lascia senza categoria",
+    "options": {
+      "explore": { "name": "Esplorare", "hint": "Scoprire luoghi e persone" },
+      "randomness": { "name": "Casualità", "hint": "Lasciare decidere al caso" },
+      "exposure": { "name": "Esposizione", "hint": "Imbarazzo, vulnerabilità" },
+      "constraints": { "name": "Vincoli", "hint": "Fare di più con meno" },
+      "overcoming": { "name": "Superamento", "hint": "Affrontare le paure" },
+      "creativity": { "name": "Creatività", "hint": "Inventare soluzioni" },
+      "contrast": { "name": "Contrasto", "hint": "Mescolare mondi incompatibili" },
+      "connection": { "name": "Connessione", "hint": "Interazioni umane" },
+      "contemplation": { "name": "Contemplazione", "hint": "Esperienze di presenza" },
+      "narrative": { "name": "Narrazione", "hint": "Vivere una storia" }
     }
   },
   "suggestions": {
@@ -363,22 +396,22 @@
         "5": "Molto impegnativo fisicamente o logisticamente; preparatevi insieme."
       }
     },
-    "openness": {
+    "unpredictability": {
       "hints": {
-        "1": "Poca esposizione — comodo per quasi tutti.",
-        "2": "Un gesto leggero di sincerità, senza esporsi troppo.",
-        "3": "Chiede onestà gentile e un po' di vulnerabilità.",
-        "4": "Serve coraggio per mostrarsi un po' di più.",
-        "5": "Alta esposizione emotiva o sociale — solo se il gruppo è pronto."
+        "1": "Tutto pianificato e sceneggiato dall'inizio alla fine — quasi nessuno spazio al caso.",
+        "2": "Quasi tutto previsto, con un piccolo spazio per l'improvvisazione.",
+        "3": "Un equilibrio tra piano e sorpresa; non tutto è nelle vostre mani.",
+        "4": "Buona parte è lasciata al momento e alle scelte degli altri.",
+        "5": "L'esito nelle mani del caso, di un dado, di un algoritmo o di sconosciuti."
       }
     },
     "novelty": {
       "hints": {
-        "1": "Ben dentro le abitudini del gruppo.",
-        "2": "Una piccola deviazione dalla routine.",
-        "3": "Qualcosa di diverso da ciò che fate di solito.",
-        "4": "Lontano dall'abituale — sorprende il gruppo.",
-        "5": "Completamente fuori dalla zona di comfort abituale."
+        "1": "Molto ordinario — simile a ciò che il gruppo fa già.",
+        "2": "Un lieve tocco diverso dal solito.",
+        "3": "Si allontana dall'ovvio; suscita curiosità.",
+        "4": "Ben fuori dall'ordinario — sorprende il gruppo.",
+        "5": "Totalmente insolito, di quelli che nessuno dimentica."
       }
     }
   },

@@ -17,6 +17,18 @@ export class CreateExperienceUseCase {
   }
 }
 
+export class CreateExperiencesBatchUseCase {
+  constructor(private readonly api: ApiClient) {}
+
+  execute(boxId: string, token: string, inputs: ExperienceInput[]): Promise<Experience[]> {
+    return this.api.post<Experience[]>(
+      `/v1/boxes/${boxId}/experiences/batch`,
+      { experiences: inputs },
+      token,
+    );
+  }
+}
+
 export class UpdateExperienceUseCase {
   constructor(private readonly api: ApiClient) {}
 

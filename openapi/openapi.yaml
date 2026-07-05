@@ -407,6 +407,37 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
+  /v1/boxes/{boxId}/experiences/batch:
+    parameters:
+      - $ref: '#/components/parameters/BoxId'
+    post:
+      tags: [Experiences]
+      summary: Create multiple experiences at once (branching)
+      operationId: createExperiencesBatch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExperiencesBatchRequest'
+      responses:
+        '201':
+          description: Experiences created with integrity seals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Experience'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
   /v1/experiences/{experienceId}:
     parameters:
       - $ref: '#/components/parameters/ExperienceId'
@@ -717,13 +748,13 @@ components:
 
     ExperienceParameters:
       type: object
-      required: [effort, openness, novelty]
+      required: [effort, unpredictability, novelty]
       properties:
         effort:
           type: integer
           minimum: 1
           maximum: 5
-        openness:
+        unpredictability:
           type: integer
           minimum: 1
           maximum: 5
@@ -731,6 +762,23 @@ components:
           type: integer
           minimum: 1
           maximum: 5
+
+    ExperienceType:
+      type: string
+      description: Experience category shown on the draw card cover. Defaults to none.
+      enum:
+        - none
+        - explore
+        - randomness
+        - exposure
+        - constraints
+        - overcoming
+        - creativity
+        - contrast
+        - connection
+        - contemplation
+        - narrative
+      default: none
 
     Experience:
       type: object
@@ -767,6 +815,8 @@ components:
           maximum: 5
         parameters:
           $ref: '#/components/schemas/ExperienceParameters'
+        type:
+          $ref: '#/components/schemas/ExperienceType'
         seal:
           type: string
           description: Integrity seal derived from description (UI term Seal, not hash)
@@ -782,7 +832,7 @@ components:
 
     CreateExperienceRequest:
       type: object
-      required: [description, reflection, intensity, parameters]
+      required: [description, intensity, parameters]
       properties:
         description:
           type: string
@@ -790,14 +840,27 @@ components:
           maxLength: 1000
         reflection:
           type: string
-          minLength: 1
           maxLength: 2000
+          description: Optional — "Why is this experience interesting?"
         intensity:
           type: integer
           minimum: 1
           maximum: 5
         parameters:
           $ref: '#/components/schemas/ExperienceParameters'
+        type:
+          $ref: '#/components/schemas/ExperienceType'
+
+    CreateExperiencesBatchRequest:
+      type: object
+      required: [experiences]
+      properties:
+        experiences:
+          type: array
+          minItems: 1
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/CreateExperienceRequest'
 
     UpdateExperienceRequest:
       allOf:

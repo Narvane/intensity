@@ -55,7 +55,7 @@ Quando o grupo abre uma caixinha juntos:
 
 ### Criação de uma experiência (visão macro)
 
-O assistente em cinco etapas guia os contribuidores por: sugestão → reflexão → parâmetros → classificação de intensidade → salvar (com variações opcionais). As experiências ficam armazenadas na caixinha escolhida e ficam disponíveis para sorteios futuros.
+O assistente em cinco etapas guia os contribuidores por: sugestão → parâmetros → classificação de intensidade → tipo → interesse (opcional), então salvar. As experiências ficam armazenadas na caixinha escolhida e ficam disponíveis para sorteios futuros. A etapa de sugestão permite **bifurcar** a base para criar várias experiências de uma só vez.
 
 ---
 
@@ -69,11 +69,11 @@ Criar uma nova experiência segue cinco etapas ilustrativas:
 
 | Etapa | Propósito |
 |-------|-----------|
-| **Sugestão** | Descrever a ideia ou tocar em exemplos temáticos para inspiração |
-| **Reflexão** | Justificar por que o grupo aceitaria — empatia e consentimento |
-| **Parâmetros** | Avaliar esforço, abertura e inovação (cada um de 1 a 5) |
+| **Sugestão** | Descrever a ideia (ou várias, via bifurcação) ou tocar em exemplos temáticos para inspiração |
+| **Parâmetros** | Avaliar esforço, imprevisível e inusitado (cada um de 1 a 5) |
 | **Classificação** | Confirmar ou ajustar a intensidade geral (sugerida a partir dos parâmetros) |
-| **Ramificação** | Revisar resumo; salvar e criar outra, ou finalizar |
+| **Tipo** | Escolher o tipo de experiência, exibido na capa da carta (ou "sem tipo") |
+| **Interesse** | Contar, opcionalmente, por que a experiência é interessante; salvar |
 
 O app avisa que as experiências **não são criptografadas** — a transparência faz parte do contrato social.
 

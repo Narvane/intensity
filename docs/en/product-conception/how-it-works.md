@@ -55,7 +55,7 @@ When the group opens a box together:
 
 ### Creating an experience (macro view)
 
-The five-step assistant guides contributors through: suggestion → reflection → parameters → intensity classification → save (with optional variations). Experiences are stored in the chosen box and become available for future draws.
+The five-step assistant guides contributors through: suggestion → parameters → intensity classification → type → interest (optional), then save. Experiences are stored in the chosen box and become available for future draws. The suggestion step can **branch** the base to create several experiences at once.
 
 ---
 
@@ -69,11 +69,11 @@ Creating a new experience follows five illustrative steps:
 
 | Step | Purpose |
 |------|---------|
-| **Suggestion** | Describe the idea or tap themed examples for inspiration |
-| **Reflection** | Justify why the group would accept it — empathy and consent |
-| **Parameters** | Rate effort, openness, and innovativeness (each 1–5) |
+| **Suggestion** | Describe the idea (or several, via branching) or tap themed examples for inspiration |
+| **Parameters** | Rate effort, unpredictability, and unusualness (each 1–5) |
 | **Classification** | Confirm or adjust overall intensity (suggested from parameters) |
-| **Branching** | Review summary; save and create another, or finish |
+| **Type** | Choose the experience type shown on the card cover (or "no type") |
+| **Interest** | Optionally tell why the experience is interesting; save |
 
 The app warns that experiences are **not encrypted** — transparency is part of the social contract.
 

@@ -204,7 +204,7 @@ Mai:
 - un modale generico
 - un sorteggiatore tecnico
 
-Copertina: chip intensità, parametri, sigillo. Fronte dopo rivelazione: descrizione completa, riflessione, nome autore. Animazione flip asse Y con timing giocoso (vedi Movimento).
+Copertina: chip intensità, parametri, sigillo e un pill del tipo (quando presente) in un angolo. Fronte dopo rivelazione: descrizione completa e riflessione (autore nascosto nel rituale). Animazione flip asse Y con timing giocoso (vedi Movimento).
 
 ### Movimento
 

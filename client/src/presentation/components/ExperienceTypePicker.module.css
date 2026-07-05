@@ -1,0 +1,61 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.option,
+.optionSelected {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 0.65rem;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--color-border);
+  background: var(--surface-sunken);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
+}
+
+.option:hover {
+  transform: translateY(-1px);
+}
+
+.optionSelected {
+  border-color: var(--purple);
+  background: color-mix(in srgb, var(--purple) 12%, white);
+}
+
+.emoji {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.name {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.hint {
+  font-size: 0.7rem;
+  line-height: 1.25;
+  color: var(--color-text-muted);
+}
+
+.check {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  color: var(--purple);
+}

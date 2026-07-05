@@ -12,6 +12,3 @@
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
 }
 
-.pageWithSessionFooter {
-  padding-bottom: calc(var(--session-mode-footer-height, 5.5rem) + var(--space-page));
-}

@@ -126,13 +126,15 @@ Disponibile da **home scatole** in modalità Scatola delle Esperienze:
 
 | Passo | Etichetta | Azione utente |
 |-------|-----------|-----------------|
-| 1 — Suggerimento | Scrivi descrizione o tocca suggerimento tipo come ispirazione |
-| 2 — Riflessione | Giustifica perché il gruppo accetterebbe l'idea |
-| 3 — Parametri | Valuta impegno, apertura, novità (1–5 stelle ciascuno) |
-| 4 — Classificazione | Conferma o regola intensità complessiva (auto-suggerita dai parametri) |
-| 5 — Ramificazione | Rivedi riepilogo; salva e creane un'altra, oppure termina |
+| 1 — Suggerimento | Scrivi la/le descrizione/i o tocca un suggerimento come ispirazione; opzionalmente **ramifica** per creare più esperienze dalla stessa base |
+| 2 — Parametri | Valuta impegno, imprevedibilità, insolito (1–5 stelle ciascuno) |
+| 3 — Classificazione | Conferma o regola intensità complessiva (auto-suggerita dai parametri) |
+| 4 — Tipo | Scegli il tipo di esperienza (o "senza tipo") |
+| 5 — Interesse | Racconta, opzionalmente, perché l'esperienza è interessante; salva |
 
 Carta descrizione persistente e indicatore progresso a cinque segmenti per tutta la durata.
+
+**Ramificazione:** nel passo 1 l'autore può duplicare la base per creare fino a 5 esperienze in una volta. Nei passi 2–5 un paginatore mostra "Esperienza N di M" e itera ogni esperienza prima di passare al passo successivo; il salvataggio le crea tutte insieme tramite un lotto e conferma quante ne sono state create.
 
 ### Funzionalità momento condiviso
 

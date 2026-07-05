@@ -15,7 +15,6 @@ import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { SessionModeFooter } from '../components/SessionModeFooter';
-import footerStyles from '../components/SessionModeFooter.module.css';
 import { getGroupAccent } from '../components/groupVisuals';
 import { CreateGroupDialog } from './CreateGroupDialog';
 import styles from './GroupSelectionPage.module.css';
@@ -81,7 +80,8 @@ export function GroupSelectionPage() {
   };
 
   return (
-    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
+    <>
+    <main className={styles.page}>
       <ScreenHeader
         leading={
           <NavButton action="back" onClick={() => navigate('/auth')} />
@@ -168,10 +168,11 @@ export function GroupSelectionPage() {
           }
         }}
       />
+    </main>
       <SessionModeFooter
         mode="EXPERIENCES"
         participantDisplayName={session?.displayName}
       />
-    </main>
+    </>
   );
 }

@@ -200,7 +200,7 @@ class BoxIntegrationTest extends AbstractMockMvcIntegrationTest {
 								  "description": "Sunset picnic",
 								  "reflection": "Slow evenings together.",
 								  "intensity": 2,
-								  "parameters": { "effort": 2, "openness": 3, "novelty": 2 }
+								  "parameters": { "effort": 2, "unpredictability": 3, "novelty": 2 }
 								}
 								"""))
 				.andExpect(status().isCreated());

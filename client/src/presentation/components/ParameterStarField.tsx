@@ -35,7 +35,7 @@ export function ParameterStarField({
       size={
         layout === 'drawCover' || layout === 'listCompact'
           ? 'xs'
-          : layout === 'cover' || layout === 'inline' || layout === 'list' || layout === 'wizard'
+          : layout === 'cover' || layout === 'inline' || layout === 'list'
             ? 'sm'
             : 'md'
       }
@@ -95,7 +95,7 @@ export function ParameterStarsGroup({ parameters, layout = 'inline' }: Parameter
 
   return (
     <div className={groupClass} aria-label={t('intensity.parametersLabel')}>
-      {(['effort', 'openness', 'novelty'] as ParameterKey[]).map((key) => (
+      {(['effort', 'unpredictability', 'novelty'] as ParameterKey[]).map((key) => (
         <ParameterStarField
           key={key}
           parameterKey={key}

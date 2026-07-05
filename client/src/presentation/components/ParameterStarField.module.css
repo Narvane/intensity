@@ -105,8 +105,8 @@
   color: var(--param-effort);
 }
 
-.field[data-param='openness'] .icon {
-  color: var(--param-openness);
+.field[data-param='unpredictability'] .icon {
+  color: var(--param-unpredictability);
 }
 
 .field[data-param='novelty'] .icon {
@@ -239,16 +239,15 @@
 }
 
 .wizard {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 0.4rem;
-  row-gap: 0.08rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.2rem;
   width: 100%;
-  padding: 0.45rem 0.55rem;
+  padding: 0.75rem 0.6rem;
   border-radius: var(--radius-input);
   border: 1px solid transparent;
-  text-align: left;
 }
 
 .wizard[data-param='effort'] {
@@ -256,9 +255,9 @@
   border-color: color-mix(in srgb, var(--param-effort) 24%, white);
 }
 
-.wizard[data-param='openness'] {
-  background: color-mix(in srgb, var(--param-openness) 14%, white);
-  border-color: color-mix(in srgb, var(--param-openness) 24%, white);
+.wizard[data-param='unpredictability'] {
+  background: color-mix(in srgb, var(--param-unpredictability) 14%, white);
+  border-color: color-mix(in srgb, var(--param-unpredictability) 24%, white);
 }
 
 .wizard[data-param='novelty'] {
@@ -267,47 +266,27 @@
 }
 
 .wizard .icon {
-  grid-column: 1;
-  grid-row: 1 / span 2;
-  width: 1.2rem;
-  height: 1.2rem;
-  margin-top: 0.05rem;
+  width: 2.6rem;
+  height: 2.6rem;
 }
 
 .wizard .icon svg {
-  width: 0.95rem;
-  height: 0.95rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 .wizard .label {
-  grid-column: 2;
-  grid-row: 1;
-  font-size: 0.76rem;
-  text-align: left;
+  font-size: 0.85rem;
 }
 
 .wizard .ratingSlot {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.wizard .rating .star,
-.wizard .rating .starButton {
-  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
-  border-radius: var(--radius-chip);
-  background: color-mix(in srgb, currentColor 10%, white);
-}
-
-.wizard .rating .starButton.filled,
-.wizard .rating .star.filled {
-  background: color-mix(in srgb, currentColor 22%, white);
-  border-color: color-mix(in srgb, currentColor 42%, transparent);
+  display: flex;
+  justify-content: center;
 }
 
 .wizard .hint {
-  grid-column: 2;
-  grid-row: 3;
-  margin: 0;
-  font-size: 0.74rem;
+  margin: 0.1rem 0 0;
+  max-width: 22rem;
+  font-size: 0.78rem;
   line-height: 1.35;
 }

@@ -5,9 +5,11 @@ import com.intensity.box.repository.BoxRepository;
 import com.intensity.common.AuthPrincipal;
 import com.intensity.common.exception.ApiException;
 import com.intensity.experience.dto.CreateExperienceRequest;
+import com.intensity.experience.dto.CreateExperiencesBatchRequest;
 import com.intensity.experience.dto.ExperienceParametersDto;
 import com.intensity.experience.dto.ExperienceResponse;
 import com.intensity.experience.entity.Experience;
+import com.intensity.experience.entity.ExperienceType;
 import com.intensity.experience.repository.ExperienceRepository;
 import com.intensity.group.repository.GroupParticipantRepository;
 import com.intensity.participant.entity.Participant;
@@ -58,12 +60,26 @@ public class ExperienceService {
 	public ExperienceResponse create(UUID boxId, CreateExperienceRequest request, AuthPrincipal principal) {
 		Box box = ensureBoxExists(boxId);
 		ensureCanAccessBox(box, principal);
+		Participant author = requireAuthor(principal);
 
-		Participant author = participantRepository
-				.findById(principal.participantId())
-				.orElseThrow(() -> new ApiException(
-						HttpStatus.UNAUTHORIZED, "INVALID_TOKEN", "Invalid or expired token."));
+		Experience experience = persistNew(box, author, request);
+		return toResponse(experience, principal.participantId(), principal);
+	}
 
+	@Transactional
+	public List<ExperienceResponse> createBatch(
+			UUID boxId, CreateExperiencesBatchRequest request, AuthPrincipal principal) {
+		Box box = ensureBoxExists(boxId);
+		ensureCanAccessBox(box, principal);
+		Participant author = requireAuthor(principal);
+
+		return request.experiences().stream()
+				.map(item -> persistNew(box, author, item))
+				.map(experience -> toResponse(experience, principal.participantId(), principal))
+				.toList();
+	}
+
+	private Experience persistNew(Box box, Participant author, CreateExperienceRequest request) {
 		String seal = sealService.computeFromDescription(request.description());
 		Experience experience = new Experience(
 				box,
@@ -72,12 +88,23 @@ public class ExperienceService {
 				request.reflection(),
 				request.intensity(),
 				request.parameters().effort(),
-				request.parameters().openness(),
+				request.parameters().unpredictability(),
 				request.parameters().novelty(),
+				resolveType(request.type()),
 				seal);
 
-		experienceRepository.save(experience);
-		return toResponse(experience, principal.participantId(), principal);
+		return experienceRepository.save(experience);
+	}
+
+	private Participant requireAuthor(AuthPrincipal principal) {
+		return participantRepository
+				.findById(principal.participantId())
+				.orElseThrow(() -> new ApiException(
+						HttpStatus.UNAUTHORIZED, "INVALID_TOKEN", "Invalid or expired token."));
+	}
+
+	private ExperienceType resolveType(ExperienceType type) {
+		return type == null ? ExperienceType.NONE : type;
 	}
 
 	@Transactional
@@ -93,8 +120,9 @@ public class ExperienceService {
 				request.reflection(),
 				request.intensity(),
 				request.parameters().effort(),
-				request.parameters().openness(),
+				request.parameters().unpredictability(),
 				request.parameters().novelty(),
+				resolveType(request.type()),
 				seal);
 
 		return toResponse(experience, principal.participantId(), principal);
@@ -152,7 +180,7 @@ public class ExperienceService {
 		boolean fullAccess = visibilityPolicy.hasFullContent(
 				principal, experience.getAuthor().getId(), viewerId);
 		ExperienceParametersDto parameters = new ExperienceParametersDto(
-				experience.getEffort(), experience.getOpenness(), experience.getNovelty());
+				experience.getEffort(), experience.getUnpredictability(), experience.getNovelty());
 
 		return new ExperienceResponse(
 				experience.getId(),
@@ -163,6 +191,7 @@ public class ExperienceService {
 				fullAccess ? experience.getReflection() : null,
 				experience.getIntensity(),
 				parameters,
+				experience.getType(),
 				experience.getSeal(),
 				!fullAccess,
 				experience.getCreatedAt(),

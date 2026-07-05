@@ -23,7 +23,6 @@ import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { SessionModeFooter } from '../components/SessionModeFooter';
-import footerStyles from '../components/SessionModeFooter.module.css';
 import { CreationAssistant } from './CreationAssistant';
 import { DeleteExperienceDialog } from './DeleteExperienceDialog';
 import { ExperienceCard } from './ExperienceCard';
@@ -150,7 +149,8 @@ export function ExperienceListPage() {
   };
 
   return (
-    <main className={`${styles.page} ${footerStyles.pageWithSessionFooter}`}>
+    <>
+    <main className={styles.page}>
       <ScreenHeader
         leading={
           <NavButton
@@ -228,14 +228,13 @@ export function ExperienceListPage() {
             setAssistantOpen(false);
             setEditing(null);
           }}
-          onSaved={(saved, createAnother) => {
-            setExperiences((current) => {
-              const withoutSaved = current.filter((item) => item.id !== saved.id);
-              return createAnother ? [saved, ...withoutSaved] : [saved, ...withoutSaved];
-            });
-            if (!createAnother) {
-              setEditing(null);
-            }
+          onSaved={(saved) => {
+            const savedIds = new Set(saved.map((item) => item.id));
+            setExperiences((current) => [
+              ...saved,
+              ...current.filter((item) => !savedIds.has(item.id)),
+            ]);
+            setEditing(null);
           }}
         />
       )}
@@ -252,10 +251,11 @@ export function ExperienceListPage() {
           }
         }}
       />
+    </main>
       <SessionModeFooter
         mode="EXPERIENCES"
         participantDisplayName={session?.displayName}
       />
-    </main>
+    </>
   );
 }

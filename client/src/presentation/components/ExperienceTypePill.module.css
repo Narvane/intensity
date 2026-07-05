@@ -1,0 +1,32 @@
+.pill,
+.pillSm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-chip);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  font-weight: 800;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.pill {
+  font-size: 0.72rem;
+}
+
+.pillSm {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.4rem;
+}
+
+.emoji {
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.label {
+  line-height: 1;
+}

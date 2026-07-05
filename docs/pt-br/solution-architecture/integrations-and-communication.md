@@ -64,8 +64,10 @@ DELETE /convites/{id}             → revogado
 
 ```
 Cliente coleta entrada do assistente localmente
-POST /caixinhas/{id}/experiencias { description, intensity, params, reflection }
+POST /caixinhas/{id}/experiencias { description, intensity, params, type, reflection? }
   ← experiência persistida com selo
+Bifurcação: POST /caixinhas/{id}/experiencias/batch { experiences: [...] } (até 5)
+  ← lista de experiências persistidas com selos
 ```
 
 **Exclusão de caixinha (modo Caixa de Experiências)**

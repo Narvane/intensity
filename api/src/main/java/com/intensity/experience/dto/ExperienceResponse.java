@@ -1,5 +1,7 @@
 package com.intensity.experience.dto;
 
+import com.intensity.experience.entity.ExperienceType;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -12,6 +14,7 @@ public record ExperienceResponse(
 		String reflection,
 		int intensity,
 		ExperienceParametersDto parameters,
+		ExperienceType type,
 		String seal,
 		boolean summaryOnly,
 		Instant createdAt,

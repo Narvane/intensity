@@ -6,9 +6,7 @@
   justify-content: center;
   gap: 1.5rem;
   padding: var(--space-page);
-  background:
-    radial-gradient(circle at 50% 18%, rgba(255, 201, 77, 0.38), transparent 32%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .message {

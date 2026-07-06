@@ -85,6 +85,10 @@ html[data-session-footer] main {
   box-sizing: border-box;
 }
 
+html {
+  background: var(--color-bg);
+}
+
 body {
   margin: 0;
   min-width: 320px;

@@ -2,9 +2,7 @@
   min-height: 100dvh;
   padding: var(--space-page);
   padding-bottom: calc(var(--space-page) + var(--safe-area-bottom));
-  background:
-    radial-gradient(circle at top right, rgba(255, 107, 61, 0.14), transparent 32%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .header {

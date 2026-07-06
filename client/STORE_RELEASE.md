@@ -7,7 +7,7 @@ Ref: @ref:en-development-process · manual BDD in @ref:plano-desenvolvimento-ia 
 ## 1. Pre-release configuration
 
 - [ ] `client/.env.production` — `VITE_API_URL` points to live HTTPS API (e.g. `https://api.intensity.example`)
-- [ ] Launcher icons — after changing `assets/logo-icon.png`, run `npm run generate:native-assets` in `client/` (Android adaptive + iOS AppIcon)
+- [ ] Launcher icons — after changing `client/assets/icon.png` (launcher) or `client/assets/icon-translucid.png` (splash), run `npm run generate:native-assets` in `client/` (Android adaptive + iOS AppIcon)
 - [ ] `deploy/.env` on VPS — domains, JWT secret, Postgres password set
 - [ ] Deep link files published and verified:
   - [ ] `client/deep-link/.well-known/assetlinks.json` — release keystore SHA256 fingerprint

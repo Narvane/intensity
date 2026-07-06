@@ -35,7 +35,7 @@ async function initNativeChrome() {
     await StatusBar.setBackgroundColor({ color: APP_BACKGROUND });
   }
 
-  await StatusBar.setStyle({ style: Style.Dark });
+  await StatusBar.setStyle({ style: Style.Light });
 }
 
 void initNativeChrome();

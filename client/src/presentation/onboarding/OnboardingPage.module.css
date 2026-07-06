@@ -5,9 +5,7 @@
   gap: 1.25rem;
   padding: var(--space-page);
   padding-bottom: calc(var(--space-page) + var(--safe-area-bottom));
-  background:
-    radial-gradient(circle at top right, rgba(255, 201, 77, 0.35), transparent 28%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .loading {

@@ -3,10 +3,7 @@
   padding: var(--space-page);
   padding-top: calc(var(--space-page) + var(--safe-area-top));
   padding-bottom: calc(var(--space-page) + var(--safe-area-bottom));
-  background:
-    radial-gradient(circle at top left, rgba(255, 107, 61, 0.18), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(123, 92, 246, 0.16), transparent 28%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .brandBar {

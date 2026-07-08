@@ -1,0 +1,89 @@
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.55rem;
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.option,
+.optionActive {
+  padding: 0.18rem 0.5rem;
+  border-radius: var(--radius-chip);
+  border: 1px solid var(--color-border);
+  background: var(--surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    border-color 0.14s ease,
+    transform 0.14s ease;
+}
+
+.option[data-accent='coral'] {
+  border-color: color-mix(in srgb, var(--coral) 35%, var(--color-border));
+}
+
+.option[data-accent='teal'] {
+  border-color: color-mix(in srgb, var(--teal) 35%, var(--color-border));
+}
+
+.option[data-accent='purple'] {
+  border-color: color-mix(in srgb, var(--purple) 35%, var(--color-border));
+}
+
+.option[data-accent='yellow'] {
+  border-color: color-mix(in srgb, var(--yellow) 45%, var(--color-border));
+}
+
+.optionActive[data-accent='coral'] {
+  border-color: var(--coral);
+  background: color-mix(in srgb, var(--coral) 18%, white);
+  color: color-mix(in srgb, var(--coral-strong) 75%, var(--text));
+}
+
+.optionActive[data-accent='teal'] {
+  border-color: var(--teal);
+  background: color-mix(in srgb, var(--teal) 16%, white);
+  color: color-mix(in srgb, var(--teal) 70%, var(--text));
+}
+
+.optionActive[data-accent='purple'] {
+  border-color: var(--purple);
+  background: color-mix(in srgb, var(--purple) 14%, white);
+  color: var(--purple);
+}
+
+.optionActive[data-accent='yellow'] {
+  border-color: color-mix(in srgb, var(--yellow) 70%, var(--text));
+  background: color-mix(in srgb, var(--yellow) 34%, white);
+  color: color-mix(in srgb, var(--yellow) 25%, var(--text));
+}
+
+.option:not(:disabled):active,
+.optionActive:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+.option:focus-visible,
+.optionActive:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}

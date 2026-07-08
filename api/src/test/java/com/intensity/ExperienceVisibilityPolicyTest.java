@@ -18,7 +18,7 @@ class ExperienceVisibilityPolicyTest {
 
 		assertTrue(policy.hasFullContent(
 				new com.intensity.common.AuthPrincipal(
-						authorId, com.intensity.common.AccessMode.EXPERIENCES, null, java.util.List.of()),
+						authorId, com.intensity.common.AccessMode.EXPERIENCES, null, java.util.List.of(), java.util.List.of()),
 				authorId,
 				authorId));
 	}
@@ -30,7 +30,7 @@ class ExperienceVisibilityPolicyTest {
 
 		assertFalse(policy.hasFullContent(
 				new com.intensity.common.AuthPrincipal(
-						viewerId, com.intensity.common.AccessMode.EXPERIENCES, null, java.util.List.of()),
+						viewerId, com.intensity.common.AccessMode.EXPERIENCES, null, java.util.List.of(), java.util.List.of()),
 				authorId,
 				viewerId));
 	}
@@ -40,11 +40,14 @@ class ExperienceVisibilityPolicyTest {
 		UUID authorId = UUID.randomUUID();
 		UUID viewerId = UUID.randomUUID();
 
+		UUID groupId = UUID.randomUUID();
+
 		assertTrue(policy.hasFullContent(
 				new com.intensity.common.AuthPrincipal(
 						viewerId,
 						com.intensity.common.AccessMode.EXPERIENCE_BOX,
-						UUID.randomUUID(),
+						groupId,
+						java.util.List.of(groupId),
 						java.util.List.of(viewerId)),
 				authorId,
 				viewerId));

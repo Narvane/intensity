@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -54,31 +53,47 @@ public class GroupService {
 
 		List<UUID> participantIds = members.stream().map(Participant::getId).toList();
 
-		Group group = resolveGroup(participantIds)
-				.orElseGet(() -> createGroupWithMembers(participantIds));
+		List<UUID> groupIds = resolveGroupIds(participantIds);
+		if (groupIds.isEmpty()) {
+			groupIds = List.of(createGroupWithMembers(participantIds).getId());
+		}
 
 		List<GroupMemberResponse> memberResponses = members.stream()
 				.map(member -> new GroupMemberResponse(member.getId(), member.getDisplayName()))
 				.toList();
 
 		List<String> displayNames = members.stream().map(Participant::getDisplayName).toList();
-		String token = jwtService.createExperienceBoxToken(group.getId(), participantIds, displayNames);
+		String token = jwtService.createExperienceBoxToken(groupIds, participantIds, displayNames);
 
 		return new JointAuthSessionResponse(
 				token,
-				group.getId(),
+				groupIds.getFirst(),
+				groupIds,
 				memberResponses,
 				AccessMode.EXPERIENCE_BOX);
 	}
 
-	private Optional<Group> resolveGroup(List<UUID> participantIds) {
-		return groupRepository
-				.findGroupIdByExactMembers(participantIds, participantIds.size())
-				.or(() -> groupRepository
-						.findGroupIdsContainingAllParticipants(participantIds, participantIds.size())
-						.stream()
-						.findFirst())
-				.flatMap(groupRepository::findById);
+	private List<UUID> resolveGroupIds(List<UUID> participantIds) {
+		List<UUID> exactMatches =
+				groupRepository.findGroupIdsByExactMembers(participantIds, participantIds.size());
+		if (!exactMatches.isEmpty()) {
+			return sortGroupIds(exactMatches);
+		}
+
+		List<UUID> containingMatches = groupRepository.findGroupIdsContainingAllParticipants(
+				participantIds, participantIds.size());
+		if (!containingMatches.isEmpty()) {
+			return sortGroupIds(containingMatches);
+		}
+
+		return List.of();
+	}
+
+	private List<UUID> sortGroupIds(List<UUID> groupIds) {
+		return groupRepository.findAllById(groupIds).stream()
+				.sorted(Comparator.comparing(Group::getCreatedAt))
+				.map(Group::getId)
+				.toList();
 	}
 
 	private Group createGroupWithMembers(List<UUID> participantIds) {

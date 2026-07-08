@@ -137,10 +137,26 @@
     "close": "Fechar",
     "logout": "Sair da sessão",
     "help": "Abrir guia rápido",
-    "leave": "Sair do grupo"
+    "leave": "Sair"
   },
   "groups": {
     "title": "Escolha sua turma",
+    "headingLabel": "Grupo:",
+    "headingLabelPlural": "Grupos:",
+    "selectorLabel": "Grupo ativo",
+    "boxesSectionTitle": "Caixinhas do grupo",
+    "boxesSectionDescription": "Estas são as caixinhas que ficarão disponíveis quando os participantes fizerem login no modo Sorteio utilizando os jogadores deste grupo.",
+    "inviteToGroup": "Convidar para o grupo",
+    "editSuccess": "Grupo atualizado.",
+    "form": {
+      "nameLabel": "Nome do grupo",
+      "namePlaceholder": "Ex.: Turma de sábado",
+      "colorLabel": "Cor do grupo"
+    },
+    "editDialog": {
+      "title": "Editar grupo",
+      "confirm": "Salvar alterações"
+    },
     "empty": "Você ainda não faz parte de nenhuma turma.",
     "emptyHint": "Peça um convite a quem já está em um grupo ou use um link ou código de convite para entrar.",
     "memberCount": "{{count}} membros",
@@ -159,7 +175,7 @@
       "cancel": "Cancelar"
     },
     "invite": "Convidar",
-    "leave": "Sair do grupo",
+    "leave": "Sair",
     "leaveSuccess": "Você saiu do grupo.",
     "leaveDialog": {
       "title": "Sair deste grupo?",
@@ -180,6 +196,7 @@
     "createdSuccess": "Caixinha \"{{name}}\" criada! Convide mais pessoas para o grupo."
   },
   "boxHome": {
+    "boxesSectionDescription": "Escolha uma das caixinhas abaixo para iniciar um sorteio de experiências.",
     "title": "Suas caixinhas",
     "create": "Criar caixinha",
     "empty": "Ainda não há caixinhas neste grupo.",
@@ -313,7 +330,11 @@
     "steps": {
       "suggestion": {
         "title": "Sugestão",
-        "body": "Folheie as sugestões abaixo ou escreva direto na descrição — nada é salvo até você confirmar."
+        "body": "Comece descrevendo sua própria ideia ou inspire-se nas sugestões abaixo.",
+        "writeTitle": "Escreva sua ideia",
+        "writeBody": "Descreva alguma ideia inusitada que veio à sua mente. Ela pode estar completa ou ser apenas um ponto de partida.",
+        "noIdeasTitle": "Sem ideias?",
+        "noIdeasBody": "Folheie algumas ideias para se inspirar ou utilize uma delas como ponto de partida."
       },
       "parameters": {
         "title": "O tempero",
@@ -360,6 +381,7 @@
     "explorer": {
       "auxLabel": "Sugestões",
       "filterLabel": "Filtrar por intensidade",
+      "intensityCaption": "Intensidade",
       "intensity": "Intensidade {{level}}",
       "another": "Outra sugestão",
       "use": "Usar esta ideia",

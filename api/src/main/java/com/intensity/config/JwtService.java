@@ -39,12 +39,14 @@ public class JwtService {
 				.compact();
 	}
 
-	public String createExperienceBoxToken(UUID groupId, List<UUID> participantIds, List<String> displayNames) {
+	public String createExperienceBoxToken(List<UUID> groupIds, List<UUID> participantIds, List<String> displayNames) {
+		UUID primaryGroupId = groupIds.getFirst();
 		Instant now = Instant.now();
 		return Jwts.builder()
-				.subject(groupId.toString())
+				.subject(primaryGroupId.toString())
 				.claim("accessMode", AccessMode.EXPERIENCE_BOX.name())
-				.claim("groupId", groupId.toString())
+				.claim("groupId", primaryGroupId.toString())
+				.claim("groupIds", groupIds.stream().map(UUID::toString).toList())
 				.claim("participantIds", participantIds.stream().map(UUID::toString).toList())
 				.claim("displayNames", displayNames)
 				.issuedAt(Date.from(now))

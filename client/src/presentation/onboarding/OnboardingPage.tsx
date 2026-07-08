@@ -5,6 +5,7 @@ import { CompleteOnboardingUseCase } from '@domain/bootstrap/CompleteOnboardingU
 import { LoadBootstrapUseCase } from '@domain/bootstrap/LoadBootstrapUseCase';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { AppLoader } from '../components/AppLoader';
 import { OnboardingIllustration } from '../components/OnboardingIllustration';
 import { QuickGuideOverlay } from '../quick-guide/QuickGuideOverlay';
 import styles from './OnboardingPage.module.css';
@@ -74,7 +75,7 @@ export function OnboardingPage() {
   if (!guardReady) {
     return (
       <main className={styles.page} aria-busy="true">
-        <p className={styles.loading}>{t('bootstrap.loading')}</p>
+        <AppLoader label={t('bootstrap.loading')} size="lg" fullscreen />
       </main>
     );
   }

@@ -8,6 +8,7 @@ import java.util.UUID;
 public record JointAuthSessionResponse(
 		String token,
 		UUID groupId,
+		List<UUID> groupIds,
 		List<GroupMemberResponse> members,
 		AccessMode accessMode) {
 }

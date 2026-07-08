@@ -218,7 +218,7 @@ public class InviteService {
 
 	private void ensureGroupMember(UUID groupId, AuthPrincipal principal) {
 		if (principal.accessMode() == com.intensity.common.AccessMode.EXPERIENCE_BOX) {
-			if (!groupId.equals(principal.groupId())) {
+			if (!principal.canAccessExperienceBoxGroup(groupId)) {
 				throw forbidden();
 			}
 			return;

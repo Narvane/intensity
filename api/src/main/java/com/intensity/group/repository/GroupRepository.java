@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupRepository extends JpaRepository<Group, UUID> {
@@ -18,7 +17,7 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
 			HAVING COUNT(gp) = :memberCount
 			  AND SUM(CASE WHEN gp.id.participantId IN :participantIds THEN 1 ELSE 0 END) = :memberCount
 			""")
-	Optional<UUID> findGroupIdByExactMembers(
+	List<UUID> findGroupIdsByExactMembers(
 			@Param("participantIds") List<UUID> participantIds,
 			@Param("memberCount") long memberCount);
 

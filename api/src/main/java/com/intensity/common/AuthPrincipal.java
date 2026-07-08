@@ -12,6 +12,7 @@ public record AuthPrincipal(
 		UUID participantId,
 		AccessMode accessMode,
 		UUID groupId,
+		List<UUID> groupIds,
 		List<UUID> participantIds) {
 
 	public static AuthPrincipal fromClaims(Claims claims) {
@@ -22,15 +23,25 @@ public record AuthPrincipal(
 					UUID.fromString(claims.getSubject()),
 					mode,
 					null,
+					List.of(),
 					List.of());
 		}
 
-		UUID groupId = UUID.fromString(claims.get("groupId", String.class));
+		@SuppressWarnings("unchecked")
+		List<String> rawGroupIds = claims.get("groupIds", List.class);
+		List<UUID> groupIds;
+		if (rawGroupIds != null && !rawGroupIds.isEmpty()) {
+			groupIds = rawGroupIds.stream().map(UUID::fromString).toList();
+		} else {
+			groupIds = List.of(UUID.fromString(claims.get("groupId", String.class)));
+		}
+
+		UUID groupId = groupIds.getFirst();
 		@SuppressWarnings("unchecked")
 		List<String> rawIds = claims.get("participantIds", List.class);
 		List<UUID> participantIds = rawIds.stream().map(UUID::fromString).toList();
 
-		return new AuthPrincipal(participantIds.getFirst(), mode, groupId, participantIds);
+		return new AuthPrincipal(participantIds.getFirst(), mode, groupId, groupIds, participantIds);
 	}
 
 	public static AuthPrincipal requireCurrent() {
@@ -39,5 +50,9 @@ public record AuthPrincipal(
 			throw JwtService.unauthorized();
 		}
 		return principal;
+	}
+
+	public boolean canAccessExperienceBoxGroup(UUID targetGroupId) {
+		return accessMode == AccessMode.EXPERIENCE_BOX && groupIds.contains(targetGroupId);
 	}
 }

@@ -35,6 +35,7 @@ interface GroupMemberResponse {
 interface JointAuthSessionResponse {
   token: string;
   groupId: string;
+  groupIds: string[];
   members: GroupMemberResponse[];
   accessMode: 'EXPERIENCE_BOX';
 }
@@ -99,6 +100,7 @@ export class LoginExperienceBoxUseCase {
       token: response.token,
       accessMode: 'EXPERIENCE_BOX',
       groupId: response.groupId,
+      groupIds: response.groupIds?.length ? response.groupIds : [response.groupId],
       members: response.members,
       displayName: response.members.map((member) => member.displayName).join(', '),
       experienceBox: createExperienceBoxSessionMeta(),

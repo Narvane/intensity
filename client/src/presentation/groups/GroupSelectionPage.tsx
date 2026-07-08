@@ -6,17 +6,18 @@ import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
-import type { Group } from '@domain/box/boxTypes';
-import { formatGroupMemberPreview } from '@domain/box/formatGroupMemberPreview';
+import type { Group, GroupAccent } from '@domain/box/boxTypes';
+import { resolveGroupDisplayName } from '@domain/box/resolveGroupDisplayName';
 import { CreateGroupUseCase, ListGroupsUseCase } from '@domain/box/boxUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { AppLoader } from '../components/AppLoader';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { SessionModeFooter } from '../components/SessionModeFooter';
-import { getGroupAccent } from '../components/groupVisuals';
-import { CreateGroupDialog } from './CreateGroupDialog';
+import { resolveGroupAccent } from '../components/groupVisuals';
+import { GroupFormDialog } from './GroupFormDialog';
 import styles from './GroupSelectionPage.module.css';
 
 export function GroupSelectionPage() {
@@ -59,7 +60,7 @@ export function GroupSelectionPage() {
     void loadGroups();
   }, [loadGroups]);
 
-  const confirmCreate = async () => {
+  const confirmCreate = async (input: { name: string; color: GroupAccent }) => {
     if (!experiencesSession?.token) {
       return;
     }
@@ -68,7 +69,7 @@ export function GroupSelectionPage() {
     setCreateError(null);
 
     try {
-      const created = await createGroup.execute(experiencesSession.token);
+      const created = await createGroup.execute(experiencesSession.token, input);
       setGroups((current) => [created, ...current.filter((item) => item.id !== created.id)]);
       setCreateOpen(false);
       showToast(t('groups.createSuccess'));
@@ -102,7 +103,7 @@ export function GroupSelectionPage() {
         </div>
       )}
 
-      {loading && <p className={styles.message}>{t('common.loading')}</p>}
+      {loading && <AppLoader label={t('common.loading')} />}
 
       {error && (
         <p className={styles.error} role="alert">
@@ -120,11 +121,8 @@ export function GroupSelectionPage() {
       {!loading && !error && groups.length > 0 && (
         <ul className={styles.list}>
           {groups.map((group) => {
-            const accent = getGroupAccent(group.id);
-            const memberPreview = formatGroupMemberPreview(
-              group.members.map((member) => member.displayName),
-              t,
-            );
+            const accent = resolveGroupAccent(group);
+            const displayName = resolveGroupDisplayName(group, t);
 
             return (
               <li key={group.id} className={styles.item}>
@@ -142,7 +140,7 @@ export function GroupSelectionPage() {
                     <UsersRound size={26} strokeWidth={2.25} />
                   </span>
                   <span className={styles.rowCopy}>
-                    <span className={styles.rowTitle}>{memberPreview}</span>
+                    <span className={styles.rowTitle}>{displayName}</span>
                     <span className={styles.rowMeta}>
                       {t('groups.memberCount', { count: group.memberCount })}
                       {' · '}
@@ -156,11 +154,12 @@ export function GroupSelectionPage() {
         </ul>
       )}
 
-      <CreateGroupDialog
+      <GroupFormDialog
         open={createOpen}
-        creating={creating}
+        mode="create"
+        saving={creating}
         error={createError}
-        onConfirm={() => void confirmCreate()}
+        onConfirm={(input) => void confirmCreate(input)}
         onCancel={() => {
           if (!creating) {
             setCreateOpen(false);

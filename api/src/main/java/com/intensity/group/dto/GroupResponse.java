@@ -5,5 +5,10 @@ import java.util.List;
 import java.util.UUID;
 
 public record GroupResponse(
-		UUID id, int memberCount, Instant createdAt, List<GroupMemberResponse> members) {
+		UUID id,
+		String name,
+		String color,
+		int memberCount,
+		Instant createdAt,
+		List<GroupMemberResponse> members) {
 }

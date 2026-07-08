@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Check, Shuffle } from 'lucide-react';
+import { Check, Lightbulb, Shuffle } from 'lucide-react';
 import type { BoxType } from '@domain/box/boxTypes';
 import {
   pickRandomSuggestion,
@@ -35,8 +35,12 @@ export function SuggestionExplorer({ boxType, onAccept }: SuggestionExplorerProp
 
   return (
     <aside className={styles.explorer} aria-label={t('assistant.steps.suggestion.title')}>
-      <div className={styles.toolbar}>
-        <span className={styles.toolbarLabel}>{t('suggestions.explorer.auxLabel')}</span>
+      <div className={styles.titleRow}>
+        <Lightbulb size={16} aria-hidden className={styles.titleIcon} />
+        <span className={styles.titleLabel}>{t('suggestions.explorer.auxLabel')}</span>
+      </div>
+
+      <div className={styles.intensityBlock}>
         <div className={styles.chips} role="group" aria-label={t('suggestions.explorer.filterLabel')}>
           {INTENSITY_LEVELS.map((level) => (
             <button
@@ -50,6 +54,7 @@ export function SuggestionExplorer({ boxType, onAccept }: SuggestionExplorerProp
             </button>
           ))}
         </div>
+        <span className={styles.intensityCaption}>{t('suggestions.explorer.intensityCaption')}</span>
       </div>
 
       <blockquote className={styles.quote} aria-live="polite">

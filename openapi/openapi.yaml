@@ -608,13 +608,18 @@ components:
 
     JointAuthSession:
       type: object
-      required: [token, groupId, members, accessMode]
+      required: [token, groupId, groupIds, members, accessMode]
       properties:
         token:
           type: string
         groupId:
           type: string
           format: uuid
+        groupIds:
+          type: array
+          items:
+            type: string
+            format: uuid
         members:
           type: array
           items:
@@ -669,11 +674,16 @@ components:
 
     Group:
       type: object
-      required: [id, memberCount, createdAt, members]
+      required: [id, name, color, memberCount, createdAt, members]
       properties:
         id:
           type: string
           format: uuid
+        name:
+          type: string
+        color:
+          type: string
+          enum: [coral, teal, purple, yellow]
         memberCount:
           type: integer
           minimum: 1

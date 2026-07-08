@@ -74,7 +74,7 @@ public class BoxService {
 				.orElseThrow(() -> new ApiException(
 						HttpStatus.NOT_FOUND, "BOX_NOT_FOUND", "Box not found."));
 
-		if (!box.getGroup().getId().equals(principal.groupId())) {
+		if (!principal.canAccessExperienceBoxGroup(box.getGroup().getId())) {
 			throw forbidden();
 		}
 
@@ -90,7 +90,7 @@ public class BoxService {
 
 	private void ensureCanAccessGroup(UUID groupId, AuthPrincipal principal) {
 		if (principal.accessMode() == AccessMode.EXPERIENCE_BOX) {
-			if (!groupId.equals(principal.groupId())) {
+			if (!principal.canAccessExperienceBoxGroup(groupId)) {
 				throw forbidden();
 			}
 			return;
@@ -101,7 +101,7 @@ public class BoxService {
 
 	private void ensureCanCreateBox(UUID groupId, AuthPrincipal principal) {
 		if (principal.accessMode() == AccessMode.EXPERIENCE_BOX) {
-			if (!groupId.equals(principal.groupId())) {
+			if (!principal.canAccessExperienceBoxGroup(groupId)) {
 				throw forbidden();
 			}
 			return;

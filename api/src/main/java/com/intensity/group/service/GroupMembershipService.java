@@ -83,7 +83,7 @@ public class GroupMembershipService {
 
 	private void ensureCanLeave(UUID groupId, AuthPrincipal principal) {
 		if (principal.accessMode() == AccessMode.EXPERIENCE_BOX) {
-			if (!groupId.equals(principal.groupId())) {
+			if (!principal.canAccessExperienceBoxGroup(groupId)) {
 				throw forbidden();
 			}
 			return;

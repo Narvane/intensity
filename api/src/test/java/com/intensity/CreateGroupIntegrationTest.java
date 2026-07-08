@@ -65,6 +65,23 @@ class CreateGroupIntegrationTest extends AbstractMockMvcIntegrationTest {
 
 	@Test
 	@Order(4)
+	void jointLoginMergesMultipleSoloGroups() throws Exception {
+		mockMvc.perform(post("/v1/auth/group")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "credentials": [
+								    { "email": "carol@example.com", "password": "password123" }
+								  ]
+								}
+								"""))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.groupIds", hasSize(2)))
+				.andExpect(jsonPath("$.accessMode").value("EXPERIENCE_BOX"));
+	}
+
+	@Test
+	@Order(5)
 	void experienceBoxSessionCannotCreateGroup() throws Exception {
 		register("Alice", "alice@example.com");
 		register("Bob", "bob@example.com");

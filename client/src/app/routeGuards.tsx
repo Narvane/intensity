@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { AppLoader } from '@presentation/components/AppLoader';
 import { OfflineBanner } from '@presentation/components/OfflineBanner';
 import { resolveGuestRouteRedirect } from '@domain/auth/guestRouteRedirect';
 import { useSession } from './SessionProvider';
@@ -6,7 +7,7 @@ import { useSession } from './SessionProvider';
 export function RequireGuestRoute() {
   const { experienceBoxSession, loading } = useSession();
   if (loading) {
-    return null;
+    return <AppLoader fullscreen size="lg" />;
   }
 
   const redirectTo = resolveGuestRouteRedirect(experienceBoxSession);
@@ -22,7 +23,7 @@ export function RequireExperiencesSessionRoute() {
   const { experiencesSession, loading, invalid } = useSession();
 
   if (loading) {
-    return null;
+    return <AppLoader fullscreen size="lg" />;
   }
 
   if (invalid) {
@@ -45,7 +46,7 @@ export function RequireExperienceBoxSessionRoute() {
   const { experienceBoxSession, loading, invalid } = useSession();
 
   if (loading) {
-    return null;
+    return <AppLoader fullscreen size="lg" />;
   }
 
   if (invalid) {

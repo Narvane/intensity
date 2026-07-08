@@ -7,36 +7,61 @@
   padding: 0.75rem;
   background: rgba(31, 31, 31, 0.22);
   backdrop-filter: blur(6px);
+  overscroll-behavior: none;
 }
 
 .panel {
+  display: flex;
+  flex-direction: column;
   width: min(100%, 32rem);
   max-height: calc(100dvh - 1.5rem);
-  overflow: auto;
+  overflow: hidden;
   border-radius: var(--radius-card);
   border: none;
   background: var(--surface);
-  padding: 1rem;
   box-shadow: var(--shadow-soft);
 }
 
-.headerBody h2 {
-  margin: 0.35rem 0 0;
-  font-size: 1.6rem;
-  line-height: 1.1;
+.stickyHeader {
+  flex-shrink: 0;
+  padding: calc(1rem + env(safe-area-inset-top, 0)) 1rem 0.75rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.headerTitles {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerTitles h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.closeButton {
+  flex-shrink: 0;
+  margin-top: -0.1rem;
 }
 
 .stepLabel {
-  margin: 0.35rem 0 0;
+  margin: 0.3rem 0 0;
   color: var(--color-text-muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .progress {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0.35rem;
-  margin: 1rem 0 0.75rem;
+  margin: 0.75rem 0 0;
 }
 
 .progressActive,
@@ -53,14 +78,18 @@
   background: rgba(31, 31, 31, 0.08);
 }
 
+.scrollBody {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding: 0.85rem 1rem 1rem;
+}
+
 .stickyDescription {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  margin-bottom: 0.85rem;
-  padding-bottom: 0.65rem;
-  background: var(--surface);
-  box-shadow: 0 1px 0 var(--color-border);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
 }
 
 .descriptionField {
@@ -97,13 +126,26 @@
 
 .step h3 {
   margin: 0 0 0.35rem;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
 }
 
 .step p {
   margin: 0 0 0.65rem;
   color: var(--color-text-muted);
   line-height: 1.5;
+}
+
+.ideaSection {
+  margin-bottom: 1.25rem;
+}
+
+.suggestionsSection {
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.suggestionsSection h3 {
+  margin-top: 1rem;
 }
 
 .parameterFields {
@@ -217,7 +259,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .forkButton {

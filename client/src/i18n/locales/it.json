@@ -137,10 +137,26 @@
     "close": "Chiudi",
     "logout": "Esci dalla sessione",
     "help": "Apri guida rapida",
-    "leave": "Lascia il gruppo"
+    "leave": "Esci"
   },
   "groups": {
     "title": "Scegli un gruppo",
+    "headingLabel": "Gruppo:",
+    "headingLabelPlural": "Gruppi:",
+    "selectorLabel": "Gruppo attivo",
+    "boxesSectionTitle": "Scatole del gruppo",
+    "boxesSectionDescription": "Queste sono le scatole che saranno disponibili quando i partecipanti accedono in modalità Estrazione usando i giocatori di questo gruppo.",
+    "inviteToGroup": "Invita al gruppo",
+    "editSuccess": "Gruppo aggiornato.",
+    "form": {
+      "nameLabel": "Nome del gruppo",
+      "namePlaceholder": "Es.: Squadra del sabato",
+      "colorLabel": "Colore del gruppo"
+    },
+    "editDialog": {
+      "title": "Modifica gruppo",
+      "confirm": "Salva modifiche"
+    },
     "empty": "Non fai ancora parte di nessun gruppo.",
     "emptyHint": "Chiedi un invito a chi è già in un gruppo oppure entra con un link o codice invito.",
     "memberCount": "{{count}} membri",
@@ -159,7 +175,7 @@
       "cancel": "Annulla"
     },
     "invite": "Invita",
-    "leave": "Lascia il gruppo",
+    "leave": "Esci",
     "leaveSuccess": "Hai lasciato il gruppo.",
     "leaveDialog": {
       "title": "Lasciare questo gruppo?",
@@ -180,6 +196,7 @@
     "createdSuccess": "Scatola \"{{name}}\" creata! Invitate altre persone al gruppo."
   },
   "boxHome": {
+    "boxesSectionDescription": "Scegli una delle scatole qui sotto per avviare un'estrazione di esperienze.",
     "title": "Le tue scatole",
     "create": "Crea scatola",
     "empty": "Non ci sono ancora scatole in questo gruppo.",
@@ -310,7 +327,11 @@
     "steps": {
       "suggestion": {
         "title": "Suggerimento",
-        "body": "Sfogliate i suggerimenti qui sotto o scrivete direttamente nella descrizione — nulla viene salvato finché non confermate."
+        "body": "Inizia descrivendo la tua idea o lasciati ispirare dai suggerimenti qui sotto.",
+        "writeTitle": "Scrivi la tua idea",
+        "writeBody": "Descrivi un'idea insolita che ti è venuta in mente. Può essere completa o solo un punto di partenza.",
+        "noIdeasTitle": "Nessuna idea?",
+        "noIdeasBody": "Sfoglia alcune idee per ispirarti o usane una come punto di partenza."
       },
       "parameters": {
         "title": "Parametri",
@@ -357,6 +378,7 @@
     "explorer": {
       "auxLabel": "Suggerimenti",
       "filterLabel": "Filtra per intensità",
+      "intensityCaption": "Intensità",
       "intensity": "Intensità {{level}}",
       "another": "Altro suggerimento",
       "use": "Usa questa idea",

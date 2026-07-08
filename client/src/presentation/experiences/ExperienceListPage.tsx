@@ -19,6 +19,7 @@ import {
 } from '@domain/experience/experienceUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { AppLoader } from '../components/AppLoader';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ScreenTitle } from '../components/ScreenTitle';
@@ -183,7 +184,7 @@ export function ExperienceListPage() {
         )}
       </div>
 
-      {loading && <p className={styles.message}>{t('common.loading')}</p>}
+      {loading && <AppLoader label={t('common.loading')} />}
       {error && (
         <p className={styles.error} role="alert">
           {error}

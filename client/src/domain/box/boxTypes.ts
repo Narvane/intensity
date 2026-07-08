@@ -33,7 +33,11 @@ export interface GroupMember {
 
 export interface Group {
   id: string;
+  name: string;
+  color: GroupAccent;
   memberCount: number;
   createdAt: string;
   members: GroupMember[];
 }
+
+export type GroupAccent = 'coral' | 'teal' | 'purple' | 'yellow';

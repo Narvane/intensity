@@ -16,6 +16,7 @@ import {
 import { AcceptInviteUseCase, ValidateInviteUseCase } from '@domain/invite/inviteUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import { AppLoader } from '../components/AppLoader';
 import { NavButton } from '../components/NavButton';
 import styles from './InvitePreviewPage.module.css';
 
@@ -167,7 +168,9 @@ export function InvitePreviewPage() {
       </header>
 
       <section className={styles.panel}>
-        {(loading || experiencesSessionLoading) && <p className={styles.message}>{t('common.loading')}</p>}
+        {(loading || experiencesSessionLoading) && (
+          <AppLoader label={t('common.loading')} />
+        )}
 
         {!loading && !experiencesSessionLoading && error && !preview && (
           <>

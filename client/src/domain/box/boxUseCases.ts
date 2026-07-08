@@ -1,5 +1,5 @@
 import type { ApiClient } from '@adapters/api/ApiClient';
-import type { Box, BoxType, Group } from '@domain/box/boxTypes';
+import type { Box, BoxType, Group, GroupAccent } from '@domain/box/boxTypes';
 import { DEFAULT_BOX_TYPE } from '@domain/box/boxTypes';
 import type { NavigationPort } from '@domain/navigation/NavigationPort';
 
@@ -11,11 +11,37 @@ export class ListGroupsUseCase {
   }
 }
 
+export interface CreateGroupInput {
+  name: string;
+  color: GroupAccent;
+}
+
 export class CreateGroupUseCase {
   constructor(private readonly api: ApiClient) {}
 
-  execute(token: string): Promise<Group> {
-    return this.api.post<Group>('/v1/groups', {}, token);
+  execute(token: string, input: CreateGroupInput): Promise<Group> {
+    return this.api.post<Group>(
+      '/v1/groups',
+      { name: input.name.trim(), color: input.color },
+      token,
+    );
+  }
+}
+
+export interface UpdateGroupInput {
+  name: string;
+  color: GroupAccent;
+}
+
+export class UpdateGroupUseCase {
+  constructor(private readonly api: ApiClient) {}
+
+  execute(groupId: string, token: string, input: UpdateGroupInput): Promise<Group> {
+    return this.api.patch<Group>(
+      `/v1/groups/${groupId}`,
+      { name: input.name.trim(), color: input.color },
+      token,
+    );
   }
 }
 

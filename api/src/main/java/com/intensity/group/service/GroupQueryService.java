@@ -3,8 +3,11 @@ package com.intensity.group.service;
 import com.intensity.common.AccessMode;
 import com.intensity.common.AuthPrincipal;
 import com.intensity.common.exception.ApiException;
+import com.intensity.group.GroupColor;
+import com.intensity.group.dto.CreateGroupRequest;
 import com.intensity.group.dto.GroupMemberResponse;
 import com.intensity.group.dto.GroupResponse;
+import com.intensity.group.dto.UpdateGroupRequest;
 import com.intensity.group.entity.Group;
 import com.intensity.group.repository.GroupParticipantRepository;
 import com.intensity.group.repository.GroupRepository;
@@ -40,11 +43,14 @@ public class GroupQueryService {
 	@Transactional
 	public List<GroupResponse> listForPrincipal(AuthPrincipal principal) {
 		if (principal.accessMode() == AccessMode.EXPERIENCE_BOX) {
-			return groupRepository
-					.findById(principal.groupId())
-					.map(group -> List.of(toResponse(group)))
-					.orElseThrow(() -> new ApiException(
-							HttpStatus.NOT_FOUND, "GROUP_NOT_FOUND", "Group not found."));
+			return principal.groupIds().stream()
+					.map(groupId -> groupRepository
+							.findById(groupId)
+							.orElseThrow(() -> new ApiException(
+									HttpStatus.NOT_FOUND, "GROUP_NOT_FOUND", "Group not found.")))
+					.sorted(Comparator.comparing(Group::getCreatedAt))
+					.map(this::toResponse)
+					.toList();
 		}
 
 		ensureDefaultGroupIfEmpty(principal.participantId());
@@ -60,9 +66,28 @@ public class GroupQueryService {
 	}
 
 	@Transactional
-	public GroupResponse createForPrincipal(AuthPrincipal principal) {
+	public GroupResponse createForPrincipal(AuthPrincipal principal, CreateGroupRequest request) {
 		ensureExperiencesMode(principal);
-		Group group = groupCreationService.createSoloGroup(principal.participantId());
+		String name = request == null ? "" : normalizeName(request.name(), true);
+		String color = GroupColor.normalize(request != null ? request.color() : null);
+		Group group = groupCreationService.createSoloGroup(principal.participantId(), name, color);
+		return toResponse(group);
+	}
+
+	@Transactional
+	public GroupResponse updateForPrincipal(
+			AuthPrincipal principal, UUID groupId, UpdateGroupRequest request) {
+		ensureGroupAccess(principal, groupId);
+		ensureMember(groupId, principal.participantId());
+
+		Group group = groupRepository
+				.findById(groupId)
+				.orElseThrow(() -> new ApiException(
+						HttpStatus.NOT_FOUND, "GROUP_NOT_FOUND", "Group not found."));
+
+		String name = normalizeName(request.name(), true);
+		String color = GroupColor.normalize(request.color());
+		group.updateIdentity(name, color);
 		return toResponse(group);
 	}
 
@@ -70,6 +95,8 @@ public class GroupQueryService {
 		List<GroupMemberResponse> members = listMembers(group.getId());
 		return new GroupResponse(
 				group.getId(),
+				group.getName(),
+				group.getColor(),
 				members.size(),
 				group.getCreatedAt(),
 				members);
@@ -89,9 +116,33 @@ public class GroupQueryService {
 		}
 	}
 
+	private void ensureMember(UUID groupId, UUID participantId) {
+		if (!groupParticipantRepository.existsById_GroupIdAndId_ParticipantId(groupId, participantId)) {
+			throw new ApiException(HttpStatus.FORBIDDEN, "FORBIDDEN", "Not allowed for current session.");
+		}
+	}
+
+	private void ensureGroupAccess(AuthPrincipal principal, UUID groupId) {
+		if (principal.accessMode() == AccessMode.EXPERIENCE_BOX && !principal.canAccessExperienceBoxGroup(groupId)) {
+			throw new ApiException(HttpStatus.FORBIDDEN, "FORBIDDEN", "Not allowed for current session.");
+		}
+	}
+
 	private void ensureExperiencesMode(AuthPrincipal principal) {
 		if (principal.accessMode() != AccessMode.EXPERIENCES) {
 			throw new ApiException(HttpStatus.FORBIDDEN, "FORBIDDEN", "Not allowed for current session.");
 		}
+	}
+
+	private String normalizeName(String raw, boolean required) {
+		String name = raw == null ? "" : raw.trim();
+		if (required && name.isEmpty()) {
+			throw new ApiException(HttpStatus.BAD_REQUEST, "INVALID_GROUP_NAME", "Group name is required.");
+		}
+		if (name.length() > 120) {
+			throw new ApiException(
+					HttpStatus.BAD_REQUEST, "INVALID_GROUP_NAME", "Group name must be at most 120 characters.");
+		}
+		return name;
 	}
 }

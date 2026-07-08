@@ -1,22 +1,33 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Pencil } from 'lucide-react';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
 import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
-import type { Box, GroupMember } from '@domain/box/boxTypes';
-import { LeaveGroupUseCase, ListBoxesUseCase, ListGroupsUseCase } from '@domain/box/boxUseCases';
+import type { Box, Group, GroupAccent, GroupMember } from '@domain/box/boxTypes';
+import { resolveGroupDisplayName } from '@domain/box/resolveGroupDisplayName';
+import {
+  LeaveGroupUseCase,
+  ListBoxesUseCase,
+  ListGroupsUseCase,
+  UpdateGroupUseCase,
+} from '@domain/box/boxUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { ShareInviteSheet } from '../invite/ShareInviteSheet';
 import { LeaveGroupDialog } from '../groups/LeaveGroupDialog';
+import { GroupBoxesSection } from '../groups/GroupBoxesSection';
+import { GroupFormDialog } from '../groups/GroupFormDialog';
+import { GroupHeading } from '../groups/GroupHeading';
 import { GroupMemberPills } from '../components/GroupMemberPills';
 import { BoxCard } from '../components/BoxCard';
 import { Button } from '../components/Button';
+import { AppLoader } from '../components/AppLoader';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { ScreenTitle } from '../components/ScreenTitle';
 import { SessionModeFooter } from '../components/SessionModeFooter';
+import { resolveGroupAccent } from '../components/groupVisuals';
 import styles from './BoxSelectionPage.module.css';
 
 interface BoxSelectionLocationState {
@@ -38,8 +49,10 @@ export function BoxSelectionPage() {
   const listBoxes = useMemo(() => new ListBoxesUseCase(api), [api]);
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const leaveGroup = useMemo(() => new LeaveGroupUseCase(api), [api]);
+  const updateGroup = useMemo(() => new UpdateGroupUseCase(api), [api]);
 
   const [boxes, setBoxes] = useState<Box[]>([]);
+  const [activeGroup, setActiveGroup] = useState<Group | null>(null);
   const [groupMembers, setGroupMembers] = useState<GroupMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +60,9 @@ export function BoxSelectionPage() {
   const [leaveOpen, setLeaveOpen] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [leaveError, setLeaveError] = useState<string | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [savingGroup, setSavingGroup] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
   const [createdBanner, setCreatedBanner] = useState<string | null>(null);
   const [warningBanner, setWarningBanner] = useState<string | null>(null);
 
@@ -64,8 +80,9 @@ export function BoxSelectionPage() {
         listGroups.execute(experiencesSession.token),
       ]);
       setBoxes(items);
-      const activeGroup = groups.find((group) => group.id === groupId);
-      setGroupMembers(activeGroup?.members ?? []);
+      const group = groups.find((item) => item.id === groupId) ?? null;
+      setActiveGroup(group);
+      setGroupMembers(group?.members ?? []);
     } catch (err: unknown) {
       setError(err instanceof ApiError ? err.message : t('common.error'));
     } finally {
@@ -127,6 +144,32 @@ export function BoxSelectionPage() {
     }
   };
 
+  const confirmEdit = async (input: { name: string; color: GroupAccent }) => {
+    if (!experiencesSession?.token || !groupId) {
+      return;
+    }
+
+    setSavingGroup(true);
+    setEditError(null);
+
+    try {
+      const updated = await updateGroup.execute(groupId, experiencesSession.token, input);
+      setActiveGroup(updated);
+      setGroupMembers(updated.members);
+      setEditOpen(false);
+      showToast(t('groups.editSuccess'));
+    } catch (err) {
+      setEditError(err instanceof ApiError ? err.message : t('common.error'));
+    } finally {
+      setSavingGroup(false);
+    }
+  };
+
+  const groupAccent = activeGroup ? resolveGroupAccent(activeGroup) : 'coral';
+  const headingGroups = activeGroup
+    ? [{ name: resolveGroupDisplayName(activeGroup, t), accent: groupAccent }]
+    : [];
+
   return (
     <>
     <main className={styles.page}>
@@ -134,9 +177,26 @@ export function BoxSelectionPage() {
         leading={
           <NavButton action="back" onClick={() => navigate('/groups')} />
         }
-        trailing={<NavButton action="logout" onClick={() => void logout()} />}
+        trailing={
+          <div className={styles.headerActions}>
+            {activeGroup && (
+              <button
+                type="button"
+                className={styles.editButton}
+                aria-label={t('groups.editDialog.title')}
+                onClick={() => {
+                  setEditError(null);
+                  setEditOpen(true);
+                }}
+              >
+                <Pencil size={18} strokeWidth={2.25} aria-hidden />
+              </button>
+            )}
+            <NavButton action="logout" onClick={() => void logout()} />
+          </div>
+        }
       >
-        <ScreenTitle>{t('boxes.title')}</ScreenTitle>
+        {activeGroup && <GroupHeading groups={headingGroups} />}
       </ScreenHeader>
 
       {!loading && !error && groupMembers.length > 0 && (
@@ -151,7 +211,7 @@ export function BoxSelectionPage() {
         <Button onClick={openCreate}>{t('boxes.create')}</Button>
         {experiencesSession?.token && (
           <Button variant="secondary" onClick={() => setShareOpen(true)}>
-            {t('invite.share.action')}
+            {t('groups.inviteToGroup')}
           </Button>
         )}
         {experiencesSession?.token && (
@@ -177,44 +237,46 @@ export function BoxSelectionPage() {
         </p>
       )}
 
-      {loading && <p className={styles.message}>{t('common.loading')}</p>}
+      {loading && <AppLoader label={t('common.loading')} />}
       {error && (
         <p className={styles.error} role="alert">
           {error}
         </p>
       )}
 
-      {!loading && !error && boxes.length === 0 && (
-        <section className={styles.empty}>
-          <h2 className={styles.emptyTitle}>{t('boxes.emptyTitle')}</h2>
-          <p>{t('boxes.empty')}</p>
-          <Button onClick={openCreate}>{t('boxes.createFirst')}</Button>
-        </section>
-      )}
-
-      {!loading && !error && boxes.length > 0 && (
-        <div className={styles.grid}>
-          {boxes.map((box) => (
-            <BoxCard
-              key={box.id}
-              name={box.name}
-              type={box.type}
-              typeLabel={t(`boxTypes.${box.type}.title`)}
-              typeHint={t(`boxTypes.${box.type}.hint`)}
-              experienceCount={box.experienceCount}
-              onOpen={() => {
-                void setNavigation({
-                  groupId,
-                  boxId: box.id,
-                  boxName: box.name,
-                  boxType: box.type,
-                }).then(() => {
-                  navigate(`/groups/${groupId}/boxes/${box.id}/experiences`);
-                });
-              }}
-            />
-          ))}
-        </div>
+      {!loading && !error && (
+        <GroupBoxesSection description={t('groups.boxesSectionDescription')}>
+          {boxes.length === 0 ? (
+            <section className={styles.empty}>
+              <h3 className={styles.emptyTitle}>{t('boxes.emptyTitle')}</h3>
+              <p>{t('boxes.empty')}</p>
+              <Button onClick={openCreate}>{t('boxes.createFirst')}</Button>
+            </section>
+          ) : (
+            <div className={styles.grid}>
+              {boxes.map((box) => (
+                <BoxCard
+                  key={box.id}
+                  name={box.name}
+                  type={box.type}
+                  typeLabel={t(`boxTypes.${box.type}.title`)}
+                  typeHint={t(`boxTypes.${box.type}.hint`)}
+                  experienceCount={box.experienceCount}
+                  onOpen={() => {
+                    void setNavigation({
+                      groupId,
+                      boxId: box.id,
+                      boxName: box.name,
+                      boxType: box.type,
+                    }).then(() => {
+                      navigate(`/groups/${groupId}/boxes/${box.id}/experiences`);
+                    });
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </GroupBoxesSection>
       )}
 
       {experiencesSession?.token && (
@@ -240,6 +302,24 @@ export function BoxSelectionPage() {
           }
         }}
       />
+
+      {activeGroup && (
+        <GroupFormDialog
+          open={editOpen}
+          mode="edit"
+          initialName={activeGroup.name}
+          initialColor={resolveGroupAccent(activeGroup)}
+          saving={savingGroup}
+          error={editError}
+          onConfirm={(input) => void confirmEdit(input)}
+          onCancel={() => {
+            if (!savingGroup) {
+              setEditOpen(false);
+              setEditError(null);
+            }
+          }}
+        />
+      )}
     </main>
       <SessionModeFooter
         mode="EXPERIENCES"

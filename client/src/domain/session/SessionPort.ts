@@ -15,6 +15,7 @@ export interface SessionState {
   /** Participant e-mail; persisted for auth UI when returning to login. */
   email?: string;
   groupId?: string;
+  groupIds?: string[];
   members?: SessionMember[];
   experienceBox?: {
     drawCount: number;

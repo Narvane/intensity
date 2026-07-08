@@ -20,7 +20,7 @@ class JwtServiceTest {
 
 		String experiencesToken = jwtService.createExperiencesToken(UUID.randomUUID(), "Alice");
 		String experienceBoxToken = jwtService.createExperienceBoxToken(
-				UUID.randomUUID(),
+				List.of(UUID.randomUUID()),
 				List.of(UUID.randomUUID()),
 				List.of("Alice"));
 

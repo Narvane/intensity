@@ -42,7 +42,10 @@ public class BoxService {
 		ensureCanAccessGroup(groupId, principal);
 		ensureGroupExists(groupId);
 
+		boolean allGroupMembersPresent = isAllGroupMembersPresent(groupId, principal);
+
 		return boxRepository.findAllByGroup_IdOrderByCreatedAtDesc(groupId).stream()
+				.filter(box -> isBoxAvailable(box, allGroupMembersPresent))
 				.map(this::toResponse)
 				.toList();
 	}
@@ -53,7 +56,8 @@ public class BoxService {
 		ensureCanCreateBox(groupId, principal);
 		Group group = ensureGroupExists(groupId);
 
-		Box box = new Box(group, request.name(), request.type());
+		boolean requireAllParticipants = Boolean.TRUE.equals(request.requireAllParticipants());
+		Box box = new Box(group, request.name(), request.type(), requireAllParticipants);
 		boxRepository.save(box);
 
 		return toResponse(box);
@@ -119,8 +123,26 @@ public class BoxService {
 				box.getGroup().getId(),
 				box.getName(),
 				box.getType(),
+				box.isRequireAllParticipants(),
 				box.getCreatedAt(),
 				experienceCount);
+	}
+
+	private boolean isAllGroupMembersPresent(UUID groupId, AuthPrincipal principal) {
+		if (principal.accessMode() != AccessMode.EXPERIENCE_BOX) {
+			return true;
+		}
+
+		long memberCount = groupParticipantRepository.countMembersByGroupId(groupId);
+		return principal.participantIds().size() >= memberCount;
+	}
+
+	private boolean isBoxAvailable(Box box, boolean allGroupMembersPresent) {
+		if (!box.isRequireAllParticipants()) {
+			return true;
+		}
+
+		return allGroupMembersPresent;
 	}
 
 	private ApiException forbidden() {

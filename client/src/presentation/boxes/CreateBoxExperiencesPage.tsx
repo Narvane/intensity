@@ -11,10 +11,10 @@ import styles from './CreateBoxExperiencesPage.module.css';
 export function CreateBoxExperiencesPage() {
   const { groupId = '' } = useParams();
   const { t } = useI18n();
-  const { session } = useSession();
+  const { experiencesSession } = useSession();
   const navigate = useNavigate();
 
-  if (!session?.token || !groupId) {
+  if (!experiencesSession?.token || !groupId) {
     return null;
   }
 
@@ -33,7 +33,7 @@ export function CreateBoxExperiencesPage() {
 
       <CreateBoxForm
         groupId={groupId}
-        token={session.token}
+        token={experiencesSession.token}
         variant="experiences"
         cancelPath={boxesPath}
         onSuccess={(box, meta) => {
@@ -50,7 +50,7 @@ export function CreateBoxExperiencesPage() {
     </main>
       <SessionModeFooter
         mode="EXPERIENCES"
-        participantDisplayName={session.displayName}
+        participantDisplayName={experiencesSession.displayName}
       />
     </>
   );

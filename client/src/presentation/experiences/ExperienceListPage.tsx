@@ -31,10 +31,10 @@ import styles from './ExperienceListPage.module.css';
 export function ExperienceListPage() {
   const { groupId = '', boxId = '' } = useParams();
   const { t } = useI18n();
-  const { session } = useSession();
+  const { experiencesSession } = useSession();
   const { navigation } = useNavigation();
   const { showToast } = useToast();
-  const logout = useAppLogout();
+  const logout = useAppLogout('EXPERIENCES');
   const navigate = useNavigate();
   const api = useMemo(() => createApiClient(), []);
   const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
@@ -58,11 +58,11 @@ export function ExperienceListPage() {
       experiences
         .filter(
           (experience) =>
-            canManageExperience(experience, session?.participantId) &&
+            canManageExperience(experience, experiencesSession?.participantId) &&
             hasRevealableAuthorContent(experience),
         )
         .map((experience) => experience.id),
-    [experiences, session?.participantId],
+    [experiences, experiencesSession?.participantId],
   );
 
   const allFlipped =
@@ -97,7 +97,7 @@ export function ExperienceListPage() {
   }, [allFlipped, flippableIds]);
 
   const loadExperiences = useCallback(async () => {
-    if (!session?.token || !boxId) {
+    if (!experiencesSession?.token || !boxId) {
       return;
     }
 
@@ -105,21 +105,21 @@ export function ExperienceListPage() {
     setError(null);
 
     try {
-      const items = await listExperiences.execute(boxId, session.token);
+      const items = await listExperiences.execute(boxId, experiencesSession.token);
       setExperiences(items);
     } catch (err) {
       setError(resolveExperienceError(err, t));
     } finally {
       setLoading(false);
     }
-  }, [boxId, listExperiences, session?.token, t]);
+  }, [boxId, listExperiences, experiencesSession?.token, t]);
 
   useEffect(() => {
     void loadExperiences();
   }, [loadExperiences]);
 
   const handleDelete = async () => {
-    if (!experienceToDelete || !session?.token) {
+    if (!experienceToDelete || !experiencesSession?.token) {
       return;
     }
 
@@ -127,7 +127,7 @@ export function ExperienceListPage() {
     setDeleteError(null);
 
     try {
-      await deleteExperience.execute(experienceToDelete.id, session.token);
+      await deleteExperience.execute(experienceToDelete.id, experiencesSession.token);
       setExperiences((current) => current.filter((item) => item.id !== experienceToDelete.id));
       setExperienceToDelete(null);
       showToast(t('experiences.deleteSuccess'));
@@ -204,7 +204,7 @@ export function ExperienceListPage() {
             <ExperienceCard
               key={experience.id}
               experience={experience}
-              participantId={session?.participantId}
+              participantId={experiencesSession?.participantId}
               flipped={flippedIds.has(experience.id)}
               onFlipToggle={() => toggleCardFlip(experience.id)}
               onEdit={() => openEditAssistant(experience)}
@@ -217,12 +217,12 @@ export function ExperienceListPage() {
         </div>
       )}
 
-      {session?.token && (
+      {experiencesSession?.token && (
         <CreationAssistant
           open={assistantOpen}
           boxId={boxId}
           boxType={boxType}
-          token={session.token}
+          token={experiencesSession.token}
           editing={editing}
           onClose={() => {
             setAssistantOpen(false);
@@ -254,7 +254,7 @@ export function ExperienceListPage() {
     </main>
       <SessionModeFooter
         mode="EXPERIENCES"
-        participantDisplayName={session?.displayName}
+        participantDisplayName={experiencesSession?.displayName}
       />
     </>
   );

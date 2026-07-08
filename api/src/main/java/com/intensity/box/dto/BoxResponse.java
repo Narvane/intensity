@@ -10,6 +10,7 @@ public record BoxResponse(
 		UUID groupId,
 		String name,
 		BoxType type,
+		boolean requireAllParticipants,
 		Instant createdAt,
 		long experienceCount) {
 }

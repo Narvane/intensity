@@ -1,3 +1,5 @@
+import type { StoredSessions } from './sessionStorage';
+
 export type AccessMode = 'EXPERIENCES' | 'EXPERIENCE_BOX';
 
 export interface SessionMember {
@@ -21,7 +23,10 @@ export interface SessionState {
 }
 
 export interface SessionPort {
-  load(): Promise<SessionState | null>;
-  save(session: SessionState): Promise<void>;
-  clear(): Promise<void>;
+  load(): Promise<StoredSessions>;
+  saveExperiences(session: SessionState): Promise<void>;
+  saveExperienceBox(session: SessionState): Promise<void>;
+  clearExperiences(): Promise<void>;
+  clearExperienceBox(): Promise<void>;
+  clearAll(): Promise<void>;
 }

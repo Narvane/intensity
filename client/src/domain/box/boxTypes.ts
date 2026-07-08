@@ -21,6 +21,7 @@ export interface Box {
   groupId: string;
   name: string;
   type: BoxType;
+  requireAllParticipants: boolean;
   createdAt: string;
   experienceCount: number;
 }

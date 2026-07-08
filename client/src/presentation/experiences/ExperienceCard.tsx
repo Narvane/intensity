@@ -6,8 +6,10 @@ import {
 } from '@domain/experience/experienceVisibility';
 import { useI18n } from '../../i18n/I18nContext';
 import { ExperienceContentBlock } from '../components/ExperienceContentBlock';
-import { ExperienceSummaryMeta } from '../components/ExperienceSummaryMeta';
-import { IntensityBadge } from '../components/IntensityBadge';
+import { ExperienceTypePill } from '../components/ExperienceTypePill';
+import { IntegritySeal } from '../components/IntegritySeal';
+import { IntensityHero } from '../components/IntensityHero';
+import { ParameterStarsGroup } from '../components/ParameterStarField';
 import styles from './ExperienceCard.module.css';
 
 interface ExperienceCardProps {
@@ -17,6 +19,25 @@ interface ExperienceCardProps {
   onFlipToggle?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+}
+
+function ExperienceCardCover({ experience }: { experience: Experience }) {
+  const hasType = experience.type !== 'none';
+
+  return (
+    <div className={`${styles.cover} ${hasType ? styles.coverWithType : ''}`}>
+      {hasType && (
+        <div className={styles.typeSlot}>
+          <ExperienceTypePill type={experience.type} />
+        </div>
+      )}
+      <IntensityHero level={experience.intensity} />
+      <ParameterStarsGroup parameters={experience.parameters} layout="drawCover" />
+      <div className={styles.sealSlot}>
+        <IntegritySeal seal={experience.seal} variant="minimal" />
+      </div>
+    </div>
+  );
 }
 
 export function ExperienceCard({
@@ -38,7 +59,6 @@ export function ExperienceCard({
           <div className={styles.flipInner} data-flipped={flipped ? 'true' : 'false'}>
             <div className={styles.front}>
               <div className={styles.metaBar}>
-                <IntensityBadge level={experience.intensity} />
                 <button
                   type="button"
                   className={styles.flipButton}
@@ -49,11 +69,7 @@ export function ExperienceCard({
                   <FlipHorizontal2 size={20} strokeWidth={2.25} aria-hidden />
                 </button>
               </div>
-              <ExperienceSummaryMeta
-                experience={experience}
-                variant="experienceList"
-                hideIntensity
-              />
+              <ExperienceCardCover experience={experience} />
               <div className={styles.actions}>
                 <button type="button" className={styles.actionButton} onClick={onEdit}>
                   <Pencil size={18} strokeWidth={2.25} aria-hidden />
@@ -78,15 +94,7 @@ export function ExperienceCard({
   return (
     <article className={styles.card}>
       <div className={styles.staticBody}>
-        <ExperienceSummaryMeta experience={experience} variant="experienceList" />
-
-        {!isAuthor && experience.summaryOnly && (
-          <p className={styles.summary}>
-            {t('experiences.otherSummary', {
-              author: experience.authorDisplayName ?? t('experiences.anonymous'),
-            })}
-          </p>
-        )}
+        <ExperienceCardCover experience={experience} />
 
         {isAuthor && (
           <div className={styles.actions}>

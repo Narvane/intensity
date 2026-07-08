@@ -28,10 +28,10 @@ interface BoxSelectionLocationState {
 export function BoxSelectionPage() {
   const { groupId = '' } = useParams();
   const { t } = useI18n();
-  const { session } = useSession();
+  const { experiencesSession } = useSession();
   const { navigation, setNavigation, clearNavigation } = useNavigation();
   const { showToast } = useToast();
-  const logout = useAppLogout();
+  const logout = useAppLogout('EXPERIENCES');
   const navigate = useNavigate();
   const location = useLocation();
   const api = useMemo(() => createApiClient(), []);
@@ -51,7 +51,7 @@ export function BoxSelectionPage() {
   const [warningBanner, setWarningBanner] = useState<string | null>(null);
 
   const loadBoxes = useCallback(async () => {
-    if (!session?.token || !groupId) {
+    if (!experiencesSession?.token || !groupId) {
       return;
     }
 
@@ -60,8 +60,8 @@ export function BoxSelectionPage() {
 
     try {
       const [items, groups] = await Promise.all([
-        listBoxes.execute(groupId, session.token),
-        listGroups.execute(session.token),
+        listBoxes.execute(groupId, experiencesSession.token),
+        listGroups.execute(experiencesSession.token),
       ]);
       setBoxes(items);
       const activeGroup = groups.find((group) => group.id === groupId);
@@ -71,7 +71,7 @@ export function BoxSelectionPage() {
     } finally {
       setLoading(false);
     }
-  }, [groupId, listBoxes, listGroups, session?.token, t]);
+  }, [groupId, listBoxes, listGroups, experiencesSession?.token, t]);
 
   useEffect(() => {
     void loadBoxes();
@@ -103,7 +103,7 @@ export function BoxSelectionPage() {
   };
 
   const confirmLeave = async () => {
-    if (!session?.token || !groupId) {
+    if (!experiencesSession?.token || !groupId) {
       return;
     }
 
@@ -111,7 +111,7 @@ export function BoxSelectionPage() {
     setLeaveError(null);
 
     try {
-      await leaveGroup.execute(groupId, session.token);
+      await leaveGroup.execute(groupId, experiencesSession.token);
 
       if (navigation.groupId === groupId) {
         await clearNavigation();
@@ -142,19 +142,19 @@ export function BoxSelectionPage() {
       {!loading && !error && groupMembers.length > 0 && (
         <GroupMemberPills
           members={groupMembers}
-          currentParticipantId={session?.participantId}
+          currentParticipantId={experiencesSession?.participantId}
           ariaLabel={t('groups.membersStrip')}
         />
       )}
 
       <div className={styles.toolbar}>
         <Button onClick={openCreate}>{t('boxes.create')}</Button>
-        {session?.token && (
+        {experiencesSession?.token && (
           <Button variant="secondary" onClick={() => setShareOpen(true)}>
             {t('invite.share.action')}
           </Button>
         )}
-        {session?.token && (
+        {experiencesSession?.token && (
           <NavButton
             action="leave"
             onClick={() => {
@@ -217,11 +217,11 @@ export function BoxSelectionPage() {
         </div>
       )}
 
-      {session?.token && (
+      {experiencesSession?.token && (
         <ShareInviteSheet
           open={shareOpen}
           groupId={groupId}
-          token={session.token}
+          token={experiencesSession.token}
           onClose={() => setShareOpen(false)}
         />
       )}
@@ -243,7 +243,7 @@ export function BoxSelectionPage() {
     </main>
       <SessionModeFooter
         mode="EXPERIENCES"
-        participantDisplayName={session?.displayName}
+        participantDisplayName={experiencesSession?.displayName}
       />
     </>
   );

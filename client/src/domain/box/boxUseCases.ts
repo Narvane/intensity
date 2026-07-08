@@ -31,6 +31,7 @@ export interface CreateBoxInput {
   groupId: string;
   name: string;
   type?: BoxType;
+  requireAllParticipants?: boolean;
 }
 
 export class CreateBoxUseCase {
@@ -43,6 +44,7 @@ export class CreateBoxUseCase {
         groupId: input.groupId,
         name: input.name.trim(),
         type: input.type ?? DEFAULT_BOX_TYPE,
+        requireAllParticipants: input.requireAllParticipants ?? false,
       },
       token,
     );

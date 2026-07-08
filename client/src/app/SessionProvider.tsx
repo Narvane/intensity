@@ -4,23 +4,30 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type PropsWithChildren,
 } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { registerUnauthorizedHandler } from '@adapters/api/apiUnauthorizedBridge';
 import { createApiClient } from '@adapters/api/ApiClient';
 import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
-import { LogoutUseCase } from '@domain/auth/authUseCases';
 import { setExperienceBoxSessionEndReason } from '@domain/session/experienceBoxSessionEnd';
 import { isDrawLimitReached } from '@domain/session/experienceBoxSessionPolicy';
+import { isTokenExpired } from '@domain/session/jwtToken';
 import type { SessionPort, SessionState } from '@domain/session/SessionPort';
+import { isValidSession } from '@domain/session/sessionStorage';
 
 interface SessionContextValue {
-  session: SessionState | null;
+  experiencesSession: SessionState | null;
+  experienceBoxSession: SessionState | null;
   loading: boolean;
   invalid: boolean;
   refresh: () => Promise<void>;
-  saveSession: (session: SessionState) => Promise<void>;
-  logout: () => Promise<void>;
+  saveExperiencesSession: (session: SessionState) => Promise<void>;
+  saveExperienceBoxSession: (session: SessionState) => Promise<void>;
+  logoutExperiences: () => Promise<void>;
+  logoutExperienceBox: () => Promise<void>;
 }
 
 const SessionContext = createContext<SessionContextValue | null>(null);
@@ -29,38 +36,69 @@ interface SessionProviderProps extends PropsWithChildren {
   sessionPort?: SessionPort;
 }
 
+function sanitizeSession(session: SessionState | null): SessionState | null {
+  if (!isValidSession(session)) {
+    return null;
+  }
+
+  if (isTokenExpired(session.token)) {
+    return null;
+  }
+
+  return session;
+}
+
 export function SessionProvider({ children, sessionPort }: SessionProviderProps) {
   const port = useMemo(() => sessionPort ?? createDefaultSessionAdapter(), [sessionPort]);
-  const logoutUseCase = useMemo(() => new LogoutUseCase(port), [port]);
-  const [session, setSession] = useState<SessionState | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [experiencesSession, setExperiencesSession] = useState<SessionState | null>(null);
+  const [experienceBoxSession, setExperienceBoxSession] = useState<SessionState | null>(null);
   const [loading, setLoading] = useState(true);
   const [invalid, setInvalid] = useState(false);
+  const sessionsRef = useRef({ experiencesSession, experienceBoxSession });
+
+  useEffect(() => {
+    sessionsRef.current = { experiencesSession, experienceBoxSession };
+  }, [experiencesSession, experienceBoxSession]);
 
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
       const stored = await port.load();
-      if (!stored?.token || !stored.accessMode) {
-        setSession(null);
-        setInvalid(Boolean(stored));
-        return;
+      let nextExperiences = sanitizeSession(stored.experiences);
+      let nextExperienceBox = sanitizeSession(stored.experienceBox);
+
+      if (stored.experiences && !nextExperiences) {
+        await port.clearExperiences();
+      }
+
+      if (stored.experienceBox && !nextExperienceBox) {
+        await port.clearExperienceBox();
       }
 
       if (
-        stored.accessMode === 'EXPERIENCE_BOX' &&
-        isDrawLimitReached(stored.experienceBox?.drawCount ?? 0)
+        nextExperienceBox?.accessMode === 'EXPERIENCE_BOX' &&
+        isDrawLimitReached(nextExperienceBox.experienceBox?.drawCount ?? 0)
       ) {
         setExperienceBoxSessionEndReason('draw_limit');
-        await port.clear();
-        setSession(null);
-        setInvalid(false);
-        return;
+        await port.clearExperienceBox();
+        nextExperienceBox = null;
       }
 
-      setSession(stored);
+      setExperiencesSession(nextExperiences);
+      setExperienceBoxSession(nextExperienceBox);
       setInvalid(false);
+
+      const hadCorruptStorage =
+        (stored.experiences !== null && !isValidSession(stored.experiences)) ||
+        (stored.experienceBox !== null && !isValidSession(stored.experienceBox));
+      if (hadCorruptStorage) {
+        setInvalid(true);
+      }
     } catch {
-      setSession(null);
+      setExperiencesSession(null);
+      setExperienceBoxSession(null);
       setInvalid(true);
     } finally {
       setLoading(false);
@@ -71,24 +109,148 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
     void refresh();
   }, [refresh]);
 
-  const saveSession = useCallback(
+  const redirectAfterUnauthorized = useCallback(
+    (clearedExperiences: boolean, clearedExperienceBox: boolean) => {
+      const path = location.pathname;
+      const onExperiencesRoute = path.startsWith('/groups');
+      const onExperienceBoxRoute = path.startsWith('/box-home');
+
+      if (clearedExperiences && onExperiencesRoute) {
+        navigate('/auth', { replace: true });
+        return;
+      }
+
+      if (clearedExperienceBox && onExperienceBoxRoute) {
+        navigate('/auth', { replace: true, state: { panel: 'experienceBox' } });
+      }
+    },
+    [location.pathname, navigate],
+  );
+
+  useEffect(() => {
+    registerUnauthorizedHandler(async (token) => {
+      const { experiencesSession: currentExperiences, experienceBoxSession: currentBox } =
+        sessionsRef.current;
+      let clearedExperiences = false;
+      let clearedExperienceBox = false;
+
+      if (token && currentExperiences?.token === token) {
+        await port.clearExperiences();
+        setExperiencesSession(null);
+        clearedExperiences = true;
+      }
+
+      if (token && currentBox?.token === token) {
+        await port.clearExperienceBox();
+        setExperienceBoxSession(null);
+        clearedExperienceBox = true;
+      }
+
+      if (!token) {
+        if (currentExperiences) {
+          await port.clearExperiences();
+          setExperiencesSession(null);
+          clearedExperiences = true;
+        }
+        if (currentBox) {
+          await port.clearExperienceBox();
+          setExperienceBoxSession(null);
+          clearedExperienceBox = true;
+        }
+      }
+
+      redirectAfterUnauthorized(clearedExperiences, clearedExperienceBox);
+    });
+
+    return () => {
+      registerUnauthorizedHandler(null);
+    };
+  }, [port, redirectAfterUnauthorized]);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    const path = location.pathname;
+    const onExperiencesRoute = path.startsWith('/groups');
+    const onExperienceBoxRoute = path.startsWith('/box-home');
+
+    if (onExperiencesRoute && experiencesSession && isTokenExpired(experiencesSession.token)) {
+      void port.clearExperiences().then(() => {
+        setExperiencesSession(null);
+        navigate('/auth', { replace: true });
+      });
+    }
+
+    if (onExperienceBoxRoute && experienceBoxSession && isTokenExpired(experienceBoxSession.token)) {
+      void port.clearExperienceBox().then(() => {
+        setExperienceBoxSession(null);
+        navigate('/auth', { replace: true, state: { panel: 'experienceBox' } });
+      });
+    }
+  }, [
+    experienceBoxSession,
+    experiencesSession,
+    loading,
+    location.pathname,
+    navigate,
+    port,
+  ]);
+
+  const saveExperiencesSession = useCallback(
     async (next: SessionState) => {
-      await port.save(next);
-      setSession(next);
+      await port.saveExperiences(next);
+      setExperiencesSession(next);
       setInvalid(false);
     },
     [port],
   );
 
-  const logout = useCallback(async () => {
-    await logoutUseCase.execute();
-    setSession(null);
+  const saveExperienceBoxSession = useCallback(
+    async (next: SessionState) => {
+      await port.saveExperienceBox(next);
+      setExperienceBoxSession(next);
+      setInvalid(false);
+    },
+    [port],
+  );
+
+  const logoutExperiences = useCallback(async () => {
+    await port.clearExperiences();
+    setExperiencesSession(null);
     setInvalid(false);
-  }, [logoutUseCase]);
+  }, [port]);
+
+  const logoutExperienceBox = useCallback(async () => {
+    await port.clearExperienceBox();
+    setExperienceBoxSession(null);
+    setInvalid(false);
+  }, [port]);
 
   const value = useMemo(
-    () => ({ session, loading, invalid, refresh, saveSession, logout }),
-    [session, loading, invalid, refresh, saveSession, logout],
+    () => ({
+      experiencesSession,
+      experienceBoxSession,
+      loading,
+      invalid,
+      refresh,
+      saveExperiencesSession,
+      saveExperienceBoxSession,
+      logoutExperiences,
+      logoutExperienceBox,
+    }),
+    [
+      experiencesSession,
+      experienceBoxSession,
+      loading,
+      invalid,
+      refresh,
+      saveExperiencesSession,
+      saveExperienceBoxSession,
+      logoutExperiences,
+      logoutExperienceBox,
+    ],
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

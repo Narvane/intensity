@@ -10,10 +10,13 @@ import com.intensity.participant.dto.RegisterParticipantResponse;
 import com.intensity.participant.entity.Participant;
 import com.intensity.participant.repository.AllowlistEmailRepository;
 import com.intensity.participant.repository.ParticipantRepository;
-import org.springframework.http.HttpStatus;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 public class ParticipantService {
@@ -96,6 +99,25 @@ public class ParticipantService {
 		}
 
 		return participant;
+	}
+
+	public Participant requireFromExperiencesToken(String token) {
+		Claims claims;
+		try {
+			claims = jwtService.parse(token);
+		} catch (RuntimeException exception) {
+			throw JwtService.unauthorized();
+		}
+
+		AccessMode mode = AccessMode.valueOf(claims.get("accessMode", String.class));
+		if (mode != AccessMode.EXPERIENCES) {
+			throw JwtService.unauthorized();
+		}
+
+		UUID participantId = UUID.fromString(claims.getSubject());
+		return participantRepository
+				.findById(participantId)
+				.orElseThrow(JwtService::unauthorized);
 	}
 
 	private ApiException invalidCredentials() {

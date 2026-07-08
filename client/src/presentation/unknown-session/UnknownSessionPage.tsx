@@ -6,7 +6,7 @@ import styles from './UnknownSessionPage.module.css';
 
 export function UnknownSessionPage() {
   const { t } = useI18n();
-  const { logout } = useSession();
+  const { logoutExperiences, logoutExperienceBox } = useSession();
   const navigate = useNavigate();
 
   return (
@@ -17,7 +17,8 @@ export function UnknownSessionPage() {
         <Button
           fullWidth
           onClick={async () => {
-            await logout();
+            await logoutExperiences();
+            await logoutExperienceBox();
             navigate('/auth', { replace: true });
           }}
         >
@@ -27,7 +28,7 @@ export function UnknownSessionPage() {
           variant="secondary"
           fullWidth
           onClick={async () => {
-            await logout();
+            await logoutExperienceBox();
             navigate('/auth', { replace: true, state: { panel: 'experienceBox' } });
           }}
         >

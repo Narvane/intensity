@@ -52,6 +52,7 @@ public class ExperienceService {
 		ensureCanAccessBox(box, principal);
 
 		return experienceRepository.findAllByBox_IdOrderByCreatedAtDesc(boxId).stream()
+				.filter(experience -> isVisibleInList(experience, principal))
 				.map(experience -> toResponse(experience, principal.participantId(), principal))
 				.toList();
 	}
@@ -173,6 +174,18 @@ public class ExperienceService {
 					"NOT_AUTHOR",
 					"Only the author can change this experience.");
 		}
+	}
+
+	private boolean isVisibleInList(Experience experience, AuthPrincipal principal) {
+		if (principal.accessMode() == com.intensity.common.AccessMode.EXPERIENCES) {
+			return experience.getAuthor().getId().equals(principal.participantId());
+		}
+
+		if (principal.accessMode() == com.intensity.common.AccessMode.EXPERIENCE_BOX) {
+			return principal.participantIds().contains(experience.getAuthor().getId());
+		}
+
+		return true;
 	}
 
 	private ExperienceResponse toResponse(

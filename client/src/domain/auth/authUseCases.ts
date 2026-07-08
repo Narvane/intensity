@@ -54,7 +54,7 @@ export class RegisterParticipantUseCase {
       displayName: response.displayName,
       email: response.email,
     };
-    await this.sessionPort.save(session);
+    await this.sessionPort.saveExperiences(session);
     return session;
   }
 }
@@ -74,9 +74,14 @@ export class LoginExperiencesUseCase {
       displayName: response.displayName,
       email: input.email.trim(),
     };
-    await this.sessionPort.save(session);
+    await this.sessionPort.saveExperiences(session);
     return session;
   }
+}
+
+export interface LoginExperienceBoxInput {
+  credentials: LoginInput[];
+  reuseSessionToken?: string;
 }
 
 export class LoginExperienceBoxUseCase {
@@ -85,9 +90,10 @@ export class LoginExperienceBoxUseCase {
     private readonly sessionPort: SessionPort,
   ) {}
 
-  async execute(credentials: LoginInput[]): Promise<SessionState> {
+  async execute(input: LoginExperienceBoxInput): Promise<SessionState> {
     const response = await this.api.post<JointAuthSessionResponse>('/v1/auth/group', {
-      credentials,
+      credentials: input.credentials,
+      reuseSessionToken: input.reuseSessionToken,
     });
     const session: SessionState = {
       token: response.token,
@@ -97,16 +103,24 @@ export class LoginExperienceBoxUseCase {
       displayName: response.members.map((member) => member.displayName).join(', '),
       experienceBox: createExperienceBoxSessionMeta(),
     };
-    await this.sessionPort.save(session);
+    await this.sessionPort.saveExperienceBox(session);
     return session;
   }
 }
 
-export class LogoutUseCase {
+export class LogoutExperiencesUseCase {
   constructor(private readonly sessionPort: SessionPort) {}
 
   async execute(): Promise<void> {
-    await this.sessionPort.clear();
+    await this.sessionPort.clearExperiences();
+  }
+}
+
+export class LogoutExperienceBoxUseCase {
+  constructor(private readonly sessionPort: SessionPort) {}
+
+  async execute(): Promise<void> {
+    await this.sessionPort.clearExperienceBox();
   }
 }
 

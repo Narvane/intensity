@@ -1,5 +1,6 @@
 package com.intensity.participant.controller;
 
+import com.intensity.common.exception.ApiException;
 import com.intensity.participant.dto.AuthSessionResponse;
 import com.intensity.participant.dto.JointLoginRequest;
 import com.intensity.participant.dto.LoginRequest;
@@ -10,6 +11,7 @@ import com.intensity.participant.service.ParticipantService;
 import com.intensity.group.dto.JointAuthSessionResponse;
 import com.intensity.group.service.GroupService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +41,17 @@ public class AuthController {
 
 	@PostMapping("/auth/group")
 	public JointAuthSessionResponse loginExperienceBox(@Valid @RequestBody JointLoginRequest request) {
+		if (!request.hasReuseSessionToken() && !request.hasCredentials()) {
+			throw new ApiException(
+					HttpStatus.UNPROCESSABLE_ENTITY,
+					"VALIDATION_ERROR",
+					"Provide credentials or reuse an existing Experiences session.");
+		}
+
 		List<Participant> participants = new ArrayList<>();
+		if (request.hasReuseSessionToken()) {
+			participants.add(participantService.requireFromExperiencesToken(request.reuseSessionToken()));
+		}
 		for (LoginRequest credential : request.credentials()) {
 			participants.add(participantService.authenticate(credential));
 		}

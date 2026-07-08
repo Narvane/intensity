@@ -44,7 +44,7 @@ export function AuthPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const authState = (location.state as AuthLocationState | null) ?? {};
-  const { session, refresh, logout } = useSession();
+  const { experiencesSession, refresh, logoutExperiences } = useSession();
   const api = useMemo(() => createApiClient(), []);
   const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const pendingInvitePort = useMemo(() => createDefaultPendingInviteAdapter(), []);
@@ -79,8 +79,8 @@ export function AuthPage() {
   const [inviteCode, setInviteCode] = useState('');
   const [pendingReturnPath, setPendingReturnPath] = useState<string | null>(null);
 
-  const hasExperiencesSession = session?.accessMode === 'EXPERIENCES';
-  const experiencesEmail = session?.email ?? '';
+  const hasExperiencesSession = experiencesSession?.accessMode === 'EXPERIENCES';
+  const experiencesEmail = experiencesSession?.email ?? '';
 
   useEffect(() => {
     if (authState.panel) {
@@ -123,7 +123,7 @@ export function AuthPage() {
       const next = current.length > 0 ? [...current] : [emptyCredential()];
       next[0] = {
         email: experiencesEmail,
-        password: next[0]?.password ?? '',
+        password: MASKED_PASSWORD,
       };
       return next;
     });
@@ -158,7 +158,7 @@ export function AuthPage() {
     setLoading(true);
     setError(null);
     try {
-      await logout();
+      await logoutExperiences();
       setExperiencesForm(emptyCredential());
       setBoxCredentials([emptyCredential()]);
     } finally {
@@ -193,7 +193,21 @@ export function AuthPage() {
     setLoading(true);
     setError(null);
     try {
-      await loginExperienceBoxUseCase.execute(boxCredentials);
+      const reuseSessionToken =
+        hasExperiencesSession && experiencesSession?.token ? experiencesSession.token : undefined;
+      const additionalCredentials = hasExperiencesSession
+        ? boxCredentials.slice(1).filter((credential) => credential.email.trim().length > 0)
+        : boxCredentials.filter((credential) => credential.email.trim().length > 0);
+
+      if (!reuseSessionToken && additionalCredentials.length === 0) {
+        setError(t('auth.errors.network'));
+        return;
+      }
+
+      await loginExperienceBoxUseCase.execute({
+        credentials: additionalCredentials,
+        reuseSessionToken,
+      });
       await refresh();
       navigate('/box-home');
     } catch (err) {
@@ -390,8 +404,12 @@ export function AuthPage() {
                       <span>{t('auth.fields.password')}</span>
                       <input
                         type="password"
-                        autoComplete="current-password"
-                        value={credential.password}
+                        autoComplete={isPrefilledSlot ? 'off' : 'current-password'}
+                        disabled={isPrefilledSlot}
+                        value={isPrefilledSlot ? MASKED_PASSWORD : credential.password}
+                        aria-label={
+                          isPrefilledSlot ? t('auth.experiences.passwordSaved') : undefined
+                        }
                         onChange={(event) =>
                           setBoxCredentials((current) =>
                             current.map((item, itemIndex) =>

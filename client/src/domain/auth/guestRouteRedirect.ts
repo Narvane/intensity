@@ -2,18 +2,13 @@ import type { SessionState } from '@domain/session/SessionPort';
 import { resolvePostAuthDestination } from '@domain/invite/pendingInvite';
 
 export function resolveGuestRouteRedirect(
-  session: SessionState | null,
+  experienceBoxSession: SessionState | null,
 ): string | null {
-  if (!session) {
+  if (!experienceBoxSession) {
     return null;
   }
 
-  if (session.accessMode === 'EXPERIENCES') {
-    // Allow /auth while an individual session is active (locked login UI + mode switch).
-    return null;
-  }
-
-  if (session.accessMode === 'EXPERIENCE_BOX') {
+  if (experienceBoxSession.accessMode === 'EXPERIENCE_BOX') {
     return '/box-home';
   }
 

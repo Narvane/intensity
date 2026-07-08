@@ -21,10 +21,10 @@ import styles from './BoxHomePage.module.css';
 
 export function BoxHomePage() {
   const { t } = useI18n();
-  const { session } = useSession();
+  const { experienceBoxSession } = useSession();
   const { navigation, setNavigation, clearNavigation } = useNavigation();
   const { showToast } = useToast();
-  const logout = useAppLogout();
+  const logout = useAppLogout('EXPERIENCE_BOX');
   const navigate = useNavigate();
   const api = useMemo(() => createApiClient(), []);
   const listBoxes = useMemo(() => new ListBoxesUseCase(api), [api]);
@@ -45,7 +45,7 @@ export function BoxHomePage() {
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const loadBoxes = useCallback(async () => {
-    if (!session?.token || !session.groupId) {
+    if (!experienceBoxSession?.token || !experienceBoxSession.groupId) {
       return;
     }
 
@@ -54,29 +54,29 @@ export function BoxHomePage() {
 
     try {
       const [items, groups] = await Promise.all([
-        listBoxes.execute(session.groupId, session.token),
-        listGroups.execute(session.token),
+        listBoxes.execute(experienceBoxSession.groupId, experienceBoxSession.token),
+        listGroups.execute(experienceBoxSession.token),
       ]);
       setBoxes(items);
-      setGroupMemberCount(groups.find((group) => group.id === session.groupId)?.memberCount ?? 0);
+      setGroupMemberCount(groups.find((group) => group.id === experienceBoxSession.groupId)?.memberCount ?? 0);
     } catch (err: unknown) {
       setError(err instanceof ApiError ? err.message : t('common.error'));
     } finally {
       setLoading(false);
     }
-  }, [listBoxes, listGroups, session?.groupId, session?.token, t]);
+  }, [listBoxes, listGroups, experienceBoxSession?.groupId, experienceBoxSession?.token, t]);
 
   useEffect(() => {
     void loadBoxes();
   }, [loadBoxes]);
 
   const openBox = (box: Box) => {
-    if (!session?.groupId) {
+    if (!experienceBoxSession?.groupId) {
       return;
     }
 
     void setNavigation({
-      groupId: session.groupId,
+      groupId: experienceBoxSession.groupId,
       boxId: box.id,
       boxName: box.name,
       boxType: box.type,
@@ -86,7 +86,7 @@ export function BoxHomePage() {
   };
 
   const confirmDelete = async () => {
-    if (!boxToDelete || !session?.token) {
+    if (!boxToDelete || !experienceBoxSession?.token) {
       return;
     }
 
@@ -94,11 +94,11 @@ export function BoxHomePage() {
     setDeleteError(null);
 
     try {
-      await deleteBox.execute(boxToDelete.id, session.token);
+      await deleteBox.execute(boxToDelete.id, experienceBoxSession.token);
       setBoxes((current) => current.filter((item) => item.id !== boxToDelete.id));
 
-      if (navigation.boxId === boxToDelete.id && session.groupId) {
-        await setNavigation({ groupId: session.groupId });
+      if (navigation.boxId === boxToDelete.id && experienceBoxSession.groupId) {
+        await setNavigation({ groupId: experienceBoxSession.groupId });
       }
 
       setBoxToDelete(null);
@@ -111,7 +111,7 @@ export function BoxHomePage() {
   };
 
   const confirmLeave = async () => {
-    if (!session?.token || !session.groupId) {
+    if (!experienceBoxSession?.token || !experienceBoxSession.groupId) {
       return;
     }
 
@@ -119,7 +119,7 @@ export function BoxHomePage() {
     setLeaveError(null);
 
     try {
-      await leaveGroup.execute(session.groupId, session.token);
+      await leaveGroup.execute(experienceBoxSession.groupId, experienceBoxSession.token);
       await clearNavigation();
       setLeaveOpen(false);
       await logout();
@@ -131,7 +131,7 @@ export function BoxHomePage() {
     }
   };
 
-  const leavingCount = session?.members?.length ?? 1;
+  const leavingCount = experienceBoxSession?.members?.length ?? 1;
 
   return (
     <>
@@ -144,12 +144,12 @@ export function BoxHomePage() {
 
       <div className={styles.toolbar}>
         <Button onClick={() => navigate('/box-home/create')}>{t('boxHome.create')}</Button>
-        {session?.groupId && session.token && (
+        {experienceBoxSession?.groupId && experienceBoxSession.token && (
           <Button variant="secondary" onClick={() => setShareOpen(true)}>
             {t('invite.share.action')}
           </Button>
         )}
-        {session?.groupId && session.token && (
+        {experienceBoxSession?.groupId && experienceBoxSession.token && (
           <NavButton
             action="leave"
             onClick={() => {
@@ -197,11 +197,11 @@ export function BoxHomePage() {
         </div>
       )}
 
-      {session?.groupId && session.token && (
+      {experienceBoxSession?.groupId && experienceBoxSession.token && (
         <ShareInviteSheet
           open={shareOpen}
-          groupId={session.groupId}
-          token={session.token}
+          groupId={experienceBoxSession.groupId}
+          token={experienceBoxSession.token}
           onClose={() => setShareOpen(false)}
         />
       )}
@@ -234,7 +234,7 @@ export function BoxHomePage() {
         }}
       />
     </main>
-      <SessionModeFooter mode="EXPERIENCE_BOX" members={session?.members} />
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={experienceBoxSession?.members} />
     </>
   );
 }

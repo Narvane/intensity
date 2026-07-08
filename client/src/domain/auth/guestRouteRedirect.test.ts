@@ -5,14 +5,6 @@ import {
 } from '@domain/auth/guestRouteRedirect';
 import type { SessionState } from '@domain/session/SessionPort';
 
-const experiencesSession: SessionState = {
-  token: 'token',
-  accessMode: 'EXPERIENCES',
-  participantId: 'p1',
-  displayName: 'Alice',
-  email: 'alice@example.com',
-};
-
 const boxSession: SessionState = {
   token: 'token',
   accessMode: 'EXPERIENCE_BOX',
@@ -21,12 +13,8 @@ const boxSession: SessionState = {
 };
 
 describe('resolveGuestRouteRedirect', () => {
-  it('returns null when there is no session', () => {
+  it('returns null when there is no experience box session', () => {
     expect(resolveGuestRouteRedirect(null)).toBeNull();
-  });
-
-  it('allows auth page when an experiences session is active', () => {
-    expect(resolveGuestRouteRedirect(experiencesSession)).toBeNull();
   });
 
   it('redirects experience box session to box home', () => {

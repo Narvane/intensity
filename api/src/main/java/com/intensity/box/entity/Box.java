@@ -32,18 +32,26 @@ public class Box {
 	@Column(nullable = false, length = 40)
 	private BoxType type;
 
+	@Column(name = "require_all_participants", nullable = false)
+	private boolean requireAllParticipants;
+
 	@Column(name = "created_at", nullable = false)
 	private Instant createdAt;
 
 	protected Box() {
 	}
 
-	public Box(Group group, String name, BoxType type) {
+	public Box(Group group, String name, BoxType type, boolean requireAllParticipants) {
 		this.id = UUID.randomUUID();
 		this.group = group;
 		this.name = name.trim();
 		this.type = type == null ? BoxType.SAIDAS_COM_AMIGOS : type;
+		this.requireAllParticipants = requireAllParticipants;
 		this.createdAt = Instant.now();
+	}
+
+	public boolean isRequireAllParticipants() {
+		return requireAllParticipants;
 	}
 
 	public UUID getId() {

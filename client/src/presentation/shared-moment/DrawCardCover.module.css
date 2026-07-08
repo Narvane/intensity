@@ -17,6 +17,10 @@
   z-index: 1;
 }
 
+.coverWithType {
+  padding-top: 1.65rem;
+}
+
 .sealSlot {
   display: flex;
   justify-content: flex-end;

@@ -10,9 +10,11 @@ interface DrawCardCoverProps {
 }
 
 export function DrawCardCover({ experience }: DrawCardCoverProps) {
+  const hasType = experience.type !== 'none';
+
   return (
-    <div className={styles.cover}>
-      {experience.type !== 'none' && (
+    <div className={`${styles.cover} ${hasType ? styles.coverWithType : ''}`}>
+      {hasType && (
         <div className={styles.typeSlot}>
           <ExperienceTypePill type={experience.type} />
         </div>

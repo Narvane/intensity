@@ -1,3 +1,5 @@
+import { notifyUnauthorized } from './apiUnauthorizedBridge';
+
 export class ApiError extends Error {
   constructor(
     readonly status: number,
@@ -6,6 +8,10 @@ export class ApiError extends Error {
   ) {
     super(message);
     this.name = 'ApiError';
+  }
+
+  isInvalidToken(): boolean {
+    return this.status === 401 && this.code === 'INVALID_TOKEN';
   }
 }
 
@@ -65,7 +71,11 @@ export class ApiClient {
         // keep default payload
       }
 
-      throw new ApiError(response.status, payload.code, payload.message);
+      const error = new ApiError(response.status, payload.code, payload.message);
+      if (error.isInvalidToken()) {
+        notifyUnauthorized(token);
+      }
+      throw error;
     }
 
     if (response.status === 204) {

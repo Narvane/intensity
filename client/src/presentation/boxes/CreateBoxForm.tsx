@@ -46,6 +46,7 @@ export function CreateBoxForm({
 
   const [name, setName] = useState('');
   const [type, setType] = useState<BoxType>(DEFAULT_BOX_TYPE);
+  const [requireAllParticipants, setRequireAllParticipants] = useState(false);
   const [fillWithDefaults, setFillWithDefaults] = useState(false);
   const [selectedSuggestionIds, setSelectedSuggestionIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
@@ -80,6 +81,7 @@ export function CreateBoxForm({
         groupId,
         name: trimmedName,
         type,
+        requireAllParticipants,
       });
 
       if (fillWithDefaults && selectedSuggestionIds.size > 0) {
@@ -157,6 +159,24 @@ export function CreateBoxForm({
         </h2>
         <p className={styles.sectionHint}>{t('createBox.typeHint')}</p>
         <BoxTypePicker value={type} onChange={setType} />
+      </section>
+
+      <section className={styles.section} aria-labelledby="create-box-presence-heading">
+        <h2 id="create-box-presence-heading" className={styles.sectionTitle}>
+          {t('createBox.presenceStep')}
+        </h2>
+        <label className={styles.flag} htmlFor="create-box-require-all-participants">
+          <Checkbox
+            id="create-box-require-all-participants"
+            accent={checkboxAccent}
+            checked={requireAllParticipants}
+            onChange={(event) => setRequireAllParticipants(event.target.checked)}
+          />
+          <span className={styles.flagCopy}>
+            <strong>{t('createBox.requireAllParticipants')}</strong>
+            <span className={styles.flagHint}>{t('createBox.requireAllParticipantsHint')}</span>
+          </span>
+        </label>
       </section>
 
       <section className={styles.section} aria-labelledby="create-box-defaults-heading">

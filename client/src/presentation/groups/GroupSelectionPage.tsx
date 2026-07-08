@@ -21,9 +21,9 @@ import styles from './GroupSelectionPage.module.css';
 
 export function GroupSelectionPage() {
   const { t } = useI18n();
-  const { session } = useSession();
+  const { experiencesSession } = useSession();
   const { showToast } = useToast();
-  const logout = useAppLogout();
+  const logout = useAppLogout('EXPERIENCES');
   const navigate = useNavigate();
   const { setNavigation } = useNavigation();
   const api = useMemo(() => createApiClient(), []);
@@ -38,7 +38,7 @@ export function GroupSelectionPage() {
   const [createError, setCreateError] = useState<string | null>(null);
 
   const loadGroups = useCallback(async () => {
-    if (!session?.token) {
+    if (!experiencesSession?.token) {
       return;
     }
 
@@ -46,21 +46,21 @@ export function GroupSelectionPage() {
     setError(null);
 
     try {
-      const items = await listGroups.execute(session.token);
+      const items = await listGroups.execute(experiencesSession.token);
       setGroups(items);
     } catch (err: unknown) {
       setError(err instanceof ApiError ? err.message : t('common.error'));
     } finally {
       setLoading(false);
     }
-  }, [listGroups, session?.token, t]);
+  }, [listGroups, experiencesSession?.token, t]);
 
   useEffect(() => {
     void loadGroups();
   }, [loadGroups]);
 
   const confirmCreate = async () => {
-    if (!session?.token) {
+    if (!experiencesSession?.token) {
       return;
     }
 
@@ -68,7 +68,7 @@ export function GroupSelectionPage() {
     setCreateError(null);
 
     try {
-      const created = await createGroup.execute(session.token);
+      const created = await createGroup.execute(experiencesSession.token);
       setGroups((current) => [created, ...current.filter((item) => item.id !== created.id)]);
       setCreateOpen(false);
       showToast(t('groups.createSuccess'));
@@ -171,7 +171,7 @@ export function GroupSelectionPage() {
     </main>
       <SessionModeFooter
         mode="EXPERIENCES"
-        participantDisplayName={session?.displayName}
+        participantDisplayName={experiencesSession?.displayName}
       />
     </>
   );

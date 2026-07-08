@@ -10,5 +10,6 @@ import java.util.UUID;
 public record CreateBoxRequest(
 		@NotNull UUID groupId,
 		@NotBlank @Size(min = 1, max = 80) String name,
-		BoxType type) {
+		BoxType type,
+		Boolean requireAllParticipants) {
 }

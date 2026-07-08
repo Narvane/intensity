@@ -24,7 +24,7 @@ export function InvitePreviewPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { session, loading: sessionLoading } = useSession();
+  const { experiencesSession, loading: experiencesSessionLoading } = useSession();
   const { setNavigation } = useNavigation();
   const api = useMemo(() => createApiClient(), []);
   const pendingInvitePort = useMemo(() => createDefaultPendingInviteAdapter(), []);
@@ -83,7 +83,7 @@ export function InvitePreviewPage() {
 
   const completeAccept = useCallback(
     async (invitePreview: InvitePreview) => {
-      if (!session?.token || session.accessMode !== 'EXPERIENCES') {
+      if (!experiencesSession?.token || experiencesSession.accessMode !== 'EXPERIENCES') {
         return false;
       }
 
@@ -91,7 +91,7 @@ export function InvitePreviewPage() {
       setError(null);
 
       try {
-        const result = await acceptInvite.execute(invitePreview.inviteId, session.token);
+        const result = await acceptInvite.execute(invitePreview.inviteId, experiencesSession.token);
         await clearPendingInvite(pendingInvitePort);
         setAwaitingAccept(false);
         await setNavigation({ groupId: result.groupId });
@@ -111,17 +111,17 @@ export function InvitePreviewPage() {
         setAccepting(false);
       }
     },
-    [acceptInvite, navigate, pendingInvitePort, session, setNavigation, t],
+    [acceptInvite, navigate, pendingInvitePort, experiencesSession, setNavigation, t],
   );
 
   useEffect(() => {
     if (
       autoAcceptStarted.current ||
-      sessionLoading ||
+      experiencesSessionLoading ||
       loading ||
       !preview ||
       !awaitingAccept ||
-      session?.accessMode !== 'EXPERIENCES'
+      experiencesSession?.accessMode !== 'EXPERIENCES'
     ) {
       return;
     }
@@ -133,8 +133,8 @@ export function InvitePreviewPage() {
     completeAccept,
     loading,
     preview,
-    session?.accessMode,
-    sessionLoading,
+    experiencesSession?.accessMode,
+    experiencesSessionLoading,
   ]);
 
   const goToAuth = (panel: 'experiences' | 'register') => {
@@ -148,7 +148,7 @@ export function InvitePreviewPage() {
       return;
     }
 
-    if (!session?.token || session.accessMode !== 'EXPERIENCES') {
+    if (!experiencesSession?.token || experiencesSession.accessMode !== 'EXPERIENCES') {
       goToAuth('experiences');
       return;
     }
@@ -156,8 +156,8 @@ export function InvitePreviewPage() {
     await completeAccept(preview);
   };
 
-  const canAccept = session?.accessMode === 'EXPERIENCES';
-  const showAuthActions = !sessionLoading && !canAccept;
+  const canAccept = experiencesSession?.accessMode === 'EXPERIENCES';
+  const showAuthActions = !experiencesSessionLoading && !canAccept;
 
   return (
     <main className={styles.page}>
@@ -167,9 +167,9 @@ export function InvitePreviewPage() {
       </header>
 
       <section className={styles.panel}>
-        {(loading || sessionLoading) && <p className={styles.message}>{t('common.loading')}</p>}
+        {(loading || experiencesSessionLoading) && <p className={styles.message}>{t('common.loading')}</p>}
 
-        {!loading && !sessionLoading && error && !preview && (
+        {!loading && !experiencesSessionLoading && error && !preview && (
           <>
             <p className={styles.error} role="alert">
               {error}
@@ -180,7 +180,7 @@ export function InvitePreviewPage() {
           </>
         )}
 
-        {!loading && !sessionLoading && preview && (
+        {!loading && !experiencesSessionLoading && preview && (
           <>
             <p className={styles.membersTitle}>{t('invite.preview.membersTitle')}</p>
             <ul className={styles.members}>

@@ -35,18 +35,18 @@ const orchestrator = new RevelationOrchestrator();
 export function SharedMomentPage() {
   const { boxId = '' } = useParams();
   const { t } = useI18n();
-  const { session, saveSession } = useSession();
+  const { experienceBoxSession, saveExperienceBoxSession } = useSession();
   const { navigation } = useNavigation();
-  const logout = useAppLogout();
+  const logout = useAppLogout('EXPERIENCE_BOX');
   const endExperienceBoxSession = useExperienceBoxSessionEnd();
   const navigate = useNavigate();
   const api = useMemo(() => createApiClient(), []);
-  const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
+  const experienceBoxSessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
   const drawUseCase = useMemo(() => new ExecuteDrawUseCase(), []);
   const recordDraw = useMemo(
-    () => new RecordExperienceBoxDrawUseCase(sessionPort),
-    [sessionPort],
+    () => new RecordExperienceBoxDrawUseCase(experienceBoxSessionPort),
+    [experienceBoxSessionPort],
   );
 
   const [filter, setFilter] = useState<IntensityFilter>(DEFAULT_INTENSITY_FILTER);
@@ -58,21 +58,21 @@ export function SharedMomentPage() {
   const [statusMessage, setStatusMessage] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  const drawCount = session?.experienceBox?.drawCount ?? 0;
+  const drawCount = experienceBoxSession?.experienceBox?.drawCount ?? 0;
   const drawsLeft = remainingDraws(drawCount);
   const canDraw = canPerformDraw(drawCount);
 
   const boxName = navigation.boxName ?? t('sharedMoment.defaultBoxName');
 
   useEffect(() => {
-    if (!session || session.accessMode !== 'EXPERIENCE_BOX') {
+    if (!experienceBoxSession || experienceBoxSession.accessMode !== 'EXPERIENCE_BOX') {
       return;
     }
 
     if (!canDraw) {
       void endExperienceBoxSession('draw_limit');
     }
-  }, [canDraw, endExperienceBoxSession, session]);
+  }, [canDraw, endExperienceBoxSession, experienceBoxSession]);
 
   const drawButtonLabel = () => {
     const name = t(`intensity.levels.${filter.level}`);
@@ -92,7 +92,7 @@ export function SharedMomentPage() {
   };
 
   const handleDraw = async () => {
-    if (!session?.token) {
+    if (!experienceBoxSession?.token) {
       return;
     }
 
@@ -108,7 +108,7 @@ export function SharedMomentPage() {
     setStatusMessage(t('sharedMoment.statusChoosing'));
 
     try {
-      const pool = await listExperiences.execute(boxId, session.token);
+      const pool = await listExperiences.execute(boxId, experienceBoxSession.token);
       setPoolSize(pool.length);
 
       if (pool.length === 0) {
@@ -121,8 +121,8 @@ export function SharedMomentPage() {
         return;
       }
 
-      const { session: updatedSession, limitReached } = await recordDraw.execute(session);
-      await saveSession(updatedSession);
+      const { session: updatedSession, limitReached } = await recordDraw.execute(experienceBoxSession);
+      await saveExperienceBoxSession(updatedSession);
       setDrawSession(orchestrator.applyDraw(orchestrator.createIdleSession(), result));
       setStatusMessage(t('sharedMoment.statusDrawn'));
 
@@ -150,7 +150,7 @@ export function SharedMomentPage() {
       </ScreenHeader>
 
       <p className={styles.drawsRemaining}>
-        {t('session.drawsRemaining', { count: drawsLeft })}
+        {t('experienceBoxSession.drawsRemaining', { count: drawsLeft })}
       </p>
 
       {drawSession.phase === 'idle' && (
@@ -267,7 +267,7 @@ export function SharedMomentPage() {
         </>
       )}
     </main>
-      <SessionModeFooter mode="EXPERIENCE_BOX" members={session?.members} />
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={experienceBoxSession?.members} />
     </>
   );
 }

@@ -4,12 +4,12 @@ import { resolveGuestRouteRedirect } from '@domain/auth/guestRouteRedirect';
 import { useSession } from './SessionProvider';
 
 export function RequireGuestRoute() {
-  const { session, loading } = useSession();
+  const { experienceBoxSession, loading } = useSession();
   if (loading) {
     return null;
   }
 
-  const redirectTo = resolveGuestRouteRedirect(session);
+  const redirectTo = resolveGuestRouteRedirect(experienceBoxSession);
 
   if (redirectTo) {
     return <Navigate to={redirectTo} replace />;
@@ -19,7 +19,7 @@ export function RequireGuestRoute() {
 }
 
 export function RequireExperiencesSessionRoute() {
-  const { session, loading, invalid } = useSession();
+  const { experiencesSession, loading, invalid } = useSession();
 
   if (loading) {
     return null;
@@ -29,7 +29,7 @@ export function RequireExperiencesSessionRoute() {
     return <Navigate to="/unknown-session" replace />;
   }
 
-  if (session?.accessMode !== 'EXPERIENCES') {
+  if (experiencesSession?.accessMode !== 'EXPERIENCES') {
     return <Navigate to="/auth" replace />;
   }
 
@@ -42,7 +42,7 @@ export function RequireExperiencesSessionRoute() {
 }
 
 export function RequireExperienceBoxSessionRoute() {
-  const { session, loading, invalid } = useSession();
+  const { experienceBoxSession, loading, invalid } = useSession();
 
   if (loading) {
     return null;
@@ -52,7 +52,7 @@ export function RequireExperienceBoxSessionRoute() {
     return <Navigate to="/unknown-session" replace />;
   }
 
-  if (session?.accessMode !== 'EXPERIENCE_BOX') {
+  if (experienceBoxSession?.accessMode !== 'EXPERIENCE_BOX') {
     return <Navigate to="/auth" replace />;
   }
 

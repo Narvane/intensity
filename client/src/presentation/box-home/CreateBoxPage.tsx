@@ -10,10 +10,10 @@ import styles from './CreateBoxPage.module.css';
 
 export function CreateBoxPage() {
   const { t } = useI18n();
-  const { session } = useSession();
+  const { experienceBoxSession } = useSession();
   const navigate = useNavigate();
 
-  if (!session?.token || !session.groupId) {
+  if (!experienceBoxSession?.token || !experienceBoxSession.groupId) {
     return null;
   }
 
@@ -29,13 +29,13 @@ export function CreateBoxPage() {
       <p className={styles.intro}>{t('createBox.intro')}</p>
 
       <CreateBoxForm
-        groupId={session.groupId}
-        token={session.token}
+        groupId={experienceBoxSession.groupId}
+        token={experienceBoxSession.token}
         variant="experienceBox"
         onSuccess={() => navigate('/box-home')}
       />
     </main>
-      <SessionModeFooter mode="EXPERIENCE_BOX" members={session.members} />
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={experienceBoxSession.members} />
     </>
   );
 }

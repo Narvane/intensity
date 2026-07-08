@@ -106,15 +106,11 @@ class ExperienceIntegrationTest extends AbstractMockMvcIntegrationTest {
 
 	@Test
 	@Order(3)
-	void otherMemberSeesSummaryOnly() throws Exception {
+	void otherMemberDoesNotSeeForeignExperiencesInIndividualMode() throws Exception {
 		mockMvc.perform(get("/v1/boxes/{boxId}/experiences", boxId)
 						.header("Authorization", "Bearer " + bobToken))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$", hasSize(1)))
-				.andExpect(jsonPath("$[0].summaryOnly").value(true))
-				.andExpect(jsonPath("$[0].description").doesNotExist())
-				.andExpect(jsonPath("$[0].reflection").doesNotExist())
-				.andExpect(jsonPath("$[0].seal").value(aliceSeal));
+				.andExpect(jsonPath("$", hasSize(0)));
 	}
 
 	@Test

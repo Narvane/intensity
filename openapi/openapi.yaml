@@ -581,13 +581,15 @@ components:
 
     JointLoginRequest:
       type: object
-      required: [credentials]
       properties:
         credentials:
           type: array
-          minItems: 1
           items:
             $ref: '#/components/schemas/LoginRequest'
+          default: []
+        reuseSessionToken:
+          type: string
+          description: Optional Experiences session token to authenticate the first participant without re-entering credentials.
 
     AuthSession:
       type: object
@@ -711,7 +713,7 @@ components:
 
     Box:
       type: object
-      required: [id, groupId, name, type, createdAt]
+      required: [id, groupId, name, type, requireAllParticipants, createdAt]
       properties:
         id:
           type: string
@@ -725,6 +727,9 @@ components:
           maxLength: 80
         type:
           $ref: '#/components/schemas/BoxType'
+        requireAllParticipants:
+          type: boolean
+          default: false
         createdAt:
           type: string
           format: date-time
@@ -745,6 +750,9 @@ components:
           maxLength: 80
         type:
           $ref: '#/components/schemas/BoxType'
+        requireAllParticipants:
+          type: boolean
+          default: false
 
     ExperienceParameters:
       type: object

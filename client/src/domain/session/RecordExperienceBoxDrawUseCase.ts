@@ -25,7 +25,7 @@ export class RecordExperienceBoxDrawUseCase {
       },
     };
 
-    await this.sessionPort.save(updated);
+    await this.sessionPort.saveExperienceBox(updated);
     return { session: updated, limitReached: isDrawLimitReached(drawCount) };
   }
 }

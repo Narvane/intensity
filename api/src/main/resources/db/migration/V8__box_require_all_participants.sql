@@ -1,0 +1,2 @@
+ALTER TABLE box
+    ADD COLUMN require_all_participants BOOLEAN NOT NULL DEFAULT FALSE;

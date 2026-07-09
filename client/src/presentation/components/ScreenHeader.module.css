@@ -14,8 +14,15 @@
   min-height: var(--touch-min);
 }
 
+.toolbarCentered {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
 .leading,
-.trailing {
+.trailing,
+.center {
   display: flex;
   align-items: center;
   gap: 0.45rem;
@@ -31,8 +38,23 @@
   margin-left: auto;
 }
 
+.toolbarCentered .leading {
+  justify-self: start;
+  margin-left: 0;
+}
+
+.toolbarCentered .center {
+  justify-self: center;
+}
+
+.toolbarCentered .trailing {
+  justify-self: end;
+  margin-left: 0;
+}
+
 .leading:empty,
-.trailing:empty {
+.trailing:empty,
+.center:empty {
   display: none;
 }
 

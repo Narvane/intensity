@@ -33,7 +33,7 @@ Intensity places **product complexity in the mobile client** and keeps the **ser
 
 **Consequences:**
 
-- API gains `convite` module and validation endpoints
+- API gains `invite` module and validation endpoints
 - Deep links become a mobile platform requirement
 - Group membership is explicit, not only session-derived
 - Experience Box login must validate same-group membership
@@ -44,7 +44,7 @@ Intensity places **product complexity in the mobile client** and keeps the **ser
 
 **Context:** Groups need to remove obsolete boxes; client-only delete risks inconsistency.
 
-**Decision:** `DELETE /caixinhas/{id}` removes box and all experiences in one transaction.
+**Decision:** `DELETE /v1/boxes/{id}` removes box and all experiences in one transaction.
 
 **Consequences:**
 

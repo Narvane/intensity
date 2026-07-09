@@ -68,11 +68,11 @@ O Intensity compreende **três artefatos persistidos**: **cliente mobile**, **AP
 
 Fatias verticais por pasta de domínio:
 
-- `participante/` — registro, perfil, auth
-- `grupo/` — membresia, resolução de login conjunto, saída
-- `convite/` — ciclo de vida de convite
-- `caixinha/` — CRUD de caixinha incluindo exclusão com cascata
-- `experiencia/` — CRUD de experiência
+- `participant/` — registro, perfil, auth
+- `group/` — membresia, resolução de login conjunto, saída, nome/cor
+- `invite/` — ciclo de vida de convite
+- `box/` — CRUD de caixinha incluindo exclusão com cascata
+- `experience/` — CRUD de experiência
 
 Cada módulo: Controller, Service, Repository, DTO, Entity.
 
@@ -80,11 +80,11 @@ Cada módulo: Controller, Service, Repository, DTO, Entity.
 
 Exemplos alinhados com camadas Clean Architecture no cliente:
 
-- `grupo/` — criação, participantes, caixinhas, convites, configuração
-- `caixinha/` — listar, criar, excluir
-- `experiencia/` — assistente de criação, listagem, edição
-- `sorteio/` — caso de uso de sorteio, política de filtro de intensidade, orquestrador de revelação
-- `convite/` — gerar, compartilhar, aceitar, prévia
+- `group/` — criação, participantes, caixinhas, convites, configuração
+- `box/` — listar, criar, excluir
+- `experience/` — assistente de criação, listagem, edição
+- `draw/` — caso de uso de sorteio, política de filtro de intensidade, orquestrador de revelação
+- `invite/` — gerar, compartilhar, aceitar, prévia
 
 ---
 

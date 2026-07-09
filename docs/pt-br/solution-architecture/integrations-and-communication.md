@@ -38,7 +38,7 @@ Sem notificações ao vivo quando dados mudam. Sem sincronização multi-disposi
 **Autenticação**
 
 ```
-Cliente POST /auth/login { email, password }
+Cliente POST /v1/auth/login { email, password }
   ← { token, participantId, displayName }
 Cliente armazena token localmente para requisições subsequentes
 ```
@@ -46,42 +46,42 @@ Cliente armazena token localmente para requisições subsequentes
 **Login conjunto (Caixa de Experiências)**
 
 ```
-Cliente POST /auth/grupo { credentials[] }
-  ← { token(s), groupId, members[] }
+Cliente POST /v1/auth/group { credentials[], reuseSessionToken? }
+  ← { token, groupId, groupIds, members, accessMode }
   OU 409 se credenciais abrangem grupos incompatíveis
 ```
 
 **Ciclo de vida de convite**
 
 ```
-POST /grupos/{id}/convites        → { code, linkToken, expiresAt }
-GET  /convites/validar?code=      → { groupPreview, expiresAt, status }
-POST /convites/{id}/aceitar       → { groupId, membership confirmed }
-DELETE /convites/{id}             → revogado
+POST /v1/groups/{id}/invites        → { code, linkToken, expiresAt }
+GET  /v1/invites/validate?code=      → { groupPreview, expiresAt, status }
+POST /v1/invites/{id}/accept       → { groupId, membership confirmed }
+DELETE /v1/invites/{id}             → revogado
 ```
 
 **Registro de experiência (modo Experiências)**
 
 ```
 Cliente coleta entrada do assistente localmente
-POST /caixinhas/{id}/experiencias { description, intensity, params, type, reflection? }
+POST /v1/boxes/{id}/experiences { description, intensity, params, type, reflection? }
   ← experiência persistida com selo
-Bifurcação: POST /caixinhas/{id}/experiencias/batch { experiences: [...] } (até 5)
+Bifurcação: POST /v1/boxes/{id}/experiences/batch { experiences: [...] } (até 5)
   ← lista de experiências persistidas com selos
 ```
 
 **Exclusão de caixinha (modo Caixa de Experiências)**
 
 ```
-DELETE /caixinhas/{id}
+DELETE /v1/boxes/{id}
   ← 204; remove experiências em cascata no servidor
-Cliente atualiza GET /grupos/{id}/caixinhas
+Cliente atualiza GET /v1/groups/{id}/boxes
 ```
 
 **Ritual de sorteio (sem escrita na API)**
 
 ```
-GET /caixinhas/{id}/experiencias → pool
+GET /v1/boxes/{id}/experiences → pool
 Cliente filtra, randomiza, revela localmente
 (sem POST para resultado de sorteio)
 ```
@@ -107,22 +107,24 @@ Erros REST retornam `{ code, message }` com status HTTP apropriado. Cliente mape
 
 | Recurso | Operações |
 |---------|-----------|
-| `/auth/login` | POST participante único |
-| `/auth/grupo` | POST sessão conjunta multi participante |
-| `/participantes` | POST registrar |
-| `/grupos` | GET listar para participante; POST implícito via auth |
-| `/grupos/{id}/membros` | GET; DELETE self (sair) |
-| `/grupos/{id}/convites` | POST criar; GET listar ativos |
-| `/convites/validar` | GET por código ou token |
-| `/convites/{id}/aceitar` | POST |
-| `/convites/{id}` | DELETE revogar |
-| `/grupos/{id}/caixinhas` | GET listar |
-| `/caixinhas` | POST criar |
-| `/caixinhas/{id}` | DELETE (cascata) |
-| `/caixinhas/{id}/experiencias` | GET listar; POST criar |
-| `/experiencias/{id}` | PUT atualizar; DELETE (apenas autor) |
+| `/v1/auth/login` | POST participante único |
+| `/v1/auth/group` | POST sessão conjunta multi participante (opcional `reuseSessionToken`) |
+| `/v1/participants` | POST registrar |
+| `/v1/groups` | GET listar; POST criar (nome, cor) |
+| `/v1/groups/{id}` | PATCH atualizar nome/cor |
+| `/v1/groups/{id}/members` | DELETE self (sair) |
+| `/v1/groups/{id}/invites` | POST criar; GET listar ativos |
+| `/v1/invites/validate` | GET por código ou token |
+| `/v1/invites/{id}/accept` | POST |
+| `/v1/invites/{id}` | DELETE revogar |
+| `/v1/groups/{id}/boxes` | GET listar |
+| `/v1/boxes` | POST criar (inclui `requireAllParticipants`) |
+| `/v1/boxes/{id}` | DELETE (cascata) |
+| `/v1/boxes/{id}/experiences` | GET listar; POST criar |
+| `/v1/boxes/{id}/experiences/batch` | POST criar até 5 |
+| `/v1/experiences/{id}` | PUT atualizar; DELETE (apenas autor) |
 
-Prefixo de versão `/v1` implícito; mudanças breaking exigem `/v2` conforme decisões técnicas.
+Prefixo de versão `/v1` explícito; mudanças breaking exigem `/v2` conforme decisões técnicas. Não há handler `GET /v1/groups/{id}/members` — membros vêm nas respostas de grupo/auth.
 
 ### Contrato de link de convite
 

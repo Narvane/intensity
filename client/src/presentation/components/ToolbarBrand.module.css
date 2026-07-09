@@ -1,0 +1,10 @@
+.logo {
+  display: block;
+  width: min(42vw, 6.75rem);
+  height: auto;
+  max-height: 1.7rem;
+  padding-top: 10px;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}

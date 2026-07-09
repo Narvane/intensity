@@ -298,14 +298,14 @@ Edite `deploy/Caddyfile` para o bloco da API ficar assim:
 }
 ```
 
-No `docker-compose.prod.yml`, no serviço `proxy`, adicione:
+No serviço `proxy` do `docker-compose.prod.yml`, confirme (já presente no repositório atual):
 
 ```yaml
 extra_hosts:
   - "host.docker.internal:host-gateway"
 ```
 
-Reinicie o proxy:
+Se precisar alterar o compose, reinicie o proxy:
 
 ```bash
 docker compose -f docker-compose.prod.yml up -d proxy

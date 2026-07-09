@@ -80,12 +80,12 @@ No mandatory mobile E2E CI in baseline.
 |----------|--------|
 | Docker image | `latest` + commit SHA tag |
 | Client | Semver in `package.json` + store build numbers |
-| Flyway | `V{n}__descricao.sql` sequential |
+| Flyway | `V{n}__description.sql` sequential (English suffixes) |
 | REST | `/v1` implicit; `/v2` for breaks |
 
 ### Feature delivery notes (invite + box delete)
 
-1. Flyway migration: `convite` table, indexes on `code` and `link_token`
+1. Flyway migration: `invite` table (historically created as `convite` in V5, renamed in V6), indexes on `code` and `link_token`
 2. API endpoints: create, validate, accept, revoke invite; DELETE box cascade
 3. Client use cases + UI: share sheet, preview, confirm delete
 4. Deep link domain verification on stores

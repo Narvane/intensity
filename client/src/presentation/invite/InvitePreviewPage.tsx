@@ -225,6 +225,7 @@ export function InvitePreviewPage() {
               )}
               <NavButton
                 action="back"
+                iconOnly={false}
                 fullWidth
                 onClick={() => navigate('/auth')}
               />

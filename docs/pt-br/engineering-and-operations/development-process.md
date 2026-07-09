@@ -80,12 +80,12 @@ Sem E2E mobile obrigatório em CI na baseline.
 |----------|---------|
 | Imagem Docker | `latest` + tag commit SHA |
 | Cliente | Semver em `package.json` + números de build de loja |
-| Flyway | `V{n}__descricao.sql` sequencial |
+| Flyway | `V{n}__description.sql` sequencial |
 | REST | `/v1` implícito; `/v2` para breaks |
 
 ### Notas de entrega de funcionalidades (convite + exclusão de caixinha)
 
-1. Migração Flyway: tabela `convite`, índices em `code` e `link_token`
+1. Migração Flyway: tabela `invite` (historicamente `convite` em V5, renomeada em V6), índices em `code` e `link_token`
 2. Endpoints da API: criar, validar, aceitar, revogar convite; DELETE caixinha em cascata
 3. Casos de uso + UI do cliente: folha de compartilhamento, prévia, confirmar exclusão
 4. Verificação de domínio de deep link nas lojas

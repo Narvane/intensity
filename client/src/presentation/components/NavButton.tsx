@@ -12,6 +12,8 @@ import styles from './NavButton.module.css';
 
 export type NavAction = 'back' | 'close' | 'logout' | 'help' | 'leave';
 
+const ICON_ONLY_ACTIONS = new Set<NavAction>(['back', 'logout', 'leave']);
+
 const ACTION_CONFIG: Record<
   NavAction,
   { Icon: LucideIcon; labelKey: string; ariaKey: string; tone?: 'logout' }
@@ -36,13 +38,14 @@ interface NavButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(function NavButton(
-  { action, label, iconOnly = false, fullWidth = false, className, ...props },
+  { action, label, iconOnly, fullWidth = false, className, ...props },
   ref,
 ) {
   const { t } = useI18n();
   const config = ACTION_CONFIG[action];
   const Icon = config.Icon;
   const visibleLabel = label ?? t(config.labelKey);
+  const resolvedIconOnly = iconOnly ?? ICON_ONLY_ACTIONS.has(action);
 
   return (
     <button
@@ -51,13 +54,13 @@ export const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(function 
       className={[
         styles.button,
         config.tone ? styles[config.tone] : '',
-        iconOnly ? styles.iconOnly : '',
+        resolvedIconOnly ? styles.iconOnly : '',
         fullWidth ? styles.fullWidth : '',
         className ?? '',
       ]
         .filter(Boolean)
         .join(' ')}
-      aria-label={iconOnly ? t(config.ariaKey) : undefined}
+      aria-label={resolvedIconOnly ? t(config.ariaKey) : undefined}
       {...props}
     >
       <Icon size={18} strokeWidth={2.25} aria-hidden />

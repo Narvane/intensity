@@ -18,7 +18,13 @@ Intensity è un **monorepo** con `api/` (Java 21, Spring Boot 3.5, Maven, Postgr
 intensity/
 ├── api/          Java REST API
 ├── client/       App mobile React + Capacitor
+├── deploy/       Stack VPS (Compose + Caddy + webhook)
+├── openapi/      Contratto OpenAPI v1
+├── assets/       Loghi brand (Vite)
+├── agents/       Prompt agenti
+├── scripts/      Validazione riferimenti
 ├── docs/         Documentazione prodotto
+├── backlog.md    Backlog prodotto
 └── plano-desenvolvimento-ia.md  Piano sviluppo IA (root del repo)
 ```
 
@@ -53,6 +59,7 @@ intensity/
 - `@capacitor/status-bar` — styling status bar
 - `@capacitor/splash-screen` — splash avvio
 - `@capacitor/preferences` — impostazioni locali
+- `@capacitor/share` — share sheet nativo (inviti)
 
 ### Infrastruttura e delivery
 
@@ -104,11 +111,11 @@ BaaS, Kubernetes, React Native, KMP, message broker, CDN, GraphQL, gRPC, WebSock
 
 ```
 api/src/.../
-├── participante/
-├── grupo/
-├── convite/      ← modulo invito
-├── caixinha/
-└── experiencia/
+├── participant/
+├── group/
+├── invite/      ← modulo invito
+├── box/
+└── experience/
 ```
 
 Ogni cartella: `controller`, `service`, `repository`, `dto`, `entity`.
@@ -120,9 +127,9 @@ Struttura cognitiva: `Sistema → Dominio → Contexto → Capacità → Caso d'
 Esempi percorsi:
 
 ```
-client/src/.../grupo/convite/GerarConviteUseCase.ts
-client/src/.../caixinha/excluir/ExcluirCaixinhaUseCase.ts
-client/src/.../sorteio/ExecutarSorteioUseCase.ts
+client/src/.../invite/CreateInviteUseCase.ts
+client/src/.../box/boxUseCases.ts
+client/src/.../draw/ExecuteDrawUseCase.ts
 ```
 
 ### OpenAPI
@@ -133,12 +140,12 @@ springdoc espone `/v3/api-docs` e Swagger UI nei profili non-produzione come rif
 
 Domini deep link configurati in:
 
-- `android/app/src/main/AndroidManifest.xml` (intent filter)
+- `client/android/app/src/main/AndroidManifest.xml` (intent filter)
 - Entitlement Apple Associated Domains + `apple-app-site-association` su VPS
 
 Nessun SaaS deep-link di terze parti in baseline.
 
 ## Decisioni assunte in questa riscrittura
 
-- Modulo **`convite/`** aggiunto alla struttura cartelle API.
+- Modulo **`invite/`** stabilito nella struttura cartelle API.
 - L'hosting deep link usa VPS esistente + file statico Caddy o endpoint redirect API.

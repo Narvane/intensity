@@ -33,7 +33,7 @@ Intensity colloca **complessità prodotto nel client mobile** e mantiene il **se
 
 **Conseguenze:**
 
-- L'API guadagna modulo `convite` ed endpoint validazione
+- L'API guadagna modulo `invite` ed endpoint validazione
 - I deep link diventano un requisito piattaforma mobile
 - L'appartenenza gruppo è esplicita, non solo derivata dalla sessione
 - Il login Scatola delle Esperienze deve validare appartenenza stesso gruppo
@@ -44,7 +44,7 @@ Intensity colloca **complessità prodotto nel client mobile** e mantiene il **se
 
 **Contesto:** I gruppi devono rimuovere scatole obsolete; l'eliminazione solo client rischia inconsistenza.
 
-**Decisione:** `DELETE /caixinhas/{id}` rimuove scatola e tutte le esperienze in una transazione.
+**Decisione:** `DELETE /v1/boxes/{id}` rimuove scatola e tutte le esperienze in una transazione.
 
 **Conseguenze:**
 

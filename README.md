@@ -1,10 +1,21 @@
+<p>
+  <img src="assets/logo-icon.png" alt="Intensity icon" width="120" />
+  <img src="assets/logo-wordmark.png" alt="Intensity" width="180" />
+</p>
+
 # Intensity
 
-Mobile app for collecting experiences and running shared draw rituals in groups.
+Intensity helps couples and friends create deeper connection through shared experiences. Collect unusual ideas in themed **boxes**, rate how intense each one feels, and when you're together **draw** one at random and **reveal** it deliberately — after aligning on mood and limits. Groups form by playing together and grow through **invites**. The rhythm is simple: collect → draw → live the moment. Not a task list or a social network — **connection, intensity, and discovery**, lived with presence.
 
-**Canonical specification:** @ref:docs-en — [docs/en/](docs/en/)  
-**Development plan (slices, DoR/DoD):** @ref:plano-desenvolvimento-ia — [plano-desenvolvimento-ia.md](plano-desenvolvimento-ia.md)  
-**Reference map:** @ref:refs (`docs/refs.yaml`)
+**Product documentation**
+
+| | Locale | Spec |
+|---|--------|------|
+| 🇧🇷🇵🇹 | Portuguese (Brazil / Portugal) | @ref:docs-pt-br — [docs/pt-br/](docs/pt-br/) |
+| 🇬🇧 | English (UK) | @ref:docs-en — [docs/en/](docs/en/) *(canonical)* |
+| 🇮🇹 | Italian | @ref:docs-it — [docs/it/](docs/it/) |
+
+**Reference map:** @ref:refs — [`docs/refs.yaml`](docs/refs.yaml)
 
 ## Prerequisites
 
@@ -22,8 +33,11 @@ Mobile app for collecting experiences and running shared draw rituals in groups.
 ├── client/       React + Capacitor mobile app
 ├── deploy/       Production VPS stack (Compose + Caddy + webhook)
 ├── openapi/      Contract-first OpenAPI v1
-├── docs/         Product and engineering documentation (@ref:docs-en)
-└── plano-desenvolvimento-ia.md  AI development plan (@ref:plano-desenvolvimento-ia)
+├── assets/       Brand logos imported by the Vite client
+├── agents/       Agent prompts for backlog tasks
+├── scripts/      Doc reference validation (`validate-refs.py`)
+├── docs/         Product & engineering docs (en / pt-br / it)
+└── backlog.md    Product backlog
 ```
 
 ## Local development
@@ -49,6 +63,7 @@ npm run dev
 
 - Dev server: http://localhost:5173
 - API URL: `VITE_API_URL=http://localhost:8080` (see `client/.env.development`)
+- Optional: `VITE_API_PROXY_TARGET` proxies `/v1` in Vite; production also uses `VITE_INVITE_BASE_URL` for invite links
 
 ### Mobile (optional)
 
@@ -82,7 +97,7 @@ Order: **deploy API first**, then store client release.
 
 ### Client (manual store release)
 
-1. Set `client/.env.production` → `VITE_API_URL=https://api.your-domain`
+1. Set `client/.env.production` → `VITE_API_URL` and `VITE_INVITE_BASE_URL` for your domains
 2. `npm run build:store` (production Vite build + Capacitor sync with HTTPS scheme)
 3. Sign and upload in Android Studio / Xcode
 

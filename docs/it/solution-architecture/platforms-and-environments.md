@@ -74,7 +74,20 @@ Macchina sviluppatore
 Opzionale: Capacitor copy → emulatore Android (10.0.2.2:8080) o dispositivo (IP LAN)
 ```
 
-La variabile d'ambiente `VITE_API_URL` punta il client all'API locale o produzione al momento della build.
+Variabili d'ambiente:
+
+| Variabile | Ruolo |
+|-----------|-------|
+| `VITE_API_URL` | URL base API al build del client |
+| `VITE_INVITE_BASE_URL` | Host dei link invito (produzione) |
+| `VITE_API_PROXY_TARGET` | Proxy opzionale `/v1` in Vite (dev locale) |
+
+TTL JWT API (default in `application.yml`, sovrascrivibili in produzione):
+
+| Sessione | Proprietà | Default |
+|----------|-----------|---------|
+| Experiences | `intensity.jwt.expiration-seconds` | 2_592_000 (30 giorni) |
+| Experience Box | `intensity.jwt.experience-box-expiration-seconds` | 14_400 (4 ore) |
 
 ### Topologia produzione
 

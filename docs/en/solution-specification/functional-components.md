@@ -10,7 +10,7 @@ This document catalogs Intensity's functional modules, screens, user flows, and 
 
 ## Short
 
-Intensity is a **mobile app** organized around **fourteen primary views** plus overlays. After bootstrap and optional onboarding, the user authenticates in one of four paths (**Experiences**, **Experience Box**, **Registration**, or **Join via invite**). The **Experiences** path flows through group selection → box selection → experience list → creation assistant. The **Experience Box** path flows through box home (list, create, invite, delete) → shared moment (draw and reveal). Each screen handles **loading**, **empty**, and **error** states explicitly.
+Intensity is a **mobile app** organized around **fifteen primary views** plus overlays. After bootstrap and optional onboarding, the user authenticates in one of four paths (**Experiences**, **Experience Box**, **Registration**, or **Join via invite**). The **Experiences** path flows through group selection → box selection → experience list → creation assistant, and can also **create a box** from box selection. The **Experience Box** path flows through box home (list, create, invite, delete) → shared moment (draw and reveal). Each screen handles **loading**, **empty**, and **error** states explicitly.
 
 ---
 
@@ -30,8 +30,8 @@ Intensity is a **mobile app** organized around **fourteen primary views** plus o
 | **Experience list** | View, reveal, edit, and delete own experiences in the active box |
 | **Creation assistant** | Five-step guided flow to register a new experience |
 | **Box home** | List, create, invite to, and delete boxes (Experience Box mode) |
-| **Create box** | Sub-view from box home |
-| **Group management** | Invite sharing, leave group (from box home or Experiences group context) |
+| **Create box** | Sub-view from box home (Experience Box) or from box selection (Experiences) |
+| **Group management** | Invite sharing, leave group, edit group name/color (from box home or Experiences box selection) |
 | **Shared moment** | Random draw with filters, alignment hint, and card reveal |
 | **Error recovery** | Screen for unrecognized session state with exit options |
 
@@ -50,9 +50,10 @@ Intensity is a **mobile app** organized around **fourteen primary views** plus o
 | 9 | Experience list | Experiences mode; group and box set |
 | 10 | Creation assistant | Overlay from experience list |
 | 11 | Box home | Experience Box mode |
-| 12 | Create box | Sub-view from box home |
-| 13 | Shared moment | Experience Box mode; box opened |
+| 12 | Create box (Experience Box) | Route `/box-home/create` |
+| 13 | Shared moment | Experience Box mode; box opened (`/box-home/:boxId/moment`) |
 | 14 | Invite share | Sheet/overlay from box home or group management |
+| 15 | Create box (Experiences) | Route `/groups/:groupId/boxes/create` |
 
 Authentication contains four **sub-panels** (not separate routes): Experiences login, Experience Box multi-login, Registration, and Invite code entry.
 
@@ -64,12 +65,13 @@ Flow A — First run
 
 Flow B — Experiences (individual contribution)
   Auth → Group selection → Box selection → Experience list
-    → [+ Create] → Assistant overlay → back to list
+    → [+ Create experience] → Assistant overlay → back to list
+    → [Create box] → Create box (Experiences) → back to box selection
   Back: list → box selection → group selection
   Exit: logout from any authenticated screen
 
 Flow C — Experience Box (group ritual)
-  Auth (multi-user) → Box home → [Create box | Invite | Delete box]
+  Auth (multi-user) → Box home → [Create box | Invite | Delete box | Edit group]
     → Open box → Shared moment → Draw → Align → Reveal → Back to draw
   Back: shared moment → box home
   Exit: logout
@@ -183,7 +185,7 @@ Lists groups where the participant is a member. Participants with no group recei
 
 ### Box selection (Experiences)
 
-Lists boxes in selected group. Horizontal pill strip shows every member display name. Toolbar: create box, **Invite**, **Leave group** (confirm). Empty state: "Create a box together in Experience Box mode." Select box → experience list.
+Lists boxes in selected group. Horizontal pill strip shows every member display name. Toolbar: **Create box** (navigates to `/groups/:groupId/boxes/create`), **Invite**, **Leave group** (confirm), and edit group name/color. Empty state encourages creating the group's first box. Select box → experience list.
 
 ### Experience list
 
@@ -199,7 +201,15 @@ Two-column grid of box cards with type seal, name, subtitle. Actions per card: *
 
 ### Create box
 
-Name field, type picker (flat 11-type list), create button. Validation: name required (1–80 chars). Success returns to box home with new card.
+Shared form used from Experience Box (`/box-home/create`) and Experiences (`/groups/:groupId/boxes/create`):
+
+- Name field (required, 1–80 chars)
+- Type picker (flat 11-type list)
+- Optional **require all participants** flag (persisted; in Experience Box mode, boxes with the flag set are hidden from the list until every group member is in the joint session)
+- Optional step to pre-fill the new box with suggestion-pack ideas
+- Create button
+
+Success returns to the previous list (box home or box selection) with the new card.
 
 ### Shared moment
 

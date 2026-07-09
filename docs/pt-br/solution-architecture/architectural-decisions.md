@@ -33,7 +33,7 @@ O Intensity coloca **complexidade de produto no cliente mobile** e mantém o **s
 
 **Consequências:**
 
-- API ganha módulo `convite` e endpoints de validação
+- API ganha módulo `invite` e endpoints de validação
 - Deep links tornam-se requisito de plataforma mobile
 - Membresia de grupo é explícita, não apenas derivada de sessão
 - Login na Caixa de Experiências deve validar membresia no mesmo grupo
@@ -44,7 +44,7 @@ O Intensity coloca **complexidade de produto no cliente mobile** e mantém o **s
 
 **Contexto:** Grupos precisam remover caixinhas obsoletas; exclusão apenas no cliente arrisca inconsistência.
 
-**Decisão:** `DELETE /caixinhas/{id}` remove caixinha e todas as experiências em uma transação.
+**Decisão:** `DELETE /v1/boxes/{id}` remove caixinha e todas as experiências em uma transação.
 
 **Consequências:**
 

@@ -76,7 +76,7 @@ Four illustrated steps tell the emotional story: repetitive routines → longing
 
 ### Authentication panels
 
-Three sub-panels within one auth screen:
+Four sub-panels within one auth screen:
 
 | Panel | Visual cue | Primary action |
 |-------|------------|----------------|

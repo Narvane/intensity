@@ -46,7 +46,7 @@ O Intensity usa **Java 21 + Spring Boot 3.5** com **PostgreSQL 16** e **Flyway**
 
 ### DT-12 — Estrutura da API
 
-Pastas domain-first (`participante/`, `grupo/`, `convite/`, `caixinha/`, `experiencia/`). Cada módulo: Controller → Service → Repository. Entidades anêmicas; regras de negócio em serviços. DTOs no limite REST.
+Pastas domain-first (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Cada módulo: Controller → Service → Repository. Entidades anêmicas; regras de negócio em serviços. DTOs no limite REST.
 
 Não são agregados DDD completos — CRUD pragmático com políticas explícitas (`ConviteExpiracaoPolicy`, `GrupoCapacidadeVerifier`).
 
@@ -70,7 +70,7 @@ Componentes de apresentação chamam casos de uso; casos de uso chamam adaptador
 
 ### DT-15 — Exclusão de caixinha
 
-FK `experiencia.caixinha_id` com `ON DELETE CASCADE`. Serviço verifica membresia antes de excluir. Transação envolve exclusão + hook de log de auditoria (futuro opcional).
+FK `experience.box_id` com `ON DELETE CASCADE`. Serviço verifica membresia antes de excluir. Transação envolve exclusão + hook de log de auditoria (futuro opcional).
 
 **Por quê:** Prevenir experiências órfãs; operação autoritativa única.
 
@@ -84,7 +84,7 @@ Modelo relacional encaixa grupos, membresias, convites, caixinhas, experiências
 
 ### DT-03 — Flyway + Hibernate
 
-Flyway é dono da verdade do schema; Hibernate valida mapeamento. Migração `V{n}__add_convite.sql` e `V{n}__caixinha_cascade.sql` exemplificam evolução incremental.
+Flyway é dono da verdade do schema; Hibernate valida mapeamento. Migrações como `V5__convite.sql` e `V6__rename_schema_to_english.sql` exemplificam evolução incremental.
 
 ### DT-06 — Monorepo
 
@@ -100,7 +100,16 @@ Caminho automatizado da API reduz fricção; cliente permanece manual devido à 
 
 ### DT-10 — Compatibilidade da API
 
-Adicionar campos opcionais ou novos endpoints (`POST convites`, `DELETE caixinhas`) é compatível. Remover campos ou mudar semântica exige `/v2` e release coordenado do cliente.
+Adicionar campos opcionais ou novos endpoints (`POST /v1/groups/{id}/invites`, `DELETE /v1/boxes/{id}`, `PATCH /v1/groups/{id}`) é compatível. Remover campos ou mudar semântica exige `/v2` e release coordenado do cliente.
+
+### Tempos de vida dos tokens de sessão
+
+Configurados em `intensity.jwt` (`application.yml` / overrides de produção):
+
+| Modo | TTL padrão | Motivo |
+|------|------------|--------|
+| Experiences | 30 dias | Contribuição individual ao longo dos dias |
+| Experience Box | 4 horas | Ritual no telefone compartilhado; menor exposição se o aparelho ficar desbloqueado |
 
 ### DT-11 — Sem OTA
 
@@ -127,4 +136,4 @@ Assets web Capacitor vão apenas com builds de loja. Ciclo de deploy da API inte
 ## Decisões assumidas nesta reescrita
 
 - **DT-14** e **DT-15** suportam novas funcionalidades de convite e exclusão de caixinha.
-- Módulo **`convite/`** segue o mesmo padrão DT-12 dos domínios existentes.
+- Módulo **`invite/`** segue o mesmo padrão DT-12 dos domínios existentes.

@@ -20,7 +20,13 @@ Intensity is a **monorepo** with `api/` (Java 21, Spring Boot 3.5, Maven, Postgr
 intensity/
 ├── api/          Java REST API
 ├── client/       React + Capacitor mobile app
+├── deploy/       Production VPS stack (Compose + Caddy + webhook)
+├── openapi/      Contract-first OpenAPI v1
+├── assets/       Brand logos (Vite imports)
+├── agents/       Agent prompts for backlog tasks
+├── scripts/      Doc reference validation
 ├── docs/         Product documentation (@ref:docs-en)
+├── backlog.md    Product backlog
 └── plano-desenvolvimento-ia.md  AI development plan (@ref:plano-desenvolvimento-ia)
 ```
 
@@ -55,6 +61,7 @@ intensity/
 - `@capacitor/status-bar` — status bar styling
 - `@capacitor/splash-screen` — launch splash
 - `@capacitor/preferences` — local settings
+- `@capacitor/share` — native share sheet (invite links)
 
 ### Infrastructure and delivery
 
@@ -73,10 +80,11 @@ intensity/
 
 | Location | Contents |
 |----------|----------|
-| `api/src/main/resources/application.yml` | Datasource, JWT, ports, profiles |
+| `api/src/main/resources/application.yml` | Datasource, JWT TTLs (`expiration-seconds`, `experience-box-expiration-seconds`), ports, profiles |
 | VPS `.env` | Secrets (not versioned) |
-| `client/.env.development` / `.env.production` | `VITE_API_URL` |
-| `client/capacitor.config.ts` | App id, display name, `webDir` |
+| `client/.env.development` / `.env.production` | `VITE_API_URL`; production also `VITE_INVITE_BASE_URL` |
+| `client/vite.config.ts` | Optional `VITE_API_PROXY_TARGET` for `/v1` proxy in dev |
+| `client/capacitor.config.ts` | App id, display name, `webDir`, store HTTPS scheme |
 
 ### Not used (baseline)
 
@@ -135,12 +143,12 @@ springdoc exposes `/v3/api-docs` and Swagger UI in non-production profiles for c
 
 Deep link domains configured in:
 
-- `android/app/src/main/AndroidManifest.xml` (intent filters)
-- Apple Associated Domains entitlement + `apple-app-site-association` on VPS
+- `client/android/app/src/main/AndroidManifest.xml` (intent filters)
+- Apple Associated Domains entitlement + `client/deep-link/.well-known/apple-app-site-association` served by Caddy on `APP_DOMAIN`
 
 No third-party deep-link SaaS in baseline.
 
 ## Decisions assumed in this rewrite
 
-- **`invite/`** module added to API folder structure.
-- Deep link hosting uses existing VPS + Caddy static file or API redirect endpoint.
+- **`invite/`** is an established API domain module.
+- Deep link hosting uses VPS + Caddy static files from `client/deep-link/`.

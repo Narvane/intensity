@@ -7,6 +7,10 @@ info:
   description: |
     REST API v1 for Intensity — groups, boxes, experiences, and invites.
     Canonical product spec: @ref:docs-en (`docs/en/`).
+
+    JWT sessions (configured via `intensity.jwt.*` in the API):
+    - Experiences tokens default to 2_592_000 seconds (30 days).
+    - Experience Box tokens default to 14_400 seconds (4 hours).
 servers:
   - url: http://localhost:8080
     description: Local development
@@ -127,6 +131,12 @@ paths:
       tags: [Groups]
       summary: Create a solo group for the authenticated participant
       operationId: createGroup
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
       responses:
         '201':
           description: Group created with caller as sole member
@@ -138,32 +148,48 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '400':
+          $ref: '#/components/responses/ValidationError'
 
-  /v1/groups/{groupId}/members:
+  /v1/groups/{groupId}:
     parameters:
       - $ref: '#/components/parameters/GroupId'
-    get:
+    patch:
       tags: [Groups]
-      summary: List group members
-      operationId: listGroupMembers
+      summary: Update group display name and/or accent color
+      operationId: updateGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGroupRequest'
       responses:
         '200':
-          description: Member list
+          description: Group updated
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GroupMember'
+                $ref: '#/components/schemas/Group'
+        '400':
+          $ref: '#/components/responses/ValidationError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+
+  /v1/groups/{groupId}/members:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
     delete:
       tags: [Groups]
       summary: Leave group (self)
+      description: |
+        Removes the authenticated Experiences participant from the group.
+        Member lists are returned on `Group` and auth responses — there is no
+        `GET` handler on this path.
       operationId: leaveGroup
       responses:
         '204':
@@ -300,10 +326,14 @@ paths:
     get:
       tags: [Boxes]
       summary: List boxes in a group
+      description: |
+        In Experience Box sessions, boxes with `requireAllParticipants: true` are
+        omitted unless every group member is present in the current joint session.
+        Experiences-mode listing is not filtered by that flag.
       operationId: listGroupBoxes
       responses:
         '200':
-          description: Boxes in group
+          description: Boxes visible for the current session
           content:
             application/json:
               schema:
@@ -740,12 +770,37 @@ components:
         requireAllParticipants:
           type: boolean
           default: false
+          description: |
+            When true, Experience Box list endpoints hide the box unless all
+            group members are authenticated in the current joint session.
         createdAt:
           type: string
           format: date-time
         experienceCount:
           type: integer
           minimum: 0
+
+    CreateGroupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 120
+          description: Optional display name; empty/omitted uses member-preview fallback in UI
+        color:
+          type: string
+          enum: [coral, teal, purple, yellow]
+          default: coral
+
+    UpdateGroupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 120
+        color:
+          type: string
+          enum: [coral, teal, purple, yellow]
 
     CreateBoxRequest:
       type: object
@@ -763,6 +818,7 @@ components:
         requireAllParticipants:
           type: boolean
           default: false
+          description: Persist flag; filters Experience Box listing when true
 
     ExperienceParameters:
       type: object

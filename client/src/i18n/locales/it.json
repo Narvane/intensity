@@ -254,6 +254,8 @@
     "typeHint": "Il tipo orienta il clima delle idee — scegliete quello giusto per voi.",
     "typeLabel": "Tipo di scatola",
     "defaultsStep": "3. Idee predefinite (opzionale)",
+    "requireAllParticipants": "Richiedi la presenza di tutti i partecipanti",
+    "requireAllParticipantsHint": "Se attivo, la scatola compare solo quando tutti i membri del gruppo sono connessi. Di default si può giocare anche con qualcuno assente.",
     "submit": "Crea scatola",
     "partialFillError": "La scatola è stata creata, ma {{count}} idea/e non sono state aggiunte. Provate ad aggiungerle manualmente."
   },

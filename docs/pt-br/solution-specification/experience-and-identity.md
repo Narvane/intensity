@@ -76,7 +76,7 @@ Quatro etapas ilustradas contam a história emocional: rotinas repetitivas → s
 
 ### Painéis de autenticação
 
-Três subpainéis dentro de uma tela de autenticação:
+Quatro subpainéis dentro de uma tela de autenticação:
 
 | Painel | Indicador visual | Ação primária |
 |--------|------------------|---------------|

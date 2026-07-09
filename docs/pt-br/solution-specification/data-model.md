@@ -17,8 +17,8 @@ O domínio centra-se em **Participante**, **Grupo**, **Caixinha** e **Experiênc
 | Entidade | Definição | Atributos-chave |
 |----------|-----------|-----------------|
 | **Participante** | Pessoa registrada que contribui e entra em grupos | Nome de exibição, e-mail (login), credenciais |
-| **Grupo** | Conjunto de participantes que compartilham caixinhas | Lista de membros, momento de criação |
-| **Caixinha** | Contêiner temático nomeado de experiências | Nome, tipo (1 de 11), momento de criação, grupo pai |
+| **Grupo** | Conjunto de participantes que compartilham caixinhas | Lista de membros, nome de exibição opcional, cor de destaque, momento de criação |
+| **Caixinha** | Contêiner temático nomeado de experiências | Nome, tipo (1 de 11), flag `requireAllParticipants` (filtra listagem no modo Caixa de Experiências), momento de criação, grupo pai |
 | **Experiência** | Ideia concreta autoria de um participante | Descrição (≤1.000 caracteres), intensidade (1–5), esforço/imprevisível/inusitado (1–5 cada), tipo (1 de 10 ou "sem tipo"), reflexão opcional (≤2.000 caracteres), autor, momento de registro, selo de integridade, caixinha pai |
 | **Convite** | Token que permite a um participante entrar em um grupo | Grupo pai, criador, código, token de link, expiração, status (ativo/revogado/expirado/aceito) |
 | **Contexto de sessão** | Escopo operacional (não gerenciado pelo usuário) | Modo de acesso, grupo ativo, caixinha ativa, tipo de caixinha |
@@ -37,10 +37,10 @@ Participante → Convite    (papéis de criador e aceitador)
 
 ### Regras de identidade
 
-- Um **grupo** é identificado pelo seu **conjunto de membros**, não por um nome escolhido pelo usuário.
-- A mesma combinação de participantes sempre resolve para o mesmo grupo; uma combinação diferente é um grupo diferente.
+- Um **grupo** é resolvido pelo seu **conjunto de membros** no login conjunto da Caixa de Experiências (a mesma combinação reabre o mesmo grupo).
+- Grupos também têm **nome de exibição** e **cor de destaque** opcionais na UI; membros podem criar e editar esses campos nos modos Experiências e Caixa de Experiências.
 - Um participante pode pertencer a múltiplos grupos.
-- **Caixinhas** são criadas apenas no modo Caixa de Experiências.
+- **Caixinhas** podem ser criadas no modo **Experiências** ou no modo **Caixa de Experiências**; a **exclusão** só está disponível no modo Caixa de Experiências.
 - **Experiências** são registradas principalmente no modo Experiências e pertencem a exatamente uma caixinha.
 - Apenas o **autor** pode editar ou excluir uma experiência.
 
@@ -101,7 +101,7 @@ Rótulo opcional exibido na capa da carta antes da revelação, para criar expec
 
 ### Não modelado como dados de domínio
 
-Foto de perfil, preferências de notificação, edição de nome de exibição do grupo, histórico de sorteios, eventos de revelação, rastreamento de práticas sociais (consequências, trocas, progressão gradual), preferência de idioma da interface (apenas no cliente), texto de pacotes de sugestão (conteúdo embutido no cliente).
+Foto de perfil, preferências de notificação, histórico de sorteios, eventos de revelação, rastreamento de práticas sociais (consequências, trocas, progressão gradual), preferência de idioma da interface (apenas no cliente), texto de pacotes de sugestão (conteúdo embutido no cliente).
 
 ---
 
@@ -179,7 +179,8 @@ Estado efêmero apenas no cliente. Cada ativação de sorteio produz uma nova se
 
 ## Decisões assumidas nesta reescrita
 
-- **Convite** é uma nova entidade persistida com canal duplo link + código e expiração de 7 dias.
-- **Exclusão de caixinha** em cascata para experiências; sem soft-delete ou arquivo.
+- **Convite** é uma entidade persistida com canal duplo link + código e expiração de 7 dias.
+- **Exclusão de caixinha** em cascata para experiências; sem soft-delete ou arquivo. Caixinhas podem ser criadas nos modos Experiências ou Caixa de Experiências.
+- Grupos suportam **nome** e **cor** de exibição opcionais; caixinhas suportam **`requireAllParticipants`**.
 - Membresia de grupo é explícita e sobrevive além de uma única sessão de login.
 - Login na Caixa de Experiências valida que todos os participantes autenticados pertencem ao **mesmo** grupo ao reabrir uma sessão de grupo existente.

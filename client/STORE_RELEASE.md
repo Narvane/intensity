@@ -6,7 +6,7 @@ Ref: @ref:en-development-process · manual BDD in @ref:plano-desenvolvimento-ia 
 
 ## 1. Pre-release configuration
 
-- [ ] `client/.env.production` — `VITE_API_URL` points to live HTTPS API (e.g. `https://api.intensity.example`)
+- [ ] `client/.env.production` — `VITE_API_URL` points to live HTTPS API; `VITE_INVITE_BASE_URL` points to the invite host (e.g. `https://app.example/join`)
 - [ ] Launcher icons — after changing `client/assets/icon.png` (launcher) or `client/assets/icon-translucid.png` (splash), run `npm run generate:native-assets` in `client/` (Android adaptive + iOS AppIcon)
 - [ ] `deploy/.env` on VPS — domains, JWT secret, Postgres password set
 - [ ] Deep link files published and verified:
@@ -48,11 +48,11 @@ This runs `vite build --mode production` (bakes `VITE_API_URL`) and `cap sync` w
 Run on **production API** with test allowlist accounts:
 
 1. Register / login (Experiences + Experience Box dual login)
-2. Create caixinha (Experience Box session)
+2. Create box (Experience Box session and Experiences mode create route)
 3. Generate invite → accept on second device (code + deep link)
 4. Contribute experience (Experiences session)
 5. Shared moment: draw → reveal (aria-live announcements)
-6. Delete secondary caixinha → confirm cascade dialog
+6. Delete secondary box → confirm cascade dialog
 7. Leave group → logout → unknown session flow
 8. Offline banner visible when airplane mode; destructive actions blocked
 

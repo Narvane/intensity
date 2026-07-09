@@ -10,7 +10,7 @@ Questo documento cataloga i moduli funzionali, le schermate, i flussi utente e i
 
 ## Breve
 
-Intensity è un'**app mobile** organizzata attorno a **quattordici viste principali** più overlay. Dopo bootstrap e onboarding opzionale, l'utente si autentica in uno di quattro percorsi (**Esperienze**, **Scatola delle Esperienze**, **Registrazione** o **Unisciti via invito**). Il percorso **Esperienze** fluisce attraverso selezione gruppo → selezione scatola → elenco esperienze → assistente creazione. Il percorso **Scatola delle Esperienze** fluisce attraverso home scatole (elenco, crea, invita, elimina) → momento condiviso (estrazione e rivelazione). Ogni schermata gestisce esplicitamente stati di **caricamento**, **vuoto** ed **errore**.
+Intensity è un'**app mobile** organizzata attorno a **quindici viste principali** più overlay. Dopo bootstrap e onboarding opzionale, l'utente si autentica in uno di quattro percorsi (**Esperienze**, **Scatola delle Esperienze**, **Registrazione** o **Unisciti via invito**). Il percorso **Esperienze** fluisce attraverso selezione gruppo → selezione scatola → elenco esperienze → assistente creazione, e può anche **creare una scatola** dalla selezione scatole. Il percorso **Scatola delle Esperienze** fluisce attraverso home scatole (elenco, crea, invita, elimina) → momento condiviso (estrazione e rivelazione). Ogni schermata gestisce esplicitamente stati di **caricamento**, **vuoto** ed **errore**.
 
 ---
 
@@ -50,9 +50,10 @@ Intensity è un'**app mobile** organizzata attorno a **quattordici viste princip
 | 9 | Elenco esperienze | Modalità Esperienze; gruppo e scatola impostati |
 | 10 | Assistente creazione | Overlay da elenco esperienze |
 | 11 | Home scatole | Modalità Scatola delle Esperienze |
-| 12 | Crea scatola | Sotto-vista da home scatole |
-| 13 | Momento condiviso | Modalità Scatola delle Esperienze; scatola aperta |
+| 12 | Crea scatola (Scatola delle Esperienze) | Route `/box-home/create` |
+| 13 | Momento condiviso | Modalità Scatola delle Esperienze; scatola aperta (`/box-home/:boxId/moment`) |
 | 14 | Condivisione invito | Foglio/overlay da home scatole o gestione gruppo |
+| 15 | Crea scatola (Esperienze) | Route `/groups/:groupId/boxes/create` |
 
 L'autenticazione contiene quattro **sotto-pannelli** (non route separate): login Esperienze, multi-login Scatola delle Esperienze, Registrazione e inserimento codice invito.
 
@@ -183,7 +184,7 @@ Elenca gruppi dove il partecipante è membro. Stato vuoto: "Unisciti a un gruppo
 
 ### Selezione scatola (Esperienze)
 
-Elenca scatole nel gruppo selezionato. Stato vuoto: "Crea una scatola insieme in modalità Scatola delle Esperienze." Seleziona scatola → elenco esperienze.
+Elenca scatole nel gruppo selezionato. Toolbar: **Crea scatola** (naviga a `/groups/:groupId/boxes/create`), **Invito**, **Lascia gruppo** e modifica nome/colore del gruppo. Stato vuoto invita a creare la prima scatola del gruppo. Seleziona scatola → elenco esperienze.
 
 ### Elenco esperienze
 
@@ -199,7 +200,15 @@ Griglia a due colonne di carte scatola con sigillo tipo, nome, sottotitolo. Azio
 
 ### Crea scatola
 
-Campo nome, selettore tipo (elenco piatto 11 tipi), pulsante crea. Validazione: nome obbligatorio (1–80 car.). Successo ritorna a home scatole con nuova carta.
+Modulo condiviso usato in Scatola delle Esperienze (`/box-home/create`) e in modalità Esperienze (`/groups/:groupId/boxes/create`):
+
+- Campo nome (obbligatorio, 1–80 car.)
+- Selettore tipo (elenco piatto 11 tipi)
+- Flag opzionale **richiedi tutti i partecipanti** (persistita; in modalità Scatola delle Esperienze le scatole con il flag restano nascoste finché tutti i membri non sono nella sessione congiunta)
+- Passo opzionale per precompilare la scatola con idee dai pacchetti suggerimenti
+- Pulsante crea
+
+Il successo torna all'elenco precedente (home scatole o selezione scatole) con la nuova carta.
 
 ### Momento condiviso
 

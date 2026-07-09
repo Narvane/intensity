@@ -80,12 +80,12 @@ Nessun E2E mobile CI obbligatorio in baseline.
 |-----------|--------|
 | Immagine Docker | `latest` + tag commit SHA |
 | Client | Semver in `package.json` + build number store |
-| Flyway | `V{n}__descricao.sql` sequenziale |
+| Flyway | `V{n}__description.sql` sequenziale |
 | REST | `/v1` implicito; `/v2` per break |
 
 ### Note delivery funzionalità (invito + elimina scatola)
 
-1. Migrazione Flyway: tabella `convite`, indici su `code` e `link_token`
+1. Migrazione Flyway: tabella `invite` (storicamente `convite` in V5, rinominata in V6), indici su `code` e `link_token`
 2. Endpoint API: crea, valida, accetta, revoca invito; DELETE scatola cascata
 3. Casi d'uso client + UI: share sheet, anteprima, conferma elimina
 4. Verifica dominio deep link sugli store

@@ -18,7 +18,13 @@ O Intensity é um **monorepo** com `api/` (Java 21, Spring Boot 3.5, Maven, Post
 intensity/
 ├── api/          API REST Java
 ├── client/       App mobile React + Capacitor
+├── deploy/       Stack VPS (Compose + Caddy + webhook)
+├── openapi/      Contrato OpenAPI v1
+├── assets/       Logos de marca (Vite)
+├── agents/       Prompts de agentes
+├── scripts/      Validação de referências
 ├── docs/         Documentação do produto
+├── backlog.md    Backlog de produto
 └── plano-desenvolvimento-ia.md  Plano de desenvolvimento IA (raiz do repo)
 ```
 
@@ -53,6 +59,7 @@ intensity/
 - `@capacitor/status-bar` — estilo da barra de status
 - `@capacitor/splash-screen` — splash de lançamento
 - `@capacitor/preferences` — configurações locais
+- `@capacitor/share` — share sheet nativo (convites)
 
 ### Infraestrutura e entrega
 
@@ -104,11 +111,11 @@ BaaS, Kubernetes, React Native, KMP, message brokers, CDN, GraphQL, gRPC, WebSoc
 
 ```
 api/src/.../
-├── participante/
-├── grupo/
-├── convite/      ← módulo de convite
-├── caixinha/
-└── experiencia/
+├── participant/
+├── group/
+├── invite/      ← módulo de convite
+├── box/
+└── experience/
 ```
 
 Cada pasta: `controller`, `service`, `repository`, `dto`, `entity`.
@@ -120,9 +127,9 @@ Estrutura cognitiva: `Sistema → Domínio → Contexto → Capacidade → Caso 
 Exemplos de caminhos:
 
 ```
-client/src/.../grupo/convite/GerarConviteUseCase.ts
-client/src/.../caixinha/excluir/ExcluirCaixinhaUseCase.ts
-client/src/.../sorteio/ExecutarSorteioUseCase.ts
+client/src/.../invite/CreateInviteUseCase.ts
+client/src/.../box/boxUseCases.ts
+client/src/.../draw/ExecuteDrawUseCase.ts
 ```
 
 ### OpenAPI
@@ -133,12 +140,12 @@ springdoc expõe `/v3/api-docs` e Swagger UI em profiles não-produção para re
 
 Domínios de deep link configurados em:
 
-- `android/app/src/main/AndroidManifest.xml` (intent filters)
+- `client/android/app/src/main/AndroidManifest.xml` (intent filters)
 - Entitlement Apple Associated Domains + `apple-app-site-association` na VPS
 
 Sem SaaS de deep-link de terceiros na baseline.
 
 ## Decisões assumidas nesta reescrita
 
-- Módulo **`convite/`** adicionado à estrutura de pastas da API.
+- Módulo **`invite/`** estabelecido na estrutura de pastas da API.
 - Hospedagem de deep link usa VPS existente + arquivo estático Caddy ou endpoint de redirect da API.

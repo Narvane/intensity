@@ -76,7 +76,7 @@ Quattro passi illustrati raccontano la storia emotiva: routine ripetitive → no
 
 ### Pannelli di autenticazione
 
-Tre sotto-pannelli all'interno di una schermata auth:
+Quattro sotto-pannelli all'interno di una schermata auth:
 
 | Pannello | Indizio visivo | Azione principale |
 |----------|----------------|-------------------|

@@ -38,50 +38,52 @@ No live notifications when data changes. No multi-device sync during draw — on
 **Authentication**
 
 ```
-Client POST /auth/login { email, password }
-  ← { token, participantId, displayName }
+Client POST /v1/auth/login { email, password }
+  ← { token, participantId, displayName, accessMode? }
 Client stores token locally for subsequent requests
 ```
 
 **Joint login (Experience Box)**
 
 ```
-Client POST /auth/group { credentials[] }
-  ← { token(s), groupId, members[] }
+Client POST /v1/auth/group { credentials[], reuseSessionToken? }
+  ← { token, groupId, groupIds, members, accessMode }
   OR 409 if credentials span incompatible groups
 ```
+
+`reuseSessionToken` may carry an existing Experiences JWT so slot 1 need not re-enter a password when that participant is already signed in.
 
 **Invite lifecycle**
 
 ```
-POST /groups/{id}/invites        → { code, linkToken, expiresAt }
-GET  /invites/validate?code=      → { groupPreview, expiresAt, status }
-POST /invites/{id}/accept       → { groupId, membership confirmed }
-DELETE /invites/{id}             → revoked
+POST /v1/groups/{id}/invites        → { code, linkToken, expiresAt }
+GET  /v1/invites/validate?code=      → { groupPreview, expiresAt, status }
+POST /v1/invites/{id}/accept       → { groupId, membership confirmed }
+DELETE /v1/invites/{id}             → revoked
 ```
 
 **Experience registration (Experiences mode)**
 
 ```
 Client collects assistant input locally
-POST /boxes/{id}/experiences { description, intensity, params, type, reflection? }
+POST /v1/boxes/{id}/experiences { description, intensity, params, type, reflection? }
   ← experience persisted with seal
-Branching: POST /boxes/{id}/experiences/batch { experiences: [...] } (up to 5)
+Branching: POST /v1/boxes/{id}/experiences/batch { experiences: [...] } (up to 5)
   ← list of persisted experiences with seals
 ```
 
 **Box deletion (Experience Box mode)**
 
 ```
-DELETE /boxes/{id}
+DELETE /v1/boxes/{id}
   ← 204; cascade removes experiences server-side
-Client refreshes GET /groups/{id}/boxes
+Client refreshes GET /v1/groups/{id}/boxes
 ```
 
 **Draw ritual (no API write)**
 
 ```
-GET /boxes/{id}/experiences → pool
+GET /v1/boxes/{id}/experiences → pool
 Client filters, randomizes, reveals locally
 (no POST for draw result)
 ```
@@ -105,24 +107,28 @@ REST errors return `{ code, message }` with appropriate HTTP status. Client maps
 
 ### REST resource outline
 
+All paths below are under the `/v1` prefix. Canonical contract: @ref:openapi.
+
 | Resource | Operations |
 |----------|------------|
-| `/auth/login` | POST single participant |
-| `/auth/group` | POST multi participant joint session |
-| `/participants` | POST register |
-| `/groups` | GET list for participant; POST implicit via auth |
-| `/groups/{id}/members` | GET; DELETE self (leave) |
-| `/groups/{id}/invites` | POST create; GET list active |
-| `/invites/validate` | GET by code or token |
-| `/invites/{id}/accept` | POST |
-| `/invites/{id}` | DELETE revoke |
-| `/groups/{id}/boxes` | GET list |
-| `/boxes` | POST create |
-| `/boxes/{id}` | DELETE (cascade) |
-| `/boxes/{id}/experiences` | GET list; POST create |
-| `/experiences/{id}` | PUT update; DELETE (author only) |
+| `/v1/auth/login` | POST single participant |
+| `/v1/auth/group` | POST multi-participant joint session (optional `reuseSessionToken`) |
+| `/v1/participants` | POST register |
+| `/v1/groups` | GET list for participant; POST create (name, color) |
+| `/v1/groups/{id}` | PATCH update name/color |
+| `/v1/groups/{id}/members` | DELETE self (leave) |
+| `/v1/groups/{id}/invites` | POST create; GET list active |
+| `/v1/invites/validate` | GET by code or token |
+| `/v1/invites/{id}/accept` | POST |
+| `/v1/invites/{id}` | DELETE revoke |
+| `/v1/groups/{id}/boxes` | GET list |
+| `/v1/boxes` | POST create (including `requireAllParticipants`) |
+| `/v1/boxes/{id}` | DELETE (cascade) |
+| `/v1/boxes/{id}/experiences` | GET list; POST create |
+| `/v1/boxes/{id}/experiences/batch` | POST create up to 5 |
+| `/v1/experiences/{id}` | PUT update; DELETE (author only) |
 
-Version prefix `/v1` implied; breaking changes require `/v2` per technical decisions.
+Breaking changes require `/v2` per technical decisions. Member listing for a group is returned on group/auth responses; there is no separate `GET /v1/groups/{id}/members` handler in the API.
 
 ### Invite link contract
 
@@ -132,9 +138,9 @@ Deep link format (illustrative):
 https://app.intensity.example/join?t={linkToken}
 ```
 
-Mobile OS routes to installed app → client calls `GET /invites/validate?t=` → preview screen.
+Mobile OS routes to installed app → client calls `GET /v1/invites/validate?t=` → preview screen.
 
-Code path: user enters `AB12CD` → `GET /invites/validate?code=AB12CD`.
+Code path: user enters `AB12CD` → `GET /v1/invites/validate?code=AB12CD`.
 
 Both channels resolve the same invite record.
 
@@ -158,3 +164,4 @@ Production API deploy uses inbound webhook from CI — documented in engineering
 - Invite validation is a **read-only GET** before accept POST.
 - Joint login returns **409** when credentials belong to different existing groups.
 - Box delete is **synchronous REST** with server-side cascade.
+- Groups support explicit **create** and **PATCH** for display name and color.

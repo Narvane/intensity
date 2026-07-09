@@ -74,7 +74,20 @@ Developer machine
 Optional: Capacitor copy → Android emulator (10.0.2.2:8080) or device (LAN IP)
 ```
 
-Environment variable `VITE_API_URL` points client to local or production API at build time.
+Environment variables:
+
+| Variable | Role |
+|----------|------|
+| `VITE_API_URL` | API base URL baked at client build time |
+| `VITE_INVITE_BASE_URL` | Invite link host (production) |
+| `VITE_API_PROXY_TARGET` | Optional Vite `/v1` proxy target in local dev |
+
+API JWT lifetimes (defaults in `application.yml`, overridable in production):
+
+| Session | Property | Default |
+|---------|----------|---------|
+| Experiences | `intensity.jwt.expiration-seconds` | 2_592_000 (30 days) |
+| Experience Box | `intensity.jwt.experience-box-expiration-seconds` | 14_400 (4 hours) |
 
 ### Production topology
 

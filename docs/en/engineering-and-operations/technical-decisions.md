@@ -100,7 +100,16 @@ Automated API path reduces friction; client stays manual due to store review unp
 
 ### DT-10 — API compatibility
 
-Adding optional fields or new endpoints (`POST /invites`, `DELETE /boxes`) is compatible. Removing fields or changing semantics requires `/v2` and coordinated client release.
+Adding optional fields or new endpoints (`POST /v1/groups/{id}/invites`, `DELETE /v1/boxes/{id}`, `PATCH /v1/groups/{id}`) is compatible. Removing fields or changing semantics requires `/v2` and coordinated client release.
+
+### Session token lifetimes
+
+Configured under `intensity.jwt` (see `application.yml` / production env overrides):
+
+| Mode | Default TTL | Rationale |
+|------|-------------|-----------|
+| Experiences | 30 days | Individual contribution across days |
+| Experience Box | 4 hours | Shared-phone ritual; shorter blast radius if device left unlocked |
 
 ### DT-11 — No OTA
 

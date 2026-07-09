@@ -37,7 +37,7 @@ The maintainer simultaneously covers:
 
 | Area | Owner | Notes |
 |------|-------|-------|
-| `api/` | Maintainer | Including new `convite` and cascade delete |
+| `api/` | Maintainer | Including `invite` module and cascade delete |
 | `client/` | Maintainer | Including invite UX and delete confirmations |
 | VPS / Docker | Maintainer | Production uptime |
 | PostgreSQL data | Maintainer | Backups via VPS provider or manual snapshot |
@@ -98,7 +98,7 @@ If contributors join, suggested split:
 | Platform / API | Domain rules, persistence, deploy |
 | Shared | Documentation in `docs/`, OpenAPI contract |
 
-Ownership of `convite` and `caixinha` delete should stay in one API module owner to preserve transaction consistency.
+Ownership of `invite` lifecycle and `box` delete should stay with the corresponding API module owners to preserve transaction consistency.
 
 ### Incident response (informal)
 

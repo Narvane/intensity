@@ -38,7 +38,7 @@ Nessuna notifica live quando i dati cambiano. Nessuna sync multi-dispositivo dur
 **Autenticazione**
 
 ```
-Client POST /auth/login { email, password }
+Client POST /v1/auth/login { email, password }
   ← { token, participantId, displayName }
 Client memorizza token localmente per richieste successive
 ```
@@ -46,42 +46,42 @@ Client memorizza token localmente per richieste successive
 **Login congiunto (Scatola delle Esperienze)**
 
 ```
-Client POST /auth/grupo { credentials[] }
-  ← { token(s), groupId, members[] }
+Client POST /v1/auth/group { credentials[], reuseSessionToken? }
+  ← { token, groupId, groupIds, members, accessMode }
   OPPURE 409 se le credenziali appartengono a gruppi incompatibili
 ```
 
 **Ciclo di vita invito**
 
 ```
-POST /grupos/{id}/convites        → { code, linkToken, expiresAt }
-GET  /convites/validar?code=      → { groupPreview, expiresAt, status }
-POST /convites/{id}/aceitar       → { groupId, membership confirmed }
-DELETE /convites/{id}             → revocato
+POST /v1/groups/{id}/invites        → { code, linkToken, expiresAt }
+GET  /v1/invites/validate?code=      → { groupPreview, expiresAt, status }
+POST /v1/invites/{id}/accept       → { groupId, membership confirmed }
+DELETE /v1/invites/{id}             → revocato
 ```
 
 **Registrazione esperienza (modalità Esperienze)**
 
 ```
 Client raccoglie input assistente localmente
-POST /caixinhas/{id}/experiencias { description, intensity, params, type, reflection? }
+POST /v1/boxes/{id}/experiences { description, intensity, params, type, reflection? }
   ← esperienza persistita con sigillo
-Ramificazione: POST /caixinhas/{id}/experiencias/batch { experiences: [...] } (fino a 5)
+Ramificazione: POST /v1/boxes/{id}/experiences/batch { experiences: [...] } (fino a 5)
   ← elenco di esperienze persistite con sigilli
 ```
 
 **Eliminazione scatola (modalità Scatola delle Esperienze)**
 
 ```
-DELETE /caixinhas/{id}
+DELETE /v1/boxes/{id}
   ← 204; rimuove esperienze a cascata lato server
-Client aggiorna GET /grupos/{id}/caixinhas
+Client aggiorna GET /v1/groups/{id}/boxes
 ```
 
 **Rituale estrazione (nessuna scrittura API)**
 
 ```
-GET /caixinhas/{id}/experiencias → pool
+GET /v1/boxes/{id}/experiences → pool
 Client filtra, randomizza, rivela localmente
 (nessun POST per risultato estrazione)
 ```
@@ -107,22 +107,24 @@ Gli errori REST restituiscono `{ code, message }` con HTTP status appropriato. I
 
 | Risorsa | Operazioni |
 |---------|------------|
-| `/auth/login` | POST singolo partecipante |
-| `/auth/grupo` | POST sessione congiunta multi partecipante |
-| `/participantes` | POST registrazione |
-| `/grupos` | GET elenco per partecipante; POST implicito via auth |
-| `/grupos/{id}/membros` | GET; DELETE self (uscita) |
-| `/grupos/{id}/convites` | POST crea; GET elenco attivi |
-| `/convites/validar` | GET per codice o token |
-| `/convites/{id}/aceitar` | POST |
-| `/convites/{id}` | DELETE revoca |
-| `/grupos/{id}/caixinhas` | GET elenco |
-| `/caixinhas` | POST crea |
-| `/caixinhas/{id}` | DELETE (cascata) |
-| `/caixinhas/{id}/experiencias` | GET elenco; POST crea |
-| `/experiencias/{id}` | PUT aggiorna; DELETE (solo autore) |
+| `/v1/auth/login` | POST singolo partecipante |
+| `/v1/auth/group` | POST sessione congiunta multi partecipante (opzionale `reuseSessionToken`) |
+| `/v1/participants` | POST registrazione |
+| `/v1/groups` | GET elenco; POST crea (nome, colore) |
+| `/v1/groups/{id}` | PATCH aggiorna nome/colore |
+| `/v1/groups/{id}/members` | DELETE self (uscita) |
+| `/v1/groups/{id}/invites` | POST crea; GET elenco attivi |
+| `/v1/invites/validate` | GET per codice o token |
+| `/v1/invites/{id}/accept` | POST |
+| `/v1/invites/{id}` | DELETE revoca |
+| `/v1/groups/{id}/boxes` | GET elenco |
+| `/v1/boxes` | POST crea (include `requireAllParticipants`) |
+| `/v1/boxes/{id}` | DELETE (cascata) |
+| `/v1/boxes/{id}/experiences` | GET elenco; POST crea |
+| `/v1/boxes/{id}/experiences/batch` | POST crea fino a 5 |
+| `/v1/experiences/{id}` | PUT aggiorna; DELETE (solo autore) |
 
-Prefisso versione `/v1` implicito; breaking change richiedono `/v2` per decisioni tecniche.
+Prefisso versione `/v1` esplicito; breaking change richiedono `/v2` per decisioni tecniche. Non esiste handler `GET /v1/groups/{id}/members` — i membri arrivano nelle risposte di gruppo/auth.
 
 ### Contratto link invito
 

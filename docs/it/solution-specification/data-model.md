@@ -17,8 +17,8 @@ Il dominio ruota attorno a **Partecipante**, **Gruppo**, **Scatola** ed **Esperi
 | Entità | Definizione | Attributi chiave |
 |--------|-------------|------------------|
 | **Partecipante** | Persona registrata che contribuisce e si unisce ai gruppi | Nome visualizzato, email (login), credenziali |
-| **Gruppo** | Insieme di partecipanti che condividono scatole | Elenco membri, momento di creazione |
-| **Scatola** | Contenitore tematico nominato di esperienze | Nome, tipo (1 di 11), momento di creazione, gruppo padre |
+| **Gruppo** | Insieme di partecipanti che condividono scatole | Elenco membri, nome visualizzato opzionale, colore, momento di creazione |
+| **Scatola** | Contenitore tematico nominato di esperienze | Nome, tipo (1 di 11), flag `requireAllParticipants` (filtra l'elenco in modalità Scatola delle Esperienze), momento di creazione, gruppo padre |
 | **Esperienza** | Idea concreta creata da un partecipante | Descrizione (≤1.000 car.), intensità (1–5), impegno/imprevedibilità/insolito (1–5 ciascuno), tipo (1 di 10 o "senza tipo"), riflessione opzionale (≤2.000 car.), autore, momento di registrazione, sigillo di integrità, scatola padre |
 | **Invito** | Token che consente a un partecipante di unirsi a un gruppo | Gruppo padre, creatore, codice, token link, scadenza, stato (attivo/revocato/scaduto/accettato) |
 | **Contesto sessione** | Ambito operativo (non gestito dall'utente) | Modalità accesso, gruppo attivo, scatola attiva, tipo scatola |
@@ -37,10 +37,10 @@ Partecipante → Invito      (ruoli creatore e accettatore)
 
 ### Regole di identità
 
-- Un **gruppo** è identificato dal suo **insieme di membri**, non da un nome scelto dall'utente.
-- La stessa combinazione di partecipanti risolve sempre allo stesso gruppo; una combinazione diversa è un gruppo diverso.
+- Un **gruppo** è risolto dal suo **insieme di membri** nel login congiunto della Scatola delle Esperienze (la stessa combinazione riapre lo stesso gruppo).
+- I gruppi hanno anche **nome visualizzato** e **colore** opzionali per la UI; i membri possono crearli e modificarli in modalità Esperienze e Scatola delle Esperienze.
 - Un partecipante può appartenere a più gruppi.
-- Le **scatole** vengono create solo in modalità Scatola delle Esperienze.
+- Le **scatole** possono essere create in modalità **Esperienze** o **Scatola delle Esperienze**; l'**eliminazione** è disponibile solo in modalità Scatola delle Esperienze.
 - Le **esperienze** vengono registrate principalmente in modalità Esperienze e appartengono a esattamente una scatola.
 - Solo l'**autore** può modificare o eliminare un'esperienza.
 
@@ -101,7 +101,7 @@ Etichetta opzionale mostrata sulla copertina della carta prima della rivelazione
 
 ### Non modellato come dati di dominio
 
-Foto profilo, preferenze notifiche, modifica nome visualizzato gruppo, cronologia estrazioni, eventi di rivelazione, tracciamento pratiche sociali (conseguenze, scambi, progressione graduale), preferenza lingua interfaccia (solo client), testo pacchetti suggerimenti (contenuto embedded nel client).
+Foto profilo, preferenze notifiche, cronologia estrazioni, eventi di rivelazione, tracciamento pratiche sociali (conseguenze, scambi, progressione graduale), preferenza lingua interfaccia (solo client), testo pacchetti suggerimenti (contenuto embedded nel client).
 
 ---
 
@@ -177,7 +177,8 @@ Solo stato client effimero. Ogni attivazione di estrazione produce una nuova sel
 
 ## Decisioni assunte in questa riscrittura
 
-- **Invito** è una nuova entità persistita con canale duale link + codice e scadenza a 7 giorni.
-- L'**eliminazione scatola** ha effetto a cascata sulle esperienze; nessun soft-delete o archivio.
+- **Invito** è un'entità persistita con canale duale link + codice e scadenza a 7 giorni.
+- L'**eliminazione scatola** ha effetto a cascata sulle esperienze; nessun soft-delete o archivio. Le scatole possono essere create in modalità Esperienze o Scatola delle Esperienze.
+- I gruppi supportano **nome** e **colore** visualizzati opzionali; le scatole supportano **`requireAllParticipants`**.
 - L'appartenenza al gruppo è esplicita e sopravvive oltre una singola sessione di login.
 - Il login Scatola delle Esperienze valida che tutti i partecipanti autenticati appartengano allo **stesso** gruppo quando si riapre una sessione di gruppo esistente.

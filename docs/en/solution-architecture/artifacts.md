@@ -59,9 +59,9 @@ Intensity comprises **three persisted artifacts**: **mobile client**, **REST API
 | Stored | Not stored |
 |--------|------------|
 | Participants | Draw results |
-| Group ↔ participant memberships | UI language |
+| Groups (membership, display name, color) | UI language |
 | Invites (token, code, expiry, status) | Onboarding flag |
-| Boxes (name, type, group) | Suggestion packs |
+| Boxes (name, type, require-all flag, group) | Suggestion packs |
 | Experiences (content, metadata, seal) | Session context |
 
 ### API domain modules
@@ -140,5 +140,6 @@ Message brokers, BFF layer, suggestion CMS, analytics pipeline, identity provide
 
 ## Decisions assumed in this rewrite
 
-- **`invite/`** is a new API domain module with persisted invite entity.
+- **`invite/`** is an established API domain module with persisted invite entity.
 - Box delete is a **server-enforced cascade**, not client-only removal.
+- Groups persist optional display **name** and **color**; boxes may include **`requireAllParticipants`**.

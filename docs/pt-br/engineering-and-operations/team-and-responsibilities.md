@@ -37,7 +37,7 @@ O mantenedor cobre simultaneamente:
 
 | Área | Dono | Notas |
 |------|------|-------|
-| `api/` | Mantenedor | Incluindo novo `convite` e exclusão em cascata |
+| `api/` | Mantenedor | Incluindo módulo `invite` e exclusão em cascata |
 | `client/` | Mantenedor | Incluindo UX de convite e confirmações de exclusão |
 | VPS / Docker | Mantenedor | Uptime de produção |
 | Dados PostgreSQL | Mantenedor | Backups via provedor VPS ou snapshot manual |
@@ -98,7 +98,7 @@ Se contribuidores entrarem, divisão sugerida:
 | Plataforma / API | Regras de domínio, persistência, deploy |
 | Compartilhado | Documentação em `docs/`, contrato OpenAPI |
 
-Propriedade de `convite` e exclusão de `caixinha` deve permanecer com um dono de módulo API para preservar consistência transacional.
+Propriedade do ciclo de vida `invite` e exclusão de `box` deve permanecer com os donos dos módulos API correspondentes para preservar consistência transacional.
 
 ### Resposta a incidentes (informal)
 

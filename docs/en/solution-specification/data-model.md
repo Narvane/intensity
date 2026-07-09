@@ -17,8 +17,8 @@ The domain centers on **Participant**, **Group**, **Box**, and **Experience**, p
 | Entity | Definition | Key attributes |
 |--------|------------|----------------|
 | **Participant** | Registered person who contributes and joins groups | Display name, email (login), credentials |
-| **Group** | Set of participants who share boxes | Member list, creation moment |
-| **Box** | Named thematic container of experiences | Name, type (1 of 11), creation moment, parent group |
+| **Group** | Set of participants who share boxes | Member list, optional display name, accent color, creation moment |
+| **Box** | Named thematic container of experiences | Name, type (1 of 11), `requireAllParticipants` flag, creation moment, parent group |
 | **Experience** | Concrete idea authored by one participant | Description (≤1,000 chars), intensity (1–5), effort/unpredictability/unusualness (1–5 each), type (1 of 10 or "no type"), optional reflection (≤2,000 chars), author, registration moment, integrity seal, parent box |
 | **Invite** | Token allowing a participant to join a group | Parent group, creator, code, link token, expiry, status (active/revoked/expired/accepted) |
 | **Session context** | Operational scope (not user-managed) | Access mode, active group, active box, box type |
@@ -37,10 +37,10 @@ Participant → Invite     (creator and acceptor roles)
 
 ### Identity rules
 
-- A **group** is identified by its **member set**, not a user-chosen name.
-- The same participant combination always resolves to the same group; a different combination is a different group.
+- A **group** is resolved by its **member set** for joint Experience Box login (same combination reopens the same group).
+- Groups also have an optional **display name** and **accent color** for UI; members can create and edit these in Experiences and Experience Box modes.
 - One participant can belong to multiple groups.
-- **Boxes** are created only in Experience Box mode.
+- **Boxes** may be created in **Experiences** mode or **Experience Box** mode; **deletion** is available only in Experience Box mode.
 - **Experiences** are registered mainly in Experiences mode and belong to exactly one box.
 - Only the **author** can edit or delete an experience.
 
@@ -101,7 +101,7 @@ Optional label shown on the card cover before reveal to build anticipation. Defa
 
 ### Not modeled as domain data
 
-Profile photo, notification preferences, group display name editing, draw history, revelation events, social practice tracking (consequences, swaps, gradual progression), UI language preference (client-only), suggestion pack text (embedded client content).
+Profile photo, notification preferences, draw history, revelation events, social practice tracking (consequences, swaps, gradual progression), UI language preference (client-only), suggestion pack text (embedded client content).
 
 ---
 
@@ -132,7 +132,9 @@ Saídas com amigos, Saídas em casal, Viagens em casal, Íntimo em casal, Viagen
 
 Default type when unspecified: **Saídas com amigos** (Outings with friends).
 
-Attributes: user-chosen name, type, creation timestamp, parent group. Boxes support **create**, **list**, and **delete** — not rename or type change after creation.
+Attributes: user-chosen name, type, `requireAllParticipants`, creation timestamp, parent group. Boxes support **create**, **list**, and **delete** — not rename or type change after creation. Creation is available from Experiences (`/groups/:groupId/boxes/create`) and from Experience Box (`/box-home/create`).
+
+**`requireAllParticipants`:** when `true`, `GET /v1/groups/{groupId}/boxes` in an Experience Box session **omits** the box unless every group member is present in the current joint session (session participant count ≥ group membership count). Experiences-mode listing is not filtered by this flag.
 
 **Deletion impact:** All experiences in the box are permanently removed. Authors lose their contributions in that box. Other boxes in the group are unaffected.
 
@@ -179,7 +181,8 @@ Ephemeral client state only. Each draw activation produces a new selection. "Bac
 
 ## Decisions assumed in this rewrite
 
-- **Invite** is a new persisted entity with link + code dual channel and 7-day expiry.
-- **Box deletion** cascades to experiences; no soft-delete or archive.
+- **Invite** is a persisted entity with link + code dual channel and 7-day expiry.
+- **Box deletion** cascades to experiences; no soft-delete or archive. Boxes may be created in Experiences or Experience Box mode.
+- Groups support optional display **name** and **color**; boxes support **`requireAllParticipants`**.
 - Group membership is explicit and survives beyond a single login session.
 - Experience Box login validates that all authenticated participants belong to the **same** group when reopening an existing group session.

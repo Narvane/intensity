@@ -68,11 +68,11 @@ Intensity comprende **tre artefatti persistiti**: **client mobile**, **REST API*
 
 Slice verticali per cartella dominio:
 
-- `participante/` — registrazione, profilo, auth
-- `grupo/` — appartenenza, risoluzione login congiunto, uscita
-- `convite/` — ciclo di vita invito
-- `caixinha/` — CRUD scatola inclusa eliminazione con cascata
-- `experiencia/` — CRUD esperienza
+- `participant/` — registrazione, profilo, auth
+- `group/` — appartenenza, risoluzione login congiunto, uscita, nome/colore
+- `invite/` — ciclo di vita invito
+- `box/` — CRUD scatola inclusa eliminazione con cascata
+- `experience/` — CRUD esperienza
 
 Ogni modulo: Controller, Service, Repository, DTO, Entity.
 
@@ -80,11 +80,11 @@ Ogni modulo: Controller, Service, Repository, DTO, Entity.
 
 Esempi allineati ai layer Clean Architecture sul client:
 
-- `grupo/` — creazione, partecipanti, scatole, inviti, configurazione
-- `caixinha/` — elenco, crea, elimina
-- `experiencia/` — assistente creazione, elenco, modifica
-- `sorteio/` — caso d'uso estrazione, policy filtro intensità, orchestratore rivelazione
-- `convite/` — genera, condividi, accetta, anteprima
+- `group/` — creazione, partecipanti, scatole, inviti, configurazione
+- `box/` — elenco, crea, elimina
+- `experience/` — assistente creazione, elenco, modifica
+- `draw/` — caso d'uso estrazione, policy filtro intensità, orchestratore rivelazione
+- `invite/` — genera, condividi, accetta, anteprima
 
 ---
 

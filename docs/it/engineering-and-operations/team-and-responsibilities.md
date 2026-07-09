@@ -37,7 +37,7 @@ Il maintainer copre simultaneamente:
 
 | Area | Owner | Note |
 |------|-------|------|
-| `api/` | Maintainer | Inclusi nuovo `convite` e eliminazione a cascata |
+| `api/` | Maintainer | Incluso modulo `invite` ed eliminazione a cascata |
 | `client/` | Maintainer | Inclusi UX invito e conferme eliminazione |
 | VPS / Docker | Maintainer | Uptime produzione |
 | Dati PostgreSQL | Maintainer | Backup via provider VPS o snapshot manuale |
@@ -98,7 +98,7 @@ Se si uniscono contributor, split suggerito:
 | Piattaforma / API | Regole dominio, persistenza, deploy |
 | Condiviso | Documentazione in `docs/`, contratto OpenAPI |
 
-L'ownership di `convite` ed elimina `caixinha` dovrebbe restare in un solo owner modulo API per preservare consistenza transazionale.
+L'ownership del ciclo di vita `invite` e dell'eliminazione `box` dovrebbe restare ai rispettivi owner dei moduli API per preservare consistenza transazionale.
 
 ### Risposta incidenti (informale)
 

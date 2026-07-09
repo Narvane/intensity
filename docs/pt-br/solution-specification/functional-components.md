@@ -10,7 +10,7 @@ Este documento cataloga os módulos funcionais do Intensity, telas, fluxos de us
 
 ## Curta
 
-O Intensity é um **aplicativo mobile** organizado em torno de **quatorze telas primárias** mais sobreposições. Após bootstrap e onboarding opcional, o usuário se autentica em um de quatro caminhos (**Experiências**, **Caixa de Experiências**, **Registro** ou **Entrar via convite**). O caminho **Experiências** flui por seleção de grupo → seleção de caixinha → lista de experiências → assistente de criação. O caminho **Caixa de Experiências** flui por página inicial da caixinha (listar, criar, convidar, excluir) → momento compartilhado (sorteio e revelação). Cada tela trata estados de **carregamento**, **vazio** e **erro** explicitamente.
+O Intensity é um **aplicativo mobile** organizado em torno de **quinze telas primárias** mais sobreposições. Após bootstrap e onboarding opcional, o usuário se autentica em um de quatro caminhos (**Experiências**, **Caixa de Experiências**, **Registro** ou **Entrar via convite**). O caminho **Experiências** flui por seleção de grupo → seleção de caixinha → lista de experiências → assistente de criação, e também pode **criar caixinha** a partir da seleção de caixinhas. O caminho **Caixa de Experiências** flui por página inicial da caixinha (listar, criar, convidar, excluir) → momento compartilhado (sorteio e revelação). Cada tela trata estados de **carregamento**, **vazio** e **erro** explicitamente.
 
 ---
 
@@ -50,9 +50,10 @@ O Intensity é um **aplicativo mobile** organizado em torno de **quatorze telas 
 | 9 | Lista de experiências | Modo Experiências; grupo e caixinha definidos |
 | 10 | Assistente de criação | Sobreposição da lista de experiências |
 | 11 | Página inicial da caixinha | Modo Caixa de Experiências |
-| 12 | Criar caixinha | Subtela da página inicial da caixinha |
-| 13 | Momento compartilhado | Modo Caixa de Experiências; caixinha aberta |
+| 12 | Criar caixinha (Caixa de Experiências) | Rota `/box-home/create` |
+| 13 | Momento compartilhado | Modo Caixa de Experiências; caixinha aberta (`/box-home/:boxId/moment`) |
 | 14 | Compartilhar convite | Folha/sobreposição da página inicial da caixinha ou gerenciamento de grupo |
+| 15 | Criar caixinha (Experiências) | Rota `/groups/:groupId/boxes/create` |
 
 A autenticação contém quatro **subpainéis** (não rotas separadas): login Experiências, login multi Caixa de Experiências, registro e entrada de código de convite.
 
@@ -183,7 +184,7 @@ Lista grupos onde o participante é membro. Quem não tem grupo recebe um grupo 
 
 ### Seleção de caixinha (Experiências)
 
-Lista caixinhas no grupo selecionado. Faixa de pills com nomes de todos os membros (scroll horizontal). Toolbar: criar caixinha, **Convidar**, **Sair do grupo** (confirmar). Estado vazio: "Criem uma caixinha juntos no modo Caixa de Experiências." Selecionar caixinha → lista de experiências.
+Lista caixinhas no grupo selecionado. Faixa de pills com nomes de todos os membros (scroll horizontal). Toolbar: **Criar caixinha** (navega para `/groups/:groupId/boxes/create`), **Convidar**, **Sair do grupo** (confirmar) e editar nome/cor do grupo. Estado vazio incentiva criar a primeira caixinha do grupo. Selecionar caixinha → lista de experiências.
 
 ### Lista de experiências
 
@@ -199,7 +200,15 @@ Grade de duas colunas de cartões de caixinha com selo de tipo, nome, subtítulo
 
 ### Criar caixinha
 
-Campo de nome, seletor de tipo (lista plana de 11 tipos), botão criar. Validação: nome obrigatório (1–80 caracteres). Sucesso retorna à página inicial da caixinha com novo cartão.
+Formulário compartilhado usado na Caixa de Experiências (`/box-home/create`) e no modo Experiências (`/groups/:groupId/boxes/create`):
+
+- Campo de nome (obrigatório, 1–80 caracteres)
+- Seletor de tipo (lista plana de 11 tipos)
+- Flag opcional **exigir todos os participantes** (persistida; no modo Caixa de Experiências, caixinhas com a flag ficam ocultas na lista até todos os membros estarem na sessão conjunta)
+- Etapa opcional para pré-preencher a caixinha com ideias dos pacotes de sugestão
+- Botão criar
+
+Sucesso retorna à lista anterior (página inicial ou seleção de caixinhas) com o novo cartão.
 
 ### Momento compartilhado
 

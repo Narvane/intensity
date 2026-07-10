@@ -24,8 +24,7 @@ intensity/
 ├── agents/       Prompts de agentes
 ├── scripts/      Validação de referências
 ├── docs/         Documentação do produto
-├── backlog.md    Backlog de produto
-└── plano-desenvolvimento-ia.md  Plano de desenvolvimento IA (raiz do repo)
+└── backlog.md    Backlog de produto
 ```
 
 ### Stack backend

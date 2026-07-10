@@ -2,8 +2,6 @@
 
 This document inventories the languages, frameworks, libraries, and external services used to build and run Intensity. It is written for developers and maintainers who need a concrete stack reference.
 
-**Doc references:** canonical spec @ref:docs-en · map @ref:refs · operational plan @ref:plano-desenvolvimento-ia
-
 ---
 
 ## Short
@@ -26,8 +24,7 @@ intensity/
 ├── agents/       Agent prompts for backlog tasks
 ├── scripts/      Doc reference validation
 ├── docs/         Product documentation (@ref:docs-en)
-├── backlog.md    Product backlog
-└── plano-desenvolvimento-ia.md  AI development plan (@ref:plano-desenvolvimento-ia)
+└── backlog.md    Product backlog
 ```
 
 ### Backend stack

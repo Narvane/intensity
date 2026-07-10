@@ -2,8 +2,6 @@
 
 Manual release path for Google Play (AAB) and Apple App Store (IPA). Run **after** the production API is deployed.
 
-Ref: @ref:en-development-process · manual BDD in @ref:plano-desenvolvimento-ia §8.
-
 ## 1. Pre-release configuration
 
 - [ ] `client/.env.production` — `VITE_API_URL` points to live HTTPS API; `VITE_INVITE_BASE_URL` points to the invite host (e.g. `https://app.example/join`)

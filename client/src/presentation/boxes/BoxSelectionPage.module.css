@@ -13,30 +13,6 @@
   margin-bottom: 1.5rem;
 }
 
-.headerActions {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.editButton {
-  display: grid;
-  place-items: center;
-  width: var(--touch-min);
-  height: var(--touch-min);
-  border: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
-  border-radius: var(--radius-button);
-  background: var(--surface);
-  color: var(--color-text);
-  box-shadow: var(--shadow-soft);
-  cursor: pointer;
-}
-
-.editButton:focus-visible {
-  outline: 2px solid var(--coral);
-  outline-offset: 2px;
-}
-
 .toolbar {
   display: flex;
   flex-wrap: wrap;

@@ -1,24 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Pencil } from 'lucide-react';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
 import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
-import type { Box, Group, GroupAccent, GroupMember } from '@domain/box/boxTypes';
+import type { Box, Group, GroupMember } from '@domain/box/boxTypes';
 import { resolveGroupDisplayName } from '@domain/box/resolveGroupDisplayName';
 import {
   LeaveGroupUseCase,
   ListBoxesUseCase,
   ListGroupsUseCase,
-  UpdateGroupUseCase,
 } from '@domain/box/boxUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { ShareInviteSheet } from '../invite/ShareInviteSheet';
 import { LeaveGroupDialog } from '../groups/LeaveGroupDialog';
 import { GroupBoxesSection } from '../groups/GroupBoxesSection';
-import { GroupFormDialog } from '../groups/GroupFormDialog';
 import { GroupHeading } from '../groups/GroupHeading';
 import { GroupMemberPills } from '../components/GroupMemberPills';
 import { BoxCard } from '../components/BoxCard';
@@ -50,7 +47,6 @@ export function BoxSelectionPage() {
   const listBoxes = useMemo(() => new ListBoxesUseCase(api), [api]);
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const leaveGroup = useMemo(() => new LeaveGroupUseCase(api), [api]);
-  const updateGroup = useMemo(() => new UpdateGroupUseCase(api), [api]);
 
   const [boxes, setBoxes] = useState<Box[]>([]);
   const [activeGroup, setActiveGroup] = useState<Group | null>(null);
@@ -61,9 +57,6 @@ export function BoxSelectionPage() {
   const [leaveOpen, setLeaveOpen] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [leaveError, setLeaveError] = useState<string | null>(null);
-  const [editOpen, setEditOpen] = useState(false);
-  const [savingGroup, setSavingGroup] = useState(false);
-  const [editError, setEditError] = useState<string | null>(null);
   const [createdBanner, setCreatedBanner] = useState<string | null>(null);
   const [warningBanner, setWarningBanner] = useState<string | null>(null);
   const [playBox, setPlayBox] = useState<Box | null>(null);
@@ -146,27 +139,6 @@ export function BoxSelectionPage() {
     }
   };
 
-  const confirmEdit = async (input: { name: string; color: GroupAccent }) => {
-    if (!experiencesSession?.token || !groupId) {
-      return;
-    }
-
-    setSavingGroup(true);
-    setEditError(null);
-
-    try {
-      const updated = await updateGroup.execute(groupId, experiencesSession.token, input);
-      setActiveGroup(updated);
-      setGroupMembers(updated.members);
-      setEditOpen(false);
-      showToast(t('groups.editSuccess'));
-    } catch (err) {
-      setEditError(err instanceof ApiError ? err.message : t('common.error'));
-    } finally {
-      setSavingGroup(false);
-    }
-  };
-
   const groupAccent = activeGroup ? resolveGroupAccent(activeGroup) : 'coral';
   const headingGroups = activeGroup
     ? [{ name: resolveGroupDisplayName(activeGroup, t), accent: groupAccent }]
@@ -179,24 +151,7 @@ export function BoxSelectionPage() {
         leading={
           <NavButton action="back" onClick={() => navigate('/groups')} />
         }
-        trailing={
-          <div className={styles.headerActions}>
-            {activeGroup && (
-              <button
-                type="button"
-                className={styles.editButton}
-                aria-label={t('groups.editDialog.title')}
-                onClick={() => {
-                  setEditError(null);
-                  setEditOpen(true);
-                }}
-              >
-                <Pencil size={18} strokeWidth={2.25} aria-hidden />
-              </button>
-            )}
-            <NavButton action="logout" onClick={() => void logout()} />
-          </div>
-        }
+        trailing={<NavButton action="logout" onClick={() => void logout()} />}
       >
         {activeGroup && <GroupHeading groups={headingGroups} />}
       </ScreenHeader>
@@ -321,24 +276,6 @@ export function BoxSelectionPage() {
           }
         }}
       />
-
-      {activeGroup && (
-        <GroupFormDialog
-          open={editOpen}
-          mode="edit"
-          initialName={activeGroup.name}
-          initialColor={resolveGroupAccent(activeGroup)}
-          saving={savingGroup}
-          error={editError}
-          onConfirm={(input) => void confirmEdit(input)}
-          onCancel={() => {
-            if (!savingGroup) {
-              setEditOpen(false);
-              setEditError(null);
-            }
-          }}
-        />
-      )}
     </main>
       <SessionModeFooter
         mode="EXPERIENCES"

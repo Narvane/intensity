@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UsersRound } from 'lucide-react';
+import { Pencil, UsersRound } from 'lucide-react';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
 import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
@@ -8,7 +8,11 @@ import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
 import type { Group, GroupAccent } from '@domain/box/boxTypes';
 import { resolveGroupDisplayName } from '@domain/box/resolveGroupDisplayName';
-import { CreateGroupUseCase, ListGroupsUseCase } from '@domain/box/boxUseCases';
+import {
+  CreateGroupUseCase,
+  ListGroupsUseCase,
+  UpdateGroupUseCase,
+} from '@domain/box/boxUseCases';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
 import { AppLoader } from '../components/AppLoader';
@@ -30,6 +34,7 @@ export function GroupSelectionPage() {
   const api = useMemo(() => createApiClient(), []);
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const createGroup = useMemo(() => new CreateGroupUseCase(api), [api]);
+  const updateGroup = useMemo(() => new UpdateGroupUseCase(api), [api]);
 
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,6 +42,9 @@ export function GroupSelectionPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
+  const [groupToEdit, setGroupToEdit] = useState<Group | null>(null);
+  const [savingGroup, setSavingGroup] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
 
   const loadGroups = useCallback(async () => {
     if (!experiencesSession?.token) {
@@ -80,94 +88,150 @@ export function GroupSelectionPage() {
     }
   };
 
+  const confirmEdit = async (input: { name: string; color: GroupAccent }) => {
+    if (!experiencesSession?.token || !groupToEdit) {
+      return;
+    }
+
+    setSavingGroup(true);
+    setEditError(null);
+
+    try {
+      const updated = await updateGroup.execute(
+        groupToEdit.id,
+        experiencesSession.token,
+        input,
+      );
+      setGroups((current) =>
+        current.map((group) => (group.id === updated.id ? updated : group)),
+      );
+      setGroupToEdit(null);
+      showToast(t('groups.editSuccess'));
+    } catch (err) {
+      setEditError(err instanceof ApiError ? err.message : t('common.error'));
+    } finally {
+      setSavingGroup(false);
+    }
+  };
+
   return (
     <>
-    <main className={styles.page}>
-      <ScreenHeader
-        leading={
-          <NavButton action="back" onClick={() => navigate('/auth')} />
-        }
-        trailing={<NavButton action="logout" onClick={() => void logout()} />}
-      >
-        <ScreenTitle>{t('groups.title')}</ScreenTitle>
-      </ScreenHeader>
+      <main className={styles.page}>
+        <ScreenHeader
+          leading={<NavButton action="back" onClick={() => navigate('/auth')} />}
+          trailing={<NavButton action="logout" onClick={() => void logout()} />}
+        >
+          <ScreenTitle>{t('groups.title')}</ScreenTitle>
+        </ScreenHeader>
 
-      {!loading && !error && (
-        <div className={styles.toolbar}>
-          <Button onClick={() => {
-            setCreateError(null);
-            setCreateOpen(true);
-          }}>
-            {t('groups.create')}
-          </Button>
-        </div>
-      )}
+        {!loading && !error && (
+          <div className={styles.toolbar}>
+            <Button
+              onClick={() => {
+                setCreateError(null);
+                setCreateOpen(true);
+              }}
+            >
+              {t('groups.create')}
+            </Button>
+          </div>
+        )}
 
-      {loading && <AppLoader label={t('common.loading')} />}
+        {loading && <AppLoader label={t('common.loading')} />}
 
-      {error && (
-        <p className={styles.error} role="alert">
-          {error}
-        </p>
-      )}
+        {error && (
+          <p className={styles.error} role="alert">
+            {error}
+          </p>
+        )}
 
-      {!loading && !error && groups.length === 0 && (
-        <section className={styles.empty}>
-          <p>{t('groups.empty')}</p>
-          <p className={styles.emptyHint}>{t('groups.emptyHint')}</p>
-        </section>
-      )}
+        {!loading && !error && groups.length === 0 && (
+          <section className={styles.empty}>
+            <p>{t('groups.empty')}</p>
+            <p className={styles.emptyHint}>{t('groups.emptyHint')}</p>
+          </section>
+        )}
 
-      {!loading && !error && groups.length > 0 && (
-        <ul className={styles.list}>
-          {groups.map((group) => {
-            const accent = resolveGroupAccent(group);
-            const displayName = resolveGroupDisplayName(group, t);
+        {!loading && !error && groups.length > 0 && (
+          <ul className={styles.list}>
+            {groups.map((group) => {
+              const accent = resolveGroupAccent(group);
+              const displayName = resolveGroupDisplayName(group, t);
 
-            return (
-              <li key={group.id} className={styles.item}>
-                <button
-                  type="button"
-                  className={styles.row}
-                  data-accent={accent}
-                  onClick={() => {
-                    void setNavigation({ groupId: group.id }).then(() => {
-                      navigate(`/groups/${group.id}/boxes`);
-                    });
-                  }}
-                >
-                  <span className={styles.rowIcon} aria-hidden="true">
-                    <UsersRound size={26} strokeWidth={2.25} />
-                  </span>
-                  <span className={styles.rowCopy}>
-                    <span className={styles.rowTitle}>{displayName}</span>
-                    <span className={styles.rowMeta}>
-                      {t('groups.memberCount', { count: group.memberCount })}
-                      {' · '}
-                      {t('groups.openBoxes')}
-                    </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+              return (
+                <li key={group.id} className={styles.item}>
+                  <div className={styles.card} data-accent={accent}>
+                    <button
+                      type="button"
+                      className={styles.row}
+                      onClick={() => {
+                        void setNavigation({ groupId: group.id }).then(() => {
+                          navigate(`/groups/${group.id}/boxes`);
+                        });
+                      }}
+                    >
+                      <span className={styles.rowIcon} aria-hidden="true">
+                        <UsersRound size={26} strokeWidth={2.25} />
+                      </span>
+                      <span className={styles.rowCopy}>
+                        <span className={styles.rowTitle}>{displayName}</span>
+                        <span className={styles.rowMeta}>
+                          {t('groups.memberCount', { count: group.memberCount })}
+                          {' · '}
+                          {t('groups.openBoxes')}
+                        </span>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.editButton}
+                      aria-label={t('groups.editDialog.title')}
+                      onClick={() => {
+                        setEditError(null);
+                        setGroupToEdit(group);
+                      }}
+                    >
+                      <Pencil size={18} strokeWidth={2.25} aria-hidden />
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
 
-      <GroupFormDialog
-        open={createOpen}
-        mode="create"
-        saving={creating}
-        error={createError}
-        onConfirm={(input) => void confirmCreate(input)}
-        onCancel={() => {
-          if (!creating) {
-            setCreateOpen(false);
-            setCreateError(null);
-          }
-        }}
-      />
-    </main>
+        <GroupFormDialog
+          open={createOpen}
+          mode="create"
+          saving={creating}
+          error={createError}
+          onConfirm={(input) => void confirmCreate(input)}
+          onCancel={() => {
+            if (!creating) {
+              setCreateOpen(false);
+              setCreateError(null);
+            }
+          }}
+        />
+
+        {groupToEdit && (
+          <GroupFormDialog
+            open
+            mode="edit"
+            initialName={groupToEdit.name}
+            initialColor={resolveGroupAccent(groupToEdit)}
+            saving={savingGroup}
+            error={editError}
+            onConfirm={(input) => void confirmEdit(input)}
+            onCancel={() => {
+              if (!savingGroup) {
+                setGroupToEdit(null);
+                setEditError(null);
+              }
+            }}
+          />
+        )}
+      </main>
       <SessionModeFooter
         mode="EXPERIENCES"
         participantDisplayName={experiencesSession?.displayName}

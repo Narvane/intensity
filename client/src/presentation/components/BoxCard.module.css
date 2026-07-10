@@ -28,7 +28,8 @@
   color: var(--text);
 }
 
-.open {
+.open,
+.body {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -36,18 +37,71 @@
   gap: 0.45rem;
   width: 100%;
   min-height: 11.5rem;
-  padding: 1rem 2.75rem 1rem 1rem;
   border: none;
   background: transparent;
   color: inherit;
-  cursor: pointer;
   text-align: left;
   font: inherit;
+}
+
+.open {
+  padding: 1rem 2.75rem 1rem 1rem;
+  cursor: pointer;
   transition: transform 0.16s ease;
+}
+
+.body {
+  padding: 1rem;
 }
 
 .open:active {
   transform: scale(0.98);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.15rem;
+}
+
+.actionButton {
+  width: 2.35rem;
+  height: 2.35rem;
+  border: none;
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.42);
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.actionButton:active {
+  transform: scale(0.94);
+}
+
+.actionButton svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  stroke-width: 2.4;
+}
+
+.counts {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  opacity: 0.78;
+  line-height: 1.2;
 }
 
 .iconWrap {

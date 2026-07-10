@@ -193,7 +193,23 @@
     "createIntro": "Scegli un nome e un tipo tematico. Poi potete invitare altre persone al gruppo.",
     "emptyTitle": "Nessuna scatola ancora",
     "empty": "Create la prima scatola del gruppo per iniziare a registrare esperienze insieme.",
-    "createdSuccess": "Scatola \"{{name}}\" creata! Invitate altre persone al gruppo."
+    "createdSuccess": "Scatola \"{{name}}\" creata! Invitate altre persone al gruppo.",
+    "actions": {
+      "play": "Gioca",
+      "experiences": "Le tue esperienze"
+    },
+    "counts": {
+      "yours": "{{count}} tuoi",
+      "total": "{{count}} card"
+    },
+    "playModal": {
+      "title": "Avvia estrazione",
+      "close": "Chiudi",
+      "hostExplanation": "Sarai l'host di questa sessione: riunisci i partecipanti, fai accedere tutti su questo dispositivo e avvia l'estrazione quando tutti sono autenticati.",
+      "participantsHint": "Tutti i partecipanti devono inserire il login per entrare nell'estrazione.",
+      "submit": "Accedi e sorteggia",
+      "cancel": "Annulla"
+    }
   },
   "boxHome": {
     "boxesSectionDescription": "Scegli una delle scatole qui sotto per avviare un'estrazione di esperienze.",
@@ -261,6 +277,7 @@
   },
   "experiences": {
     "title": "Esperienze",
+    "listTitle": "Le tue esperienze in questa scatola",
     "empty": "Non ci sono ancora esperienze in questa scatola.",
     "defaultBoxName": "Scatola selezionata",
     "create": "Aggiungi esperienza",

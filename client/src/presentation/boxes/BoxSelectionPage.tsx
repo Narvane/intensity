@@ -28,6 +28,7 @@ import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { SessionModeFooter } from '../components/SessionModeFooter';
 import { resolveGroupAccent } from '../components/groupVisuals';
+import { StartDrawSessionModal } from './StartDrawSessionModal';
 import styles from './BoxSelectionPage.module.css';
 
 interface BoxSelectionLocationState {
@@ -65,6 +66,7 @@ export function BoxSelectionPage() {
   const [editError, setEditError] = useState<string | null>(null);
   const [createdBanner, setCreatedBanner] = useState<string | null>(null);
   const [warningBanner, setWarningBanner] = useState<string | null>(null);
+  const [playBox, setPlayBox] = useState<Box | null>(null);
 
   const loadBoxes = useCallback(async () => {
     if (!experiencesSession?.token || !groupId) {
@@ -262,7 +264,17 @@ export function BoxSelectionPage() {
                   typeLabel={t(`boxTypes.${box.type}.title`)}
                   typeHint={t(`boxTypes.${box.type}.hint`)}
                   experienceCount={box.experienceCount}
-                  onOpen={() => {
+                  myExperienceCount={box.myExperienceCount ?? 0}
+                  playLabel={t('boxes.actions.play')}
+                  experiencesLabel={t('boxes.actions.experiences')}
+                  yourCardsLabel={t('boxes.counts.yours', {
+                    count: box.myExperienceCount ?? 0,
+                  })}
+                  totalCardsLabel={t('boxes.counts.total', {
+                    count: box.experienceCount,
+                  })}
+                  onPlay={() => setPlayBox(box)}
+                  onOpenExperiences={() => {
                     void setNavigation({
                       groupId,
                       boxId: box.id,
@@ -287,6 +299,13 @@ export function BoxSelectionPage() {
           onClose={() => setShareOpen(false)}
         />
       )}
+
+      <StartDrawSessionModal
+        open={playBox !== null}
+        box={playBox}
+        groupId={groupId}
+        onClose={() => setPlayBox(null)}
+      />
 
       <LeaveGroupDialog
         open={leaveOpen}

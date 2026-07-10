@@ -12,5 +12,6 @@ public record BoxResponse(
 		BoxType type,
 		boolean requireAllParticipants,
 		Instant createdAt,
-		long experienceCount) {
+		long experienceCount,
+		long myExperienceCount) {
 }

@@ -13,5 +13,7 @@ public interface ExperienceRepository extends JpaRepository<Experience, UUID> {
 
 	long countByBox_Id(UUID boxId);
 
+	long countByBox_IdAndAuthor_Id(UUID boxId, UUID authorId);
+
 	void deleteByAuthor_IdInAndBox_Group_Id(Collection<UUID> authorIds, UUID groupId);
 }

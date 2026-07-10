@@ -193,7 +193,23 @@
     "createIntro": "Pick a name and thematic type. You can invite more people to the group afterward.",
     "emptyTitle": "No boxes yet",
     "empty": "Create the group's first box to start logging experiences together.",
-    "createdSuccess": "Box \"{{name}}\" created! Invite more people to the group."
+    "createdSuccess": "Box \"{{name}}\" created! Invite more people to the group.",
+    "actions": {
+      "play": "Play",
+      "experiences": "Your experiences"
+    },
+    "counts": {
+      "yours": "{{count}} yours",
+      "total": "{{count}} cards"
+    },
+    "playModal": {
+      "title": "Start draw",
+      "close": "Close",
+      "hostExplanation": "You will be the host of this session: gather the participants, sign everyone in on this device, and start the draw once everyone is authenticated.",
+      "participantsHint": "Every participant needs to enter their login to join the draw.",
+      "submit": "Sign in and draw",
+      "cancel": "Cancel"
+    }
   },
   "boxHome": {
     "boxesSectionDescription": "Choose one of the boxes below to start an experience draw.",
@@ -262,6 +278,7 @@
   },
   "experiences": {
     "title": "Experiences",
+    "listTitle": "Your experiences in this box",
     "empty": "No experiences in this box yet.",
     "defaultBoxName": "Selected box",
     "create": "Add experience",

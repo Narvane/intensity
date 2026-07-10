@@ -24,6 +24,7 @@ export interface Box {
   requireAllParticipants: boolean;
   createdAt: string;
   experienceCount: number;
+  myExperienceCount?: number;
 }
 
 export interface GroupMember {

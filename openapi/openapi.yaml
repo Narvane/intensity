@@ -779,6 +779,12 @@ components:
         experienceCount:
           type: integer
           minimum: 0
+        myExperienceCount:
+          type: integer
+          minimum: 0
+          description: |
+            Number of experiences authored by the current session participant
+            in this box.
 
     CreateGroupRequest:
       type: object

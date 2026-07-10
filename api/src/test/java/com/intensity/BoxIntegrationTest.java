@@ -102,7 +102,8 @@ class BoxIntegrationTest extends AbstractMockMvcIntegrationTest {
 		mockMvc.perform(get("/v1/groups/{groupId}/boxes", groupId)
 						.header("Authorization", "Bearer " + experienceBoxToken))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].experienceCount").value(1));
+				.andExpect(jsonPath("$[0].experienceCount").value(1))
+				.andExpect(jsonPath("$[0].myExperienceCount").value(1));
 	}
 
 	@Test

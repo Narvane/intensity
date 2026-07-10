@@ -193,7 +193,23 @@
     "createIntro": "Dê um nome e escolha o tipo temático. Depois vocês podem convidar mais pessoas para o grupo.",
     "emptyTitle": "Nenhuma caixinha ainda",
     "empty": "Criem a primeira caixinha do grupo para começar a registrar experiências juntos.",
-    "createdSuccess": "Caixinha \"{{name}}\" criada! Convide mais pessoas para o grupo."
+    "createdSuccess": "Caixinha \"{{name}}\" criada! Convide mais pessoas para o grupo.",
+    "actions": {
+      "play": "Jogar",
+      "experiences": "Suas experiências"
+    },
+    "counts": {
+      "yours": "{{count}} seus",
+      "total": "{{count}} cards"
+    },
+    "playModal": {
+      "title": "Iniciar sorteio",
+      "close": "Fechar",
+      "hostExplanation": "Você será o host desta sessão: reúna os participantes, faça o login de todos neste aparelho e inicie o sorteio depois que todos estiverem autenticados.",
+      "participantsHint": "Todos os participantes precisam informar o login para entrar no sorteio.",
+      "submit": "Entrar e sortear",
+      "cancel": "Cancelar"
+    }
   },
   "boxHome": {
     "boxesSectionDescription": "Escolha uma das caixinhas abaixo para iniciar um sorteio de experiências.",
@@ -262,6 +278,7 @@
   },
   "experiences": {
     "title": "Experiências",
+    "listTitle": "Suas experiências nesta caixa",
     "empty": "Ainda não há experiências nesta caixinha.",
     "defaultBoxName": "Caixinha selecionada",
     "create": "Criar uma experiência",

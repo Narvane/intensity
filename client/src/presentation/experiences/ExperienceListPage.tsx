@@ -200,22 +200,25 @@ export function ExperienceListPage() {
       )}
 
       {!loading && !error && experiences.length > 0 && (
-        <div className={styles.list}>
-          {experiences.map((experience) => (
-            <ExperienceCard
-              key={experience.id}
-              experience={experience}
-              participantId={experiencesSession?.participantId}
-              flipped={flippedIds.has(experience.id)}
-              onFlipToggle={() => toggleCardFlip(experience.id)}
-              onEdit={() => openEditAssistant(experience)}
-              onDelete={() => {
-                setDeleteError(null);
-                setExperienceToDelete(experience);
-              }}
-            />
-          ))}
-        </div>
+        <>
+          <h2 className={styles.listTitle}>{t('experiences.listTitle')}</h2>
+          <div className={styles.list}>
+            {experiences.map((experience) => (
+              <ExperienceCard
+                key={experience.id}
+                experience={experience}
+                participantId={experiencesSession?.participantId}
+                flipped={flippedIds.has(experience.id)}
+                onFlipToggle={() => toggleCardFlip(experience.id)}
+                onEdit={() => openEditAssistant(experience)}
+                onDelete={() => {
+                  setDeleteError(null);
+                  setExperienceToDelete(experience);
+                }}
+              />
+            ))}
+          </div>
+        </>
       )}
 
       {experiencesSession?.token && (

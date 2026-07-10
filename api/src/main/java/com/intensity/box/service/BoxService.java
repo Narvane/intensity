@@ -46,7 +46,7 @@ public class BoxService {
 
 		return boxRepository.findAllByGroup_IdOrderByCreatedAtDesc(groupId).stream()
 				.filter(box -> isBoxAvailable(box, allGroupMembersPresent))
-				.map(this::toResponse)
+				.map(box -> toResponse(box, principal))
 				.toList();
 	}
 
@@ -60,7 +60,7 @@ public class BoxService {
 		Box box = new Box(group, request.name(), request.type(), requireAllParticipants);
 		boxRepository.save(box);
 
-		return toResponse(box);
+		return toResponse(box, principal);
 	}
 
 	@Transactional
@@ -116,8 +116,10 @@ public class BoxService {
 		}
 	}
 
-	private BoxResponse toResponse(Box box) {
+	private BoxResponse toResponse(Box box, AuthPrincipal principal) {
 		long experienceCount = experienceRepository.countByBox_Id(box.getId());
+		long myExperienceCount = experienceRepository.countByBox_IdAndAuthor_Id(
+				box.getId(), principal.participantId());
 		return new BoxResponse(
 				box.getId(),
 				box.getGroup().getId(),
@@ -125,7 +127,8 @@ public class BoxService {
 				box.getType(),
 				box.isRequireAllParticipants(),
 				box.getCreatedAt(),
-				experienceCount);
+				experienceCount,
+				myExperienceCount);
 	}
 
 	private boolean isAllGroupMembersPresent(UUID groupId, AuthPrincipal principal) {

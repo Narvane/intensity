@@ -4,11 +4,14 @@ const iconModules = import.meta.glob<string>('../../../assets/logo-icon.{png,svg
   import: 'default',
 });
 
-const wordmarkModules = import.meta.glob<string>('../../../assets/logo-wordmark.{png,svg}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
+const wordmarkModules = import.meta.glob<string>(
+  '../../../assets/logo-wordmark-trimmed.{png,svg}',
+  {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  },
+);
 
 function pickBrandAssetUrl(modules: Record<string, string>): string | null {
   const entries = Object.entries(modules);

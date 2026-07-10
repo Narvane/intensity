@@ -13,14 +13,12 @@ export function ToolbarBrand({ className }: ToolbarBrandProps) {
   }
 
   return (
-    <span className={[styles.mark, className ?? ''].filter(Boolean).join(' ')}>
-      <img
-        src={logoUrl}
-        alt=""
-        aria-hidden
-        className={styles.logo}
-        decoding="async"
-      />
-    </span>
+    <img
+      src={logoUrl}
+      alt=""
+      aria-hidden
+      className={[styles.logo, className ?? ''].filter(Boolean).join(' ')}
+      decoding="async"
+    />
   );
 }

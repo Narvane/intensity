@@ -11,6 +11,6 @@ describe('brandAssets', () => {
     expect(hasBrandIconAsset()).toBe(true);
     expect(hasBrandWordmarkAsset()).toBe(true);
     expect(getBrandIconUrl()).toMatch(/logo-icon/);
-    expect(getBrandWordmarkUrl()).toMatch(/logo-wordmark/);
+    expect(getBrandWordmarkUrl()).toMatch(/logo-wordmark-trimmed/);
   });
 });

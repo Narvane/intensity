@@ -1,29 +1,31 @@
 .image {
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .iconMd {
   width: 3.5rem;
   height: 3.5rem;
+  object-fit: cover;
 }
 
 .iconLg {
   width: 4.5rem;
   height: 4.5rem;
+  object-fit: cover;
 }
 
 .wordmarkMd {
-  width: min(52vw, 11rem);
-  height: auto;
-  max-height: 2.75rem;
+  height: 1.85rem;
+  width: auto;
+  max-width: min(52vw, 11rem);
 }
 
 .wordmarkLg,
 .wordmarkAuth {
-  width: min(70vw, 15rem);
-  height: auto;
-  max-height: 3.25rem;
+  height: 2.35rem;
+  width: auto;
+  max-width: min(70vw, 15rem);
 }
 
 .placeholderIcon {

@@ -10,7 +10,7 @@ export function formatGroupMemberPreview(
   }
 
   if (displayNames.length === 1) {
-    return displayNames[0];
+    return t('groups.memberPreview.solo');
   }
 
   if (displayNames.length === 2) {

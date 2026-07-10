@@ -135,13 +135,16 @@ export function CreateBoxForm({
 
   return (
     <div className={styles.form} data-variant={variant}>
-      <section className={styles.section} aria-labelledby="create-box-name-heading">
+      <section
+        className={`${styles.section} ${styles.nameSticky}`}
+        aria-labelledby="create-box-name-heading"
+      >
         <h2 id="create-box-name-heading" className={styles.sectionTitle}>
           {t('createBox.nameStep')}
         </h2>
         <p className={styles.sectionHint}>{t('createBox.nameHint')}</p>
         <label className={styles.field}>
-          <span className="srOnly">{t('createBox.nameLabel')}</span>
+          <span className={styles.fieldLabel}>{t('createBox.nameLabel')}</span>
           <input
             type="text"
             maxLength={80}

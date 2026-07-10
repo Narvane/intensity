@@ -2,6 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { formatGroupMemberPreview } from '@domain/box/formatGroupMemberPreview';
 
 const t = (key: string, vars?: Record<string, string | number>) => {
+  if (key === 'groups.memberPreview.solo') {
+    return 'Apenas eu';
+  }
   if (key === 'groups.memberPreview.pair') {
     return `${vars?.first} e ${vars?.second}`;
   }
@@ -16,8 +19,8 @@ describe('formatGroupMemberPreview', () => {
     expect(formatGroupMemberPreview([], t)).toBe('');
   });
 
-  it('returns single name', () => {
-    expect(formatGroupMemberPreview(['Ana'], t)).toBe('Ana');
+  it('returns solo label for a single member', () => {
+    expect(formatGroupMemberPreview(['Ana'], t)).toBe('Apenas eu');
   });
 
   it('joins two names', () => {

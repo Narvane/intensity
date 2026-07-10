@@ -1,10 +1,6 @@
 import { useMemo } from 'react';
 import type { BoxType } from '@domain/box/boxTypes';
-import {
-  listSuggestions,
-  suggestionDescriptionSummary,
-  type SuggestionIntensity,
-} from '../../content/suggestion-packs';
+import { listSuggestions, type SuggestionIntensity } from '../../content/suggestion-packs';
 import { useI18n } from '../../i18n/I18nContext';
 import { Checkbox, type CheckboxAccent } from '../components/Checkbox';
 import styles from './SuggestionPickerList.module.css';
@@ -70,9 +66,7 @@ export function SuggestionPickerList({
                         onChange={(event) => toggle(suggestion.id, event.target.checked)}
                       />
                       <span className={styles.itemBody}>
-                        <span className={styles.itemDescription}>
-                          {suggestionDescriptionSummary(suggestion.description)}
-                        </span>
+                        <span className={styles.itemDescription}>{suggestion.description}</span>
                       </span>
                     </label>
                   </li>

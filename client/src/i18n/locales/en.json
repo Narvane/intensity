@@ -72,8 +72,8 @@
       "displayName": "Display name"
     },
     "experiences": {
-      "title": "Sign in",
-      "product": "Experiences",
+      "title": "Login",
+      "product": "Individual",
       "subtitle": "Create experiences on your own",
       "submit": "Sign in",
       "continue": "Continue",
@@ -82,8 +82,8 @@
       "passwordSaved": "Password saved on this device"
     },
     "experienceBox": {
-      "title": "Play",
-      "product": "Experience Box",
+      "title": "Login",
+      "product": "Draw",
       "subtitle": "Draw experience boxes together",
       "hint": "Enter everyone present in the room. Each person uses their own credentials.",
       "participant": "Participant {{number}}",
@@ -114,9 +114,9 @@
     "enterExperienceBox": "Enter Experience Box"
   },
   "session": {
-    "experiencesMode": "Experiences",
+    "experiencesMode": "Individual login",
     "experiencesSubtitle": "Your individual session",
-    "experienceBoxMode": "Experience Box",
+    "experienceBoxMode": "Draw login",
     "experienceBoxSubtitle": "Shared room to draw together",
     "greeting": "Hi, {{name}}",
     "roomLabel": "In the room now",
@@ -161,6 +161,7 @@
     "emptyHint": "Ask someone in a group for an invite, or join with an invite link or code.",
     "memberCount": "{{count}} members",
     "memberPreview": {
+      "solo": "Just me",
       "pair": "{{first}} and {{second}}",
       "overflow": "{{names}} and +{{count}}"
     },
@@ -265,7 +266,7 @@
     "nameStep": "1. Name",
     "nameHint": "How you'll recognize this box in the list.",
     "nameLabel": "Box name",
-    "namePlaceholder": "e.g. Special weekend",
+    "namePlaceholder": "Enter a name for the box",
     "typeStep": "2. Thematic type",
     "typeHint": "The type sets the mood for ideas — choose what fits you.",
     "typeLabel": "Box type",

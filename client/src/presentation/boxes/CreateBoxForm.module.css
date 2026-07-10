@@ -19,6 +19,17 @@
   gap: 0.65rem;
 }
 
+.nameSticky {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  margin: 0 calc(-1 * var(--space-page));
+  padding: 0.65rem var(--space-page) 0.85rem;
+  background: color-mix(in srgb, var(--bg) 92%, white);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+}
+
 .sectionTitle {
   margin: 0;
   font-size: 1.15rem;
@@ -35,6 +46,13 @@
 .field {
   display: flex;
   flex-direction: column;
+  gap: 0.35rem;
+}
+
+.fieldLabel {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text);
 }
 
 .field input {
@@ -50,8 +68,9 @@
 }
 
 .field input::placeholder {
-  color: var(--color-text-muted);
+  color: #8a8a8a;
   font-weight: 500;
+  opacity: 1;
 }
 
 .error {

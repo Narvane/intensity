@@ -72,8 +72,8 @@
       "displayName": "Nome visualizzato"
     },
     "experiences": {
-      "title": "Accedi",
-      "product": "Experiences",
+      "title": "Login",
+      "product": "Individuale",
       "subtitle": "Crea esperienze in modo individuale",
       "submit": "Accedi",
       "continue": "Continua",
@@ -82,8 +82,8 @@
       "passwordSaved": "Password salvata su questo dispositivo"
     },
     "experienceBox": {
-      "title": "Gioca",
-      "product": "Experience Box",
+      "title": "Login",
+      "product": "Sorteggio",
       "subtitle": "Sorteggia le scatole di esperienze",
       "hint": "Inserisci tutte le persone presenti. Ognuna usa le proprie credenziali.",
       "participant": "Partecipante {{number}}",
@@ -114,9 +114,9 @@
     "enterExperienceBox": "Entra in Experience Box"
   },
   "session": {
-    "experiencesMode": "Experiences",
+    "experiencesMode": "Login individuale",
     "experiencesSubtitle": "La tua sessione individuale",
-    "experienceBoxMode": "Experience Box",
+    "experienceBoxMode": "Login sorteggio",
     "experienceBoxSubtitle": "Stanza condivisa per sorteggiare",
     "greeting": "Ciao, {{name}}",
     "roomLabel": "In sala adesso",
@@ -161,6 +161,7 @@
     "emptyHint": "Chiedi un invito a chi è già in un gruppo oppure entra con un link o codice invito.",
     "memberCount": "{{count}} membri",
     "memberPreview": {
+      "solo": "Solo io",
       "pair": "{{first}} e {{second}}",
       "overflow": "{{names}} e +{{count}}"
     },
@@ -265,7 +266,7 @@
     "nameStep": "1. Nome",
     "nameHint": "Come riconoscerete questa scatola nell'elenco.",
     "nameLabel": "Nome della scatola",
-    "namePlaceholder": "Es.: Weekend speciale",
+    "namePlaceholder": "Digita un nome per la scatola",
     "typeStep": "2. Tipo tematico",
     "typeHint": "Il tipo orienta il clima delle idee — scegliete quello giusto per voi.",
     "typeLabel": "Tipo di scatola",

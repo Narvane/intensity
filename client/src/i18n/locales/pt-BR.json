@@ -73,7 +73,7 @@
     },
     "experiences": {
       "title": "Login",
-      "product": "Experiences",
+      "product": "Individual",
       "subtitle": "Crie experiências individualmente",
       "submit": "Entrar",
       "continue": "Continuar",
@@ -82,8 +82,8 @@
       "passwordSaved": "Senha salva neste aparelho"
     },
     "experienceBox": {
-      "title": "Jogar",
-      "product": "Experience Box",
+      "title": "Login",
+      "product": "Sorteio",
       "subtitle": "Sorteie caixas de experiências",
       "hint": "Informe todos presentes na sala. Cada pessoa usa suas próprias credenciais.",
       "participant": "Participante {{number}}",
@@ -114,9 +114,9 @@
     "enterExperienceBox": "Entrar no Experience Box"
   },
   "session": {
-    "experiencesMode": "Experiences",
+    "experiencesMode": "Login Individual",
     "experiencesSubtitle": "Sua sessão individual",
-    "experienceBoxMode": "Experience Box",
+    "experienceBoxMode": "Login Sorteio",
     "experienceBoxSubtitle": "Sala compartilhada para sortear",
     "greeting": "Olá, {{name}}",
     "roomLabel": "Na sala agora",
@@ -161,6 +161,7 @@
     "emptyHint": "Peça um convite a quem já está em um grupo ou use um link ou código de convite para entrar.",
     "memberCount": "{{count}} membros",
     "memberPreview": {
+      "solo": "Apenas eu",
       "pair": "{{first}} e {{second}}",
       "overflow": "{{names}} e +{{count}}"
     },
@@ -265,7 +266,7 @@
     "nameStep": "1. Nome",
     "nameHint": "Como vocês vão reconhecer esta caixinha na lista.",
     "nameLabel": "Nome da caixinha",
-    "namePlaceholder": "Ex.: Fim de semana especial",
+    "namePlaceholder": "Digite um nome para a caixinha",
     "typeStep": "2. Tipo temático",
     "typeHint": "O tipo orienta o clima das ideias — escolha o que combina com vocês.",
     "typeLabel": "Tipo de caixinha",

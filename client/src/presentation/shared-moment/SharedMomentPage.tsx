@@ -150,7 +150,7 @@ export function SharedMomentPage() {
       </ScreenHeader>
 
       <p className={styles.drawsRemaining}>
-        {t('experienceBoxSession.drawsRemaining', { count: drawsLeft })}
+        {t('session.drawsRemaining', { count: drawsLeft })}
       </p>
 
       {drawSession.phase === 'idle' && (

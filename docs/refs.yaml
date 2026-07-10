@@ -21,7 +21,6 @@ version: 1
 validate:
   scan_files:
     - README.md
-    - plano-desenvolvimento-ia.md
     - backlog.md
     - client/STORE_RELEASE.md
     - openapi/openapi.yaml
@@ -40,11 +39,6 @@ entries:
     path: backlog.md
     label: Product backlog
     role: backlog
-
-  - id: plano-desenvolvimento-ia
-    path: plano-desenvolvimento-ia.md
-    label: AI development plan (MVP slices)
-    role: operational-plan
 
   - id: refs
     path: docs/refs.yaml

@@ -89,6 +89,7 @@
       "participant": "Participante {{number}}",
       "prefilledYou": "Você",
       "addParticipant": "Adicionar participante",
+      "removeParticipant": "Remover",
       "submit": "Entrar juntos"
     },
     "register": {
@@ -104,7 +105,9 @@
     "errors": {
       "network": "Não foi possível contactar o servidor. Verifique a conexão e tente novamente.",
       "invalidInviteCode": "Informe um código de convite válido com 6 caracteres.",
-      "groupMembershipConflict": "Essas credenciais pertencem a grupos diferentes. Entre com membros do mesmo grupo."
+      "groupMembershipConflict": "Essas credenciais pertencem a grupos diferentes. Entre com membros do mesmo grupo.",
+      "groupTargetMismatch": "Essas credenciais não pertencem ao grupo selecionado.",
+      "groupRequiresAllMembers": "Todos os participantes do grupo precisam entrar nesta sessão."
     }
   },
   "unknownSession": {
@@ -147,6 +150,12 @@
     "boxesSectionTitle": "Caixinhas do grupo",
     "boxesSectionDescription": "Estas são as caixinhas que ficarão disponíveis quando os participantes fizerem login no modo Sorteio utilizando os jogadores deste grupo.",
     "inviteToGroup": "Convidar para o grupo",
+    "manage": "Gerenciar grupo",
+    "manageModal": {
+      "title": "Gerenciar grupo",
+      "hostExplanation": "Faça o login de todos os participantes deste grupo neste aparelho para abrir a sessão de sorteio e gerenciar as caixinhas.",
+      "submit": "Entrar e gerenciar"
+    },
     "editSuccess": "Grupo atualizado.",
     "form": {
       "nameLabel": "Nome do grupo",
@@ -206,8 +215,10 @@
     "playModal": {
       "title": "Iniciar sorteio",
       "close": "Fechar",
-      "hostExplanation": "Você será o host desta sessão: reúna os participantes, faça o login de todos neste aparelho e inicie o sorteio depois que todos estiverem autenticados.",
+      "hostExplanation": "Você será o host desta sessão: reúna os participantes, faça o login neste aparelho e inicie o sorteio desta caixinha.",
       "participantsHint": "Todos os participantes precisam informar o login para entrar no sorteio.",
+      "participantsHintRequired": "Esta caixinha exige todos os participantes do grupo. Informe a senha de cada um.",
+      "participantsHintOptional": "Você pode remover participantes ausentes. O sorteio continua neste grupo, sem mudar para outro.",
       "submit": "Entrar e sortear",
       "cancel": "Cancelar"
     }
@@ -219,9 +230,16 @@
     "empty": "Ainda não há caixinhas neste grupo.",
     "createFirst": "Criar a primeira caixinha",
     "open": "Abrir",
+    "edit": "Editar caixinha",
     "delete": "Excluir caixinha",
     "menuLabel": "Ações da caixinha",
     "deleteSuccess": "\"{{name}}\" foi excluída.",
+    "editSuccess": "\"{{name}}\" foi atualizada.",
+    "editDialog": {
+      "title": "Editar caixinha",
+      "confirm": "Salvar alterações",
+      "cancel": "Cancelar"
+    },
     "deleteDialog": {
       "title": "Excluir \"{{name}}\"?",
       "message": "Isso remove permanentemente {{count}} experiências nesta caixinha.",
@@ -298,6 +316,8 @@
     "anonymous": "Membro do grupo",
     "edit": "Editar",
     "delete": "Excluir",
+    "deleteAll": "Remover todos",
+    "deleteAllSuccess": "Todas as suas experiências nesta caixinha foram removidas.",
     "validationError": "Verifique intensidade e parâmetros (níveis 1–5).",
     "notAuthor": "Somente o autor pode editar ou excluir esta experiência.",
     "deleteSuccess": "Experiência excluída.",
@@ -306,6 +326,11 @@
       "message": "Isso remove permanentemente sua contribuição da caixinha.",
       "confirm": "Excluir experiência",
       "cancel": "Cancelar"
+    },
+    "deleteAllDialog": {
+      "title": "Remover todas as suas experiências?",
+      "message": "Isso remove permanentemente {{count}} experiência(s) que você cadastrou nesta caixinha.",
+      "confirm": "Remover todos"
     }
   },
   "assistant": {

@@ -87,6 +87,14 @@
   transform: scale(0.94);
 }
 
+.actionButtonDanger {
+  background: rgba(180, 35, 24, 0.28);
+}
+
+.actionButtonDanger:hover {
+  background: rgba(180, 35, 24, 0.4);
+}
+
 .actionButton svg {
   width: 1.15rem;
   height: 1.15rem;

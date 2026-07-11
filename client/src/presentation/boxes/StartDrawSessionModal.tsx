@@ -4,7 +4,7 @@ import { ApiError, createApiClient } from '@adapters/api/ApiClient';
 import { createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { LoginExperienceBoxUseCase } from '@domain/auth/authUseCases';
-import type { Box } from '@domain/box/boxTypes';
+import type { Box, GroupMember } from '@domain/box/boxTypes';
 import { useModalDialog } from '@presentation/hooks/useModalDialog';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
@@ -13,22 +13,68 @@ import styles from './StartDrawSessionModal.module.css';
 interface CredentialForm {
   email: string;
   password: string;
+  participantId?: string;
+  displayName?: string;
 }
 
 const emptyCredential = (): CredentialForm => ({ email: '', password: '' });
 const MASKED_PASSWORD = '••••••••';
 
+export type GroupJointLoginMode = 'play' | 'manage';
+
 interface StartDrawSessionModalProps {
   open: boolean;
+  mode: GroupJointLoginMode;
   box: Box | null;
   groupId: string;
+  members: GroupMember[];
   onClose: () => void;
+}
+
+function buildInitialCredentials(
+  members: GroupMember[],
+  experiencesEmail: string,
+  hasExperiencesSession: boolean,
+): CredentialForm[] {
+  if (members.length === 0) {
+    return [
+      hasExperiencesSession
+        ? { email: experiencesEmail, password: MASKED_PASSWORD }
+        : emptyCredential(),
+    ];
+  }
+
+  const normalizedSessionEmail = experiencesEmail.trim().toLowerCase();
+  const ordered = [...members].sort((left, right) => {
+    const leftIsYou =
+      hasExperiencesSession && (left.email ?? '').trim().toLowerCase() === normalizedSessionEmail;
+    const rightIsYou =
+      hasExperiencesSession && (right.email ?? '').trim().toLowerCase() === normalizedSessionEmail;
+    if (leftIsYou === rightIsYou) {
+      return left.displayName.localeCompare(right.displayName, undefined, { sensitivity: 'base' });
+    }
+    return leftIsYou ? -1 : 1;
+  });
+
+  return ordered.map((member) => {
+    const email = member.email ?? '';
+    const isYou =
+      hasExperiencesSession && email.trim().toLowerCase() === normalizedSessionEmail;
+    return {
+      email,
+      password: isYou ? MASKED_PASSWORD : '',
+      participantId: member.participantId,
+      displayName: member.displayName,
+    };
+  });
 }
 
 export function StartDrawSessionModal({
   open,
+  mode,
   box,
   groupId,
+  members,
   onClose,
 }: StartDrawSessionModalProps) {
   const { t } = useI18n();
@@ -50,6 +96,9 @@ export function StartDrawSessionModal({
 
   const experiencesEmail = experiencesSession?.email ?? '';
   const hasExperiencesSession = experiencesSession?.accessMode === 'EXPERIENCES';
+  const requireAllParticipants =
+    mode === 'manage' ? true : Boolean(box?.requireAllParticipants);
+  const canEditRoster = !requireAllParticipants;
 
   useEffect(() => {
     if (!open) {
@@ -58,15 +107,10 @@ export function StartDrawSessionModal({
 
     setError(null);
     setLoading(false);
-    setCredentials([
-      hasExperiencesSession
-        ? { email: experiencesEmail, password: MASKED_PASSWORD }
-        : emptyCredential(),
-      emptyCredential(),
-    ]);
-  }, [open, hasExperiencesSession, experiencesEmail]);
+    setCredentials(buildInitialCredentials(members, experiencesEmail, hasExperiencesSession));
+  }, [open, members, hasExperiencesSession, experiencesEmail]);
 
-  if (!open || !box) {
+  if (!open || (mode === 'play' && !box)) {
     return null;
   }
 
@@ -74,6 +118,14 @@ export function StartDrawSessionModal({
     if (err instanceof ApiError) {
       if (err.code === 'GROUP_MEMBERSHIP_CONFLICT') {
         setError(t('auth.errors.groupMembershipConflict'));
+        return;
+      }
+      if (err.code === 'GROUP_TARGET_MISMATCH') {
+        setError(t('auth.errors.groupTargetMismatch'));
+        return;
+      }
+      if (err.code === 'GROUP_REQUIRES_ALL_MEMBERS') {
+        setError(t('auth.errors.groupRequiresAllMembers'));
         return;
       }
       setError(err.message);
@@ -87,36 +139,71 @@ export function StartDrawSessionModal({
     setError(null);
 
     try {
+      const filled = credentials.filter((credential) => credential.email.trim().length > 0);
       const reuseSessionToken =
-        hasExperiencesSession && experiencesSession?.token ? experiencesSession.token : undefined;
-      const additionalCredentials = hasExperiencesSession
-        ? credentials.slice(1).filter((credential) => credential.email.trim().length > 0)
-        : credentials.filter((credential) => credential.email.trim().length > 0);
+        hasExperiencesSession &&
+        experiencesSession?.token &&
+        filled.some(
+          (credential) =>
+            credential.email.trim().toLowerCase() === experiencesEmail.trim().toLowerCase(),
+        )
+          ? experiencesSession.token
+          : undefined;
+      const additionalCredentials = (
+        reuseSessionToken
+          ? filled.filter(
+              (credential) =>
+                credential.email.trim().toLowerCase() !== experiencesEmail.trim().toLowerCase(),
+            )
+          : filled
+      ).map((credential) => ({
+        email: credential.email.trim(),
+        password: credential.password,
+      }));
 
       if (!reuseSessionToken && additionalCredentials.length === 0) {
         setError(t('auth.errors.network'));
         return;
       }
 
+      if (requireAllParticipants && filled.length < members.length) {
+        setError(t('auth.errors.groupRequiresAllMembers'));
+        return;
+      }
+
       await loginExperienceBox.execute({
         credentials: additionalCredentials,
         reuseSessionToken,
+        targetGroupId: groupId,
+        requireAllMembers: requireAllParticipants,
       });
       await refresh();
-      await setNavigation({
-        groupId,
-        boxId: box.id,
-        boxName: box.name,
-        boxType: box.type,
-      });
-      onClose();
-      navigate(`/box-home/${box.id}/moment`);
+
+      if (mode === 'play' && box) {
+        await setNavigation({
+          groupId,
+          boxId: box.id,
+          boxName: box.name,
+          boxType: box.type,
+        });
+        onClose();
+        navigate(`/box-home/${box.id}/moment`);
+      } else {
+        await setNavigation({ groupId });
+        onClose();
+        navigate('/box-home');
+      }
     } catch (err) {
       handleError(err);
     } finally {
       setLoading(false);
     }
   };
+
+  const title =
+    mode === 'manage' ? t('groups.manageModal.title') : t('boxes.playModal.title');
+  const submitLabel =
+    mode === 'manage' ? t('groups.manageModal.submit') : t('boxes.playModal.submit');
 
   return (
     <div
@@ -133,7 +220,7 @@ export function StartDrawSessionModal({
         onClick={(event) => event.stopPropagation()}
       >
         <header className={styles.header}>
-          <h2 id="start-draw-title">{t('boxes.playModal.title')}</h2>
+          <h2 id="start-draw-title">{title}</h2>
           <button
             ref={cancelRef}
             type="button"
@@ -146,24 +233,51 @@ export function StartDrawSessionModal({
           </button>
         </header>
 
-        <p className={styles.hostNote}>{t('boxes.playModal.hostExplanation')}</p>
-        <p className={styles.hint}>{t('boxes.playModal.participantsHint')}</p>
+        <p className={styles.hostNote}>
+          {mode === 'manage'
+            ? t('groups.manageModal.hostExplanation')
+            : t('boxes.playModal.hostExplanation')}
+        </p>
+        <p className={styles.hint}>
+          {requireAllParticipants
+            ? t('boxes.playModal.participantsHintRequired')
+            : t('boxes.playModal.participantsHintOptional')}
+        </p>
 
         <div className={styles.credentials}>
           {credentials.map((credential, index) => {
-            const isPrefilledSlot = hasExperiencesSession && index === 0;
+            const isPrefilledSlot =
+              hasExperiencesSession &&
+              credential.email.trim().toLowerCase() === experiencesEmail.trim().toLowerCase() &&
+              credential.password === MASKED_PASSWORD;
             return (
               <div
-                key={index}
+                key={credential.participantId ?? `slot-${index}`}
                 className={`${styles.credentialCard} ${
                   isPrefilledSlot ? styles.credentialCardPrefilled : ''
                 }`}
               >
-                <p className={styles.cardTitle}>
-                  {isPrefilledSlot
-                    ? t('auth.experienceBox.prefilledYou')
-                    : t('auth.experienceBox.participant', { number: index + 1 })}
-                </p>
+                <div className={styles.cardHeader}>
+                  <p className={styles.cardTitle}>
+                    {isPrefilledSlot
+                      ? t('auth.experienceBox.prefilledYou')
+                      : credential.displayName
+                        ? credential.displayName
+                        : t('auth.experienceBox.participant', { number: index + 1 })}
+                  </p>
+                  {canEditRoster && credentials.length > 1 && (
+                    <button
+                      type="button"
+                      className={styles.removeParticipant}
+                      disabled={loading}
+                      onClick={() =>
+                        setCredentials((current) => current.filter((_, itemIndex) => itemIndex !== index))
+                      }
+                    >
+                      {t('auth.experienceBox.removeParticipant')}
+                    </button>
+                  )}
+                </div>
                 <label className={styles.field}>
                   <span>{t('auth.fields.email')}</span>
                   <input
@@ -206,14 +320,16 @@ export function StartDrawSessionModal({
           })}
         </div>
 
-        <Button
-          variant="secondary"
-          fullWidth
-          disabled={loading}
-          onClick={() => setCredentials((current) => [...current, emptyCredential()])}
-        >
-          {t('auth.experienceBox.addParticipant')}
-        </Button>
+        {canEditRoster && (
+          <Button
+            variant="secondary"
+            fullWidth
+            disabled={loading}
+            onClick={() => setCredentials((current) => [...current, emptyCredential()])}
+          >
+            {t('auth.experienceBox.addParticipant')}
+          </Button>
+        )}
 
         {error && (
           <p className={styles.error} role="alert">
@@ -223,7 +339,7 @@ export function StartDrawSessionModal({
 
         <div className={styles.actions}>
           <Button fullWidth disabled={loading} onClick={() => void submit()}>
-            {loading ? t('auth.loading') : t('boxes.playModal.submit')}
+            {loading ? t('auth.loading') : submitLabel}
           </Button>
           <Button variant="secondary" fullWidth disabled={loading} onClick={onClose}>
             {t('boxes.playModal.cancel')}

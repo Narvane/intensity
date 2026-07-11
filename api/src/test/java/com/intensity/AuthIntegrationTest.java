@@ -169,6 +169,106 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 				.andExpect(jsonPath("$.groupId").value(groupId));
 	}
 
+	@Test
+	@Order(7)
+	void targetedJointLoginStaysOnSelectedGroupEvenWithPartialMembers() throws Exception {
+		register("Alice", "alice@example.com");
+		register("Bob", "bob@example.com");
+		register("Carol", "carol@example.com");
+
+		String pairResponse = mockMvc.perform(post("/v1/auth/group")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "credentials": [
+								    { "email": "alice@example.com", "password": "password123" },
+								    { "email": "bob@example.com", "password": "password123" }
+								  ]
+								}
+								"""))
+				.andExpect(status().isOk())
+				.andReturn()
+				.getResponse()
+				.getContentAsString();
+		String group1Id = com.jayway.jsonpath.JsonPath.read(pairResponse, "$.groupId");
+
+		String aliceToken = loginToken("alice@example.com");
+		String group2Response = mockMvc.perform(post("/v1/groups")
+						.header("Authorization", "Bearer " + aliceToken)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{ "name": "Trio", "color": "teal" }
+								"""))
+				.andExpect(status().isCreated())
+				.andReturn()
+				.getResponse()
+				.getContentAsString();
+		String group2Id = com.jayway.jsonpath.JsonPath.read(group2Response, "$.id");
+
+		inviteAndAccept(group2Id, aliceToken, "bob@example.com");
+		inviteAndAccept(group2Id, aliceToken, "carol@example.com");
+
+		mockMvc.perform(post("/v1/auth/group")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "credentials": [
+								    { "email": "alice@example.com", "password": "password123" },
+								    { "email": "bob@example.com", "password": "password123" }
+								  ]
+								}
+								"""))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.groupId").value(group1Id));
+
+		mockMvc.perform(post("/v1/auth/group")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "targetGroupId": "%s",
+								  "requireAllMembers": false,
+								  "credentials": [
+								    { "email": "alice@example.com", "password": "password123" },
+								    { "email": "bob@example.com", "password": "password123" }
+								  ]
+								}
+								""".formatted(group2Id)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.groupId").value(group2Id))
+				.andExpect(jsonPath("$.groupIds", hasSize(1)))
+				.andExpect(jsonPath("$.members", hasSize(2)));
+
+		mockMvc.perform(post("/v1/auth/group")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "targetGroupId": "%s",
+								  "requireAllMembers": true,
+								  "credentials": [
+								    { "email": "alice@example.com", "password": "password123" },
+								    { "email": "bob@example.com", "password": "password123" }
+								  ]
+								}
+								""".formatted(group2Id)))
+				.andExpect(status().isUnprocessableEntity())
+				.andExpect(jsonPath("$.code").value("GROUP_REQUIRES_ALL_MEMBERS"));
+	}
+
+	private void inviteAndAccept(String groupId, String hostToken, String inviteeEmail) throws Exception {
+		String inviteResponse = mockMvc.perform(post("/v1/groups/{groupId}/invites", groupId)
+						.header("Authorization", "Bearer " + hostToken))
+				.andExpect(status().isCreated())
+				.andReturn()
+				.getResponse()
+				.getContentAsString();
+		String inviteId = com.jayway.jsonpath.JsonPath.read(inviteResponse, "$.id");
+		String inviteeToken = loginToken(inviteeEmail);
+
+		mockMvc.perform(post("/v1/invites/{inviteId}/accept", inviteId)
+						.header("Authorization", "Bearer " + inviteeToken))
+				.andExpect(status().isOk());
+	}
+
 	private void register(String displayName, String email) throws Exception {
 		mockMvc.perform(post("/v1/participants")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -179,5 +279,21 @@ class AuthIntegrationTest extends AbstractMockMvcIntegrationTest {
 						  "password": "password123"
 						}
 						""".formatted(displayName, email)));
+	}
+
+	private String loginToken(String email) throws Exception {
+		String response = mockMvc.perform(post("/v1/auth/login")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "email": "%s",
+								  "password": "password123"
+								}
+								""".formatted(email)))
+				.andExpect(status().isOk())
+				.andReturn()
+				.getResponse()
+				.getContentAsString();
+		return com.jayway.jsonpath.JsonPath.read(response, "$.token");
 	}
 }

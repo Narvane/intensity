@@ -89,6 +89,7 @@
       "participant": "Partecipante {{number}}",
       "prefilledYou": "Tu",
       "addParticipant": "Aggiungi partecipante",
+      "removeParticipant": "Rimuovi",
       "submit": "Entra insieme"
     },
     "register": {
@@ -104,7 +105,9 @@
     "errors": {
       "network": "Impossibile contattare il server. Controlla la connessione e riprova.",
       "invalidInviteCode": "Inserisci un codice invito valido di 6 caratteri.",
-      "groupMembershipConflict": "Queste credenziali appartengono a gruppi diversi. Accedi con membri dello stesso gruppo."
+      "groupMembershipConflict": "Queste credenziali appartengono a gruppi diversi. Accedi con membri dello stesso gruppo.",
+      "groupTargetMismatch": "Queste credenziali non appartengono al gruppo selezionato.",
+      "groupRequiresAllMembers": "Tutti i membri del gruppo devono accedere per questa sessione."
     }
   },
   "unknownSession": {
@@ -147,6 +150,12 @@
     "boxesSectionTitle": "Scatole del gruppo",
     "boxesSectionDescription": "Queste sono le scatole che saranno disponibili quando i partecipanti accedono in modalità Estrazione usando i giocatori di questo gruppo.",
     "inviteToGroup": "Invita al gruppo",
+    "manage": "Gestisci gruppo",
+    "manageModal": {
+      "title": "Gestisci gruppo",
+      "hostExplanation": "Fai accedere tutti i partecipanti di questo gruppo su questo dispositivo per aprire la sessione di estrazione e gestire le scatole.",
+      "submit": "Accedi e gestisci"
+    },
     "editSuccess": "Gruppo aggiornato.",
     "form": {
       "nameLabel": "Nome del gruppo",
@@ -206,8 +215,10 @@
     "playModal": {
       "title": "Avvia estrazione",
       "close": "Chiudi",
-      "hostExplanation": "Sarai l'host di questa sessione: riunisci i partecipanti, fai accedere tutti su questo dispositivo e avvia l'estrazione quando tutti sono autenticati.",
+      "hostExplanation": "Sarai l'host di questa sessione: riunisci i partecipanti, fai accedere su questo dispositivo e avvia l'estrazione di questa scatola.",
       "participantsHint": "Tutti i partecipanti devono inserire il login per entrare nell'estrazione.",
+      "participantsHintRequired": "Questa scatola richiede tutti i partecipanti del gruppo. Inserisci la password di ciascuno.",
+      "participantsHintOptional": "Puoi rimuovere i partecipanti assenti. L'estrazione resta in questo gruppo e non passa a un altro.",
       "submit": "Accedi e sorteggia",
       "cancel": "Annulla"
     }
@@ -219,9 +230,16 @@
     "empty": "Non ci sono ancora scatole in questo gruppo.",
     "createFirst": "Crea la prima scatola",
     "open": "Apri",
+    "edit": "Modifica scatola",
     "delete": "Elimina scatola",
     "menuLabel": "Azioni scatola",
     "deleteSuccess": "\"{{name}}\" è stata eliminata.",
+    "editSuccess": "\"{{name}}\" è stata aggiornata.",
+    "editDialog": {
+      "title": "Modifica scatola",
+      "confirm": "Salva modifiche",
+      "cancel": "Annulla"
+    },
     "deleteDialog": {
       "title": "Eliminare \"{{name}}\"?",
       "message": "Questo rimuove permanentemente {{count}} esperienze in questa scatola.",
@@ -297,6 +315,8 @@
     "anonymous": "Membro del gruppo",
     "edit": "Modifica",
     "delete": "Elimina",
+    "deleteAll": "Rimuovi tutti",
+    "deleteAllSuccess": "Tutte le tue esperienze in questa scatola sono state rimosse.",
     "validationError": "Controlla intensità e parametri (livelli 1–5).",
     "notAuthor": "Solo l'autore può modificare o eliminare questa esperienza.",
     "deleteSuccess": "Esperienza eliminata.",
@@ -305,6 +325,11 @@
       "message": "Questo rimuove permanentemente il tuo contributo dalla scatola.",
       "confirm": "Elimina esperienza",
       "cancel": "Annulla"
+    },
+    "deleteAllDialog": {
+      "title": "Rimuovere tutte le tue esperienze?",
+      "message": "Questo rimuove permanentemente {{count}} esperienza/e che hai aggiunto in questa scatola.",
+      "confirm": "Rimuovi tutti"
     }
   },
   "assistant": {

@@ -42,6 +42,12 @@ public class GroupService {
 
 	@Transactional
 	public JointAuthSessionResponse openExperienceBoxSession(List<Participant> participants) {
+		return openExperienceBoxSession(participants, null, false);
+	}
+
+	@Transactional
+	public JointAuthSessionResponse openExperienceBoxSession(
+			List<Participant> participants, UUID targetGroupId, boolean requireAllMembers) {
 		Map<UUID, Participant> uniqueById = new LinkedHashMap<>();
 		for (Participant participant : participants) {
 			uniqueById.putIfAbsent(participant.getId(), participant);
@@ -53,13 +59,19 @@ public class GroupService {
 
 		List<UUID> participantIds = members.stream().map(Participant::getId).toList();
 
-		List<UUID> groupIds = resolveGroupIds(participantIds);
-		if (groupIds.isEmpty()) {
-			groupIds = List.of(createGroupWithMembers(participantIds).getId());
+		List<UUID> groupIds;
+		if (targetGroupId != null) {
+			groupIds = List.of(openTargetedGroupSession(targetGroupId, participantIds, requireAllMembers));
+		} else {
+			groupIds = resolveGroupIds(participantIds);
+			if (groupIds.isEmpty()) {
+				groupIds = List.of(createGroupWithMembers(participantIds).getId());
+			}
 		}
 
 		List<GroupMemberResponse> memberResponses = members.stream()
-				.map(member -> new GroupMemberResponse(member.getId(), member.getDisplayName()))
+				.map(member -> new GroupMemberResponse(
+						member.getId(), member.getDisplayName(), member.getEmail()))
 				.toList();
 
 		List<String> displayNames = members.stream().map(Participant::getDisplayName).toList();
@@ -71,6 +83,39 @@ public class GroupService {
 				groupIds,
 				memberResponses,
 				AccessMode.EXPERIENCE_BOX);
+	}
+
+	private UUID openTargetedGroupSession(
+			UUID groupId, List<UUID> participantIds, boolean requireAllMembers) {
+		ensureGroupExists(groupId);
+
+		List<UUID> memberIds = groupParticipantRepository.findParticipantIdsByGroupId(groupId);
+		Set<UUID> membership = new HashSet<>(memberIds);
+
+		for (UUID participantId : participantIds) {
+			if (!membership.contains(participantId)) {
+				throw new ApiException(
+						HttpStatus.CONFLICT,
+						"GROUP_TARGET_MISMATCH",
+						"Credentials do not belong to the selected group.");
+			}
+		}
+
+		if (requireAllMembers && participantIds.size() != memberIds.size()) {
+			throw new ApiException(
+					HttpStatus.UNPROCESSABLE_ENTITY,
+					"GROUP_REQUIRES_ALL_MEMBERS",
+					"All group members must authenticate for this session.");
+		}
+
+		return groupId;
+	}
+
+	private Group ensureGroupExists(UUID groupId) {
+		return groupRepository
+				.findById(groupId)
+				.orElseThrow(() -> new ApiException(
+						HttpStatus.NOT_FOUND, "GROUP_NOT_FOUND", "Group not found."));
 	}
 
 	private List<UUID> resolveGroupIds(List<UUID> participantIds) {

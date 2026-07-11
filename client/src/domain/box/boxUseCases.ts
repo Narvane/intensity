@@ -77,6 +77,26 @@ export class CreateBoxUseCase {
   }
 }
 
+export interface UpdateBoxInput {
+  name: string;
+  requireAllParticipants: boolean;
+}
+
+export class UpdateBoxUseCase {
+  constructor(private readonly api: ApiClient) {}
+
+  execute(boxId: string, token: string, input: UpdateBoxInput): Promise<Box> {
+    return this.api.patch<Box>(
+      `/v1/boxes/${boxId}`,
+      {
+        name: input.name.trim(),
+        requireAllParticipants: input.requireAllParticipants,
+      },
+      token,
+    );
+  }
+}
+
 export class DeleteBoxUseCase {
   constructor(private readonly api: ApiClient) {}
 

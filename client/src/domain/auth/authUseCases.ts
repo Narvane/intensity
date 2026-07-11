@@ -83,6 +83,8 @@ export class LoginExperiencesUseCase {
 export interface LoginExperienceBoxInput {
   credentials: LoginInput[];
   reuseSessionToken?: string;
+  targetGroupId?: string;
+  requireAllMembers?: boolean;
 }
 
 export class LoginExperienceBoxUseCase {
@@ -95,6 +97,8 @@ export class LoginExperienceBoxUseCase {
     const response = await this.api.post<JointAuthSessionResponse>('/v1/auth/group', {
       credentials: input.credentials,
       reuseSessionToken: input.reuseSessionToken,
+      targetGroupId: input.targetGroupId,
+      requireAllMembers: input.requireAllMembers,
     });
     const session: SessionState = {
       token: response.token,

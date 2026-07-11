@@ -30,6 +30,7 @@ export interface Box {
 export interface GroupMember {
   participantId: string;
   displayName: string;
+  email?: string;
 }
 
 export interface Group {

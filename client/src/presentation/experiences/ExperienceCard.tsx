@@ -40,6 +40,28 @@ function ExperienceCardCover({ experience }: { experience: Experience }) {
   );
 }
 
+function FlipToggleButton({
+  flipped,
+  onFlipToggle,
+}: {
+  flipped: boolean;
+  onFlipToggle?: () => void;
+}) {
+  const { t } = useI18n();
+
+  return (
+    <button
+      type="button"
+      className={styles.flipButton}
+      aria-pressed={flipped}
+      aria-label={flipped ? t('experiences.unflipCard') : t('experiences.flipCard')}
+      onClick={onFlipToggle}
+    >
+      <FlipHorizontal2 size={20} strokeWidth={2.25} aria-hidden />
+    </button>
+  );
+}
+
 export function ExperienceCard({
   experience,
   participantId,
@@ -59,15 +81,7 @@ export function ExperienceCard({
           <div className={styles.flipInner} data-flipped={flipped ? 'true' : 'false'}>
             <div className={styles.front}>
               <div className={styles.metaBar}>
-                <button
-                  type="button"
-                  className={styles.flipButton}
-                  aria-pressed={flipped}
-                  aria-label={flipped ? t('experiences.unflipCard') : t('experiences.flipCard')}
-                  onClick={onFlipToggle}
-                >
-                  <FlipHorizontal2 size={20} strokeWidth={2.25} aria-hidden />
-                </button>
+                <FlipToggleButton flipped={flipped} onFlipToggle={onFlipToggle} />
               </div>
               <ExperienceCardCover experience={experience} />
               <div className={styles.actions}>
@@ -83,6 +97,9 @@ export function ExperienceCard({
             </div>
 
             <div className={styles.back}>
+              <div className={styles.metaBar}>
+                <FlipToggleButton flipped={flipped} onFlipToggle={onFlipToggle} />
+              </div>
               <ExperienceContentBlock experience={experience} />
             </div>
           </div>

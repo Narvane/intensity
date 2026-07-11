@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { UsersRound } from 'lucide-react';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
 import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
@@ -60,6 +61,7 @@ export function BoxSelectionPage() {
   const [createdBanner, setCreatedBanner] = useState<string | null>(null);
   const [warningBanner, setWarningBanner] = useState<string | null>(null);
   const [playBox, setPlayBox] = useState<Box | null>(null);
+  const [manageOpen, setManageOpen] = useState(false);
 
   const loadBoxes = useCallback(async () => {
     if (!experiencesSession?.token || !groupId) {
@@ -172,6 +174,17 @@ export function BoxSelectionPage() {
           </Button>
         )}
         {experiencesSession?.token && (
+          <button
+            type="button"
+            className={styles.manageButton}
+            aria-label={t('groups.manage')}
+            onClick={() => setManageOpen(true)}
+          >
+            <UsersRound size={18} strokeWidth={2.25} aria-hidden />
+            <span>{t('groups.manage')}</span>
+          </button>
+        )}
+        {experiencesSession?.token && (
           <NavButton
             action="leave"
             onClick={() => {
@@ -257,9 +270,20 @@ export function BoxSelectionPage() {
 
       <StartDrawSessionModal
         open={playBox !== null}
+        mode="play"
         box={playBox}
         groupId={groupId}
+        members={groupMembers}
         onClose={() => setPlayBox(null)}
+      />
+
+      <StartDrawSessionModal
+        open={manageOpen}
+        mode="manage"
+        box={null}
+        groupId={groupId}
+        members={groupMembers}
+        onClose={() => setManageOpen(false)}
       />
 
       <LeaveGroupDialog

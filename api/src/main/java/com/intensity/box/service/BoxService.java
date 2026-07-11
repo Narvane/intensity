@@ -2,6 +2,7 @@ package com.intensity.box.service;
 
 import com.intensity.box.dto.BoxResponse;
 import com.intensity.box.dto.CreateBoxRequest;
+import com.intensity.box.dto.UpdateBoxRequest;
 import com.intensity.box.entity.Box;
 import com.intensity.box.repository.BoxRepository;
 import com.intensity.common.AccessMode;
@@ -60,6 +61,26 @@ public class BoxService {
 		Box box = new Box(group, request.name(), request.type(), requireAllParticipants);
 		boxRepository.save(box);
 
+		return toResponse(box, principal);
+	}
+
+	@Transactional
+	public BoxResponse update(UUID boxId, UpdateBoxRequest request, AuthPrincipal principal) {
+		if (principal.accessMode() != AccessMode.EXPERIENCE_BOX) {
+			throw forbidden();
+		}
+
+		Box box = boxRepository
+				.findById(boxId)
+				.orElseThrow(() -> new ApiException(
+						HttpStatus.NOT_FOUND, "BOX_NOT_FOUND", "Box not found."));
+
+		if (!principal.canAccessExperienceBoxGroup(box.getGroup().getId())) {
+			throw forbidden();
+		}
+
+		boolean requireAllParticipants = Boolean.TRUE.equals(request.requireAllParticipants());
+		box.updateSettings(request.name(), requireAllParticipants);
 		return toResponse(box, principal);
 	}
 

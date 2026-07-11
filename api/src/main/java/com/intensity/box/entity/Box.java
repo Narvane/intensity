@@ -54,6 +54,11 @@ public class Box {
 		return requireAllParticipants;
 	}
 
+	public void updateSettings(String name, boolean requireAllParticipants) {
+		this.name = name.trim();
+		this.requireAllParticipants = requireAllParticipants;
+	}
+
 	public UUID getId() {
 		return id;
 	}

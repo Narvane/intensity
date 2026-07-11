@@ -2,12 +2,14 @@ package com.intensity.box.controller;
 
 import com.intensity.box.dto.BoxResponse;
 import com.intensity.box.dto.CreateBoxRequest;
+import com.intensity.box.dto.UpdateBoxRequest;
 import com.intensity.box.service.BoxService;
 import com.intensity.common.AuthPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +39,12 @@ public class BoxController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public BoxResponse createBox(@Valid @RequestBody CreateBoxRequest request) {
 		return boxService.create(request, AuthPrincipal.requireCurrent());
+	}
+
+	@PatchMapping("/boxes/{boxId}")
+	public BoxResponse updateBox(
+			@PathVariable UUID boxId, @Valid @RequestBody UpdateBoxRequest request) {
+		return boxService.update(boxId, request, AuthPrincipal.requireCurrent());
 	}
 
 	@DeleteMapping("/boxes/{boxId}")

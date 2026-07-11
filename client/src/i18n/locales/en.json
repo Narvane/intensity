@@ -89,6 +89,7 @@
       "participant": "Participant {{number}}",
       "prefilledYou": "You",
       "addParticipant": "Add participant",
+      "removeParticipant": "Remove",
       "submit": "Enter together"
     },
     "register": {
@@ -104,7 +105,9 @@
     "errors": {
       "network": "Could not reach the server. Check your connection and try again.",
       "invalidInviteCode": "Enter a valid 6-character invite code.",
-      "groupMembershipConflict": "These credentials belong to different groups. Sign in with members of the same group."
+      "groupMembershipConflict": "These credentials belong to different groups. Sign in with members of the same group.",
+      "groupTargetMismatch": "These credentials do not belong to the selected group.",
+      "groupRequiresAllMembers": "All group members must sign in for this session."
     }
   },
   "unknownSession": {
@@ -147,6 +150,12 @@
     "boxesSectionTitle": "Group boxes",
     "boxesSectionDescription": "These are the boxes that will be available when participants log in to Draw mode using this group's players.",
     "inviteToGroup": "Invite to group",
+    "manage": "Manage group",
+    "manageModal": {
+      "title": "Manage group",
+      "hostExplanation": "Sign in every participant of this group on this device to open the draw session and manage boxes.",
+      "submit": "Sign in and manage"
+    },
     "editSuccess": "Group updated.",
     "form": {
       "nameLabel": "Group name",
@@ -206,8 +215,10 @@
     "playModal": {
       "title": "Start draw",
       "close": "Close",
-      "hostExplanation": "You will be the host of this session: gather the participants, sign everyone in on this device, and start the draw once everyone is authenticated.",
+      "hostExplanation": "You will be the host of this session: gather the participants, sign in on this device, and start the draw for this box.",
       "participantsHint": "Every participant needs to enter their login to join the draw.",
+      "participantsHintRequired": "This box requires every group participant. Enter each person's password.",
+      "participantsHintOptional": "You can remove absent participants. The draw stays in this group and will not switch to another.",
       "submit": "Sign in and draw",
       "cancel": "Cancel"
     }
@@ -219,9 +230,16 @@
     "empty": "No boxes yet in this group.",
     "createFirst": "Create the first box",
     "open": "Open",
+    "edit": "Edit box",
     "delete": "Delete box",
     "menuLabel": "Box actions",
     "deleteSuccess": "\"{{name}}\" was deleted.",
+    "editSuccess": "\"{{name}}\" was updated.",
+    "editDialog": {
+      "title": "Edit box",
+      "confirm": "Save changes",
+      "cancel": "Cancel"
+    },
     "deleteDialog": {
       "title": "Delete \"{{name}}\"?",
       "message": "This permanently removes {{count}} experiences in this box.",
@@ -298,6 +316,8 @@
     "anonymous": "Group member",
     "edit": "Edit",
     "delete": "Delete",
+    "deleteAll": "Remove all",
+    "deleteAllSuccess": "All of your experiences in this box were removed.",
     "validationError": "Check intensity and parameters (levels 1–5).",
     "notAuthor": "Only the author can edit or delete this experience.",
     "deleteSuccess": "Experience deleted.",
@@ -306,6 +326,11 @@
       "message": "This permanently removes your contribution from the box.",
       "confirm": "Delete experience",
       "cancel": "Cancel"
+    },
+    "deleteAllDialog": {
+      "title": "Remove all of your experiences?",
+      "message": "This permanently removes {{count}} experience(s) you added to this box.",
+      "confirm": "Remove all"
     }
   },
   "assistant": {

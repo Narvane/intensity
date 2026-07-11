@@ -375,6 +375,31 @@ paths:
   /v1/boxes/{boxId}:
     parameters:
       - $ref: '#/components/parameters/BoxId'
+    patch:
+      tags: [Boxes]
+      summary: Update box name and presence requirement (Experience Box session)
+      operationId: updateBox
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBoxRequest'
+      responses:
+        '200':
+          description: Box updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Box'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
     delete:
       tags: [Boxes]
       summary: Delete box and cascade experiences
@@ -620,6 +645,18 @@ components:
         reuseSessionToken:
           type: string
           description: Optional Experiences session token to authenticate the first participant without re-entering credentials.
+        targetGroupId:
+          type: string
+          format: uuid
+          description: |
+            When set, the joint session is bound exclusively to this group.
+            Compatible/exact group resolution and new-group creation are skipped.
+        requireAllMembers:
+          type: boolean
+          default: false
+          description: |
+            When true with targetGroupId, every group member must authenticate.
+            When false, a non-empty subset of the target group's members may open the session.
 
     AuthSession:
       type: object
@@ -734,6 +771,10 @@ components:
           format: uuid
         displayName:
           type: string
+        email:
+          type: string
+          format: email
+          description: Present for authenticated group members; omitted on public invite previews.
 
     BoxType:
       type: string
@@ -825,6 +866,19 @@ components:
           type: boolean
           default: false
           description: Persist flag; filters Experience Box listing when true
+
+    UpdateBoxRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 80
+        requireAllParticipants:
+          type: boolean
+          default: false
+          description: When true, box is hidden unless all group members are in the joint session.
 
     ExperienceParameters:
       type: object

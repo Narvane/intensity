@@ -14,6 +14,7 @@ import {
   LeaveGroupUseCase,
   ListBoxesUseCase,
   ListGroupsUseCase,
+  UpdateBoxUseCase,
   UpdateGroupUseCase,
 } from '@domain/box/boxUseCases';
 import { useI18n } from '../../i18n/I18nContext';
@@ -31,6 +32,7 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { SessionModeFooter } from '../components/SessionModeFooter';
 import { resolveGroupAccent } from '../components/groupVisuals';
 import { DeleteBoxDialog } from './DeleteBoxDialog';
+import { EditBoxDialog } from './EditBoxDialog';
 import styles from './BoxHomePage.module.css';
 
 export function BoxHomePage() {
@@ -44,6 +46,7 @@ export function BoxHomePage() {
   const listBoxes = useMemo(() => new ListBoxesUseCase(api), [api]);
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const deleteBox = useMemo(() => new DeleteBoxUseCase(api), [api]);
+  const updateBox = useMemo(() => new UpdateBoxUseCase(api), [api]);
   const leaveGroup = useMemo(() => new LeaveGroupUseCase(api), [api]);
   const updateGroup = useMemo(() => new UpdateGroupUseCase(api), [api]);
 
@@ -60,6 +63,9 @@ export function BoxHomePage() {
   const [savingGroup, setSavingGroup] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
   const [boxToDelete, setBoxToDelete] = useState<Box | null>(null);
+  const [boxToEdit, setBoxToEdit] = useState<Box | null>(null);
+  const [savingBox, setSavingBox] = useState(false);
+  const [editBoxError, setEditBoxError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
@@ -160,6 +166,35 @@ export function BoxHomePage() {
       setDeleteError(err instanceof ApiError ? err.message : t('common.error'));
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const confirmEditBox = async (input: {
+    name: string;
+    requireAllParticipants: boolean;
+  }) => {
+    if (!boxToEdit || !experienceBoxSession?.token) {
+      return;
+    }
+
+    setSavingBox(true);
+    setEditBoxError(null);
+
+    try {
+      const updated = await updateBox.execute(
+        boxToEdit.id,
+        experienceBoxSession.token,
+        input,
+      );
+      setBoxes((current) =>
+        current.map((item) => (item.id === updated.id ? updated : item)),
+      );
+      setBoxToEdit(null);
+      showToast(t('boxHome.editSuccess', { name: updated.name }));
+    } catch (err) {
+      setEditBoxError(err instanceof ApiError ? err.message : t('common.error'));
+    } finally {
+      setSavingBox(false);
     }
   };
 
@@ -307,10 +342,14 @@ export function BoxHomePage() {
                   typeLabel={t(`boxTypes.${box.type}.title`)}
                   typeHint={t(`boxTypes.${box.type}.hint`)}
                   experienceCount={box.experienceCount}
-                  openLabel={t('boxHome.open')}
+                  playLabel={t('boxes.actions.play')}
+                  editLabel={t('boxHome.edit')}
                   deleteLabel={t('boxHome.delete')}
-                  menuLabel={t('boxHome.menuLabel')}
-                  onOpen={() => openBox(box)}
+                  onPlay={() => openBox(box)}
+                  onEdit={() => {
+                    setEditBoxError(null);
+                    setBoxToEdit(box);
+                  }}
                   onDelete={() => {
                     setDeleteError(null);
                     setBoxToDelete(box);
@@ -340,6 +379,19 @@ export function BoxHomePage() {
           if (!deleting) {
             setBoxToDelete(null);
             setDeleteError(null);
+          }
+        }}
+      />
+
+      <EditBoxDialog
+        box={boxToEdit}
+        saving={savingBox}
+        error={editBoxError}
+        onConfirm={(input) => void confirmEditBox(input)}
+        onCancel={() => {
+          if (!savingBox) {
+            setBoxToEdit(null);
+            setEditBoxError(null);
           }
         }}
       />

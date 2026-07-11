@@ -106,7 +106,8 @@ public class GroupQueryService {
 		List<UUID> participantIds = groupParticipantRepository.findParticipantIdsByGroupId(groupId);
 		return participantRepository.findAllById(participantIds).stream()
 				.sorted(Comparator.comparing(Participant::getDisplayName, String.CASE_INSENSITIVE_ORDER))
-				.map(participant -> new GroupMemberResponse(participant.getId(), participant.getDisplayName()))
+				.map(participant -> new GroupMemberResponse(
+						participant.getId(), participant.getDisplayName(), participant.getEmail()))
 				.toList();
 	}
 

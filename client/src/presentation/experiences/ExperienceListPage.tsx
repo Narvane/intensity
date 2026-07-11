@@ -27,6 +27,8 @@ import { SessionModeFooter } from '../components/SessionModeFooter';
 import { CreationAssistant } from './CreationAssistant';
 import { DeleteExperienceDialog } from './DeleteExperienceDialog';
 import { ExperienceCard } from './ExperienceCard';
+import { DestructiveConfirmDialog } from '../components/DestructiveConfirmDialog';
+import { useOnlineStatus } from '@presentation/hooks/useOnlineStatus';
 import styles from './ExperienceListPage.module.css';
 
 export function ExperienceListPage() {
@@ -37,6 +39,7 @@ export function ExperienceListPage() {
   const { showToast } = useToast();
   const logout = useAppLogout('EXPERIENCES');
   const navigate = useNavigate();
+  const online = useOnlineStatus();
   const api = useMemo(() => createApiClient(), []);
   const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
   const deleteExperience = useMemo(() => new DeleteExperienceUseCase(api), [api]);
@@ -47,6 +50,7 @@ export function ExperienceListPage() {
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [editing, setEditing] = useState<Experience | null>(null);
   const [experienceToDelete, setExperienceToDelete] = useState<Experience | null>(null);
+  const [deleteAllOpen, setDeleteAllOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set());
@@ -139,6 +143,31 @@ export function ExperienceListPage() {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (!experiencesSession?.token || experiences.length === 0) {
+      return;
+    }
+
+    setDeleting(true);
+    setDeleteError(null);
+
+    try {
+      const ids = experiences.map((experience) => experience.id);
+      for (const id of ids) {
+        await deleteExperience.execute(id, experiencesSession.token);
+      }
+      setExperiences([]);
+      setFlippedIds(new Set());
+      setDeleteAllOpen(false);
+      showToast(t('experiences.deleteAllSuccess'));
+    } catch (err) {
+      setDeleteError(resolveExperienceError(err, t));
+      await loadExperiences();
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const openCreateAssistant = () => {
     setEditing(null);
     setAssistantOpen(true);
@@ -168,6 +197,17 @@ export function ExperienceListPage() {
 
       <div className={styles.toolbar}>
         <Button onClick={openCreateAssistant}>{t('experiences.create')}</Button>
+        {experiences.length > 0 && (
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setDeleteError(null);
+              setDeleteAllOpen(true);
+            }}
+          >
+            {t('experiences.deleteAll')}
+          </Button>
+        )}
         {flippableIds.length > 0 && (
           <>
             <span className={styles.toolbarSpacer} aria-hidden />
@@ -233,11 +273,22 @@ export function ExperienceListPage() {
             setEditing(null);
           }}
           onSaved={(saved) => {
-            const savedIds = new Set(saved.map((item) => item.id));
-            setExperiences((current) => [
-              ...saved,
-              ...current.filter((item) => !savedIds.has(item.id)),
-            ]);
+            setExperiences((current) => {
+              if (editing) {
+                const editedId = editing.id;
+                const updated = saved[0];
+                if (!updated) {
+                  return current;
+                }
+                return current.map((item) => (item.id === editedId ? updated : item));
+              }
+
+              const savedIds = new Set(saved.map((item) => item.id));
+              return [
+                ...saved,
+                ...current.filter((item) => !savedIds.has(item.id)),
+              ];
+            });
             setEditing(null);
           }}
         />
@@ -245,12 +296,34 @@ export function ExperienceListPage() {
 
       <DeleteExperienceDialog
         experience={experienceToDelete}
-        deleting={deleting}
+        deleting={deleting && !deleteAllOpen}
         error={deleteError}
         onConfirm={() => void handleDelete()}
         onCancel={() => {
           if (!deleting) {
             setExperienceToDelete(null);
+            setDeleteError(null);
+          }
+        }}
+      />
+
+      <DestructiveConfirmDialog
+        open={deleteAllOpen}
+        titleId="delete-all-experiences-title"
+        title={t('experiences.deleteAllDialog.title')}
+        message={t('experiences.deleteAllDialog.message', {
+          count: String(experiences.length),
+        })}
+        confirmLabel={t('experiences.deleteAllDialog.confirm')}
+        cancelLabel={t('experiences.deleteDialog.cancel')}
+        confirming={deleting && deleteAllOpen}
+        error={deleteError}
+        offlineBlocked={!online}
+        offlineMessage={t('common.offlineDestructiveBlocked')}
+        onConfirm={() => void handleDeleteAll()}
+        onCancel={() => {
+          if (!deleting) {
+            setDeleteAllOpen(false);
             setDeleteError(null);
           }
         }}

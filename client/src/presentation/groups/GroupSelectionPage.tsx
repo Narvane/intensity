@@ -14,6 +14,7 @@ import {
   UpdateGroupUseCase,
 } from '@domain/box/boxUseCases';
 import { useI18n } from '../../i18n/I18nContext';
+import { StartDrawSessionModal } from '../boxes/StartDrawSessionModal';
 import { Button } from '../components/Button';
 import { AppLoader } from '../components/AppLoader';
 import { NavButton } from '../components/NavButton';
@@ -43,6 +44,7 @@ export function GroupSelectionPage() {
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
   const [groupToEdit, setGroupToEdit] = useState<Group | null>(null);
+  const [groupToManage, setGroupToManage] = useState<Group | null>(null);
   const [savingGroup, setSavingGroup] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
 
@@ -182,17 +184,27 @@ export function GroupSelectionPage() {
                         </span>
                       </span>
                     </button>
-                    <button
-                      type="button"
-                      className={styles.editButton}
-                      aria-label={t('groups.editDialog.title')}
-                      onClick={() => {
-                        setEditError(null);
-                        setGroupToEdit(group);
-                      }}
-                    >
-                      <Pencil size={18} strokeWidth={2.25} aria-hidden />
-                    </button>
+                    <div className={styles.cardActions}>
+                      <button
+                        type="button"
+                        className={styles.actionButton}
+                        aria-label={t('groups.manage')}
+                        onClick={() => setGroupToManage(group)}
+                      >
+                        <UsersRound size={18} strokeWidth={2.25} aria-hidden />
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.actionButton}
+                        aria-label={t('groups.editDialog.title')}
+                        onClick={() => {
+                          setEditError(null);
+                          setGroupToEdit(group);
+                        }}
+                      >
+                        <Pencil size={18} strokeWidth={2.25} aria-hidden />
+                      </button>
+                    </div>
                   </div>
                 </li>
               );
@@ -231,6 +243,15 @@ export function GroupSelectionPage() {
             }}
           />
         )}
+
+        <StartDrawSessionModal
+          open={groupToManage !== null}
+          mode="manage"
+          box={null}
+          groupId={groupToManage?.id ?? ''}
+          members={groupToManage?.members ?? []}
+          onClose={() => setGroupToManage(null)}
+        />
       </main>
       <SessionModeFooter
         mode="EXPERIENCES"

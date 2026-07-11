@@ -13,12 +13,12 @@
     "generate:native-assets": "node scripts/generate-native-assets.mjs"
   },
   "dependencies": {
+    "@capacitor-community/safe-area": "^7.0.0",
     "@capacitor/app": "^7.0.1",
     "@capacitor/core": "^7.0.1",
     "@capacitor/preferences": "^7.0.1",
     "@capacitor/share": "^7.0.4",
     "@capacitor/splash-screen": "^7.0.1",
-    "@capacitor/status-bar": "^7.0.1",
     "lottie-react": "^2.4.1",
     "lucide-react": "^1.20.0",
     "react": "^19.1.0",

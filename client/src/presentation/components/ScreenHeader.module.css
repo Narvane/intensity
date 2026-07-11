@@ -3,7 +3,6 @@
   flex-direction: column;
   gap: 0.65rem;
   margin-bottom: 1.25rem;
-  padding-top: env(safe-area-inset-top, 0);
   min-width: 0;
   max-width: 100%;
 }

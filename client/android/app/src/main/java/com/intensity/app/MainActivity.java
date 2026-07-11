@@ -3,12 +3,16 @@ package com.intensity.app;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import androidx.activity.EdgeToEdge;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Required by @capacitor-community/safe-area: draw under system bars and
+		// let CSS env(safe-area-inset-*) (or the plugin padding fallback) own insets.
+		EdgeToEdge.enable(this);
 		disableWebViewZoom();
 	}
 

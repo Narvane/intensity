@@ -1,3 +1,4 @@
+/// <reference types="@capacitor-community/safe-area" />
 import type { CapacitorConfig } from '@capacitor/cli';
 
 // Local dev uses an HTTP API (e.g. http://192.168.x.x:8080). androidScheme must be
@@ -17,16 +18,17 @@ const config: CapacitorConfig = {
         androidScheme: 'http',
         cleartext: true,
       },
-  android: isStoreBuild
-    ? {}
-    : {
-        allowMixedContent: true,
-      },
+  android: {
+    // Safe-area plugin owns inset handling; avoid Capacitordouble-margining.
+    adjustMarginsForEdgeToEdge: 'disable',
+    ...(isStoreBuild ? {} : { allowMixedContent: true }),
+  },
   plugins: {
-    StatusBar: {
-      overlaysWebView: false,
-      style: 'LIGHT',
-      backgroundColor: '#fff7ed',
+    SafeArea: {
+      statusBarStyle: 'LIGHT',
+      navigationBarStyle: 'LIGHT',
+      initialViewportFitCover: true,
+      detectViewportFitCoverChanges: true,
     },
   },
 };

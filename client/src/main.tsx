@@ -1,13 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Capacitor } from '@capacitor/core';
-import { StatusBar, Style } from '@capacitor/status-bar';
+import { SafeArea, SystemBarsStyle } from '@capacitor-community/safe-area';
 import { AppProviders } from '@app/providers';
 import { AppRouter } from '@app/routes';
 import { getBrandIconUrl } from './content/brandAssets';
 import '@presentation/styles/global.css';
-
-const APP_BACKGROUND = '#fff7ed';
 
 function applyBrandFavicon() {
   const iconUrl = getBrandIconUrl();
@@ -30,12 +28,9 @@ async function initNativeChrome() {
     return;
   }
 
-  if (Capacitor.getPlatform() === 'android') {
-    await StatusBar.setOverlaysWebView({ overlay: false });
-    await StatusBar.setBackgroundColor({ color: APP_BACKGROUND });
-  }
-
-  await StatusBar.setStyle({ style: Style.Light });
+  // Edge-to-edge + CSS env(safe-area-inset-*) is the single inset contract.
+  // @capacitor-community/safe-area polyfills broken Android WebViews.
+  await SafeArea.setSystemBarsStyle({ style: SystemBarsStyle.Light });
 }
 
 void initNativeChrome();

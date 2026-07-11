@@ -87,6 +87,7 @@ html[data-session-footer] main {
 
 html {
   background: var(--color-bg);
+  touch-action: manipulation;
 }
 
 body {
@@ -95,6 +96,7 @@ body {
   min-height: 100dvh;
   background: var(--color-bg);
   color: var(--color-text);
+  touch-action: manipulation;
 }
 
 h1,

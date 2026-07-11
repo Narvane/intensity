@@ -90,7 +90,7 @@ export function BoxCard({
             {onDelete && (
               <button
                 type="button"
-                className={`${styles.actionButton} ${styles.actionButtonDanger}`}
+                className={styles.actionButton}
                 aria-label={deleteLabel}
                 onClick={onDelete}
               >

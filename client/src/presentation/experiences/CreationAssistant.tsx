@@ -432,27 +432,27 @@ export function CreationAssistant({
               {error}
             </p>
           )}
-
-          <footer className={styles.footer}>
-            {step > 1 && <NavButton action="back" onClick={goBack} />}
-
-            {(!isLastStep || !isLastDraft) && (
-              <Button fullWidth disabled={!canAdvance} onClick={goNext}>
-                {primaryLabel}
-              </Button>
-            )}
-
-            {isLastStep && isLastDraft && (
-              <Button fullWidth disabled={loading} onClick={() => void save()}>
-                {loading
-                  ? t('common.loading')
-                  : editing
-                    ? t('assistant.saveChanges')
-                    : t('assistant.saveFinish')}
-              </Button>
-            )}
-          </footer>
         </div>
+
+        <footer className={styles.footer}>
+          {step > 1 && <NavButton action="back" onClick={goBack} />}
+
+          {(!isLastStep || !isLastDraft) && (
+            <Button fullWidth disabled={!canAdvance} onClick={goNext}>
+              {primaryLabel}
+            </Button>
+          )}
+
+          {isLastStep && isLastDraft && (
+            <Button fullWidth disabled={loading} onClick={() => void save()}>
+              {loading
+                ? t('common.loading')
+                : editing
+                  ? t('assistant.saveChanges')
+                  : t('assistant.saveFinish')}
+            </Button>
+          )}
+        </footer>
       </section>
     </div>
   );

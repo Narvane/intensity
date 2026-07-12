@@ -17,10 +17,10 @@ import {
 } from '@domain/invite/pendingInvite';
 import { consumeExperienceBoxSessionEndReason } from '@domain/session/experienceBoxSessionEnd';
 import { useI18n } from '../../i18n/I18nContext';
-import { BrandMark } from '../components/BrandMark';
 import { AuthModeIntro } from '../components/AuthModeIntro';
 import { Button } from '../components/Button';
 import { NavButton } from '../components/NavButton';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { QuickGuideOverlay } from '../quick-guide/QuickGuideOverlay';
 import styles from './AuthPage.module.css';
 
@@ -252,19 +252,16 @@ export function AuthPage() {
   return (
     <>
       <main className={styles.page}>
-        <header className={styles.brandBar}>
-          <BrandMark
-            variant="wordmark"
-            size="auth"
-            accessibleName={t('app.name')}
-          />
-          <NavButton
-            action="help"
-            iconOnly
-            className={styles.helpButton}
-            onClick={() => setQuickGuideOpen(true)}
-          />
-        </header>
+        <ScreenHeader
+          leading={<span aria-hidden="true" />}
+          trailing={
+            <NavButton
+              action="help"
+              iconOnly
+              onClick={() => setQuickGuideOpen(true)}
+            />
+          }
+        />
 
         <nav className={styles.tabs} aria-label={t('auth.tabsLabel')}>
           {(['experiences', 'experienceBox', 'register', 'invite'] as AuthPanel[]).map((tab) => (
@@ -513,6 +510,7 @@ export function AuthPage() {
           )}
         </section>
       </main>
+      <div className={styles.bottomSafePad} aria-hidden="true" />
 
       <QuickGuideOverlay open={quickGuideOpen} onClose={() => setQuickGuideOpen(false)} />
     </>

@@ -41,13 +41,25 @@ export function BoxCard({
   onDelete,
 }: BoxCardProps) {
   const { family, Icon } = getBoxVisual(type);
-  const hasActionBar = Boolean(onPlay || onOpenExperiences || onEdit || onDelete);
+  const hasActionBar = Boolean(onPlay || onOpenExperiences || onEdit);
   const showCounts =
-    hasActionBar && myExperienceCount !== undefined && experienceCount !== undefined;
+    (hasActionBar || onDelete) &&
+    myExperienceCount !== undefined &&
+    experienceCount !== undefined;
 
   return (
     <article className={styles.card} data-type={type} data-family={family}>
-      <div className={styles.body}>
+      {onDelete && (
+        <button
+          type="button"
+          className={styles.deleteButton}
+          aria-label={deleteLabel}
+          onClick={onDelete}
+        >
+          <Trash2 aria-hidden="true" />
+        </button>
+      )}
+      <div className={[styles.body, onDelete ? styles.bodyWithDelete : null].filter(Boolean).join(' ')}>
         <span className={styles.iconWrap} aria-hidden="true">
           <Icon />
         </span>
@@ -87,16 +99,6 @@ export function BoxCard({
                 <Pencil aria-hidden="true" />
               </button>
             )}
-            {onDelete && (
-              <button
-                type="button"
-                className={styles.actionButton}
-                aria-label={deleteLabel}
-                onClick={onDelete}
-              >
-                <Trash2 aria-hidden="true" />
-              </button>
-            )}
           </div>
         )}
 
@@ -108,7 +110,7 @@ export function BoxCard({
           </span>
         )}
 
-        {!hasActionBar && experienceCount !== undefined && (
+        {!hasActionBar && !onDelete && experienceCount !== undefined && (
           <span className={styles.count}>{experienceCount} ideias</span>
         )}
       </div>

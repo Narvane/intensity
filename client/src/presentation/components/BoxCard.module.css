@@ -54,6 +54,42 @@
   padding: 1rem;
 }
 
+.bodyWithDelete {
+  padding-right: 3.1rem;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 1;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: none;
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.42);
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+
+.deleteButton:hover {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.deleteButton:active {
+  transform: scale(0.94);
+}
+
+.deleteButton svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  stroke-width: 2.4;
+}
+
 .open:active {
   transform: scale(0.98);
 }

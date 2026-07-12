@@ -1,8 +1,5 @@
 .banner {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  padding: 0.65rem var(--space-page);
+  padding: calc(0.65rem + var(--safe-area-top)) var(--space-page) 0.65rem;
   background: var(--yellow);
   color: var(--text);
   text-align: center;

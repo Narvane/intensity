@@ -77,7 +77,7 @@
       "subtitle": "Create experiences on your own",
       "submit": "Sign in",
       "continue": "Continue",
-      "sessionActive": "You are still signed in on this device.",
+      "sessionActive": "Still signed in on this device.",
       "signOut": "Sign out",
       "passwordSaved": "Password saved on this device"
     },

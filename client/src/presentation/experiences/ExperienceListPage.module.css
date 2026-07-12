@@ -53,6 +53,31 @@
   min-width: 0;
 }
 
+.deleteAllButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  padding: 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--surface);
+  color: var(--color-text);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+
+.deleteAllButton:hover {
+  background: var(--surface-sunken);
+}
+
+.deleteAllButton:active {
+  transform: scale(0.96);
+}
+
 .flipAllButton {
   display: inline-flex;
   align-items: center;

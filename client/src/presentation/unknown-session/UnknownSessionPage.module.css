@@ -5,6 +5,8 @@
   justify-content: center;
   gap: 1rem;
   padding: var(--space-page);
+  padding-top: calc(var(--space-page) + var(--safe-area-top));
+  padding-bottom: calc(var(--space-page) + var(--safe-area-bottom));
   background: var(--bg);
 }
 

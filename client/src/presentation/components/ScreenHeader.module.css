@@ -1,10 +1,14 @@
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-bottom: 1.25rem;
+.stickyBar {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  /* Cancel page padding so sticky chrome sits flush with the viewport top. */
+  margin: calc(-1 * var(--space-page)) calc(-1 * var(--space-page)) 0.25rem;
+  padding: var(--safe-area-top) var(--space-page) 0.35rem;
+  background: var(--bg);
   min-width: 0;
-  max-width: 100%;
+  max-width: none;
+  width: auto;
 }
 
 .toolbar {
@@ -65,4 +69,5 @@
 .content {
   min-width: 0;
   width: 100%;
+  margin-bottom: 1.25rem;
 }

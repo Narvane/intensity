@@ -5,14 +5,16 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 1rem;
+  padding: max(1rem, var(--safe-area-top)) max(1rem, var(--safe-area-right))
+    max(1rem, var(--safe-area-bottom)) max(1rem, var(--safe-area-left));
+  box-sizing: border-box;
   background: rgba(31, 31, 31, 0.28);
   backdrop-filter: blur(6px);
 }
 
 .dialog {
   width: min(100%, 26rem);
-  max-height: min(92dvh, 40rem);
+  max-height: 100%;
   overflow: auto;
   border-radius: var(--radius-card);
   border: none;

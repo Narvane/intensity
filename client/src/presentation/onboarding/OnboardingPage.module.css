@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: 1.25rem;
   padding: var(--space-page);
+  padding-top: calc(var(--space-page) + var(--safe-area-top));
   padding-bottom: calc(var(--space-page) + var(--safe-area-bottom));
   background: var(--bg);
 }

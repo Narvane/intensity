@@ -5,18 +5,21 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  padding: max(0px, var(--safe-area-top)) max(0px, var(--safe-area-right)) 0
+    max(0px, var(--safe-area-left));
+  box-sizing: border-box;
   background: rgba(31, 31, 31, 0.22);
   backdrop-filter: blur(6px);
 }
 
 .sheet {
   width: min(100%, 32rem);
-  max-height: 90dvh;
+  max-height: min(90dvh, 100%);
   overflow: auto;
   border-radius: var(--radius-card) var(--radius-card) 0 0;
   border: none;
   background: var(--surface);
-  padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom, 0));
+  padding: 1.25rem 1.25rem calc(1.25rem + var(--safe-area-bottom));
   box-shadow: var(--shadow-soft);
 }
 

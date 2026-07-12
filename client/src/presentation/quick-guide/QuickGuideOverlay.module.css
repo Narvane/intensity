@@ -5,13 +5,15 @@
   backdrop-filter: blur(6px);
   display: grid;
   place-items: end center;
-  padding: 1rem;
+  padding: max(1rem, var(--safe-area-top)) max(1rem, var(--safe-area-right))
+    max(1rem, var(--safe-area-bottom)) max(1rem, var(--safe-area-left));
+  box-sizing: border-box;
   z-index: 100;
 }
 
 .panel {
   width: min(100%, 28rem);
-  max-height: min(85dvh, 40rem);
+  max-height: 100%;
   overflow: auto;
   background: var(--surface);
   border: none;

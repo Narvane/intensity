@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FlipHorizontal2 } from 'lucide-react';
+import { FlipHorizontal2, Trash2 } from 'lucide-react';
 import { createApiClient } from '@adapters/api/ApiClient';
 import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
@@ -198,15 +198,17 @@ export function ExperienceListPage() {
       <div className={styles.toolbar}>
         <Button onClick={openCreateAssistant}>{t('experiences.create')}</Button>
         {experiences.length > 0 && (
-          <Button
-            variant="secondary"
+          <button
+            type="button"
+            className={styles.deleteAllButton}
+            aria-label={t('experiences.deleteAll')}
             onClick={() => {
               setDeleteError(null);
               setDeleteAllOpen(true);
             }}
           >
-            {t('experiences.deleteAll')}
-          </Button>
+            <Trash2 size={20} strokeWidth={2.25} aria-hidden />
+          </button>
         )}
         {flippableIds.length > 0 && (
           <>

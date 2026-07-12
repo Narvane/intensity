@@ -24,7 +24,9 @@
   top: 0;
   z-index: 6;
   margin: 0 calc(-1 * var(--space-page));
-  padding: 0.65rem var(--space-page) 0.85rem;
+  /* Safe-area stays inside the sticky surface so the title clears the system bar
+     without leaving a transparent gap above when stuck. */
+  padding: calc(0.65rem + var(--safe-area-top)) var(--space-page) 0.85rem;
   background: color-mix(in srgb, var(--bg) 92%, white);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);

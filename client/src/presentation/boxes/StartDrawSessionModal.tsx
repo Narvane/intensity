@@ -5,6 +5,7 @@ import { createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { LoginExperienceBoxUseCase } from '@domain/auth/authUseCases';
 import type { Box, GroupMember } from '@domain/box/boxTypes';
+import { ListGroupsUseCase } from '@domain/box/boxUseCases';
 import { useModalDialog } from '@presentation/hooks/useModalDialog';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
@@ -33,23 +34,37 @@ interface StartDrawSessionModalProps {
 
 function buildInitialCredentials(
   members: GroupMember[],
-  experiencesEmail: string,
-  hasExperiencesSession: boolean,
+  options: {
+    experiencesEmail: string;
+    hasExperiencesSession: boolean;
+    currentParticipantId?: string;
+  },
 ): CredentialForm[] {
+  const { experiencesEmail, hasExperiencesSession, currentParticipantId } = options;
+  const normalizedSessionEmail = experiencesEmail.trim().toLowerCase();
+
   if (members.length === 0) {
     return [
-      hasExperiencesSession
+      hasExperiencesSession && experiencesEmail
         ? { email: experiencesEmail, password: MASKED_PASSWORD }
         : emptyCredential(),
     ];
   }
 
-  const normalizedSessionEmail = experiencesEmail.trim().toLowerCase();
+  const isCurrentMember = (member: GroupMember) => {
+    if (!hasExperiencesSession) {
+      return false;
+    }
+    if (currentParticipantId && member.participantId === currentParticipantId) {
+      return true;
+    }
+    const memberEmail = (member.email ?? '').trim().toLowerCase();
+    return Boolean(memberEmail && memberEmail === normalizedSessionEmail);
+  };
+
   const ordered = [...members].sort((left, right) => {
-    const leftIsYou =
-      hasExperiencesSession && (left.email ?? '').trim().toLowerCase() === normalizedSessionEmail;
-    const rightIsYou =
-      hasExperiencesSession && (right.email ?? '').trim().toLowerCase() === normalizedSessionEmail;
+    const leftIsYou = isCurrentMember(left);
+    const rightIsYou = isCurrentMember(right);
     if (leftIsYou === rightIsYou) {
       return left.displayName.localeCompare(right.displayName, undefined, { sensitivity: 'base' });
     }
@@ -57,9 +72,8 @@ function buildInitialCredentials(
   });
 
   return ordered.map((member) => {
-    const email = member.email ?? '';
-    const isYou =
-      hasExperiencesSession && email.trim().toLowerCase() === normalizedSessionEmail;
+    const isYou = isCurrentMember(member);
+    const email = (member.email ?? (isYou ? experiencesEmail : '')).trim();
     return {
       email,
       password: isYou ? MASKED_PASSWORD : '',
@@ -88,14 +102,17 @@ export function StartDrawSessionModal({
     () => new LoginExperienceBoxUseCase(api, sessionPort),
     [api, sessionPort],
   );
+  const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
 
   const [credentials, setCredentials] = useState<CredentialForm[]>([emptyCredential()]);
+  const [roster, setRoster] = useState<GroupMember[]>(members);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { dialogRef, cancelRef } = useModalDialog(open, onClose, loading);
 
   const experiencesEmail = experiencesSession?.email ?? '';
   const hasExperiencesSession = experiencesSession?.accessMode === 'EXPERIENCES';
+  const currentParticipantId = experiencesSession?.participantId;
   const requireAllParticipants =
     mode === 'manage' ? true : Boolean(box?.requireAllParticipants);
   const canEditRoster = !requireAllParticipants;
@@ -107,8 +124,54 @@ export function StartDrawSessionModal({
 
     setError(null);
     setLoading(false);
-    setCredentials(buildInitialCredentials(members, experiencesEmail, hasExperiencesSession));
-  }, [open, members, hasExperiencesSession, experiencesEmail]);
+    setRoster(members);
+    setCredentials(
+      buildInitialCredentials(members, {
+        experiencesEmail,
+        hasExperiencesSession,
+        currentParticipantId,
+      }),
+    );
+
+    const token = experiencesSession?.token;
+    if (!token || !groupId) {
+      return;
+    }
+
+    let cancelled = false;
+    void listGroups
+      .execute(token)
+      .then((groups) => {
+        if (cancelled) {
+          return;
+        }
+        const freshMembers = groups.find((group) => group.id === groupId)?.members ?? members;
+        setRoster(freshMembers);
+        setCredentials(
+          buildInitialCredentials(freshMembers, {
+            experiencesEmail,
+            hasExperiencesSession,
+            currentParticipantId,
+          }),
+        );
+      })
+      .catch(() => {
+        /* Keep prop-based roster if refresh fails. */
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    open,
+    members,
+    groupId,
+    listGroups,
+    experiencesSession?.token,
+    hasExperiencesSession,
+    experiencesEmail,
+    currentParticipantId,
+  ]);
 
   if (!open || (mode === 'play' && !box)) {
     return null;
@@ -166,7 +229,7 @@ export function StartDrawSessionModal({
         return;
       }
 
-      if (requireAllParticipants && filled.length < members.length) {
+      if (requireAllParticipants && filled.length < roster.length) {
         setError(t('auth.errors.groupRequiresAllMembers'));
         return;
       }

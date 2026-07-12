@@ -39,7 +39,8 @@ class CreateGroupIntegrationTest extends AbstractMockMvcIntegrationTest {
 				.andExpect(jsonPath("$", hasSize(1)))
 				.andExpect(jsonPath("$[0].memberCount").value(1))
 				.andExpect(jsonPath("$[0].members", hasSize(1)))
-				.andExpect(jsonPath("$[0].members[0].displayName").value("Carol"));
+				.andExpect(jsonPath("$[0].members[0].displayName").value("Carol"))
+				.andExpect(jsonPath("$[0].members[0].email").value("carol@example.com"));
 	}
 
 	@Test

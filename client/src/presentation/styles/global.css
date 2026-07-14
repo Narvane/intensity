@@ -122,29 +122,6 @@ select {
   box-sizing: border-box;
 }
 
-html[data-demo-shell='true'],
-html[data-demo-shell='true'] body,
-html[data-demo-shell='true'] #root,
-body[data-demo-shell='true'],
-body[data-demo-shell='true'] #root {
-  min-height: 100dvh;
-  height: 100%;
-  background: #14110f;
-  padding-left: 0;
-  padding-right: 0;
-  margin: 0;
-}
-
-html[data-demo-shell='true'] #root,
-body[data-demo-shell='true'] #root {
-  min-height: 100dvh;
-}
-
-/* Pages use 100dvh; inside the phone frame prefer filling the screen. */
-html[data-demo-shell='true'] main {
-  min-height: 100% !important;
-}
-
 .srOnly {
   position: absolute;
   width: 1px;

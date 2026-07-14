@@ -137,6 +137,7 @@
   },
   "demo": {
     "banner": "Ambiente demonstrativo · dados fictícios resetam todo dia",
+    "mobileTip": "Dica: F12 → toolbar de dispositivo (Ctrl+Shift+M) para ver no tamanho de celular.",
     "shortcutsLabel": "Contas de exemplo",
     "coupleShortcut": "Leo + Maya",
     "trioShortcut": "Leo + Maya + Nico",

@@ -21,10 +21,9 @@ intensity/
 ├── deploy/       Production VPS stack (Compose + Caddy + webhook)
 ├── openapi/      Contract-first OpenAPI v1
 ├── assets/       Brand logos (Vite imports)
-├── agents/       Agent prompts for backlog tasks
+├── agents/       Agent prompts
 ├── scripts/      Doc reference validation
-├── docs/         Product documentation (@ref:docs-en)
-└── backlog.md    Product backlog
+└── docs/         Product documentation (@ref:docs-en)
 ```
 
 ### Backend stack

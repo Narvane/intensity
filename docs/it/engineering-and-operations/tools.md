@@ -23,8 +23,7 @@ intensity/
 ├── assets/       Loghi brand (Vite)
 ├── agents/       Prompt agenti
 ├── scripts/      Validazione riferimenti
-├── docs/         Documentazione prodotto
-└── backlog.md    Backlog prodotto
+└── docs/         Documentazione prodotto
 ```
 
 ### Stack backend

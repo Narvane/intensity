@@ -137,6 +137,7 @@
   },
   "demo": {
     "banner": "Demo environment · sample data resets daily",
+    "mobileTip": "Tip: press F12 → toggle device toolbar (Ctrl+Shift+M) for a phone-sized preview.",
     "shortcutsLabel": "Try sample accounts",
     "coupleShortcut": "Leo + Maya",
     "trioShortcut": "Leo + Maya + Nico",

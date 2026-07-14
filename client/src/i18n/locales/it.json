@@ -137,6 +137,7 @@
   },
   "demo": {
     "banner": "Ambiente demo · i dati di esempio si azzerano ogni giorno",
+    "mobileTip": "Suggerimento: F12 → barra del dispositivo (Ctrl+Shift+M) per un'anteprima da telefono.",
     "shortcutsLabel": "Account di esempio",
     "coupleShortcut": "Leo + Maya",
     "trioShortcut": "Leo + Maya + Nico",

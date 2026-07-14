@@ -18,7 +18,9 @@ Try the product in the browser (no app install). Sample data resets daily.
 | **Accounts** | `leo@demo.intensity.app` · `maya@demo.intensity.app` · `nico@demo.intensity.app` |
 | **Password** | `demo1234` |
 
-Tour tip: Experiences as Leo → open both groups; Experience Box as Leo+Maya (couple) or Leo+Maya+Nico (trip). Ops: @ref:demo-plan — [`demo-plan.md`](demo-plan.md).
+Tour tip: Experiences as Leo → open both groups; Experience Box as Leo+Maya (couple) or Leo+Maya+Nico (trip).
+
+For a phone-sized preview in desktop Chrome/Firefox/Edge: open DevTools (`F12`) → toggle device toolbar (`Ctrl+Shift+M` / `Cmd+Shift+M`) → pick a mobile device.
 
 **Product documentation**
 
@@ -47,11 +49,9 @@ Tour tip: Experiences as Leo → open both groups; Experience Box as Leo+Maya (c
 ├── deploy/       Production + public demo VPS stack (Compose + Caddy)
 ├── openapi/      Contract-first OpenAPI v1
 ├── assets/       Brand logos imported by the Vite client
-├── agents/       Agent prompts for backlog tasks
+├── agents/       Agent prompts
 ├── scripts/      Doc reference validation (`validate-refs.py`)
-├── docs/         Product & engineering docs (en / pt-br / it)
-├── demo-plan.md  Public demo environment plan
-└── backlog.md    Product backlog
+└── docs/         Product & engineering docs (en / pt-br / it)
 ```
 
 ## Local development
@@ -73,7 +73,7 @@ docker compose up -d
 SPRING_PROFILES_ACTIVE=demo ./mvnw spring-boot:run
 ```
 
-Accounts: `leo@demo.intensity.app` / `maya@demo.intensity.app` / `nico@demo.intensity.app` — password `demo1234`. See @ref:demo-plan.
+Accounts: `leo@demo.intensity.app` / `maya@demo.intensity.app` / `nico@demo.intensity.app` — password `demo1234`. See @ref:deploy-readme.
 
 ### Client
 
@@ -116,7 +116,7 @@ GHCR push uses the built-in `GITHUB_TOKEN` (no extra PAT required for public rep
 
 **VPS setup:** see @ref:deploy-readme — [deploy/README.md](deploy/README.md) — copy `deploy/.env.example` → `.env`, run `./deploy.sh`.
 
-**Public demo (optional):** same VPS, isolated DB — `deploy/.env.demo.example` → `.env.demo`, then `./deploy-demo.sh`. See @ref:demo-plan.
+**Public demo (optional):** same VPS, isolated DB — `deploy/.env.demo.example` → `.env.demo`, then `./deploy-demo.sh`. See @ref:deploy-readme.
 
 Order: **deploy API first**, then store client release.
 

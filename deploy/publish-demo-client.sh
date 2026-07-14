@@ -67,12 +67,6 @@ else
   exit 1
 fi
 
-if ! grep -Rql 'intensity-demo-device-shell' "$CLIENT_DIR/dist"; then
-  echo "ERROR: demo device shell marker missing from dist — VITE_DEMO likely not baked in." >&2
-  exit 1
-fi
-echo "Demo device shell present in dist."
-
 echo "Publishing dist → deploy/demo-web"
 mkdir -p "$OUT_DIR"
 find "$OUT_DIR" -mindepth 1 ! -name '.gitkeep' -exec rm -rf {} +

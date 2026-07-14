@@ -7,6 +7,7 @@ export function DemoBanner() {
 	return (
 		<div className={styles.banner} role="status">
 			{t('demo.banner')}
+			<span className={styles.tip}>{t('demo.mobileTip')}</span>
 		</div>
 	);
 }

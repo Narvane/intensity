@@ -2,7 +2,7 @@
 
 Production stack per **DT-07** and **DT-08**: Caddy (TLS) + Spring Boot API + PostgreSQL on a single VPS.
 
-Public **demo** stack (same VPS, isolated DB): see [Public demo](#public-demo) below. Plan: @ref:demo-plan — [`demo-plan.md`](../demo-plan.md).
+Public **demo** stack (same VPS, isolated DB): see [Public demo](#public-demo) below.
 
 ## Prerequisites
 

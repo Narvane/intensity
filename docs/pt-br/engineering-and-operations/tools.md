@@ -23,8 +23,7 @@ intensity/
 ├── assets/       Logos de marca (Vite)
 ├── agents/       Prompts de agentes
 ├── scripts/      Validação de referências
-├── docs/         Documentação do produto
-└── backlog.md    Backlog de produto
+└── docs/         Documentação do produto
 ```
 
 ### Stack backend

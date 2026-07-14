@@ -122,7 +122,7 @@ O prompt deve ser escrito diretamente para outro agente de IA responsável pela 
 
 Após gerar a tarefa:
 
-1. Localize o arquivo @ref:backlog na raiz do projeto.
+1. Localize o arquivo de backlog na raiz do projeto (se o fluxo de backlog estiver em uso).
 2. Adicione a nova tarefa ao final do arquivo.
 3. Preserve toda a estrutura existente.
 4. Não remova tarefas anteriores.

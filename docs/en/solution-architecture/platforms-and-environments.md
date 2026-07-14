@@ -38,7 +38,7 @@ Invite acceptance and individual contribution happen on personal devices; the dr
 | **Production** | Store builds (AAB/IPA) | HTTPS on VPS (`api.` / deep-link `app.`) | PostgreSQL container on same VPS |
 | **Public demo** | Static Vite SPA (`demo-intensity.`) | HTTPS (`demo-intensity-api.`), Spring profile `demo` | Isolated Postgres + daily reset seed |
 
-There is **no** dedicated staging / pre-production promotion environment. Demo is sample data for product preview only; it must never share production JWT secrets or database volumes. Ops: @ref:demo-plan — [`demo-plan.md`](../../../demo-plan.md); @ref:deploy-readme — [deploy/README.md](../../../deploy/README.md).
+There is **no** dedicated staging / pre-production promotion environment. Demo is sample data for product preview only; it must never share production JWT secrets or database volumes. Ops: @ref:deploy-readme — [deploy/README.md](../../../deploy/README.md).
 
 ### Runtime requirements
 

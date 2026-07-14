@@ -38,7 +38,7 @@ L'accettazione invito e il contributo individuale avvengono su dispositivi perso
 | **Produzione** | Build store (AAB/IPA) | HTTPS su VPS (`api.` / deep-link `app.`) | Container PostgreSQL sullo stesso VPS |
 | **Demo pubblico** | SPA Vite statica (`demo-intensity.`) | HTTPS (`demo-intensity-api.`), profilo Spring `demo` | Postgres isolato + seed con reset giornaliero |
 
-**Non** esiste un ambiente staging / promozione pre-produzione. Il demo è solo campione per anteprima prodotto; non deve mai condividere JWT secret o volumi database di produzione. Ops: @ref:demo-plan — [`demo-plan.md`](../../../demo-plan.md); @ref:deploy-readme — [deploy/README.md](../../../deploy/README.md).
+**Non** esiste un ambiente staging / promozione pre-produzione. Il demo è solo campione per anteprima prodotto; non deve mai condividere JWT secret o volumi database di produzione. Ops: @ref:deploy-readme — [deploy/README.md](../../../deploy/README.md).
 
 ### Requisiti runtime
 

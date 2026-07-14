@@ -27,6 +27,11 @@ validate:
     - ia/skills/architectural-philosophy.md
     - ia/skills/documenter.md
     - ia/skills/referencer.md
+    - ia/tasks/big-refactoring/exec.md
+    - ia/tasks/big-refactoring/safety.md
+    - ia/tasks/big-refactoring/progress.md
+    - ia/tasks/big-refactoring/diagnosis.md
+    - ia/tasks/big-refactoring/target-tree.md
 
 entries:
   # --- Entry points & meta ---
@@ -105,6 +110,37 @@ entries:
     path: ia/skills/referencer.md
     label: Reference map citation skill
     role: skill
+
+  # --- IA tasks ---
+  - id: task-big-refactoring
+    path: ia/tasks/big-refactoring
+    label: Whole-repo cognitive refactoring task
+    role: task
+
+  - id: task-big-refactoring-exec
+    path: ia/tasks/big-refactoring/exec.md
+    label: Big refactoring execution plan
+    role: task
+
+  - id: task-big-refactoring-safety
+    path: ia/tasks/big-refactoring/safety.md
+    label: Big refactoring safety gates
+    role: task
+
+  - id: task-big-refactoring-progress
+    path: ia/tasks/big-refactoring/progress.md
+    label: Big refactoring progress tracker
+    role: task
+
+  - id: task-big-refactoring-diagnosis
+    path: ia/tasks/big-refactoring/diagnosis.md
+    label: Big refactoring diagnosis notes
+    role: task
+
+  - id: task-big-refactoring-target-tree
+    path: ia/tasks/big-refactoring/target-tree.md
+    label: Big refactoring target trees
+    role: task
 
   # --- Layer 1: Product conception (en) ---
   - id: en-overview-what-is-it

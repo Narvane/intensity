@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Build the Vite demo SPA and publish into deploy/demo-web for nginx.
-# Usage (from repo root or deploy/):
+# Prefers local npm; falls back to Docker (node:22) when npm is missing — typical on the VPS.
+# Usage:
 #   ./deploy/publish-demo-client.sh
-# Optional: DEMO_API_DOMAIN / DEMO_APP_DOMAIN override baked URLs via temp .env
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -10,30 +10,60 @@ ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 CLIENT_DIR="$ROOT_DIR/client"
 OUT_DIR="$SCRIPT_DIR/demo-web"
 
-cd "$CLIENT_DIR"
-
-if [[ ! -f .env.demo ]]; then
+if [[ ! -f "$CLIENT_DIR/.env.demo" ]]; then
   echo "Missing client/.env.demo" >&2
   exit 1
 fi
+
+VITE_API_URL=""
+VITE_INVITE_BASE_URL=""
+VITE_DEMO=true
 
 # Optional overrides from deploy/.env.demo hostnames
 if [[ -f "$SCRIPT_DIR/.env.demo" ]]; then
   # shellcheck disable=SC1091
   source "$SCRIPT_DIR/.env.demo"
   if [[ -n "${DEMO_API_DOMAIN:-}" && -n "${DEMO_APP_DOMAIN:-}" ]]; then
-    export VITE_API_URL="https://${DEMO_API_DOMAIN}"
-    export VITE_INVITE_BASE_URL="https://${DEMO_APP_DOMAIN}/join"
-    export VITE_DEMO=true
+    VITE_API_URL="https://${DEMO_API_DOMAIN}"
+    VITE_INVITE_BASE_URL="https://${DEMO_APP_DOMAIN}/join"
     echo "Building with hosts from deploy/.env.demo (${DEMO_APP_DOMAIN})"
   fi
 fi
 
-npm ci
-npm run build:demo
+build_with_npm() {
+  cd "$CLIENT_DIR"
+  if [[ -n "$VITE_API_URL" ]]; then
+    export VITE_API_URL VITE_INVITE_BASE_URL VITE_DEMO
+  fi
+  npm ci
+  npm run build:demo
+}
+
+build_with_docker() {
+  echo "npm not found — building with Docker node:22"
+  docker run --rm \
+    -v "$CLIENT_DIR:/app" \
+    -w /app \
+    -e "VITE_API_URL=${VITE_API_URL}" \
+    -e "VITE_INVITE_BASE_URL=${VITE_INVITE_BASE_URL}" \
+    -e "VITE_DEMO=${VITE_DEMO}" \
+    node:22-bookworm \
+    bash -lc 'npm ci && npm run build:demo'
+}
+
+if command -v npm >/dev/null 2>&1; then
+  build_with_npm
+elif command -v docker >/dev/null 2>&1; then
+  build_with_docker
+else
+  echo "Need npm or Docker to build the demo client." >&2
+  exit 1
+fi
 
 echo "Publishing dist → deploy/demo-web"
+mkdir -p "$OUT_DIR"
 find "$OUT_DIR" -mindepth 1 ! -name '.gitkeep' -exec rm -rf {} +
-cp -a dist/. "$OUT_DIR/"
+cp -a "$CLIENT_DIR/dist/." "$OUT_DIR/"
 
-echo "Done. Restart web: cd deploy && docker compose -f docker-compose.demo.yml --env-file .env.demo up -d web"
+echo "Done. Restart web:"
+echo "  cd $SCRIPT_DIR && docker compose -f docker-compose.demo.yml --env-file .env.demo up -d web"

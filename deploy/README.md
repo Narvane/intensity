@@ -171,6 +171,8 @@ Same GHCR API image as production, profile `demo` (seed Leo / Maya / Nico). **Do
    curl -fsS "https://$DEMO_API_DOMAIN/actuator/health"
    curl -fsSI "https://$DEMO_APP_DOMAIN/"
    curl -fsSI "https://$DEMO_APP_DOMAIN/join"
+   # OpenAPI UI (demo profile)
+   curl -fsSI "https://$DEMO_API_DOMAIN/swagger-ui/index.html"
    ```
 
 Interactive SPA with banner + sample-account shortcuts. Sample login: `leo@demo.intensity.app` / `demo1234`.

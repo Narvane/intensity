@@ -122,6 +122,20 @@ select {
   box-sizing: border-box;
 }
 
+html[data-demo-shell='true'],
+html[data-demo-shell='true'] body,
+html[data-demo-shell='true'] #root {
+  min-height: 100dvh;
+  height: 100%;
+  background: #1c1917;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+html[data-demo-shell='true'] #root {
+  min-height: 100dvh;
+}
+
 .srOnly {
   position: absolute;
   width: 1px;

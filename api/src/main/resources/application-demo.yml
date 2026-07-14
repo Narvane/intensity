@@ -12,7 +12,8 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
-    url: /openapi.yaml
+    # Generated docs (always available). Packaged /openapi.yaml also works once the image includes it.
+    url: /v3/api-docs
     disable-swagger-default-url: true
 
 intensity:

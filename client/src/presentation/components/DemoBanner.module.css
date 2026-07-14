@@ -1,6 +1,7 @@
 .banner {
-	padding: calc(0.55rem + var(--safe-area-top)) var(--space-page) 0.55rem;
-	background: #1c1917;
+	flex-shrink: 0;
+	padding: 0.55rem var(--space-page);
+	background: #0c0a09;
 	color: #fafaf9;
 	text-align: center;
 	font-size: 0.82rem;

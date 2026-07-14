@@ -14,7 +14,7 @@ Try the product in the browser (no app install). Sample data resets daily.
 | | |
 |---|---|
 | **App** | https://demo-intensity.narvane.com.br |
-| **API** | https://demo-intensity-api.narvane.com.br |
+| **Swagger** | https://demo-intensity-api.narvane.com.br/swagger-ui.html |
 | **Accounts** | `leo@demo.intensity.app` · `maya@demo.intensity.app` · `nico@demo.intensity.app` |
 | **Password** | `demo1234` |
 

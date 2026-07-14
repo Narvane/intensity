@@ -1,7 +1,0 @@
-### 1. Clareza Contextual ⭐ (minha favorita)
-> Grau em que a organização estrutural do projeto comunica naturalmente o contexto de qualquer elemento de código, permitindo que um desenvolvedor compreenda onde está, o que pertence àquele espaço e quais são seus limites sem depender excessivamente da nomenclatura.
-**Descrição**
-A Clareza Contextual representa a capacidade da arquitetura de um projeto de orientar cognitivamente quem navega por ela. Um elemento de código não deve existir isoladamente; sua posição na estrutura deve comunicar seu propósito, sua responsabilidade e sua relação com os demais elementos.
-Uma arquitetura com alta clareza contextual permite que o desenvolvedor compreenda seu entorno olhando para diferentes níveis da estrutura — diretórios, módulos, classes, arquivos e vizinhos — formando um modelo mental consistente apenas pela organização do projeto.
-Esse princípio incentiva a criação de contextos progressivamente mais específicos ("caixas dentro de caixas"), onde cada nível abstrai a complexidade interna e delimita claramente seu domínio de responsabilidade. Dessa forma, reduz-se a necessidade de transportar contexto por meio de nomes excessivamente longos ou repetitivos, pois a própria estrutura já comunica boa parte da informação necessária.
-Uma baixa clareza contextual costuma resultar em diretórios excessivamente povoados, nomes redundantes, módulos genéricos e dificuldade para responder perguntas simples como "onde estou?", "o que pertence aqui?" e "o que deveria existir neste contexto?".

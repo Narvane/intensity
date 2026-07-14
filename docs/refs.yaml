@@ -6,8 +6,6 @@
 # - Cite in Markdown prose: `@ref:<id>` (backticks optional).
 # - Human-clickable links: keep standard `[label](path)` where the path matches
 #   the `path` field below (resolve from this file when moving artifacts).
-# - Agents: consult this map before citing repo documents (`agents/write-task.md`,
-#   `agents/order-backlog.md`).
 #
 # Validation
 # ----------
@@ -23,9 +21,12 @@ validate:
     - README.md
     - client/STORE_RELEASE.md
     - openapi/openapi.yaml
-    - agents/write-task.md
-    - agents/order-backlog.md
     - docs/en/engineering-and-operations/tools.md
+    - ia/agents/code.md
+    - ia/agents/refactor.md
+    - ia/skills/architectural-philosophy.md
+    - ia/skills/documenter.md
+    - ia/skills/referencer.md
 
 entries:
   # --- Entry points & meta ---
@@ -38,16 +39,6 @@ entries:
     path: docs/refs.yaml
     label: This reference map
     role: metadata
-
-  - id: agents-write-task
-    path: agents/write-task.md
-    label: Agent — write backlog tasks
-    role: agent
-
-  - id: agents-order-backlog
-    path: agents/order-backlog.md
-    label: Agent — order backlog
-    role: agent
 
   - id: store-release
     path: client/STORE_RELEASE.md
@@ -82,6 +73,38 @@ entries:
     label: Product spec (Italian)
     role: spec-translation
     locale: it
+
+  - id: ia
+    path: ia
+    label: Agents and skills for AI-assisted development
+    role: ia
+
+  # --- IA agents ---
+  - id: agent-code
+    path: ia/agents/code.md
+    label: Code development agent
+    role: agent
+
+  - id: agent-refactor
+    path: ia/agents/refactor.md
+    label: Refactor agent
+    role: agent
+
+  # --- IA skills ---
+  - id: skill-architectural-philosophy
+    path: ia/skills/architectural-philosophy.md
+    label: Architectural philosophy skill
+    role: skill
+
+  - id: skill-documenter
+    path: ia/skills/documenter.md
+    label: Documentation skill (en / pt-br / it)
+    role: skill
+
+  - id: skill-referencer
+    path: ia/skills/referencer.md
+    label: Reference map citation skill
+    role: skill
 
   # --- Layer 1: Product conception (en) ---
   - id: en-overview-what-is-it

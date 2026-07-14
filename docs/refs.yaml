@@ -22,6 +22,7 @@ validate:
   scan_files:
     - README.md
     - backlog.md
+    - demo-plan.md
     - client/STORE_RELEASE.md
     - openapi/openapi.yaml
     - agents/write-task.md
@@ -39,6 +40,11 @@ entries:
     path: backlog.md
     label: Product backlog
     role: backlog
+
+  - id: demo-plan
+    path: demo-plan.md
+    label: Public demo environment plan
+    role: engineering
 
   - id: refs
     path: docs/refs.yaml

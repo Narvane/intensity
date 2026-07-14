@@ -9,7 +9,9 @@ COPY api/pom.xml ./pom.xml
 COPY openapi /workspace/openapi
 RUN chmod +x mvnw
 COPY api/src ./src
-RUN ./mvnw -B -DskipTests package
+RUN ./mvnw -B -DskipTests package \
+	&& test -f target/classes/static/openapi.yaml \
+	&& echo "Packaged openapi.yaml OK"
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app

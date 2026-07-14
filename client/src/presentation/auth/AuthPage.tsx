@@ -4,6 +4,11 @@ import { ApiError } from '@adapters/api/ApiClient';
 import { createDefaultPendingInviteAdapter } from '@adapters/invite/PendingInvitePreferencesAdapter';
 import { createApiClient, createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import {
+  DEMO_PASSWORD,
+  isDemoMode,
+  type DemoPersona,
+} from '@content/demoCredentials';
+import {
   LoginExperienceBoxUseCase,
   LoginExperiencesUseCase,
   RegisterParticipantUseCase,
@@ -19,6 +24,7 @@ import { consumeExperienceBoxSessionEndReason } from '@domain/session/experience
 import { useI18n } from '../../i18n/I18nContext';
 import { AuthModeIntro } from '../components/AuthModeIntro';
 import { Button } from '../components/Button';
+import { DemoAuthShortcuts } from '../components/DemoAuthShortcuts';
 import {
   JointLoginEmailInput,
   JointLoginSecretInput,
@@ -85,6 +91,7 @@ export function AuthPage() {
 
   const hasExperiencesSession = experiencesSession?.accessMode === 'EXPERIENCES';
   const experiencesEmail = experiencesSession?.email ?? '';
+  const showDemoShortcuts = isDemoMode();
 
   useEffect(() => {
     if (authState.panel) {
@@ -172,6 +179,30 @@ export function AuthPage() {
 
   const continueExperiences = () => {
     navigate(continueExperiencesPath(), { replace: true });
+  };
+
+  const applyDemoExperiencesPersona = (persona: DemoPersona) => {
+    if (hasExperiencesSession) {
+      return;
+    }
+    setError(null);
+    setExperiencesForm({ email: persona.email, password: DEMO_PASSWORD });
+  };
+
+  const applyDemoJointPersonas = (personas: DemoPersona[]) => {
+    setError(null);
+    const sessionEmail = experiencesEmail.trim().toLowerCase();
+    if (hasExperiencesSession && sessionEmail) {
+      const others = personas.filter((persona) => persona.email !== sessionEmail);
+      setBoxCredentials([
+        { email: experiencesEmail, password: MASKED_PASSWORD },
+        ...others.map((persona) => ({ email: persona.email, password: DEMO_PASSWORD })),
+      ]);
+      return;
+    }
+    setBoxCredentials(
+      personas.map((persona) => ({ email: persona.email, password: DEMO_PASSWORD })),
+    );
   };
 
   const submitExperiences = async () => {
@@ -297,6 +328,13 @@ export function AuthPage() {
           {panel === 'experiences' && (
             <>
               <AuthModeIntro mode="EXPERIENCES" />
+              {showDemoShortcuts && !hasExperiencesSession && (
+                <DemoAuthShortcuts
+                  mode="experiences"
+                  onPickExperiences={applyDemoExperiencesPersona}
+                  onPickJoint={applyDemoJointPersonas}
+                />
+              )}
               {hasExperiencesSession && (
                 <p className={styles.sessionActive}>{t('auth.experiences.sessionActive')}</p>
               )}
@@ -357,6 +395,13 @@ export function AuthPage() {
             <>
               <AuthModeIntro mode="EXPERIENCE_BOX" />
               <p className={styles.hint}>{t('auth.experienceBox.hint')}</p>
+              {showDemoShortcuts && (
+                <DemoAuthShortcuts
+                  mode="experienceBox"
+                  onPickExperiences={applyDemoExperiencesPersona}
+                  onPickJoint={applyDemoJointPersonas}
+                />
+              )}
               {boxCredentials.map((credential, index) => {
                 const isPrefilledSlot = hasExperiencesSession && index === 0;
                 return (

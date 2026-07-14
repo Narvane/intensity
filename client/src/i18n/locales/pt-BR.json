@@ -135,6 +135,13 @@
     "offlineBanner": "Você está offline. Ações destrutivas ficam desativadas até a conexão voltar.",
     "offlineDestructiveBlocked": "Reconecte-se para confirmar esta ação."
   },
+  "demo": {
+    "banner": "Ambiente demonstrativo · dados fictícios resetam todo dia",
+    "shortcutsLabel": "Contas de exemplo",
+    "coupleShortcut": "Leo + Maya",
+    "trioShortcut": "Leo + Maya + Nico",
+    "passwordHint": "Senha de todos: {{password}}"
+  },
   "nav": {
     "back": "Voltar para a tela anterior",
     "close": "Fechar",

@@ -135,6 +135,13 @@
     "offlineBanner": "You are offline. Destructive actions stay disabled until the connection returns.",
     "offlineDestructiveBlocked": "Reconnect to confirm this action."
   },
+  "demo": {
+    "banner": "Demo environment · sample data resets daily",
+    "shortcutsLabel": "Try sample accounts",
+    "coupleShortcut": "Leo + Maya",
+    "trioShortcut": "Leo + Maya + Nico",
+    "passwordHint": "Password for all: {{password}}"
+  },
   "nav": {
     "back": "Go back",
     "close": "Close",

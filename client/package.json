@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:demo": "tsc --noEmit && vite build --mode demo",
     "build:store": "tsc --noEmit && vite build --mode production && node scripts/cap-sync-store.mjs",
     "preview": "vite preview",
     "test": "vitest run",

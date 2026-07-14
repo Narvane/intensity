@@ -15,3 +15,6 @@
 
 	respond "Intensity invite links open in the mobile app." 404
 }
+
+# Optional demo sites — written by ./deploy-demo.sh into snippets/
+import /etc/caddy/snippets/*.caddy

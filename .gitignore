@@ -26,6 +26,10 @@ Thumbs.db
 .env.production.local
 api/.env
 deploy/.env
+deploy/.env.demo
+deploy/caddy-snippets/demo.caddy
+deploy/demo-web/**
+!deploy/demo-web/.gitkeep
 
 # Logs
 *.log

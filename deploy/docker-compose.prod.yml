@@ -53,6 +53,7 @@ services:
       ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL in .env}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-snippets:/etc/caddy/snippets:ro
       - ../client/deep-link:/srv/deep-link:ro
       - caddy_data:/data
       - caddy_config:/config
@@ -61,6 +62,7 @@ services:
 
 networks:
   intensity:
+    name: intensity
     driver: bridge
 
 volumes:

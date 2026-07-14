@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    # Override via SPRING_DATASOURCE_* in deploy. Default suits local demo DB.
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/intensity_demo}
+    username: ${SPRING_DATASOURCE_USERNAME:intensity}
+    password: ${SPRING_DATASOURCE_PASSWORD:intensity}
+  jpa:
+    show-sql: false
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    url: /openapi.yaml
+    disable-swagger-default-url: true
+
+intensity:
+  demo:
+    enabled: true
+  jwt:
+    secret: ${INTENSITY_JWT_SECRET:demo-secret-key-must-be-at-least-32-characters-long}
+    expiration-seconds: ${INTENSITY_JWT_EXPIRATION_SECONDS:86400}
+    experience-box-expiration-seconds: ${INTENSITY_JWT_EXPERIENCE_BOX_EXPIRATION_SECONDS:14400}
+  cors:
+    allowed-origin-patterns:
+      # demo-intensity.* / future demo hosts
+      - https://demo-intensity.*
+      - https://*.narvane.com.br
+      - http://localhost
+      - http://localhost:*
+      - http://127.0.0.1:*
+      - https://localhost
+      - https://localhost:*

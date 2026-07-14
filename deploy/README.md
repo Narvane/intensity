@@ -2,6 +2,8 @@
 
 Production stack per **DT-07** and **DT-08**: Caddy (TLS) + Spring Boot API + PostgreSQL on a single VPS.
 
+Public **demo** stack (same VPS, isolated DB): see [Public demo](#public-demo) below. Plan: @ref:demo-plan — [`demo-plan.md`](../demo-plan.md).
+
 ## Prerequisites
 
 - Linux VPS with Docker 24+ and Compose v2
@@ -24,7 +26,7 @@ Production stack per **DT-07** and **DT-08**: Caddy (TLS) + Spring Boot API + Po
 3. Make scripts executable:
 
    ```bash
-   chmod +x deploy.sh webhook/receive.sh
+   chmod +x deploy.sh deploy-demo.sh reset-demo.sh cron-reset-demo.sh publish-demo-client.sh webhook/receive.sh
    ```
 
 4. Log in to GHCR on the VPS (once):
@@ -36,6 +38,13 @@ Production stack per **DT-07** and **DT-08**: Caddy (TLS) + Spring Boot API + Po
 5. Start the stack:
 
    ```bash
+   ./deploy.sh
+   ```
+
+   If upgrading an older install: the Docker network is now fixed as `intensity` (required for demo). One-time recreate if Compose complains about the network:
+
+   ```bash
+   docker compose -f docker-compose.prod.yml --env-file .env down
    ./deploy.sh
    ```
 
@@ -113,10 +122,90 @@ One-time VPS migration notes (previous stack → Intensity) live in [`vps.md`](v
 ```
 Internet :443
     ↓
-  Caddy (proxy)
-    ├── api.<domain>  → api:8080
-    └── app.<domain>  → /.well-known/* (deep link association files)
-Postgres (internal network only)
+  Caddy (proxy, production compose)
+    ├── api.<domain>       → intensity-api:8080
+    ├── app.<domain>       → /.well-known/* (deep links)
+    ├── demo-intensity-api.<domain>  → intensity-demo-api:8080   (optional)
+    └── demo-intensity.<domain>      → intensity-demo-web:80     (optional)
+Postgres prod + Postgres demo (separate compose projects / volumes)
+```
+
+Compose project names: production network `intensity` (fixed); demo project `intensity-demo`.
+
+## Public demo
+
+Same GHCR API image as production, profile `demo` (seed Leo / Maya / Nico). **Does not** share the production database or JWT secret.
+
+### First-time demo setup
+
+1. DNS `A` records for `DEMO_API_DOMAIN` and `DEMO_APP_DOMAIN` → VPS.
+
+2. Configure demo secrets:
+
+   ```bash
+   cd /opt/intensity/deploy
+   cp .env.demo.example .env.demo
+   # Edit — use a different POSTGRES_PASSWORD and INTENSITY_JWT_SECRET than production
+   # API_IMAGE should match the production image you want to show
+   ```
+
+3. Production must already be up (`./deploy.sh`) so network `intensity` and Caddy exist.
+
+4. Build and publish the demo SPA (Node 22+ on the VPS or your machine):
+
+   ```bash
+   chmod +x publish-demo-client.sh
+   ./publish-demo-client.sh
+   ```
+
+5. Start demo (writes Caddy snippet + reloads proxy):
+
+   ```bash
+   chmod +x deploy-demo.sh reset-demo.sh cron-reset-demo.sh
+   ./deploy-demo.sh
+   ```
+
+6. Verify:
+
+   ```bash
+   curl -fsS "https://$DEMO_API_DOMAIN/actuator/health"
+   curl -fsSI "https://$DEMO_APP_DOMAIN/"
+   curl -fsSI "https://$DEMO_APP_DOMAIN/join"
+   ```
+
+Interactive SPA with banner + sample-account shortcuts. Sample login: `leo@demo.intensity.app` / `demo1234`.
+
+Pin a SHA like production:
+
+```bash
+./deploy-demo.sh ghcr.io/<owner>/intesity-2/api abc123def456
+```
+
+### Daily reset
+
+```bash
+./reset-demo.sh
+```
+
+Cron (03:00 UTC):
+
+```cron
+0 3 * * * /opt/intensity/deploy/cron-reset-demo.sh >> /var/log/intensity-demo-reset.log 2>&1
+```
+
+### Updating demo after CI
+
+Production webhook does **not** restart the demo stack. After a new API image is on GHCR:
+
+```bash
+./deploy-demo.sh          # same SHA/tag as prod if desired
+```
+
+After client demo UI changes:
+
+```bash
+./publish-demo-client.sh
+docker compose -f docker-compose.demo.yml --env-file .env.demo up -d web
 ```
 
 ## Order of release (DT-10)

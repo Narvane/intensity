@@ -10,6 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - intensity_postgres_data:/var/lib/postgresql/data
+      - ./docker/init-demo-db.sh:/docker-entrypoint-initdb.d/01-init-demo-db.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U intensity -d intensity"]
       interval: 5s

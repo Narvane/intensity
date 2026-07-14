@@ -41,9 +41,10 @@ build_with_npm() {
 
 build_with_docker() {
   echo "npm not found — building with Docker node:22"
+  # Mount the whole repo: brand assets live in /assets (outside client/).
   docker run --rm \
-    -v "$CLIENT_DIR:/app" \
-    -w /app \
+    -v "$ROOT_DIR:/repo" \
+    -w /repo/client \
     -e "VITE_API_URL=${VITE_API_URL}" \
     -e "VITE_INVITE_BASE_URL=${VITE_INVITE_BASE_URL}" \
     -e "VITE_DEMO=${VITE_DEMO}" \

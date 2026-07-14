@@ -31,7 +31,9 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: demo
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-intensity_demo}
+      # Use container_name — NOT service alias "postgres". The API also joins
+      # the production network `intensity`, where prod's service is also "postgres".
+      SPRING_DATASOURCE_URL: jdbc:postgresql://intensity-demo-postgres:5432/${POSTGRES_DB:-intensity_demo}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-intensity}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.demo}
       INTENSITY_JWT_SECRET: ${INTENSITY_JWT_SECRET:?Set INTENSITY_JWT_SECRET in .env.demo}

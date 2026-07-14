@@ -9,6 +9,10 @@ import { ListGroupsUseCase } from '@domain/box/boxUseCases';
 import { useModalDialog } from '@presentation/hooks/useModalDialog';
 import { useI18n } from '../../i18n/I18nContext';
 import { Button } from '../components/Button';
+import {
+  JointLoginEmailInput,
+  JointLoginSecretInput,
+} from '../components/JointLoginSecretInput';
 import styles from './StartDrawSessionModal.module.css';
 
 interface CredentialForm {
@@ -343,9 +347,8 @@ export function StartDrawSessionModal({
                 </div>
                 <label className={styles.field}>
                   <span>{t('auth.fields.email')}</span>
-                  <input
-                    type="email"
-                    autoComplete="email"
+                  <JointLoginEmailInput
+                    name={`joint-email-${index}`}
                     disabled={isPrefilledSlot || loading}
                     value={credential.email}
                     onChange={(event) =>
@@ -359,9 +362,8 @@ export function StartDrawSessionModal({
                 </label>
                 <label className={styles.field}>
                   <span>{t('auth.fields.password')}</span>
-                  <input
-                    type="password"
-                    autoComplete={isPrefilledSlot ? 'off' : 'current-password'}
+                  <JointLoginSecretInput
+                    name={`joint-secret-${index}`}
                     disabled={isPrefilledSlot || loading}
                     value={isPrefilledSlot ? MASKED_PASSWORD : credential.password}
                     aria-label={

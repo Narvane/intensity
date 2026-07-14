@@ -19,6 +19,10 @@ import { consumeExperienceBoxSessionEndReason } from '@domain/session/experience
 import { useI18n } from '../../i18n/I18nContext';
 import { AuthModeIntro } from '../components/AuthModeIntro';
 import { Button } from '../components/Button';
+import {
+  JointLoginEmailInput,
+  JointLoginSecretInput,
+} from '../components/JointLoginSecretInput';
 import { NavButton } from '../components/NavButton';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { QuickGuideOverlay } from '../quick-guide/QuickGuideOverlay';
@@ -381,9 +385,8 @@ export function AuthPage() {
                     </div>
                     <label className={styles.field}>
                       <span>{t('auth.fields.email')}</span>
-                      <input
-                        type="email"
-                        autoComplete="email"
+                      <JointLoginEmailInput
+                        name={`joint-email-${index}`}
                         disabled={isPrefilledSlot}
                         value={credential.email}
                         onChange={(event) =>
@@ -399,9 +402,8 @@ export function AuthPage() {
                     </label>
                     <label className={styles.field}>
                       <span>{t('auth.fields.password')}</span>
-                      <input
-                        type="password"
-                        autoComplete={isPrefilledSlot ? 'off' : 'current-password'}
+                      <JointLoginSecretInput
+                        name={`joint-secret-${index}`}
                         disabled={isPrefilledSlot}
                         value={isPrefilledSlot ? MASKED_PASSWORD : credential.password}
                         aria-label={

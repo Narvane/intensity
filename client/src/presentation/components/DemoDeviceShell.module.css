@@ -3,46 +3,53 @@
 	display: flex;
 	flex-direction: column;
 	background:
-		radial-gradient(ellipse at 20% 0%, rgba(255, 201, 77, 0.35), transparent 50%),
-		radial-gradient(ellipse at 90% 100%, rgba(255, 107, 61, 0.2), transparent 45%),
-		#1c1917;
+		radial-gradient(ellipse at 15% 10%, rgba(255, 201, 77, 0.28), transparent 42%),
+		radial-gradient(ellipse at 90% 90%, rgba(255, 107, 61, 0.22), transparent 40%),
+		#14110f;
 }
 
 .stage {
 	flex: 1;
 	display: grid;
 	place-items: center;
-	padding: 1rem 1rem 1.5rem;
+	padding: 1.25rem 1.5rem 2rem;
 	box-sizing: border-box;
 }
 
 .phone {
-	width: min(100%, 24.375rem); /* ~390px */
-	height: min(52rem, calc(100dvh - 4.5rem));
-	max-height: 56rem;
+	width: min(100%, 26rem);
+	/* Keep clear side margins on desktop so the frame is obvious. */
+	max-width: calc(100vw - 3rem);
+	height: min(52.5rem, calc(100dvh - 5rem));
 	display: flex;
 	flex-direction: column;
-	background: var(--bg);
-	border-radius: 2rem;
+}
+
+.bezel {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	background: #0c0a09;
+	border-radius: 2.25rem;
+	padding: 0.7rem 0.55rem 0.85rem;
 	box-shadow:
-		0 0 0 1px rgba(255, 255, 255, 0.08),
-		0 24px 48px rgba(0, 0, 0, 0.45);
-	overflow: hidden;
+		0 0 0 2px rgba(255, 255, 255, 0.12),
+		0 28px 56px rgba(0, 0, 0, 0.55);
 	position: relative;
 }
 
 .notch {
 	position: absolute;
-	top: 0.55rem;
+	top: 0.85rem;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 6.5rem;
-	height: 1.35rem;
+	width: 6.75rem;
+	height: 1.4rem;
 	border-radius: 999px;
-	background: #0c0a09;
+	background: #000;
 	z-index: 30;
 	pointer-events: none;
-	opacity: 0.85;
 }
 
 .screen {
@@ -50,26 +57,36 @@
 	min-height: 0;
 	overflow: auto;
 	overscroll-behavior: contain;
-	/* Make position:fixed chrome (footer, modals) bind to this frame, not the browser. */
+	border-radius: 1.65rem;
+	background: var(--bg);
+	/* Bind position:fixed chrome to this frame, not the browser viewport. */
 	transform: translateZ(0);
 	isolation: isolate;
-	background: var(--bg);
 }
 
-@media (max-width: 30rem) {
+/* Still show a framed column on tablets; only phones go edge-to-edge. */
+@media (max-width: 28rem) {
 	.stage {
 		padding: 0;
 	}
 
 	.phone {
 		width: 100%;
+		max-width: none;
 		height: calc(100dvh - 2.4rem);
-		max-height: none;
+	}
+
+	.bezel {
 		border-radius: 0;
+		padding: 0;
 		box-shadow: none;
 	}
 
 	.notch {
 		display: none;
+	}
+
+	.screen {
+		border-radius: 0;
 	}
 }

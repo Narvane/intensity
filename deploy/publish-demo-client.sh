@@ -17,12 +17,13 @@ fi
 
 VITE_API_URL=""
 VITE_INVITE_BASE_URL=""
-VITE_DEMO=true
 
-# Optional overrides from deploy/.env.demo hostnames
+# Host overrides from deploy/.env.demo (do this before forcing VITE_DEMO)
 if [[ -f "$SCRIPT_DIR/.env.demo" ]]; then
   # shellcheck disable=SC1091
+  set -a
   source "$SCRIPT_DIR/.env.demo"
+  set +a
   if [[ -n "${DEMO_API_DOMAIN:-}" && -n "${DEMO_APP_DOMAIN:-}" ]]; then
     VITE_API_URL="https://${DEMO_API_DOMAIN}"
     VITE_INVITE_BASE_URL="https://${DEMO_APP_DOMAIN}/join"
@@ -30,10 +31,15 @@ if [[ -f "$SCRIPT_DIR/.env.demo" ]]; then
   fi
 fi
 
+# Always bake the demo shell — deploy/.env.demo must not clear this.
+export VITE_DEMO=true
+echo "VITE_DEMO=${VITE_DEMO}"
+
 build_with_npm() {
   cd "$CLIENT_DIR"
+  export VITE_DEMO=true
   if [[ -n "$VITE_API_URL" ]]; then
-    export VITE_API_URL VITE_INVITE_BASE_URL VITE_DEMO
+    export VITE_API_URL VITE_INVITE_BASE_URL
   fi
   npm ci
   npm run build:demo
@@ -47,7 +53,7 @@ build_with_docker() {
     -w /repo/client \
     -e "VITE_API_URL=${VITE_API_URL}" \
     -e "VITE_INVITE_BASE_URL=${VITE_INVITE_BASE_URL}" \
-    -e "VITE_DEMO=${VITE_DEMO}" \
+    -e "VITE_DEMO=true" \
     node:22-bookworm \
     bash -lc 'npm ci && npm run build:demo'
 }
@@ -61,10 +67,16 @@ else
   exit 1
 fi
 
+if ! grep -Rql 'intensity-demo-device-shell' "$CLIENT_DIR/dist"; then
+  echo "ERROR: demo device shell marker missing from dist — VITE_DEMO likely not baked in." >&2
+  exit 1
+fi
+echo "Demo device shell present in dist."
+
 echo "Publishing dist → deploy/demo-web"
 mkdir -p "$OUT_DIR"
 find "$OUT_DIR" -mindepth 1 ! -name '.gitkeep' -exec rm -rf {} +
 cp -a "$CLIENT_DIR/dist/." "$OUT_DIR/"
 
 echo "Done. Restart web:"
-echo "  cd $SCRIPT_DIR && docker compose -f docker-compose.demo.yml --env-file .env.demo up -d web"
+echo "  cd $SCRIPT_DIR && docker compose -f docker-compose.demo.yml --env-file .env.demo up -d --force-recreate web"

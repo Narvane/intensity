@@ -14,7 +14,8 @@ export const DEMO_PERSONAS: readonly DemoPersona[] = [
 ] as const;
 
 export function isDemoMode(): boolean {
-	return import.meta.env.VITE_DEMO === 'true';
+	const flag = String(import.meta.env.VITE_DEMO ?? '').toLowerCase();
+	return flag === 'true' || flag === '1';
 }
 
 export function demoPersona(id: DemoPersona['id']): DemoPersona {

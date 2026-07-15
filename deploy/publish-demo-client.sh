@@ -9,16 +9,21 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 CLIENT_DIR="$ROOT_DIR/client"
 OUT_DIR="$SCRIPT_DIR/demo-web"
+STALE_MARKER='intensity-demo-device-shell'
 
 if [[ ! -f "$CLIENT_DIR/.env.demo" ]]; then
   echo "Missing client/.env.demo" >&2
   exit 1
 fi
 
+if grep -Rql "$STALE_MARKER" "$CLIENT_DIR/src" 2>/dev/null; then
+  echo "ERROR: stale device-shell code still in client/src — pull latest main." >&2
+  exit 1
+fi
+
 VITE_API_URL=""
 VITE_INVITE_BASE_URL=""
 
-# Host overrides from deploy/.env.demo (do this before forcing VITE_DEMO)
 if [[ -f "$SCRIPT_DIR/.env.demo" ]]; then
   # shellcheck disable=SC1091
   set -a
@@ -31,7 +36,6 @@ if [[ -f "$SCRIPT_DIR/.env.demo" ]]; then
   fi
 fi
 
-# Always bake the demo shell — deploy/.env.demo must not clear this.
 export VITE_DEMO=true
 echo "VITE_DEMO=${VITE_DEMO}"
 
@@ -41,13 +45,14 @@ build_with_npm() {
   if [[ -n "$VITE_API_URL" ]]; then
     export VITE_API_URL VITE_INVITE_BASE_URL
   fi
+  rm -rf dist
   npm ci
   npm run build:demo
 }
 
 build_with_docker() {
   echo "npm not found — building with Docker node:22"
-  # Mount the whole repo: brand assets live in /assets (outside client/).
+  rm -rf "$CLIENT_DIR/dist"
   docker run --rm \
     -v "$ROOT_DIR:/repo" \
     -w /repo/client \
@@ -55,7 +60,7 @@ build_with_docker() {
     -e "VITE_INVITE_BASE_URL=${VITE_INVITE_BASE_URL}" \
     -e "VITE_DEMO=true" \
     node:22-bookworm \
-    bash -lc 'npm ci && npm run build:demo'
+    bash -lc 'rm -rf dist && npm ci && npm run build:demo'
 }
 
 if command -v npm >/dev/null 2>&1; then
@@ -67,10 +72,28 @@ else
   exit 1
 fi
 
-echo "Publishing dist → deploy/demo-web"
-mkdir -p "$OUT_DIR"
-find "$OUT_DIR" -mindepth 1 ! -name '.gitkeep' -exec rm -rf {} +
-cp -a "$CLIENT_DIR/dist/." "$OUT_DIR/"
+if [[ ! -f "$CLIENT_DIR/dist/index.html" ]]; then
+  echo "ERROR: client/dist/index.html missing after build." >&2
+  exit 1
+fi
 
-echo "Done. Restart web:"
+if grep -Rql "$STALE_MARKER" "$CLIENT_DIR/dist"; then
+  echo "ERROR: build produced stale device-shell bundle — source may be outdated." >&2
+  exit 1
+fi
+echo "Build OK (no device-shell marker in dist)."
+
+echo "Publishing dist → deploy/demo-web (wipe first)"
+rm -rf "$OUT_DIR"
+mkdir -p "$OUT_DIR"
+cp -a "$CLIENT_DIR/dist/." "$OUT_DIR/"
+touch "$OUT_DIR/.gitkeep"
+
+if grep -Rql "$STALE_MARKER" "$OUT_DIR"; then
+  echo "ERROR: demo-web still contains device-shell marker after copy." >&2
+  exit 1
+fi
+
+echo "Published OK."
+echo "Restart web:"
 echo "  cd $SCRIPT_DIR && docker compose -f docker-compose.demo.yml --env-file .env.demo up -d --force-recreate web"

@@ -1,6 +1,6 @@
 package com.intensity.participant.dto;
 
-import com.intensity.common.AccessMode;
+import com.intensity.platform.common.AccessMode;
 
 import java.util.UUID;
 

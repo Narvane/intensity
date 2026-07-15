@@ -2,8 +2,8 @@ package com.intensity.experience.service;
 
 import com.intensity.box.entity.Box;
 import com.intensity.box.repository.BoxRepository;
-import com.intensity.common.AuthPrincipal;
-import com.intensity.common.exception.ApiException;
+import com.intensity.platform.common.AuthPrincipal;
+import com.intensity.platform.common.exception.ApiException;
 import com.intensity.experience.dto.CreateExperienceRequest;
 import com.intensity.experience.dto.CreateExperiencesBatchRequest;
 import com.intensity.experience.dto.ExperienceParametersDto;
@@ -154,7 +154,7 @@ public class ExperienceService {
 	private void ensureCanAccessBox(Box box, AuthPrincipal principal) {
 		UUID groupId = box.getGroup().getId();
 
-		if (principal.accessMode() == com.intensity.common.AccessMode.EXPERIENCE_BOX) {
+		if (principal.accessMode() == com.intensity.platform.common.AccessMode.EXPERIENCE_BOX) {
 			if (!principal.canAccessExperienceBoxGroup(groupId)) {
 				throw forbidden();
 			}
@@ -177,11 +177,11 @@ public class ExperienceService {
 	}
 
 	private boolean isVisibleInList(Experience experience, AuthPrincipal principal) {
-		if (principal.accessMode() == com.intensity.common.AccessMode.EXPERIENCES) {
+		if (principal.accessMode() == com.intensity.platform.common.AccessMode.EXPERIENCES) {
 			return experience.getAuthor().getId().equals(principal.participantId());
 		}
 
-		if (principal.accessMode() == com.intensity.common.AccessMode.EXPERIENCE_BOX) {
+		if (principal.accessMode() == com.intensity.platform.common.AccessMode.EXPERIENCE_BOX) {
 			return principal.participantIds().contains(experience.getAuthor().getId());
 		}
 

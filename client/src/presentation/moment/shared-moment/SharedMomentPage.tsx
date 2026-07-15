@@ -1,0 +1,273 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
+import { useExperienceBoxSessionEnd } from '@app/useExperienceBoxSessionEnd';
+import { useAppLogout } from '@app/useAppLogout';
+import { useNavigation } from '@app/NavigationProvider';
+import { useSession } from '@app/SessionProvider';
+import { ListExperiencesUseCase } from '@domain/experience/experienceUseCases';
+import { ExecuteDrawUseCase } from '@domain/draw/ExecuteDrawUseCase';
+import {
+  DEFAULT_INTENSITY_FILTER,
+  type IntensityFilter,
+  type IntensityFilterMode,
+} from '@domain/draw/IntensityFilterPolicy';
+import { RevelationOrchestrator } from '@domain/draw/RevelationOrchestrator';
+import { RecordExperienceBoxDrawUseCase } from '@domain/session/RecordExperienceBoxDrawUseCase';
+import {
+  canPerformDraw,
+  remainingDraws,
+} from '@domain/session/experienceBoxSessionPolicy';
+import { SlidersHorizontal, Sparkles, Lightbulb } from 'lucide-react';
+import { useI18n } from '../../../i18n/I18nContext';
+import { Button } from '../../components/controls/Button';
+import { NavButton } from '../../components/controls/NavButton';
+import { ScreenHeader } from '../../components/chrome/ScreenHeader';
+import { ScreenTitle } from '../../components/chrome/ScreenTitle';
+import { SessionModeFooter } from '../../components/chrome/SessionModeFooter';
+import { RatingScale } from '../../components/rating/RatingScale';
+import { DrawResultCard } from './DrawResultCard';
+import styles from './SharedMomentPage.module.css';
+
+const orchestrator = new RevelationOrchestrator();
+
+export function SharedMomentPage() {
+  const { boxId = '' } = useParams();
+  const { t } = useI18n();
+  const { experienceBoxSession, saveExperienceBoxSession } = useSession();
+  const { navigation } = useNavigation();
+  const logout = useAppLogout('EXPERIENCE_BOX');
+  const endExperienceBoxSession = useExperienceBoxSessionEnd();
+  const navigate = useNavigate();
+  const api = useMemo(() => createApiClient(), []);
+  const experienceBoxSessionPort = useMemo(() => createDefaultSessionAdapter(), []);
+  const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
+  const drawUseCase = useMemo(() => new ExecuteDrawUseCase(), []);
+  const recordDraw = useMemo(
+    () => new RecordExperienceBoxDrawUseCase(experienceBoxSessionPort),
+    [experienceBoxSessionPort],
+  );
+
+  const [filter, setFilter] = useState<IntensityFilter>(DEFAULT_INTENSITY_FILTER);
+  const [drawSession, setDrawSession] = useState(orchestrator.createIdleSession());
+  const [drawing, setDrawing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [poolSize, setPoolSize] = useState<number | null>(null);
+  const [emptyFilter, setEmptyFilter] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const drawCount = experienceBoxSession?.experienceBox?.drawCount ?? 0;
+  const drawsLeft = remainingDraws(drawCount);
+  const canDraw = canPerformDraw(drawCount);
+
+  const boxName = navigation.boxName ?? t('sharedMoment.defaultBoxName');
+
+  useEffect(() => {
+    if (!experienceBoxSession || experienceBoxSession.accessMode !== 'EXPERIENCE_BOX') {
+      return;
+    }
+
+    if (!canDraw) {
+      void endExperienceBoxSession('draw_limit');
+    }
+  }, [canDraw, endExperienceBoxSession, experienceBoxSession]);
+
+  const drawButtonLabel = () => {
+    const name = t(`intensity.levels.${filter.level}`);
+    if (filter.mode === 'EXACT') {
+      return t('sharedMoment.drawExact', { level: filter.level, name });
+    }
+    if (filter.mode === 'UP_TO') {
+      return t('sharedMoment.drawUpTo', { level: filter.level, name });
+    }
+    return t('sharedMoment.drawAny');
+  };
+
+  const setFilterMode = (mode: IntensityFilterMode) => {
+    setFilter((current) => ({ ...current, mode }));
+    setDrawSession(orchestrator.backToDraw());
+    setEmptyFilter(false);
+  };
+
+  const handleDraw = async () => {
+    if (!experienceBoxSession?.token) {
+      return;
+    }
+
+    if (!canDraw) {
+      await endExperienceBoxSession('draw_limit');
+      return;
+    }
+
+    setDrawing(true);
+    setError(null);
+    setEmptyFilter(false);
+    setDrawSession(orchestrator.backToDraw());
+    setStatusMessage(t('sharedMoment.statusChoosing'));
+
+    try {
+      const pool = await listExperiences.execute(boxId, experienceBoxSession.token);
+      setPoolSize(pool.length);
+
+      if (pool.length === 0) {
+        return;
+      }
+
+      const result = drawUseCase.execute(pool, filter);
+      if (!result) {
+        setEmptyFilter(true);
+        return;
+      }
+
+      const { session: updatedSession, limitReached } = await recordDraw.execute(experienceBoxSession);
+      await saveExperienceBoxSession(updatedSession);
+      setDrawSession(orchestrator.applyDraw(orchestrator.createIdleSession(), result));
+      setStatusMessage(t('sharedMoment.statusDrawn'));
+
+      if (limitReached) {
+        await endExperienceBoxSession('draw_limit');
+      }
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : t('common.error'));
+    } finally {
+      setDrawing(false);
+    }
+  };
+
+  return (
+    <>
+    <main className={styles.page}>
+      <p className="srOnly" aria-live="polite" aria-atomic="true">
+        {statusMessage}
+      </p>
+      <ScreenHeader
+        leading={<NavButton action="back" onClick={() => navigate('/box-home')} />}
+        trailing={<NavButton action="logout" onClick={() => void logout()} />}
+      >
+        <ScreenTitle>{boxName}</ScreenTitle>
+      </ScreenHeader>
+
+      <p className={styles.drawsRemaining}>
+        {t('session.drawsRemaining', { count: drawsLeft })}
+      </p>
+
+      {drawSession.phase === 'idle' && (
+        <section className={styles.ritual}>
+          <div className={styles.envelope} aria-hidden="true">
+            <Sparkles />
+          </div>
+          <p className={styles.ritualHint}>{t('sharedMoment.ritualHint')}</p>
+        </section>
+      )}
+
+      <section className={styles.filters}>
+        <button
+          type="button"
+          className={styles.filtersToggle}
+          onClick={() => setFiltersOpen((current) => !current)}
+          aria-expanded={filtersOpen}
+        >
+          <SlidersHorizontal aria-hidden="true" />
+          {t('sharedMoment.filtersLabel')}
+        </button>
+
+        {filtersOpen && (
+          <div className={styles.filtersPanel}>
+            <div className={styles.chips}>
+              {(['ANY', 'EXACT', 'UP_TO'] as IntensityFilterMode[]).map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  className={filter.mode === mode ? styles.chipActive : styles.chip}
+                  onClick={() => setFilterMode(mode)}
+                >
+                  {t(`sharedMoment.filter.${mode}`)}
+                </button>
+              ))}
+            </div>
+
+            {filter.mode !== 'ANY' && (
+              <RatingScale
+                label={t('sharedMoment.intensityLevel')}
+                value={filter.level}
+                tone="intensity"
+                onChange={(level) => {
+                  setFilter((current) => ({ ...current, level }));
+                  setDrawSession(orchestrator.backToDraw());
+                  setEmptyFilter(false);
+                }}
+              />
+            )}
+          </div>
+        )}
+      </section>
+
+      {drawSession.phase === 'idle' && (
+        <div className={styles.drawArea}>
+          <Button fullWidth disabled={drawing || !canDraw} onClick={() => void handleDraw()}>
+            {drawing ? t('sharedMoment.choosing') : drawButtonLabel()}
+          </Button>
+
+          {poolSize === 0 && !drawing && (
+            <p className={styles.hintCard}>{t('sharedMoment.emptyBox')}</p>
+          )}
+
+          {emptyFilter && !drawing && (
+            <p className={styles.hintCard}>{t('sharedMoment.emptyFilter')}</p>
+          )}
+        </div>
+      )}
+
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
+
+      {drawSession.result && drawSession.phase !== 'idle' && (
+        <>
+          <DrawResultCard
+            experience={drawSession.result.experience}
+            revealed={drawSession.phase === 'revealed'}
+          />
+
+          {drawSession.phase === 'drawn' && (
+            <div className={styles.alignmentTip} role="note">
+              <Lightbulb className={styles.alignmentTipIcon} aria-hidden="true" />
+              <p>{t('sharedMoment.alignmentHint')}</p>
+            </div>
+          )}
+
+          <div className={styles.actions}>
+            {drawSession.phase === 'drawn' && (
+              <Button
+                fullWidth
+                onClick={() => {
+                  setDrawSession(orchestrator.reveal(drawSession));
+                  setStatusMessage(t('sharedMoment.statusRevealed'));
+                }}
+              >
+                {t('sharedMoment.reveal')}
+              </Button>
+            )}
+
+            <Button
+              fullWidth
+              variant="secondary"
+              onClick={() => {
+                setDrawSession(orchestrator.backToDraw());
+                setStatusMessage('');
+              }}
+            >
+              {t('sharedMoment.backToDraw')}
+            </Button>
+          </div>
+        </>
+      )}
+    </main>
+      <SessionModeFooter mode="EXPERIENCE_BOX" members={experienceBoxSession?.members} />
+    </>
+  );
+}

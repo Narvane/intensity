@@ -74,7 +74,7 @@ Slice verticali per cartella dominio:
 - `box/` — CRUD scatola inclusa eliminazione con cascata
 - `experience/` — CRUD esperienza
 
-Ogni modulo: Controller, Service, Repository, DTO, Entity.
+Ogni modulo: Controller, Service, Repository, DTO, Entity. L'infrastruttura trasversale (sicurezza JWT, configurazione web, tipi condivisi, demo seed) è raggruppata sotto `platform/`.
 
 ### Moduli cognitivi client (architettura informativa)
 
@@ -85,6 +85,8 @@ Esempi allineati ai layer Clean Architecture sul client:
 - `experience/` — assistente creazione, elenco, modifica
 - `draw/` — caso d'uso estrazione, policy filtro intensità, orchestratore rivelazione
 - `invite/` — genera, condividi, accetta, anteprima
+
+Le schermate di presentazione si raggruppano secondo il ritmo del prodotto: `access/` (auth, bootstrap, onboarding), `collection/` (gruppi, scatole, esperienze, suggerimenti), `moment/` (sessione scatola delle esperienze, momento condiviso), oltre a `invite/` e ai `components/` condivisi divisi per concetto (brand, controls, feedback, chrome, experience, rating, collection).
 
 ---
 

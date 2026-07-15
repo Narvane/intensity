@@ -1,8 +1,8 @@
 package com.intensity.group.service;
 
-import com.intensity.common.AccessMode;
-import com.intensity.common.AuthPrincipal;
-import com.intensity.common.exception.ApiException;
+import com.intensity.platform.common.AccessMode;
+import com.intensity.platform.common.AuthPrincipal;
+import com.intensity.platform.common.exception.ApiException;
 import com.intensity.group.GroupColor;
 import com.intensity.group.dto.CreateGroupRequest;
 import com.intensity.group.dto.GroupMemberResponse;

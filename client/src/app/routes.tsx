@@ -5,18 +5,18 @@ import {
   RequireExperiencesSessionRoute,
   RequireGuestRoute,
 } from '@app/routeGuards';
-import { AuthPage } from '@presentation/auth/AuthPage';
-import { BoxSelectionPage } from '@presentation/boxes/BoxSelectionPage';
-import { CreateBoxExperiencesPage } from '@presentation/boxes/CreateBoxExperiencesPage';
-import { BoxHomePage } from '@presentation/box-home/BoxHomePage';
-import { CreateBoxPage } from '@presentation/box-home/CreateBoxPage';
-import { SharedMomentPage } from '@presentation/shared-moment/SharedMomentPage';
-import { BootstrapPage } from '@presentation/bootstrap/BootstrapPage';
-import { ExperienceListPage } from '@presentation/experiences/ExperienceListPage';
-import { GroupSelectionPage } from '@presentation/groups/GroupSelectionPage';
-import { OnboardingPage } from '@presentation/onboarding/OnboardingPage';
+import { AuthPage } from '@presentation/access/auth/AuthPage';
+import { BoxSelectionPage } from '@presentation/collection/boxes/BoxSelectionPage';
+import { CreateBoxExperiencesPage } from '@presentation/collection/boxes/CreateBoxExperiencesPage';
+import { BoxHomePage } from '@presentation/moment/experience-box/BoxHomePage';
+import { CreateBoxPage } from '@presentation/moment/experience-box/CreateBoxPage';
+import { SharedMomentPage } from '@presentation/moment/shared-moment/SharedMomentPage';
+import { BootstrapPage } from '@presentation/access/bootstrap/BootstrapPage';
+import { ExperienceListPage } from '@presentation/collection/experiences/ExperienceListPage';
+import { GroupSelectionPage } from '@presentation/collection/groups/GroupSelectionPage';
+import { OnboardingPage } from '@presentation/access/onboarding/OnboardingPage';
 import { InvitePreviewPage } from '@presentation/invite/InvitePreviewPage';
-import { UnknownSessionPage } from '@presentation/unknown-session/UnknownSessionPage';
+import { UnknownSessionPage } from '@presentation/access/unknown-session/UnknownSessionPage';
 
 export function AppRouter() {
   useInviteDeepLink();

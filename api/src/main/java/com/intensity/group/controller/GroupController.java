@@ -1,6 +1,6 @@
 package com.intensity.group.controller;
 
-import com.intensity.common.AuthPrincipal;
+import com.intensity.platform.common.AuthPrincipal;
 import com.intensity.group.dto.CreateGroupRequest;
 import com.intensity.group.dto.GroupResponse;
 import com.intensity.group.dto.UpdateGroupRequest;

@@ -1,6 +1,6 @@
 package com.intensity.group;
 
-import com.intensity.common.exception.ApiException;
+import com.intensity.platform.common.exception.ApiException;
 import org.springframework.http.HttpStatus;
 
 import java.util.Locale;

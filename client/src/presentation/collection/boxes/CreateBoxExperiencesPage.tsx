@@ -1,0 +1,57 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSession } from '@app/SessionProvider';
+import { useI18n } from '../../../i18n/I18nContext';
+import { CreateBoxForm } from './CreateBoxForm';
+import { NavButton } from '../../components/controls/NavButton';
+import { ScreenHeader } from '../../components/chrome/ScreenHeader';
+import { ScreenTitle } from '../../components/chrome/ScreenTitle';
+import { SessionModeFooter } from '../../components/chrome/SessionModeFooter';
+import styles from './CreateBoxExperiencesPage.module.css';
+
+export function CreateBoxExperiencesPage() {
+  const { groupId = '' } = useParams();
+  const { t } = useI18n();
+  const { experiencesSession } = useSession();
+  const navigate = useNavigate();
+
+  if (!experiencesSession?.token || !groupId) {
+    return null;
+  }
+
+  const boxesPath = `/groups/${groupId}/boxes`;
+
+  return (
+    <>
+    <main className={styles.page}>
+      <ScreenHeader
+        leading={<NavButton action="back" onClick={() => navigate(boxesPath)} />}
+      >
+        <ScreenTitle>{t('createBox.title')}</ScreenTitle>
+      </ScreenHeader>
+
+      <p className={styles.intro}>{t('boxes.createIntro')}</p>
+
+      <CreateBoxForm
+        groupId={groupId}
+        token={experiencesSession.token}
+        variant="experiences"
+        cancelPath={boxesPath}
+        onSuccess={(box, meta) => {
+          navigate(boxesPath, {
+            replace: true,
+            state: {
+              openInvite: true,
+              createdBoxName: box.name,
+              partialFillFailures: meta?.partialFillFailures,
+            },
+          });
+        }}
+      />
+    </main>
+      <SessionModeFooter
+        mode="EXPERIENCES"
+        participantDisplayName={experiencesSession.displayName}
+      />
+    </>
+  );
+}

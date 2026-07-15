@@ -114,10 +114,11 @@ api/src/.../
 ├── group/
 ├── invite/      ← invite module
 ├── box/
-└── experience/
+├── experience/
+└── platform/    ← cross-cutting: security (JWT), web (CORS, errors, OpenAPI), common, demo seed
 ```
 
-Each folder: `controller`, `service`, `repository`, `dto`, `entity`.
+Each domain folder: `controller`, `service`, `repository`, `dto`, `entity`.
 
 ### Client folder heuristic (DT-13 alignment)
 

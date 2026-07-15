@@ -10,9 +10,9 @@ import {
 } from '@domain/invite/invitePresentation';
 import { CreateInviteUseCase } from '@domain/invite/inviteUseCases';
 import { useI18n } from '../../i18n/I18nContext';
-import { Button } from '../components/Button';
-import { AppLoader } from '../components/AppLoader';
-import { NavButton } from '../components/NavButton';
+import { Button } from '../components/controls/Button';
+import { AppLoader } from '../components/feedback/AppLoader';
+import { NavButton } from '../components/controls/NavButton';
 import styles from './ShareInviteSheet.module.css';
 
 interface ShareInviteSheetProps {

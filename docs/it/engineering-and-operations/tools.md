@@ -113,10 +113,11 @@ api/src/.../
 ├── group/
 ├── invite/      ← modulo invito
 ├── box/
-└── experience/
+├── experience/
+└── platform/    ← trasversale: security (JWT), web (CORS, errori, OpenAPI), common, demo seed
 ```
 
-Ogni cartella: `controller`, `service`, `repository`, `dto`, `entity`.
+Ogni cartella di dominio: `controller`, `service`, `repository`, `dto`, `entity`.
 
 ### Euristica cartelle client (allineamento DT-13)
 

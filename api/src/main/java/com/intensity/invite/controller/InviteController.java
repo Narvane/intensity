@@ -1,6 +1,6 @@
 package com.intensity.invite.controller;
 
-import com.intensity.common.AuthPrincipal;
+import com.intensity.platform.common.AuthPrincipal;
 import com.intensity.invite.dto.AcceptInviteResponse;
 import com.intensity.invite.dto.InvitePreviewResponse;
 import com.intensity.invite.dto.InviteResponse;

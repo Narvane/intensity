@@ -46,7 +46,7 @@ O Intensity usa **Java 21 + Spring Boot 3.5** com **PostgreSQL 16** e **Flyway**
 
 ### DT-12 — Estrutura da API
 
-Pastas domain-first (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Cada módulo: Controller → Service → Repository. Entidades anêmicas; regras de negócio em serviços. DTOs no limite REST.
+Pastas domain-first (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Cada módulo: Controller → Service → Repository. Entidades anêmicas; regras de negócio em serviços. DTOs no limite REST. A infraestrutura transversal (segurança JWT, configuração web de CORS/erros/OpenAPI, tipos compartilhados, seed de demo) vive sob um único pacote `platform/`, de modo que o nível superior se lê como cinco conceitos de domínio mais uma plataforma.
 
 Não são agregados DDD completos — CRUD pragmático com políticas explícitas (`ConviteExpiracaoPolicy`, `GrupoCapacidadeVerifier`).
 

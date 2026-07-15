@@ -1,8 +1,8 @@
 package com.intensity.group.service;
 
-import com.intensity.common.AccessMode;
-import com.intensity.common.exception.ApiException;
-import com.intensity.config.JwtService;
+import com.intensity.platform.common.AccessMode;
+import com.intensity.platform.common.exception.ApiException;
+import com.intensity.platform.security.JwtService;
 import com.intensity.group.dto.GroupMemberResponse;
 import com.intensity.group.dto.JointAuthSessionResponse;
 import com.intensity.group.entity.Group;

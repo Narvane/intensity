@@ -44,14 +44,16 @@ For a phone-sized preview in desktop Chrome/Firefox/Edge: open DevTools (`F12`) 
 ## Repository layout
 
 ```
+├── README.md     Product entry (this file)
+├── backlog.md    What to build next
+├── docs/         Product & engineering knowledge (en / pt-br / it) + refs.yaml map
+├── openapi/      Contract-first OpenAPI v1
 ├── api/          Spring Boot REST API (Java 21)
 ├── client/       React + Capacitor mobile app
 ├── deploy/       Production + public demo VPS stack (Compose + Caddy)
-├── openapi/      Contract-first OpenAPI v1
-├── assets/       Brand logos imported by the Vite client
-├── agents/       Agent prompts
-├── scripts/      Doc reference validation (`validate-refs.py`)
-└── docs/         Product & engineering docs (en / pt-br / it)
+├── assets/       Brand logos (also imported by the Vite client)
+├── ia/           Agents, skills, and tasks for AI-assisted evolution
+└── scripts/      Repo tooling (`validate-refs.py`)
 ```
 
 ## Local development

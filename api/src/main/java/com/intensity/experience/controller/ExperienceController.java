@@ -1,6 +1,6 @@
 package com.intensity.experience.controller;
 
-import com.intensity.common.AuthPrincipal;
+import com.intensity.platform.common.AuthPrincipal;
 import com.intensity.experience.dto.CreateExperienceRequest;
 import com.intensity.experience.dto.CreateExperiencesBatchRequest;
 import com.intensity.experience.dto.ExperienceResponse;

@@ -46,7 +46,7 @@ Intensity uses **Java 21 + Spring Boot 3.5** with **PostgreSQL 16** and **Flyway
 
 ### DT-12 — API structure
 
-Domain-first folders (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Each module: Controller → Service → Repository. Anemic entities; business rules in services. DTOs at REST boundary.
+Domain-first folders (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Each module: Controller → Service → Repository. Anemic entities; business rules in services. DTOs at REST boundary. Cross-cutting infrastructure (JWT security, CORS/error/OpenAPI web config, shared types, demo seed) lives under a single `platform/` package so the top level reads as five domain concepts plus one platform.
 
 Not full DDD aggregates — pragmatic CRUD with explicit policies (`InviteExpirationPolicy`, `GroupMembershipService`).
 

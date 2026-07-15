@@ -1,6 +1,6 @@
 package com.intensity.participant.controller;
 
-import com.intensity.common.exception.ApiException;
+import com.intensity.platform.common.exception.ApiException;
 import com.intensity.participant.dto.AuthSessionResponse;
 import com.intensity.participant.dto.JointLoginRequest;
 import com.intensity.participant.dto.LoginRequest;

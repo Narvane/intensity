@@ -1,6 +1,6 @@
 package com.intensity.group.controller;
 
-import com.intensity.common.AuthPrincipal;
+import com.intensity.platform.common.AuthPrincipal;
 import com.intensity.group.service.GroupMembershipService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

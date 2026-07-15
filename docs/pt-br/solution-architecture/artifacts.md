@@ -74,7 +74,7 @@ Fatias verticais por pasta de domínio:
 - `box/` — CRUD de caixinha incluindo exclusão com cascata
 - `experience/` — CRUD de experiência
 
-Cada módulo: Controller, Service, Repository, DTO, Entity.
+Cada módulo: Controller, Service, Repository, DTO, Entity. A infraestrutura transversal (segurança JWT, configuração web, tipos compartilhados, seed de demo) fica agrupada sob `platform/`.
 
 ### Módulos cognitivos do cliente (arquitetura da informação)
 
@@ -85,6 +85,8 @@ Exemplos alinhados com camadas Clean Architecture no cliente:
 - `experience/` — assistente de criação, listagem, edição
 - `draw/` — caso de uso de sorteio, política de filtro de intensidade, orquestrador de revelação
 - `invite/` — gerar, compartilhar, aceitar, prévia
+
+As telas de apresentação agrupam-se pelo ritmo do produto: `access/` (auth, bootstrap, onboarding), `collection/` (grupos, caixinhas, experiências, sugestões), `moment/` (sessão de caixa de experiências, momento compartilhado), além de `invite/` e `components/` compartilhados divididos por conceito (brand, controls, feedback, chrome, experience, rating, collection).
 
 ---
 

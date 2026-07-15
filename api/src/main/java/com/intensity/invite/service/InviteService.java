@@ -1,7 +1,7 @@
 package com.intensity.invite.service;
 
-import com.intensity.common.AuthPrincipal;
-import com.intensity.common.exception.ApiException;
+import com.intensity.platform.common.AuthPrincipal;
+import com.intensity.platform.common.exception.ApiException;
 import com.intensity.invite.dto.AcceptInviteResponse;
 import com.intensity.invite.dto.InvitePreviewResponse;
 import com.intensity.invite.dto.InviteResponse;
@@ -217,7 +217,7 @@ public class InviteService {
 	}
 
 	private void ensureGroupMember(UUID groupId, AuthPrincipal principal) {
-		if (principal.accessMode() == com.intensity.common.AccessMode.EXPERIENCE_BOX) {
+		if (principal.accessMode() == com.intensity.platform.common.AccessMode.EXPERIENCE_BOX) {
 			if (!principal.canAccessExperienceBoxGroup(groupId)) {
 				throw forbidden();
 			}

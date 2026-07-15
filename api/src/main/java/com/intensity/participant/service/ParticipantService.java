@@ -1,8 +1,8 @@
 package com.intensity.participant.service;
 
-import com.intensity.common.AccessMode;
-import com.intensity.common.exception.ApiException;
-import com.intensity.config.JwtService;
+import com.intensity.platform.common.AccessMode;
+import com.intensity.platform.common.exception.ApiException;
+import com.intensity.platform.security.JwtService;
 import com.intensity.participant.dto.AuthSessionResponse;
 import com.intensity.participant.dto.LoginRequest;
 import com.intensity.participant.dto.RegisterParticipantRequest;

@@ -74,7 +74,7 @@ Vertical slices by domain folder:
 - `box/` — box CRUD including delete with cascade
 - `experience/` — experience CRUD
 
-Each module: Controller, Service, Repository, DTO, Entity.
+Each module: Controller, Service, Repository, DTO, Entity. Cross-cutting infrastructure (JWT security, web config, shared types, demo seed) is grouped under `platform/`.
 
 ### Client cognitive modules (information architecture)
 
@@ -85,6 +85,8 @@ Examples aligned with Clean Architecture layers on client:
 - `experience/` — creation assistant, listing, editing
 - `draw/` — draw use case, intensity filter policy, reveal orchestrator
 - `invite/` — generate, share, accept, preview
+
+Presentation screens group by product rhythm: `access/` (auth, bootstrap, onboarding), `collection/` (groups, boxes, experiences, suggestions), `moment/` (experience-box session, shared moment), plus `invite/` and shared `components/` split by concept (brand, controls, feedback, chrome, experience, rating, collection).
 
 ---
 

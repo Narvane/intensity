@@ -1,6 +1,6 @@
 package com.intensity;
 
-import com.intensity.config.JwtProperties;
+import com.intensity.platform.security.JwtProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

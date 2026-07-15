@@ -4,7 +4,7 @@ import com.intensity.box.dto.BoxResponse;
 import com.intensity.box.dto.CreateBoxRequest;
 import com.intensity.box.dto.UpdateBoxRequest;
 import com.intensity.box.service.BoxService;
-import com.intensity.common.AuthPrincipal;
+import com.intensity.platform.common.AuthPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

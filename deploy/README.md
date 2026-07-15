@@ -4,6 +4,16 @@ Production stack per **DT-07** and **DT-08**: Caddy (TLS) + Spring Boot API + Po
 
 Public **demo** stack (same VPS, isolated DB): see [Public demo](#public-demo) below.
 
+## Folder map (two stacks, one folder)
+
+This folder holds **two** deployable stacks side by side. File paths are referenced by the VPS (crontab, webhook, systemd) — do not move or rename them.
+
+| Stack | Files |
+|-------|-------|
+| **Production** | `docker-compose.prod.yml`, `Caddyfile`, `deploy.sh`, `.env.example`, `webhook/` (CI-triggered redeploy), `vps.md` |
+| **Public demo** | `docker-compose.demo.yml`, `deploy-demo.sh`, `reset-demo.sh`, `cron-reset-demo.sh`, `publish-demo-client.sh`, `.env.demo.example`, `demo-nginx.conf`, `demo-web/` (published SPA build) |
+| **Shared** | `caddy-snippets/` (demo writes its snippet here; Caddy from prod compose loads it) |
+
 ## Prerequisites
 
 - Linux VPS with Docker 24+ and Compose v2

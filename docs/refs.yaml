@@ -19,6 +19,7 @@ version: 1
 validate:
   scan_files:
     - README.md
+    - backlog.md
     - client/STORE_RELEASE.md
     - openapi/openapi.yaml
     - docs/en/engineering-and-operations/tools.md
@@ -38,6 +39,11 @@ entries:
   - id: readme
     path: README.md
     label: Repository README
+    role: entrypoint
+
+  - id: backlog
+    path: backlog.md
+    label: Product backlog — what to build next
     role: entrypoint
 
   - id: refs

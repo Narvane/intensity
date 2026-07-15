@@ -1,8 +1,8 @@
 package com.intensity.group.service;
 
-import com.intensity.common.AccessMode;
-import com.intensity.common.AuthPrincipal;
-import com.intensity.common.exception.ApiException;
+import com.intensity.platform.common.AccessMode;
+import com.intensity.platform.common.AuthPrincipal;
+import com.intensity.platform.common.exception.ApiException;
 import com.intensity.experience.repository.ExperienceRepository;
 import com.intensity.group.entity.Group;
 import com.intensity.group.entity.GroupParticipant;

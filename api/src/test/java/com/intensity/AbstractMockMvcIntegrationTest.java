@@ -12,13 +12,13 @@ import org.springframework.test.context.ActiveProfiles;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-abstract class AbstractMockMvcIntegrationTest {
+public abstract class AbstractMockMvcIntegrationTest {
 
 	@Autowired
 	private Flyway flyway;
 
 	@BeforeAll
-	void resetDatabase() {
+	protected void resetDatabase() {
 		flyway.clean();
 		flyway.migrate();
 	}

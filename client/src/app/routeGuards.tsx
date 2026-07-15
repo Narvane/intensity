@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { AppLoader } from '@presentation/components/AppLoader';
-import { OfflineBanner } from '@presentation/components/OfflineBanner';
+import { AppLoader } from '@presentation/components/feedback/AppLoader';
+import { OfflineBanner } from '@presentation/components/feedback/OfflineBanner';
 import { resolveGuestRouteRedirect } from '@domain/auth/guestRouteRedirect';
 import { useSession } from './SessionProvider';
 

@@ -1,7 +1,7 @@
 package com.intensity.experience.service;
 
-import com.intensity.common.AccessMode;
-import com.intensity.common.AuthPrincipal;
+import com.intensity.platform.common.AccessMode;
+import com.intensity.platform.common.AuthPrincipal;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

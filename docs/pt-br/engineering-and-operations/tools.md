@@ -113,10 +113,11 @@ api/src/.../
 ├── group/
 ├── invite/      ← módulo de convite
 ├── box/
-└── experience/
+├── experience/
+└── platform/    ← transversal: security (JWT), web (CORS, erros, OpenAPI), common, demo seed
 ```
 
-Cada pasta: `controller`, `service`, `repository`, `dto`, `entity`.
+Cada pasta de domínio: `controller`, `service`, `repository`, `dto`, `entity`.
 
 ### Heurística de pastas do cliente (alinhamento DT-13)
 

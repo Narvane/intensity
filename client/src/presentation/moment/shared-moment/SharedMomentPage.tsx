@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
 import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
 import { useExperienceBoxSessionEnd } from '@app/useExperienceBoxSessionEnd';
-import { useAppLogout } from '@app/useAppLogout';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
 import { ListExperiencesUseCase } from '@domain/experience/experienceUseCases';
@@ -22,6 +21,7 @@ import {
 import { SlidersHorizontal, Sparkles, Lightbulb } from 'lucide-react';
 import { useI18n } from '../../../i18n/I18nContext';
 import { Button } from '../../components/controls/Button';
+import { LogoutNavButton } from '../../components/controls/LogoutNavButton';
 import { NavButton } from '../../components/controls/NavButton';
 import { ScreenHeader } from '../../components/chrome/ScreenHeader';
 import { ScreenTitle } from '../../components/chrome/ScreenTitle';
@@ -37,7 +37,6 @@ export function SharedMomentPage() {
   const { t } = useI18n();
   const { experienceBoxSession, saveExperienceBoxSession } = useSession();
   const { navigation } = useNavigation();
-  const logout = useAppLogout('EXPERIENCE_BOX');
   const endExperienceBoxSession = useExperienceBoxSessionEnd();
   const navigate = useNavigate();
   const api = useMemo(() => createApiClient(), []);
@@ -144,7 +143,7 @@ export function SharedMomentPage() {
       </p>
       <ScreenHeader
         leading={<NavButton action="back" onClick={() => navigate('/box-home')} />}
-        trailing={<NavButton action="logout" onClick={() => void logout()} />}
+        trailing={<LogoutNavButton mode="EXPERIENCE_BOX" />}
       >
         <ScreenTitle>{boxName}</ScreenTitle>
       </ScreenHeader>

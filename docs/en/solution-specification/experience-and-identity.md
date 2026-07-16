@@ -45,7 +45,7 @@ Color tokens, typography, radii, shadows, component chrome, and motion are defin
 
 1. **Mode clarity** — layout, copy, and accent color immediately signal Experiences vs Experience Box
 2. **Progressive disclosure** — intensity before text; invite preview before join
-3. **Explicit consent** — confirmations for delete box, leave group, accept invite
+3. **Explicit consent** — confirmations for delete box, leave group, accept invite, logout
 4. **Empty states as guidance** — empty box encourages contribution; empty draw pool explains filters
 5. **Accessibility baseline** — touch targets ≥44pt (prefer 48px per design system); contrast WCAG AA; screen reader labels on primary actions
 
@@ -82,7 +82,7 @@ Four sub-panels within one auth screen:
 |-------|------------|----------------|
 | Experiences login | Flat purple accent (`--purple`) | Single credential form |
 | Experience Box login | Coral accent | Multi-credential cards with "+" to add participant |
-| Registration | Neutral surface on warm background | Display name, email, password |
+| Registration | Neutral surface on warm background | Display name, email, password, confirm password |
 | Join via invite | Yellow or teal accent chip | Code entry field + "Continue" |
 
 Invite entry is reachable from auth without full login — leads to preview screen after code validation.

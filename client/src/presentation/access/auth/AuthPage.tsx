@@ -85,6 +85,7 @@ export function AuthPage() {
     displayName: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [inviteCode, setInviteCode] = useState('');
   const [pendingReturnPath, setPendingReturnPath] = useState<string | null>(null);
@@ -253,10 +254,19 @@ export function AuthPage() {
   };
 
   const submitRegister = async () => {
-    setLoading(true);
     setError(null);
+    if (registerForm.password !== registerForm.confirmPassword) {
+      setError(t('auth.errors.passwordMismatch'));
+      return;
+    }
+
+    setLoading(true);
     try {
-      await registerUseCase.execute(registerForm);
+      await registerUseCase.execute({
+        displayName: registerForm.displayName,
+        email: registerForm.email,
+        password: registerForm.password,
+      });
       await refresh();
       afterAuthNavigate();
     } catch (err) {
@@ -516,6 +526,20 @@ export function AuthPage() {
                   value={registerForm.password}
                   onChange={(event) =>
                     setRegisterForm((current) => ({ ...current, password: event.target.value }))
+                  }
+                />
+              </label>
+              <label className={styles.field}>
+                <span>{t('auth.fields.confirmPassword')}</span>
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  value={registerForm.confirmPassword}
+                  onChange={(event) =>
+                    setRegisterForm((current) => ({
+                      ...current,
+                      confirmPassword: event.target.value,
+                    }))
                   }
                 />
               </label>

@@ -45,7 +45,7 @@ Tokens de cor, tipografia, raios, sombras, componentes e movimento estão em [`d
 
 1. **Clareza de modo** — layout, copy e cor de destaque sinalizam imediatamente Experiências vs Caixa de Experiências
 2. **Divulgação progressiva** — intensidade antes do texto; prévia de convite antes de entrar
-3. **Consentimento explícito** — confirmações para excluir caixinha, sair do grupo, aceitar convite
+3. **Consentimento explícito** — confirmações para excluir caixinha, sair do grupo, aceitar convite, logout
 4. **Estados vazios como orientação** — caixinha vazia incentiva contribuição; pool de sorteio vazio explica filtros
 5. **Linha de base de acessibilidade** — alvos de toque ≥44pt (preferir 48px no design system); contraste WCAG AA; rótulos de leitor de tela em ações primárias
 
@@ -82,7 +82,7 @@ Quatro subpainéis dentro de uma tela de autenticação:
 |--------|------------------|---------------|
 | Login Experiências | Destaque roxo flat (`--purple`) | Formulário de credencial única |
 | Login Caixa de Experiências | Destaque coral | Cartões multi-credencial com "+" para adicionar participante |
-| Registro | Superfície neutra sobre fundo quente | Nome de exibição, e-mail, senha |
+| Registro | Superfície neutra sobre fundo quente | Nome de exibição, e-mail, senha, confirmar senha |
 | Entrar via convite | Chip amarelo ou turquesa | Campo de entrada de código + "Continuar" |
 
 Entrada por convite é acessível da autenticação sem login completo — leva à tela de prévia após validação do código.

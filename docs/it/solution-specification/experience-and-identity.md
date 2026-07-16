@@ -45,7 +45,7 @@ Token colore, tipografia, raggi, ombre, componenti e movimento sono in [`design-
 
 1. **Chiarezza modalità** — layout, copy e colore accento segnalano immediatamente Esperienze vs Scatola delle Esperienze
 2. **Divulgazione progressiva** — intensità prima del testo; anteprima invito prima dell'adesione
-3. **Consenso esplicito** — conferme per elimina scatola, lascia gruppo, accetta invito
+3. **Consenso esplicito** — conferme per elimina scatola, lascia gruppo, accetta invito, logout
 4. **Stati vuoti come guida** — scatola vuota incoraggia il contributo; pool estrazione vuoto spiega i filtri
 5. **Baseline accessibilità** — target touch ≥44pt (preferire 48px nel design system); contrasto WCAG AA; etichette screen reader sulle azioni principali
 
@@ -82,7 +82,7 @@ Quattro sotto-pannelli all'interno di una schermata auth:
 |----------|----------------|-------------------|
 | Login Esperienze | Accento viola flat (`--purple`) | Form credenziale singola |
 | Login Scatola delle Esperienze | Accento corallo | Carte multi-credenziale con "+" per aggiungere partecipante |
-| Registrazione | Superficie neutra su sfondo caldo | Nome visualizzato, email, password |
+| Registrazione | Superficie neutra su sfondo caldo | Nome visualizzato, email, password, conferma password |
 | Unisciti via invito | Chip giallo o teal | Campo inserimento codice + "Continua" |
 
 L'inserimento invito è raggiungibile dall'auth senza login completo — conduce alla schermata anteprima dopo la validazione del codice.

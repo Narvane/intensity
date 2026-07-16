@@ -27,6 +27,7 @@ import { GroupSelector } from '../../collection/groups/GroupSelector';
 import { BoxCard } from '../../components/collection/BoxCard';
 import { AppLoader } from '../../components/feedback/AppLoader';
 import { Button } from '../../components/controls/Button';
+import { LogoutNavButton } from '../../components/controls/LogoutNavButton';
 import { NavButton } from '../../components/controls/NavButton';
 import { ScreenHeader } from '../../components/chrome/ScreenHeader';
 import { SessionModeFooter } from '../../components/chrome/SessionModeFooter';
@@ -285,7 +286,7 @@ export function BoxHomePage() {
                 <Pencil size={18} strokeWidth={2.25} aria-hidden />
               </button>
             )}
-            <NavButton action="logout" onClick={() => void logout()} />
+            <LogoutNavButton mode="EXPERIENCE_BOX" />
           </div>
         }
       >

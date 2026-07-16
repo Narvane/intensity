@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UsersRound } from 'lucide-react';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
-import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
@@ -22,6 +21,7 @@ import { GroupMemberPills } from '../../components/collection/GroupMemberPills';
 import { BoxCard } from '../../components/collection/BoxCard';
 import { Button } from '../../components/controls/Button';
 import { AppLoader } from '../../components/feedback/AppLoader';
+import { LogoutNavButton } from '../../components/controls/LogoutNavButton';
 import { NavButton } from '../../components/controls/NavButton';
 import { ScreenHeader } from '../../components/chrome/ScreenHeader';
 import { SessionModeFooter } from '../../components/chrome/SessionModeFooter';
@@ -41,7 +41,6 @@ export function BoxSelectionPage() {
   const { experiencesSession } = useSession();
   const { navigation, setNavigation, clearNavigation } = useNavigation();
   const { showToast } = useToast();
-  const logout = useAppLogout('EXPERIENCES');
   const navigate = useNavigate();
   const location = useLocation();
   const api = useMemo(() => createApiClient(), []);
@@ -153,7 +152,7 @@ export function BoxSelectionPage() {
         leading={
           <NavButton action="back" onClick={() => navigate('/groups')} />
         }
-        trailing={<NavButton action="logout" onClick={() => void logout()} />}
+        trailing={<LogoutNavButton mode="EXPERIENCES" />}
       >
         {activeGroup && <GroupHeading groups={headingGroups} />}
       </ScreenHeader>

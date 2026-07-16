@@ -69,6 +69,7 @@
     "fields": {
       "email": "Email",
       "password": "Senha",
+      "confirmPassword": "Confirmar senha",
       "displayName": "Nome de exibição"
     },
     "experiences": {
@@ -104,6 +105,7 @@
     "inviteComingSoon": "Aceite de convite chega em um slice posterior. O formato do código está correto.",
     "errors": {
       "network": "Não foi possível contactar o servidor. Verifique a conexão e tente novamente.",
+      "passwordMismatch": "As senhas não coincidem.",
       "invalidInviteCode": "Informe um código de convite válido com 6 caracteres.",
       "groupMembershipConflict": "Essas credenciais pertencem a grupos diferentes. Entre com membros do mesmo grupo.",
       "groupTargetMismatch": "Essas credenciais não pertencem ao grupo selecionado.",
@@ -124,6 +126,12 @@
     "greeting": "Olá, {{name}}",
     "roomLabel": "Na sala agora",
     "logout": "Sair",
+    "logoutDialog": {
+      "title": "Sair da sessão?",
+      "message": "Você vai sair desta sessão. Pode entrar de novo a qualquer momento.",
+      "confirm": "Sair",
+      "cancel": "Cancelar"
+    },
     "drawsRemaining": "Sorteios restantes: {{count}}",
     "experienceBoxEnded": "A sessão em grupo terminou. Entrem juntos de novo para continuar."
   },

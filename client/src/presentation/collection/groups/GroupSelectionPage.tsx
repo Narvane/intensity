@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pencil, UsersRound } from 'lucide-react';
 import { ApiError, createApiClient } from '@adapters/api/ApiClient';
-import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
@@ -17,6 +16,7 @@ import { useI18n } from '../../../i18n/I18nContext';
 import { StartDrawSessionModal } from '../boxes/StartDrawSessionModal';
 import { Button } from '../../components/controls/Button';
 import { AppLoader } from '../../components/feedback/AppLoader';
+import { LogoutNavButton } from '../../components/controls/LogoutNavButton';
 import { NavButton } from '../../components/controls/NavButton';
 import { ScreenHeader } from '../../components/chrome/ScreenHeader';
 import { ScreenTitle } from '../../components/chrome/ScreenTitle';
@@ -29,7 +29,6 @@ export function GroupSelectionPage() {
   const { t } = useI18n();
   const { experiencesSession } = useSession();
   const { showToast } = useToast();
-  const logout = useAppLogout('EXPERIENCES');
   const navigate = useNavigate();
   const { setNavigation } = useNavigation();
   const api = useMemo(() => createApiClient(), []);
@@ -121,7 +120,7 @@ export function GroupSelectionPage() {
       <main className={styles.page}>
         <ScreenHeader
           leading={<NavButton action="back" onClick={() => navigate('/auth')} />}
-          trailing={<NavButton action="logout" onClick={() => void logout()} />}
+          trailing={<LogoutNavButton mode="EXPERIENCES" />}
         >
           <ScreenTitle>{t('groups.title')}</ScreenTitle>
         </ScreenHeader>

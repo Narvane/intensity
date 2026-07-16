@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FlipHorizontal2, Trash2 } from 'lucide-react';
 import { createApiClient } from '@adapters/api/ApiClient';
-import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
@@ -20,6 +19,7 @@ import {
 import { useI18n } from '../../../i18n/I18nContext';
 import { Button } from '../../components/controls/Button';
 import { AppLoader } from '../../components/feedback/AppLoader';
+import { LogoutNavButton } from '../../components/controls/LogoutNavButton';
 import { NavButton } from '../../components/controls/NavButton';
 import { ScreenHeader } from '../../components/chrome/ScreenHeader';
 import { ScreenTitle } from '../../components/chrome/ScreenTitle';
@@ -37,7 +37,6 @@ export function ExperienceListPage() {
   const { experiencesSession } = useSession();
   const { navigation } = useNavigation();
   const { showToast } = useToast();
-  const logout = useAppLogout('EXPERIENCES');
   const navigate = useNavigate();
   const online = useOnlineStatus();
   const api = useMemo(() => createApiClient(), []);
@@ -188,7 +187,7 @@ export function ExperienceListPage() {
             onClick={() => navigate(`/groups/${groupId}/boxes`)}
           />
         }
-        trailing={<NavButton action="logout" onClick={() => void logout()} />}
+        trailing={<LogoutNavButton mode="EXPERIENCES" />}
       >
         <ScreenTitle>{boxName}</ScreenTitle>
       </ScreenHeader>

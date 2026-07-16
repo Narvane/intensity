@@ -67,13 +67,13 @@ Fluxo B — Experiências (contribuição individual)
   Auth → Seleção de grupo → Seleção de caixinha → Lista de experiências
     → [+ Criar] → Sobreposição do assistente → volta à lista
   Voltar: lista → seleção de caixinha → seleção de grupo
-  Sair: logout de qualquer tela autenticada
+  Sair: logout (confirmar) de qualquer tela autenticada
 
 Fluxo C — Caixa de Experiências (ritual em grupo)
   Auth (multiusuário) → Página inicial da caixinha → [Criar caixinha | Convidar | Excluir caixinha]
     → Abrir caixinha → Momento compartilhado → Sortear → Alinhar → Revelar → Voltar ao sorteio
   Voltar: momento compartilhado → página inicial da caixinha
-  Sair: logout
+  Sair: logout (confirmar)
 
 Fluxo D — Entrar via convite
   Entrada de convite na auth OU deep link → Prévia de entrada → Aceitar → Seleção de grupo (Experiências)
@@ -168,7 +168,7 @@ Quatro etapas deslizáveis com ilustrações e copy. Etapa final oferece entrada
 
 **Login Caixa de Experiências:** um ou mais cartões de credencial; "+" adiciona outro participante. Todos devem autenticar com sucesso. Todos os participantes devem pertencer ao **mesmo grupo** ao entrar em grupo existente, OU formar novo grupo se a combinação for nova. Erro de incompatibilidade explica que credenciais pertencem a grupos diferentes.
 
-**Registro:** nome de exibição, e-mail, senha. E-mail deve estar na allowlist do operador. Sucesso → painel de login.
+**Registro:** nome de exibição, e-mail, senha, confirmar senha. E-mail deve estar na allowlist do operador. Sucesso → painel de login.
 
 **Entrada de código de convite:** campo de 6 caracteres; valida formato → prévia de entrada ou erro.
 
@@ -231,7 +231,7 @@ Exibida quando contexto de sessão armazenado é inválido. Opções: logout (li
 
 ### Notas de acessibilidade
 
-Botões primários têm rótulos de acessibilidade. Ações de sortear e revelar anunciam mudanças de estado. Confirmações de exclusão prendem foco até dispensadas. Cores de intensidade complementadas com rótulos de texto (nunca significado apenas por cor).
+Botões primários têm rótulos de acessibilidade. Ações de sortear e revelar anunciam mudanças de estado. Confirmações de exclusão e de logout prendem foco até dispensadas. Cores de intensidade complementadas com rótulos de texto (nunca significado apenas por cor).
 
 ## Decisões assumidas nesta reescrita
 

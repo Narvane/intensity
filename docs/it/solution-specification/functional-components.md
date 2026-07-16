@@ -67,13 +67,13 @@ Flusso B — Esperienze (contributo individuale)
   Auth → Selezione gruppo → Selezione scatola → Elenco esperienze
     → [+ Crea] → Overlay assistente → ritorno all'elenco
   Indietro: elenco → selezione scatola → selezione gruppo
-  Uscita: logout da qualsiasi schermata autenticata
+  Uscita: logout (conferma) da qualsiasi schermata autenticata
 
 Flusso C — Scatola delle Esperienze (rituale di gruppo)
   Auth (multi-utente) → Home scatole → [Crea scatola | Invita | Elimina scatola]
     → Apri scatola → Momento condiviso → Estrazione → Allineamento → Rivela → Torna all'estrazione
   Indietro: momento condiviso → home scatole
-  Uscita: logout
+  Uscita: logout (conferma)
 
 Flusso D — Unisciti via invito
   Inserimento invito auth O deep link → Anteprima adesione → Accetta → Selezione gruppo (Esperienze)
@@ -168,7 +168,7 @@ Quattro passi scorrevoli con illustrazioni e copy. Il passo finale offre ingress
 
 **Login Scatola delle Esperienze:** una o più carte credenziale; "+" aggiunge un altro partecipante. Tutti devono autenticarsi con successo. Tutti i partecipanti devono appartenere allo **stesso gruppo** quando si uniscono a un gruppo esistente, OPPURE formare un nuovo gruppo se la combinazione è nuova. Errore mismatch spiega che le credenziali appartengono a gruppi diversi.
 
-**Registrazione:** nome visualizzato, email, password. L'email deve essere nella allowlist operatore. Successo → pannello login.
+**Registrazione:** nome visualizzato, email, password, conferma password. L'email deve essere nella allowlist operatore. Successo → pannello login.
 
 **Inserimento codice invito:** campo 6 caratteri; valida formato → anteprima adesione o errore.
 
@@ -231,7 +231,7 @@ Mostrato quando il contesto sessione memorizzato non è valido. Opzioni: logout 
 
 ### Note accessibilità
 
-I pulsanti principali hanno etichette accessibilità. Le azioni estrazione e rivelazione annunciano cambi di stato. Le conferme eliminazione intrappolano il focus finché chiuse. I colori intensità sono integrati con etichette testo (mai significato solo colore).
+I pulsanti principali hanno etichette accessibilità. Le azioni estrazione e rivelazione annunciano cambi di stato. Le conferme di eliminazione e di logout intrappolano il focus finché chiuse. I colori intensità sono integrati con etichette testo (mai significato solo colore).
 
 ## Decisioni assunte in questa riscrittura
 

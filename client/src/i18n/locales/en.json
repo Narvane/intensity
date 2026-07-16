@@ -69,6 +69,7 @@
     "fields": {
       "email": "Email",
       "password": "Password",
+      "confirmPassword": "Confirm password",
       "displayName": "Display name"
     },
     "experiences": {
@@ -104,6 +105,7 @@
     "inviteComingSoon": "Invite acceptance arrives in a later slice. The code format is valid.",
     "errors": {
       "network": "Could not reach the server. Check your connection and try again.",
+      "passwordMismatch": "Passwords do not match.",
       "invalidInviteCode": "Enter a valid 6-character invite code.",
       "groupMembershipConflict": "These credentials belong to different groups. Sign in with members of the same group.",
       "groupTargetMismatch": "These credentials do not belong to the selected group.",
@@ -124,6 +126,12 @@
     "greeting": "Hi, {{name}}",
     "roomLabel": "In the room now",
     "logout": "Sign out",
+    "logoutDialog": {
+      "title": "Sign out?",
+      "message": "You will leave this session. You can sign in again anytime.",
+      "confirm": "Sign out",
+      "cancel": "Cancel"
+    },
     "drawsRemaining": "Draws remaining: {{count}}",
     "experienceBoxEnded": "The group session has ended. Sign in together again to continue."
   },

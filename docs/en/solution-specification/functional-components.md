@@ -68,13 +68,13 @@ Flow B — Experiences (individual contribution)
     → [+ Create experience] → Assistant overlay → back to list
     → [Create box] → Create box (Experiences) → back to box selection
   Back: list → box selection → group selection
-  Exit: logout from any authenticated screen
+  Exit: logout (confirm) from any authenticated screen
 
 Flow C — Experience Box (group ritual)
   Auth (multi-user) → Box home → [Create box | Invite | Delete box | Edit group]
     → Open box → Shared moment → Draw → Align → Reveal → Back to draw
   Back: shared moment → box home
-  Exit: logout
+  Exit: logout (confirm)
 
 Flow D — Join via invite
   Auth invite entry OR deep link → Join preview → Accept → Group selection (Experiences)
@@ -169,7 +169,7 @@ Four swipable steps with illustrations and copy. Final step offers entry to quic
 
 **Experience Box login:** one or more credential cards; "+" adds another participant. All must authenticate successfully. All participants must belong to the **same group** when joining an existing group, OR form a new group if the combination is new. Mismatch error explains that credentials belong to different groups.
 
-**Registration:** display name, email, password. Email must be on operator allowlist. Success → login panel.
+**Registration:** display name, email, password, confirm password. Email must be on operator allowlist. Success → login panel.
 
 **Invite code entry:** 6-character field; validates format → join preview or error.
 
@@ -232,7 +232,7 @@ Shown when stored session context is invalid. Options: logout (clear all) or swi
 
 ### Accessibility notes
 
-Primary buttons have accessibility labels. Draw and reveal actions announce state changes. Delete confirmations trap focus until dismissed. Intensity colors supplemented with text labels (never color-only meaning).
+Primary buttons have accessibility labels. Draw and reveal actions announce state changes. Delete and logout confirmations trap focus until dismissed. Intensity colors supplemented with text labels (never color-only meaning).
 
 ## Decisions assumed in this rewrite
 

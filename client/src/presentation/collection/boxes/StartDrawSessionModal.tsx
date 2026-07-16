@@ -5,6 +5,7 @@ import { createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import {
   isValidAuthPasswordLength,
+  looksLikeMaskedPassword,
   resolveAuthError,
 } from '@domain/auth/authErrors';
 import { LoginExperienceBoxUseCase } from '@domain/auth/authUseCases';
@@ -27,7 +28,6 @@ interface CredentialForm {
 }
 
 const emptyCredential = (): CredentialForm => ({ email: '', password: '' });
-const MASKED_PASSWORD = '••••••••';
 
 export type GroupJointLoginMode = 'play' | 'manage';
 
@@ -54,7 +54,7 @@ function buildInitialCredentials(
   if (members.length === 0) {
     return [
       hasExperiencesSession && experiencesEmail
-        ? { email: experiencesEmail, password: MASKED_PASSWORD }
+        ? { email: experiencesEmail, password: '' }
         : emptyCredential(),
     ];
   }
@@ -84,7 +84,7 @@ function buildInitialCredentials(
     const email = (member.email ?? (isYou ? experiencesEmail : '')).trim();
     return {
       email,
-      password: isYou ? MASKED_PASSWORD : '',
+      password: '',
       participantId: member.participantId,
       displayName: member.displayName,
     };
@@ -225,6 +225,15 @@ export function StartDrawSessionModal({
     }
 
     if (
+      additionalCredentials.some(
+        (credential) => !credential.password || looksLikeMaskedPassword(credential.password),
+      )
+    ) {
+      setError(t('auth.errors.requiredFields'));
+      return;
+    }
+
+    if (
       !additionalCredentials.every((credential) => isValidAuthPasswordLength(credential.password))
     ) {
       setError(t('auth.errors.passwordLength'));
@@ -311,8 +320,7 @@ export function StartDrawSessionModal({
           {credentials.map((credential, index) => {
             const isPrefilledSlot =
               hasExperiencesSession &&
-              credential.email.trim().toLowerCase() === experiencesEmail.trim().toLowerCase() &&
-              credential.password === MASKED_PASSWORD;
+              credential.email.trim().toLowerCase() === experiencesEmail.trim().toLowerCase();
             return (
               <div
                 key={credential.participantId ?? `slot-${index}`}
@@ -356,26 +364,25 @@ export function StartDrawSessionModal({
                     }
                   />
                 </label>
-                <label className={styles.field}>
-                  <span>{t('auth.fields.password')}</span>
-                  <JointLoginSecretInput
-                    name={`joint-secret-${index}`}
-                    disabled={isPrefilledSlot || loading}
-                    value={isPrefilledSlot ? MASKED_PASSWORD : credential.password}
-                    aria-label={
-                      isPrefilledSlot ? t('auth.experiences.passwordSaved') : undefined
-                    }
-                    onChange={(event) =>
-                      setCredentials((current) =>
-                        current.map((item, itemIndex) =>
-                          itemIndex === index
-                            ? { ...item, password: event.target.value }
-                            : item,
-                        ),
-                      )
-                    }
-                  />
-                </label>
+                {!isPrefilledSlot && (
+                  <label className={styles.field}>
+                    <span>{t('auth.fields.password')}</span>
+                    <JointLoginSecretInput
+                      name={`joint-secret-${index}`}
+                      disabled={loading}
+                      value={credential.password}
+                      onChange={(event) =>
+                        setCredentials((current) =>
+                          current.map((item, itemIndex) =>
+                            itemIndex === index
+                              ? { ...item, password: event.target.value }
+                              : item,
+                          ),
+                        )
+                      }
+                    />
+                  </label>
+                )}
               </div>
             );
           })}

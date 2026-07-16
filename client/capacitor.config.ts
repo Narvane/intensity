@@ -24,9 +24,9 @@ const config: CapacitorConfig = {
     ...(isStoreBuild ? {} : { allowMixedContent: true }),
   },
   plugins: {
-    // Keep CapacitorHttp.enabled OFF. ApiClient calls CapacitorHttp.request()
-    // directly on native so Authorization is preserved. The global fetch/XHR
-    // patch drops Bearer tokens on Android and caused silent logouts.
+    // Keep CapacitorHttp.enabled OFF. ApiClient uses WebView fetch (known-good
+    // path). Enabling the global patch — or routing via CapacitorHttp.request()
+    // — has dropped Authorization on Android and caused silent logouts.
     SafeArea: {
       statusBarStyle: 'LIGHT',
       navigationBarStyle: 'LIGHT',

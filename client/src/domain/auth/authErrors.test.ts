@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { ApiError } from '@adapters/api/ApiClient';
 import {
   isValidAuthPasswordLength,
+  looksLikeMaskedPassword,
   resolveAuthError,
 } from '@domain/auth/authErrors';
 
@@ -53,6 +54,18 @@ describe('resolveAuthError', () => {
     expect(resolveAuthError(new ApiError(500, 'UNKNOWN', 'NullPointerException'), t)).toBe(
       'common.error',
     );
+  });
+});
+
+describe('looksLikeMaskedPassword', () => {
+  it('detects bullet mask junk', () => {
+    expect(looksLikeMaskedPassword('••••••••')).toBe(true);
+    expect(looksLikeMaskedPassword('********')).toBe(true);
+  });
+
+  it('accepts real passwords', () => {
+    expect(looksLikeMaskedPassword('')).toBe(false);
+    expect(looksLikeMaskedPassword('mypassword')).toBe(false);
   });
 });
 

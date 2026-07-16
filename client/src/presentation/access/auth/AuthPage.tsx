@@ -9,6 +9,7 @@ import {
 } from '@content/demoCredentials';
 import {
   isValidAuthPasswordLength,
+  looksLikeMaskedPassword,
   resolveAuthError,
 } from '@domain/auth/authErrors';
 import {
@@ -50,7 +51,6 @@ interface CredentialForm {
 }
 
 const emptyCredential = (): CredentialForm => ({ email: '', password: '' });
-const MASKED_PASSWORD = '••••••••';
 
 export function AuthPage() {
   const { t } = useI18n();
@@ -127,31 +127,34 @@ export function AuthPage() {
 
   useEffect(() => {
     if (!hasExperiencesSession) {
-      // Session was cleared (logout / 401) — never leave the masked placeholder
-      // in the form or the next login submits "••••••••" as the password.
+      // Session cleared — drop any leftover mask / autofill-junk so the next
+      // login never submits bullet characters as the password.
       setExperiencesForm((current) =>
-        current.password === MASKED_PASSWORD
+        looksLikeMaskedPassword(current.password)
           ? { email: current.email, password: '' }
           : current,
       );
       setBoxCredentials((current) =>
         current.map((item) =>
-          item.password === MASKED_PASSWORD ? { ...item, password: '' } : item,
+          looksLikeMaskedPassword(item.password) ? { ...item, password: '' } : item,
         ),
       );
       return;
     }
 
+    // Keep password slots empty. Putting placeholder dots in the value of a
+    // type=password field teaches Android/Google Password Manager to save
+    // "••••••••" — after Clear Data that fake password is autofilled forever.
     setExperiencesForm({
       email: experiencesEmail,
-      password: MASKED_PASSWORD,
+      password: '',
     });
 
     setBoxCredentials((current) => {
       const next = current.length > 0 ? [...current] : [emptyCredential()];
       next[0] = {
         email: experiencesEmail,
-        password: MASKED_PASSWORD,
+        password: '',
       };
       return next;
     });
@@ -207,7 +210,7 @@ export function AuthPage() {
     if (hasExperiencesSession && sessionEmail) {
       const others = personas.filter((persona) => persona.email !== sessionEmail);
       setBoxCredentials([
-        { email: experiencesEmail, password: MASKED_PASSWORD },
+        { email: experiencesEmail, password: '' },
         ...others.map((persona) => ({ email: persona.email, password: DEMO_PASSWORD })),
       ]);
       return;
@@ -227,7 +230,7 @@ export function AuthPage() {
     if (
       !experiencesForm.email.trim() ||
       !experiencesForm.password ||
-      experiencesForm.password === MASKED_PASSWORD
+      looksLikeMaskedPassword(experiencesForm.password)
     ) {
       setError(t('auth.errors.requiredFields'));
       return;
@@ -260,6 +263,15 @@ export function AuthPage() {
 
       if (!reuseSessionToken && additionalCredentials.length === 0) {
         setError(t('auth.errors.credentialsRequired'));
+        return;
+      }
+
+      if (
+        additionalCredentials.some(
+          (credential) => !credential.password || looksLikeMaskedPassword(credential.password),
+        )
+      ) {
+        setError(t('auth.errors.requiredFields'));
         return;
       }
 
@@ -394,7 +406,7 @@ export function AuthPage() {
                 <span>{t('auth.fields.email')}</span>
                 <input
                   type="email"
-                  autoComplete="email"
+                  autoComplete={hasExperiencesSession ? 'off' : 'email'}
                   disabled={hasExperiencesSession}
                   value={hasExperiencesSession ? experiencesEmail : experiencesForm.email}
                   onChange={(event) =>
@@ -405,24 +417,22 @@ export function AuthPage() {
                   }
                 />
               </label>
-              <label className={styles.field}>
-                <span>{t('auth.fields.password')}</span>
-                <input
-                  type="password"
-                  autoComplete={hasExperiencesSession ? 'off' : 'current-password'}
-                  disabled={hasExperiencesSession}
-                  value={hasExperiencesSession ? MASKED_PASSWORD : experiencesForm.password}
-                  aria-label={
-                    hasExperiencesSession ? t('auth.experiences.passwordSaved') : undefined
-                  }
-                  onChange={(event) =>
-                    setExperiencesForm((current) => ({
-                      ...current,
-                      password: event.target.value,
-                    }))
-                  }
-                />
-              </label>
+              {!hasExperiencesSession && (
+                <label className={styles.field}>
+                  <span>{t('auth.fields.password')}</span>
+                  <input
+                    type="password"
+                    autoComplete="current-password"
+                    value={experiencesForm.password}
+                    onChange={(event) =>
+                      setExperiencesForm((current) => ({
+                        ...current,
+                        password: event.target.value,
+                      }))
+                    }
+                  />
+                </label>
+              )}
               {!hasExperiencesSession && (
                 <Link className={styles.signOutButton} to="/auth/forgot-password">
                   {t('auth.forgotPassword.link')}
@@ -502,26 +512,24 @@ export function AuthPage() {
                         }
                       />
                     </label>
-                    <label className={styles.field}>
-                      <span>{t('auth.fields.password')}</span>
-                      <JointLoginSecretInput
-                        name={`joint-secret-${index}`}
-                        disabled={isPrefilledSlot}
-                        value={isPrefilledSlot ? MASKED_PASSWORD : credential.password}
-                        aria-label={
-                          isPrefilledSlot ? t('auth.experiences.passwordSaved') : undefined
-                        }
-                        onChange={(event) =>
-                          setBoxCredentials((current) =>
-                            current.map((item, itemIndex) =>
-                              itemIndex === index
-                                ? { ...item, password: event.target.value }
-                                : item,
-                            ),
-                          )
-                        }
-                      />
-                    </label>
+                    {!isPrefilledSlot && (
+                      <label className={styles.field}>
+                        <span>{t('auth.fields.password')}</span>
+                        <JointLoginSecretInput
+                          name={`joint-secret-${index}`}
+                          value={credential.password}
+                          onChange={(event) =>
+                            setBoxCredentials((current) =>
+                              current.map((item, itemIndex) =>
+                                itemIndex === index
+                                  ? { ...item, password: event.target.value }
+                                  : item,
+                              ),
+                            )
+                          }
+                        />
+                      </label>
+                    )}
                   </div>
                 );
               })}

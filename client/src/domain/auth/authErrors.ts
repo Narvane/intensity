@@ -8,6 +8,11 @@ export function isValidAuthPasswordLength(password: string): boolean {
   return length >= PASSWORD_MIN && length <= PASSWORD_MAX;
 }
 
+/** Bullet/mask junk that must never be submitted as a real password. */
+export function looksLikeMaskedPassword(password: string): boolean {
+  return password.length > 0 && /^[•●∙·*]+$/.test(password);
+}
+
 export function resolveAuthError(err: unknown, t: (key: string) => string): string {
   if (!(err instanceof ApiError)) {
     return t('auth.errors.network');

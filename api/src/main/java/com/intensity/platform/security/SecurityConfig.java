@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
@@ -27,25 +28,24 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers(HttpMethod.OPTIONS, "/**")
+						// Ant matchers (not MVC): MVC matchers only succeed when a controller
+						// mapping also matches Content-Type, so a missing/odd Content-Type on
+						// public POSTs fell through to authenticated → false INVALID_TOKEN.
+						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS, "/**"))
 						.permitAll()
 						.requestMatchers(
-								"/actuator/health",
-								"/v3/api-docs",
-								"/v3/api-docs/**",
-								"/swagger-ui/**",
-								"/swagger-ui.html",
-								"/openapi.yaml")
+								AntPathRequestMatcher.antMatcher("/actuator/health"),
+								AntPathRequestMatcher.antMatcher("/v3/api-docs"),
+								AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+								AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
+								AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
+								AntPathRequestMatcher.antMatcher("/openapi.yaml"))
 						.permitAll()
-						.requestMatchers(
-								HttpMethod.POST,
-								"/v1/auth/login",
-								"/v1/auth/group",
-								"/v1/auth/forgot-password",
-								"/v1/auth/reset-password",
-								"/v1/participants")
+						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/v1/auth/**"))
 						.permitAll()
-						.requestMatchers(HttpMethod.GET, "/v1/invites/validate")
+						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/v1/participants"))
+						.permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/v1/invites/validate"))
 						.permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

@@ -135,29 +135,23 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
       let clearedExperiences = false;
       let clearedExperienceBox = false;
 
-      if (token && currentExperiences?.token === token) {
+      // Only clear the session whose token the failed request actually used.
+      // Never wipe everything on a token-less 401 (false positives from
+      // CapacitorHttp / CORS / missing Authorization).
+      if (!token) {
+        return;
+      }
+
+      if (currentExperiences?.token === token) {
         await port.clearExperiences();
         setExperiencesSession(null);
         clearedExperiences = true;
       }
 
-      if (token && currentBox?.token === token) {
+      if (currentBox?.token === token) {
         await port.clearExperienceBox();
         setExperienceBoxSession(null);
         clearedExperienceBox = true;
-      }
-
-      if (!token) {
-        if (currentExperiences) {
-          await port.clearExperiences();
-          setExperiencesSession(null);
-          clearedExperiences = true;
-        }
-        if (currentBox) {
-          await port.clearExperienceBox();
-          setExperienceBoxSession(null);
-          clearedExperienceBox = true;
-        }
       }
 
       redirectAfterUnauthorized(clearedExperiences, clearedExperienceBox);

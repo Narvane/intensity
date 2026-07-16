@@ -8,6 +8,7 @@ import {
   useState,
   type PropsWithChildren,
 } from 'react';
+import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { registerUnauthorizedHandler } from '@adapters/api/apiUnauthorizedBridge';
 import { createApiClient } from '@adapters/api/ApiClient';
@@ -201,8 +202,12 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
   const saveExperiencesSession = useCallback(
     async (next: SessionState) => {
       await port.saveExperiences(next);
-      setExperiencesSession(next);
-      setInvalid(false);
+      sessionsRef.current = { ...sessionsRef.current, experiencesSession: next };
+      // Flush before callers navigate — otherwise route guards can still see null.
+      flushSync(() => {
+        setExperiencesSession(next);
+        setInvalid(false);
+      });
     },
     [port],
   );
@@ -210,8 +215,11 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
   const saveExperienceBoxSession = useCallback(
     async (next: SessionState) => {
       await port.saveExperienceBox(next);
-      setExperienceBoxSession(next);
-      setInvalid(false);
+      sessionsRef.current = { ...sessionsRef.current, experienceBoxSession: next };
+      flushSync(() => {
+        setExperienceBoxSession(next);
+        setInvalid(false);
+      });
     },
     [port],
   );

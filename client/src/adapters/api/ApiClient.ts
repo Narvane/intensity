@@ -1,3 +1,4 @@
+import { Capacitor, CapacitorHttp } from '@capacitor/core';
 import { notifyUnauthorized } from './apiUnauthorizedBridge';
 
 export class ApiError extends Error {
@@ -51,49 +52,142 @@ export class ApiClient {
   ): Promise<T> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     };
 
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
 
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      method,
-      headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
-    }).catch((cause: unknown) => {
+    const url = `${this.baseUrl}${path}`;
+
+    try {
+      if (Capacitor.isNativePlatform()) {
+        // Call the native plugin directly. Do NOT enable the global fetch/XHR
+        // patch (CapacitorHttp.enabled) — that path drops Authorization on Android.
+        return await this.requestNative<T>(method, url, headers, body, token);
+      }
+      return await this.requestWeb<T>(method, url, headers, body, token);
+    } catch (cause: unknown) {
+      if (cause instanceof ApiError) {
+        throw cause;
+      }
       const detail =
         cause instanceof Error && cause.message.trim().length > 0
           ? cause.message
           : 'Network request failed';
       throw new ApiError(0, 'NETWORK_ERROR', detail);
+    }
+  }
+
+  private async requestWeb<T>(
+    method: string,
+    url: string,
+    headers: Record<string, string>,
+    body: unknown | undefined,
+    token?: string,
+  ): Promise<T> {
+    const response = await fetch(url, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
     });
 
-    if (!response.ok) {
-      let payload: ApiErrorBody = {
-        code: 'UNKNOWN_ERROR',
-        message: response.statusText,
-      };
+    return this.parseHttpResult<T>(
+      response.status,
+      response.status === 204 ? undefined : await this.readFetchBody(response),
+      response.statusText,
+      token,
+      method,
+      url,
+    );
+  }
 
-      try {
-        payload = (await response.json()) as ApiErrorBody;
-      } catch {
-        // keep default payload
-      }
+  private async requestNative<T>(
+    method: string,
+    url: string,
+    headers: Record<string, string>,
+    body: unknown | undefined,
+    token?: string,
+  ): Promise<T> {
+    const result = await CapacitorHttp.request({
+      url,
+      method,
+      headers,
+      ...(body === undefined ? {} : { data: body }),
+    });
 
-      const error = new ApiError(response.status, payload.code, payload.message);
+    return this.parseHttpResult<T>(
+      result.status,
+      result.data,
+      `HTTP ${result.status}`,
+      token,
+      method,
+      url,
+    );
+  }
+
+  private async readFetchBody(response: Response): Promise<unknown> {
+    if (response.status === 204) {
+      return undefined;
+    }
+    const text = await response.text();
+    if (!text) {
+      return undefined;
+    }
+    try {
+      return JSON.parse(text) as unknown;
+    } catch {
+      return text;
+    }
+  }
+
+  private parseHttpResult<T>(
+    status: number,
+    data: unknown,
+    statusText: string,
+    token: string | undefined,
+    method: string,
+    url: string,
+  ): T {
+    if (status < 200 || status >= 300) {
+      const payload = asErrorBody(data, statusText);
+      const path = url.replace(this.baseUrl, '') || url;
+      console.warn(
+        `[Intensity] API ${method} ${path} → ${status} ${payload.code}: ${payload.message}`,
+      );
+
+      const error = new ApiError(status, payload.code, payload.message);
       if (error.isInvalidToken()) {
         notifyUnauthorized(token);
       }
       throw error;
     }
 
-    if (response.status === 204) {
+    if (status === 204 || data === undefined || data === null || data === '') {
       return undefined as T;
     }
 
-    return (await response.json()) as T;
+    return data as T;
   }
+}
+
+function asErrorBody(data: unknown, fallbackMessage: string): ApiErrorBody {
+  if (data && typeof data === 'object' && 'code' in data) {
+    const body = data as Partial<ApiErrorBody>;
+    return {
+      code: typeof body.code === 'string' ? body.code : 'UNKNOWN_ERROR',
+      message: typeof body.message === 'string' ? body.message : fallbackMessage,
+    };
+  }
+  if (typeof data === 'string' && data.trim()) {
+    try {
+      return asErrorBody(JSON.parse(data) as unknown, fallbackMessage);
+    } catch {
+      return { code: 'UNKNOWN_ERROR', message: data };
+    }
+  }
+  return { code: 'UNKNOWN_ERROR', message: fallbackMessage };
 }
 
 export function createApiClient(): ApiClient {

@@ -101,7 +101,7 @@ export function StartDrawSessionModal({
 }: StartDrawSessionModalProps) {
   const { t } = useI18n();
   const navigate = useNavigate();
-  const { experiencesSession, refresh } = useSession();
+  const { experiencesSession, saveExperienceBoxSession } = useSession();
   const { setNavigation } = useNavigation();
 
   const api = useMemo(() => createApiClient(), []);
@@ -234,13 +234,13 @@ export function StartDrawSessionModal({
     setLoading(true);
 
     try {
-      await loginExperienceBox.execute({
+      const session = await loginExperienceBox.execute({
         credentials: additionalCredentials,
         reuseSessionToken,
         targetGroupId: groupId,
         requireAllMembers: requireAllParticipants,
       });
-      await refresh();
+      await saveExperienceBoxSession(session);
 
       if (mode === 'play' && box) {
         await setNavigation({

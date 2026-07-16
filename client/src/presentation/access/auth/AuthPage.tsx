@@ -57,7 +57,8 @@ export function AuthPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const authState = (location.state as AuthLocationState | null) ?? {};
-  const { experiencesSession, refresh, logoutExperiences } = useSession();
+  const { experiencesSession, saveExperiencesSession, saveExperienceBoxSession, logoutExperiences } =
+    useSession();
   const api = useMemo(() => createApiClient(), []);
   const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const pendingInvitePort = useMemo(() => createDefaultPendingInviteAdapter(), []);
@@ -126,6 +127,18 @@ export function AuthPage() {
 
   useEffect(() => {
     if (!hasExperiencesSession) {
+      // Session was cleared (logout / 401) — never leave the masked placeholder
+      // in the form or the next login submits "••••••••" as the password.
+      setExperiencesForm((current) =>
+        current.password === MASKED_PASSWORD
+          ? { email: current.email, password: '' }
+          : current,
+      );
+      setBoxCredentials((current) =>
+        current.map((item) =>
+          item.password === MASKED_PASSWORD ? { ...item, password: '' } : item,
+        ),
+      );
       return;
     }
 
@@ -211,7 +224,11 @@ export function AuthPage() {
     }
 
     setError(null);
-    if (!experiencesForm.email.trim() || !experiencesForm.password) {
+    if (
+      !experiencesForm.email.trim() ||
+      !experiencesForm.password ||
+      experiencesForm.password === MASKED_PASSWORD
+    ) {
       setError(t('auth.errors.requiredFields'));
       return;
     }
@@ -222,8 +239,8 @@ export function AuthPage() {
 
     setLoading(true);
     try {
-      await loginExperiencesUseCase.execute(experiencesForm);
-      await refresh();
+      const session = await loginExperiencesUseCase.execute(experiencesForm);
+      await saveExperiencesSession(session);
       navigate(resolveExperiencesDestination(), { replace: true });
     } catch (err) {
       handleError(err);
@@ -252,11 +269,11 @@ export function AuthPage() {
       }
 
       setLoading(true);
-      await loginExperienceBoxUseCase.execute({
+      const session = await loginExperienceBoxUseCase.execute({
         credentials: additionalCredentials,
         reuseSessionToken,
       });
-      await refresh();
+      await saveExperienceBoxSession(session);
       navigate('/box-home');
     } catch (err) {
       handleError(err);
@@ -287,12 +304,12 @@ export function AuthPage() {
 
     setLoading(true);
     try {
-      await registerUseCase.execute({
+      const session = await registerUseCase.execute({
         displayName: registerForm.displayName,
         email: registerForm.email,
         password: registerForm.password,
       });
-      await refresh();
+      await saveExperiencesSession(session);
       afterAuthNavigate();
     } catch (err) {
       handleError(err);

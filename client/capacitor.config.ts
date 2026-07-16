@@ -24,11 +24,9 @@ const config: CapacitorConfig = {
     ...(isStoreBuild ? {} : { allowMixedContent: true }),
   },
   plugins: {
-    // Route fetch/XHR through native HTTP so Android WebView CORS / flaky
-    // cross-origin failures do not look like "lost API connection".
-    CapacitorHttp: {
-      enabled: true,
-    },
+    // Keep CapacitorHttp.enabled OFF. ApiClient calls CapacitorHttp.request()
+    // directly on native so Authorization is preserved. The global fetch/XHR
+    // patch drops Bearer tokens on Android and caused silent logouts.
     SafeArea: {
       statusBarStyle: 'LIGHT',
       navigationBarStyle: 'LIGHT',

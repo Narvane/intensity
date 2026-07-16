@@ -108,7 +108,7 @@ Fluxo E — Recuperação de erro
 | Aceitar convite | Convidado (conta registrada obrigatória) |
 | Sair do grupo | Qualquer membro (confirmar); último membro dispara exclusão do grupo |
 
-**Erros:** código inválido/expirado/revogado; já é membro; falha de rede; registro na allowlist obrigatório para novos usuários.
+**Erros:** código inválido/expirado/revogado; já é membro; falha de rede; rejeição da allowlist quando a allowlist de registro está habilitada.
 
 ### Exclusão de caixinha
 
@@ -168,7 +168,7 @@ Quatro etapas deslizáveis com ilustrações e copy. Etapa final oferece entrada
 
 **Login Caixa de Experiências:** um ou mais cartões de credencial; "+" adiciona outro participante. Todos devem autenticar com sucesso. Todos os participantes devem pertencer ao **mesmo grupo** ao entrar em grupo existente, OU formar novo grupo se a combinação for nova. Erro de incompatibilidade explica que credenciais pertencem a grupos diferentes.
 
-**Registro:** nome de exibição, e-mail, senha, confirmar senha. E-mail deve estar na allowlist do operador. Sucesso → painel de login.
+**Registro:** nome de exibição, e-mail, senha, confirmar senha. Allowlist de e-mail é opcional (`intensity.registration.allowlist-enabled`; padrão desligada). Sucesso → painel de login.
 
 **Entrada de código de convite:** campo de 6 caracteres; valida formato → prévia de entrada ou erro.
 

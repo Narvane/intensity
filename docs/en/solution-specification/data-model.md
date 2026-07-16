@@ -109,7 +109,7 @@ Profile photo, notification preferences, draw history, revelation events, social
 
 ### Participant
 
-Represents a person with a unique email login. Registration requires the email to be on an allowlist maintained by operators. Display name appears to other group members in invite previews and shared contexts.
+Represents a person with a unique email login. Registration may require the email to be on an allowlist maintained by operators (`intensity.registration.allowlist-enabled`). Display name appears to other group members in invite previews and shared contexts.
 
 ### Group
 

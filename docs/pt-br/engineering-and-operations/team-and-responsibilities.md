@@ -43,7 +43,7 @@ O mantenedor cobre simultaneamente:
 | Dados PostgreSQL | Mantenedor | Backups via provedor VPS ou snapshot manual |
 | GitHub / CI | Mantenedor | Secrets Actions, token de webhook |
 | Play Console / App Store | Mantenedor | Chaves de assinatura, metadados de listagem |
-| Allowlist de registro | Mantenedor | Portão de e-mail para novos participantes |
+| Allowlist de registro | Mantenedor | Portão opcional de e-mail para novos participantes (`intensity.registration.allowlist-enabled`) |
 | `docs/` | Mantenedor | Sincronização de documentação do produto |
 
 ### Custódia de credenciais

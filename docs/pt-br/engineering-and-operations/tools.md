@@ -76,7 +76,7 @@ intensity/
 
 | Localização | Conteúdo |
 |-------------|----------|
-| `api/src/main/resources/application.yml` | Datasource, JWT, portas, profiles |
+| `api/src/main/resources/application.yml` | Datasource, JWT, flag de allowlist de registro (`intensity.registration.allowlist-enabled`), portas, profiles |
 | VPS `.env` | Segredos (não versionados) |
 | `client/.env.development` / `.env.production` | `VITE_API_URL` |
 | `client/capacitor.config.ts` | App id, nome de exibição, `webDir` |

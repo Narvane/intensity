@@ -76,7 +76,7 @@ intensity/
 
 | Location | Contents |
 |----------|----------|
-| `api/src/main/resources/application.yml` | Datasource, JWT TTLs (`expiration-seconds`, `experience-box-expiration-seconds`), ports, profiles |
+| `api/src/main/resources/application.yml` | Datasource, JWT TTLs (`expiration-seconds`, `experience-box-expiration-seconds`), registration allowlist flag (`intensity.registration.allowlist-enabled`), ports, profiles |
 | VPS `.env` | Secrets (not versioned) |
 | `client/.env.development` / `.env.production` | `VITE_API_URL`; production also `VITE_INVITE_BASE_URL` |
 | `client/vite.config.ts` | Optional `VITE_API_PROXY_TARGET` for `/v1` proxy in dev |

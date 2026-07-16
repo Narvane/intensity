@@ -109,7 +109,7 @@ Foto profilo, preferenze notifiche, cronologia estrazioni, eventi di rivelazione
 
 ### Partecipante
 
-Rappresenta una persona con login email univoco. La registrazione richiede che l'email sia in una allowlist mantenuta dagli operatori. Il nome visualizzato appare agli altri membri del gruppo nelle anteprime invito e nei contesti condivisi.
+Rappresenta una persona con login email univoco. La registrazione può richiedere che l'email sia in una allowlist mantenuta dagli operatori (`intensity.registration.allowlist-enabled`). Il nome visualizzato appare agli altri membri del gruppo nelle anteprime invito e nei contesti condivisi.
 
 ### Gruppo
 

@@ -3,6 +3,7 @@ package com.intensity.participant.service;
 import com.intensity.platform.common.AccessMode;
 import com.intensity.platform.common.exception.ApiException;
 import com.intensity.platform.security.JwtService;
+import com.intensity.participant.RegistrationProperties;
 import com.intensity.participant.dto.AuthSessionResponse;
 import com.intensity.participant.dto.LoginRequest;
 import com.intensity.participant.dto.RegisterParticipantRequest;
@@ -25,23 +26,26 @@ public class ParticipantService {
 	private final AllowlistEmailRepository allowlistEmailRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtService;
+	private final RegistrationProperties registrationProperties;
 
 	public ParticipantService(
 			ParticipantRepository participantRepository,
 			AllowlistEmailRepository allowlistEmailRepository,
 			PasswordEncoder passwordEncoder,
-			JwtService jwtService) {
+			JwtService jwtService,
+			RegistrationProperties registrationProperties) {
 		this.participantRepository = participantRepository;
 		this.allowlistEmailRepository = allowlistEmailRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtService = jwtService;
+		this.registrationProperties = registrationProperties;
 	}
 
 	@Transactional
 	public RegisterParticipantResponse register(RegisterParticipantRequest request) {
 		String email = request.email().trim().toLowerCase();
 
-		if (!allowlistEmailRepository.existsById(email)) {
+		if (registrationProperties.allowlistEnabled() && !allowlistEmailRepository.existsById(email)) {
 			throw new ApiException(
 					HttpStatus.FORBIDDEN,
 					"EMAIL_NOT_ALLOWLISTED",

@@ -108,7 +108,7 @@ Flusso E — Recupero errore
 | Accetta invito | Invitato (account registrato richiesto) |
 | Lascia gruppo | Qualsiasi membro (conferma); ultimo membro attiva eliminazione gruppo |
 
-**Errori:** codice non valido/scaduto/revocato; già membro; errore di rete; registrazione allowlist richiesta per nuovi utenti.
+**Errori:** codice non valido/scaduto/revocato; già membro; errore di rete; rifiuto allowlist quando la allowlist di registrazione è abilitata.
 
 ### Eliminazione scatola
 
@@ -168,7 +168,7 @@ Quattro passi scorrevoli con illustrazioni e copy. Il passo finale offre ingress
 
 **Login Scatola delle Esperienze:** una o più carte credenziale; "+" aggiunge un altro partecipante. Tutti devono autenticarsi con successo. Tutti i partecipanti devono appartenere allo **stesso gruppo** quando si uniscono a un gruppo esistente, OPPURE formare un nuovo gruppo se la combinazione è nuova. Errore mismatch spiega che le credenziali appartengono a gruppi diversi.
 
-**Registrazione:** nome visualizzato, email, password, conferma password. L'email deve essere nella allowlist operatore. Successo → pannello login.
+**Registrazione:** nome visualizzato, email, password, conferma password. La allowlist email è opzionale (`intensity.registration.allowlist-enabled`; predefinita disattivata). Successo → pannello login.
 
 **Inserimento codice invito:** campo 6 caratteri; valida formato → anteprima adesione o errore.
 

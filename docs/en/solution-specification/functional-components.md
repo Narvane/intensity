@@ -109,7 +109,7 @@ Flow E — Error recovery
 | Accept invite | Invitee (registered account required) |
 | Leave group | Any member (confirm); last member triggers group deletion |
 
-**Errors:** invalid/expired/revoked code; already a member; network failure; allowlist registration required for new users.
+**Errors:** invalid/expired/revoked code; already a member; network failure; allowlist rejection when registration allowlist is enabled.
 
 ### Box deletion
 
@@ -169,7 +169,7 @@ Four swipable steps with illustrations and copy. Final step offers entry to quic
 
 **Experience Box login:** one or more credential cards; "+" adds another participant. All must authenticate successfully. All participants must belong to the **same group** when joining an existing group, OR form a new group if the combination is new. Mismatch error explains that credentials belong to different groups.
 
-**Registration:** display name, email, password, confirm password. Email must be on operator allowlist. Success → login panel.
+**Registration:** display name, email, password, confirm password. Email allowlist is optional (`intensity.registration.allowlist-enabled`; default off). Success → login panel.
 
 **Invite code entry:** 6-character field; validates format → join preview or error.
 

@@ -109,7 +109,7 @@ Foto de perfil, preferências de notificação, histórico de sorteios, eventos 
 
 ### Participante
 
-Representa uma pessoa com login de e-mail único. O registro exige que o e-mail esteja em uma allowlist mantida pelos operadores. O nome de exibição aparece para outros membros do grupo em prévias de convite e contextos compartilhados.
+Representa uma pessoa com login de e-mail único. O registro pode exigir que o e-mail esteja em uma allowlist mantida pelos operadores (`intensity.registration.allowlist-enabled`). O nome de exibição aparece para outros membros do grupo em prévias de convite e contextos compartilhados.
 
 ### Grupo
 

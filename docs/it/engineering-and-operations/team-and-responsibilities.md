@@ -43,7 +43,7 @@ Il maintainer copre simultaneamente:
 | Dati PostgreSQL | Maintainer | Backup via provider VPS o snapshot manuale |
 | GitHub / CI | Maintainer | Secret Actions, token webhook |
 | Play Console / App Store | Maintainer | Chiavi firma, metadata listing |
-| Allowlist registrazione | Maintainer | Gate email per nuovi partecipanti |
+| Allowlist registrazione | Maintainer | Gate email opzionale per nuovi partecipanti (`intensity.registration.allowlist-enabled`) |
 | `docs/` | Maintainer | Sync documentazione prodotto |
 
 ### Custodia credenziali

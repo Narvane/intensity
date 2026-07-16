@@ -27,6 +27,8 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
+						.requestMatchers(HttpMethod.OPTIONS, "/**")
+						.permitAll()
 						.requestMatchers(
 								"/actuator/health",
 								"/v3/api-docs",
@@ -50,6 +52,12 @@ public class SecurityConfig {
 				.exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, exception) -> {
 					response.setStatus(401);
 					response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+					// Ensure browsers/WebViews can read 401 bodies cross-origin.
+					String origin = request.getHeader("Origin");
+					if (origin != null && !origin.isBlank()) {
+						response.setHeader("Access-Control-Allow-Origin", origin);
+						response.setHeader("Vary", "Origin");
+					}
 					response.getWriter().write("""
 							{"code":"INVALID_TOKEN","message":"Invalid or expired token."}
 							""");

@@ -24,6 +24,11 @@ const config: CapacitorConfig = {
     ...(isStoreBuild ? {} : { allowMixedContent: true }),
   },
   plugins: {
+    // Route fetch/XHR through native HTTP so Android WebView CORS / flaky
+    // cross-origin failures do not look like "lost API connection".
+    CapacitorHttp: {
+      enabled: true,
+    },
     SafeArea: {
       statusBarStyle: 'LIGHT',
       navigationBarStyle: 'LIGHT',

@@ -34,10 +34,14 @@ intensity:
       # Web app (production)
       - https://app.narvane.com.br
       - https://*.narvane.com.br
-      # Capacitor / local shells (Android http scheme, iOS capacitor://)
+      # Capacitor WebView origins (scheme depends on STORE_BUILD / androidScheme)
       - http://localhost
       - http://localhost:*
       - https://localhost
       - https://localhost:*
       - capacitor://localhost
+      - capacitor://localhost:*
       - ionic://localhost
+      - ionic://localhost:*
+      - http://android.localhost
+      - https://android.localhost

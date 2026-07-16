@@ -61,6 +61,12 @@ export class ApiClient {
       method,
       headers,
       body: body === undefined ? undefined : JSON.stringify(body),
+    }).catch((cause: unknown) => {
+      const detail =
+        cause instanceof Error && cause.message.trim().length > 0
+          ? cause.message
+          : 'Network request failed';
+      throw new ApiError(0, 'NETWORK_ERROR', detail);
     });
 
     if (!response.ok) {
@@ -92,5 +98,10 @@ export class ApiClient {
 
 export function createApiClient(): ApiClient {
   const baseUrl = import.meta.env.VITE_API_URL?.trim() ?? '';
+  if (!baseUrl) {
+    console.error(
+      '[Intensity] VITE_API_URL is empty. Rebuild with production/demo env or API calls will hit the WebView origin.',
+    );
+  }
   return new ApiClient(baseUrl);
 }

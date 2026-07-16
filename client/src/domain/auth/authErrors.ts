@@ -16,6 +16,8 @@ export function resolveAuthError(err: unknown, t: (key: string) => string): stri
   switch (err.code) {
     case 'INVALID_CREDENTIALS':
       return t('auth.errors.invalidCredentials');
+    case 'NETWORK_ERROR':
+      return t('auth.errors.network');
     case 'GROUP_MEMBERSHIP_CONFLICT':
       return t('auth.errors.groupMembershipConflict');
     case 'GROUP_TARGET_MISMATCH':

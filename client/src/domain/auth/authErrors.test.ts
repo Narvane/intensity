@@ -43,6 +43,12 @@ describe('resolveAuthError', () => {
     expect(resolveAuthError(new Error('Failed to fetch'), t)).toBe('auth.errors.network');
   });
 
+  it('maps NETWORK_ERROR api failures', () => {
+    expect(resolveAuthError(new ApiError(0, 'NETWORK_ERROR', 'Failed to fetch'), t)).toBe(
+      'auth.errors.network',
+    );
+  });
+
   it('hides technical fallback messages', () => {
     expect(resolveAuthError(new ApiError(500, 'UNKNOWN', 'NullPointerException'), t)).toBe(
       'common.error',

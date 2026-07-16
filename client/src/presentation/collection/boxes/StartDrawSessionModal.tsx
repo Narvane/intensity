@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { createApiClient } from '@adapters/api/ApiClient';
 import { createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import { useNavigation } from '@app/NavigationProvider';
+import {
+  isValidAuthPasswordLength,
+  resolveAuthError,
+} from '@domain/auth/authErrors';
 import { LoginExperienceBoxUseCase } from '@domain/auth/authUseCases';
 import type { Box, GroupMember } from '@domain/box/boxTypes';
 import { ListGroupsUseCase } from '@domain/box/boxUseCases';
@@ -182,62 +186,54 @@ export function StartDrawSessionModal({
   }
 
   const handleError = (err: unknown) => {
-    if (err instanceof ApiError) {
-      if (err.code === 'GROUP_MEMBERSHIP_CONFLICT') {
-        setError(t('auth.errors.groupMembershipConflict'));
-        return;
-      }
-      if (err.code === 'GROUP_TARGET_MISMATCH') {
-        setError(t('auth.errors.groupTargetMismatch'));
-        return;
-      }
-      if (err.code === 'GROUP_REQUIRES_ALL_MEMBERS') {
-        setError(t('auth.errors.groupRequiresAllMembers'));
-        return;
-      }
-      setError(err.message);
-      return;
-    }
-    setError(t('auth.errors.network'));
+    setError(resolveAuthError(err, t));
   };
 
   const submit = async () => {
-    setLoading(true);
     setError(null);
 
+    const filled = credentials.filter((credential) => credential.email.trim().length > 0);
+    const reuseSessionToken =
+      hasExperiencesSession &&
+      experiencesSession?.token &&
+      filled.some(
+        (credential) =>
+          credential.email.trim().toLowerCase() === experiencesEmail.trim().toLowerCase(),
+      )
+        ? experiencesSession.token
+        : undefined;
+    const additionalCredentials = (
+      reuseSessionToken
+        ? filled.filter(
+            (credential) =>
+              credential.email.trim().toLowerCase() !== experiencesEmail.trim().toLowerCase(),
+          )
+        : filled
+    ).map((credential) => ({
+      email: credential.email.trim(),
+      password: credential.password,
+    }));
+
+    if (!reuseSessionToken && additionalCredentials.length === 0) {
+      setError(t('auth.errors.credentialsRequired'));
+      return;
+    }
+
+    if (requireAllParticipants && filled.length < roster.length) {
+      setError(t('auth.errors.groupRequiresAllMembers'));
+      return;
+    }
+
+    if (
+      !additionalCredentials.every((credential) => isValidAuthPasswordLength(credential.password))
+    ) {
+      setError(t('auth.errors.passwordLength'));
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const filled = credentials.filter((credential) => credential.email.trim().length > 0);
-      const reuseSessionToken =
-        hasExperiencesSession &&
-        experiencesSession?.token &&
-        filled.some(
-          (credential) =>
-            credential.email.trim().toLowerCase() === experiencesEmail.trim().toLowerCase(),
-        )
-          ? experiencesSession.token
-          : undefined;
-      const additionalCredentials = (
-        reuseSessionToken
-          ? filled.filter(
-              (credential) =>
-                credential.email.trim().toLowerCase() !== experiencesEmail.trim().toLowerCase(),
-            )
-          : filled
-      ).map((credential) => ({
-        email: credential.email.trim(),
-        password: credential.password,
-      }));
-
-      if (!reuseSessionToken && additionalCredentials.length === 0) {
-        setError(t('auth.errors.network'));
-        return;
-      }
-
-      if (requireAllParticipants && filled.length < roster.length) {
-        setError(t('auth.errors.groupRequiresAllMembers'));
-        return;
-      }
-
       await loginExperienceBox.execute({
         credentials: additionalCredentials,
         reuseSessionToken,

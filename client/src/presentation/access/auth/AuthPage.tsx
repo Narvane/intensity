@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ApiError } from '@adapters/api/ApiClient';
 import { createDefaultPendingInviteAdapter } from '@adapters/invite/PendingInvitePreferencesAdapter';
 import { createApiClient, createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import {
@@ -8,6 +7,10 @@ import {
   isDemoMode,
   type DemoPersona,
 } from '@content/demoCredentials';
+import {
+  isValidAuthPasswordLength,
+  resolveAuthError,
+} from '@domain/auth/authErrors';
 import {
   LoginExperienceBoxUseCase,
   LoginExperiencesUseCase,
@@ -155,16 +158,11 @@ export function AuthPage() {
   };
 
   const handleError = (err: unknown) => {
-    if (err instanceof ApiError) {
-      if (err.code === 'GROUP_MEMBERSHIP_CONFLICT') {
-        setError(t('auth.errors.groupMembershipConflict'));
-        return;
-      }
-      setError(err.message);
-      return;
-    }
-    setError(t('auth.errors.network'));
+    setError(resolveAuthError(err, t));
   };
+
+  const passwordsHaveValidLength = (passwords: string[]) =>
+    passwords.every((password) => isValidAuthPasswordLength(password));
 
   const signOutExperiencesSession = async () => {
     setLoading(true);
@@ -212,8 +210,17 @@ export function AuthPage() {
       return;
     }
 
-    setLoading(true);
     setError(null);
+    if (!experiencesForm.email.trim() || !experiencesForm.password) {
+      setError(t('auth.errors.requiredFields'));
+      return;
+    }
+    if (!isValidAuthPasswordLength(experiencesForm.password)) {
+      setError(t('auth.errors.passwordLength'));
+      return;
+    }
+
+    setLoading(true);
     try {
       await loginExperiencesUseCase.execute(experiencesForm);
       await refresh();
@@ -226,7 +233,6 @@ export function AuthPage() {
   };
 
   const submitExperienceBox = async () => {
-    setLoading(true);
     setError(null);
     try {
       const reuseSessionToken =
@@ -236,10 +242,16 @@ export function AuthPage() {
         : boxCredentials.filter((credential) => credential.email.trim().length > 0);
 
       if (!reuseSessionToken && additionalCredentials.length === 0) {
-        setError(t('auth.errors.network'));
+        setError(t('auth.errors.credentialsRequired'));
         return;
       }
 
+      if (!passwordsHaveValidLength(additionalCredentials.map((credential) => credential.password))) {
+        setError(t('auth.errors.passwordLength'));
+        return;
+      }
+
+      setLoading(true);
       await loginExperienceBoxUseCase.execute({
         credentials: additionalCredentials,
         reuseSessionToken,
@@ -255,6 +267,19 @@ export function AuthPage() {
 
   const submitRegister = async () => {
     setError(null);
+    if (
+      !registerForm.displayName.trim() ||
+      !registerForm.email.trim() ||
+      !registerForm.password ||
+      !registerForm.confirmPassword
+    ) {
+      setError(t('auth.errors.requiredFields'));
+      return;
+    }
+    if (!isValidAuthPasswordLength(registerForm.password)) {
+      setError(t('auth.errors.passwordLength'));
+      return;
+    }
     if (registerForm.password !== registerForm.confirmPassword) {
       setError(t('auth.errors.passwordMismatch'));
       return;

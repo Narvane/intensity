@@ -165,7 +165,9 @@ Four swipable steps with illustrations and copy. Final step offers entry to quic
 
 ### Authentication
 
-**Experiences login:** email + password → group selection.
+**Experiences login:** email + password → group selection. Link to **forgot password** opens a separate screen that requests a reset email (same success message whether or not the account exists).
+
+**Reset password:** opened from the email link (`/auth/reset-password?t={token}`); sets a new password and returns to sign-in.
 
 **Experience Box login:** one or more credential cards; "+" adds another participant. All must authenticate successfully. All participants must belong to the **same group** when joining an existing group, OR form a new group if the combination is new. Mismatch error explains that credentials belong to different groups.
 

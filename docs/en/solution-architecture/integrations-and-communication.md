@@ -6,7 +6,7 @@ This document describes how Intensity's components communicate — protocols, da
 
 ## Short
 
-The mobile client talks to the API via **REST over HTTPS** (request/response, client-initiated). The API talks to PostgreSQL via **ORM persistence**. There is **no server push**, **no WebSockets**, and **no direct client-to-database path**. Invites use HTTPS links resolved by the mobile OS into the app. Consistency is **eventual** — clients refresh on read.
+The mobile client talks to the API via **REST over HTTPS** (request/response, client-initiated). The API talks to PostgreSQL via **ORM persistence** and sends transactional email (password reset) via **Resend**. There is **no server push**, **no WebSockets**, and **no direct client-to-database path**. Invites use HTTPS links resolved by the mobile OS into the app. Consistency is **eventual** — clients refresh on read.
 
 ---
 
@@ -17,6 +17,7 @@ The mobile client talks to the API via **REST over HTTPS** (request/response, cl
 ```
 Mobile client ──REST (HTTPS)──► API ──JPA/Hibernate──► PostgreSQL
      │                              │
+     │                              └── Resend (HTTPS) ──► participant inbox
      └── no direct DB               └── sole persistence gateway
 ```
 
@@ -24,6 +25,7 @@ Mobile client ──REST (HTTPS)──► API ──JPA/Hibernate──► Postg
 |-------------|----------|-----------|
 | Client → API | REST JSON | Client initiates |
 | API → DB | SQL via ORM | API only |
+| API → Resend | HTTPS JSON | Outbound transactional email |
 | Client → OS share sheet | Native bridge | Outbound invite sharing |
 | Deep link → Client | App/Universal Links | Inbound invite open |
 
@@ -41,6 +43,16 @@ No live notifications when data changes. No multi-device sync during draw — on
 Client POST /v1/auth/login { email, password }
   ← { token, participantId, displayName, accessMode? }
 Client stores token locally for subsequent requests
+```
+
+**Password reset**
+
+```
+Client POST /v1/auth/forgot-password { email }
+  ← 204 (always; email sent only when the account exists)
+API → Resend → participant inbox with /auth/reset-password?t={token}
+Client POST /v1/auth/reset-password { token, password }
+  ← 204
 ```
 
 **Joint login (Experience Box)**
@@ -113,6 +125,8 @@ All paths below are under the `/v1` prefix. Canonical contract: @ref:openapi.
 |----------|------------|
 | `/v1/auth/login` | POST single participant |
 | `/v1/auth/group` | POST multi-participant joint session (optional `reuseSessionToken`) |
+| `/v1/auth/forgot-password` | POST request reset email (always 204) |
+| `/v1/auth/reset-password` | POST set new password with token |
 | `/v1/participants` | POST register |
 | `/v1/groups` | GET list for participant; POST create (name, color) |
 | `/v1/groups/{id}` | PATCH update name/color |
@@ -153,7 +167,7 @@ Both channels resolve the same invite record.
 
 ### Explicitly absent integrations
 
-Payment gateways, analytics SDKs, push notification services (FCM/APNs), external IdP (OAuth), CDN asset pipeline, message queues, webhooks from client.
+Payment gateways, analytics SDKs, push notification services (FCM/APNs), external IdP (OAuth), CDN asset pipeline, message queues, webhooks from client. Transactional email uses Resend only (password reset).
 
 ### Operational webhook (engineering layer)
 

@@ -164,7 +164,9 @@ Quatro etapas deslizáveis com ilustrações e copy. Etapa final oferece entrada
 
 ### Autenticação
 
-**Login Experiências:** e-mail + senha → seleção de grupo.
+**Login Experiências:** e-mail + senha → seleção de grupo. Link **esqueci minha senha** abre tela separada que solicita e-mail de redefinição (mesma mensagem de sucesso exista ou não a conta).
+
+**Redefinir senha:** aberta pelo link do e-mail (`/auth/reset-password?t={token}`); define nova senha e volta ao login.
 
 **Login Caixa de Experiências:** um ou mais cartões de credencial; "+" adiciona outro participante. Todos devem autenticar com sucesso. Todos os participantes devem pertencer ao **mesmo grupo** ao entrar em grupo existente, OU formar novo grupo se a combinação for nova. Erro de incompatibilidade explica que credenciais pertencem a grupos diferentes.
 

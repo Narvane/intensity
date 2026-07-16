@@ -164,7 +164,9 @@ Quattro passi scorrevoli con illustrazioni e copy. Il passo finale offre ingress
 
 ### Autenticazione
 
-**Login Esperienze:** email + password → selezione gruppo.
+**Login Esperienze:** email + password → selezione gruppo. Il link **password dimenticata** apre una schermata separata che richiede l'email di reset (stesso messaggio di successo, esista o meno l'account).
+
+**Reimposta password:** aperta dal link email (`/auth/reset-password?t={token}`); imposta una nuova password e torna al login.
 
 **Login Scatola delle Esperienze:** una o più carte credenziale; "+" aggiunge un altro partecipante. Tutti devono autenticarsi con successo. Tutti i partecipanti devono appartenere allo **stesso gruppo** quando si uniscono a un gruppo esistente, OPPURE formare un nuovo gruppo se la combinazione è nuova. Errore mismatch spiega che le credenziali appartengono a gruppi diversi.
 

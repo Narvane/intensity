@@ -6,7 +6,7 @@ Questo documento descrive come i componenti di Intensity comunicano — protocol
 
 ## Breve
 
-Il client mobile comunica con l'API via **REST su HTTPS** (request/response, avviato dal client). L'API comunica con PostgreSQL via **persistenza ORM**. Non c'è **push server**, **WebSockets** né **percorso diretto client-database**. Gli inviti usano link HTTPS risolti dal sistema operativo mobile nell'app. La consistenza è **eventuale** — i client aggiornano in lettura.
+Il client mobile comunica con l'API via **REST su HTTPS** (request/response, avviato dal client). L'API comunica con PostgreSQL via **persistenza ORM** e invia email transazionali (reset password) tramite **Resend**. Non c'è **push server**, **WebSockets** né **percorso diretto client-database**. Gli inviti usano link HTTPS risolti dal sistema operativo mobile nell'app. La consistenza è **eventuale** — i client aggiornano in lettura.
 
 ---
 
@@ -17,6 +17,7 @@ Il client mobile comunica con l'API via **REST su HTTPS** (request/response, avv
 ```
 Client mobile ──REST (HTTPS)──► API ──JPA/Hibernate──► PostgreSQL
      │                              │
+     │                              └── Resend (HTTPS) ──► inbox del partecipante
      └── nessun DB diretto          └── unico gateway persistenza
 ```
 
@@ -24,6 +25,7 @@ Client mobile ──REST (HTTPS)──► API ──JPA/Hibernate──► Postg
 |--------------|------------|-----------|
 | Client → API | REST JSON | Client avvia |
 | API → DB | SQL via ORM | Solo API |
+| API → Resend | HTTPS JSON | Email transazionale in uscita |
 | Client → share sheet OS | Bridge nativo | Invito condiviso in uscita |
 | Deep link → Client | App/Universal Links | Apertura invito in ingresso |
 
@@ -41,6 +43,16 @@ Nessuna notifica live quando i dati cambiano. Nessuna sync multi-dispositivo dur
 Client POST /v1/auth/login { email, password }
   ← { token, participantId, displayName }
 Client memorizza token localmente per richieste successive
+```
+
+**Reset password**
+
+```
+Client POST /v1/auth/forgot-password { email }
+  ← 204 (sempre; email inviata solo se l'account esiste)
+API → Resend → inbox con /auth/reset-password?t={token}
+Client POST /v1/auth/reset-password { token, password }
+  ← 204
 ```
 
 **Login congiunto (Scatola delle Esperienze)**
@@ -109,6 +121,8 @@ Gli errori REST restituiscono `{ code, message }` con HTTP status appropriato. I
 |---------|------------|
 | `/v1/auth/login` | POST singolo partecipante |
 | `/v1/auth/group` | POST sessione congiunta multi partecipante (opzionale `reuseSessionToken`) |
+| `/v1/auth/forgot-password` | POST richiesta email di reset (sempre 204) |
+| `/v1/auth/reset-password` | POST nuova password con token |
 | `/v1/participants` | POST registrazione |
 | `/v1/groups` | GET elenco; POST crea (nome, colore) |
 | `/v1/groups/{id}` | PATCH aggiorna nome/colore |
@@ -149,7 +163,7 @@ Entrambi i canali risolvono lo stesso record invito.
 
 ### Integrazioni esplicitamente assenti
 
-Gateway pagamento, SDK analytics, servizi push notification (FCM/APNs), IdP esterno (OAuth), pipeline asset CDN, message queue, webhook dal client.
+Gateway pagamento, SDK analytics, servizi push notification (FCM/APNs), IdP esterno (OAuth), pipeline asset CDN, message queue, webhook dal client. L'email transazionale usa solo Resend (reset password).
 
 ### Webhook operativo (layer ingegneria)
 

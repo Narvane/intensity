@@ -6,7 +6,7 @@ Este documento descreve como os componentes do Intensity se comunicam — protoc
 
 ## Curta
 
-O cliente mobile conversa com a API via **REST sobre HTTPS** (request/response, iniciado pelo cliente). A API conversa com PostgreSQL via **persistência ORM**. Não há **push do servidor**, **WebSockets** nem **caminho direto cliente-para-banco de dados**. Convites usam links HTTPS resolvidos pelo SO mobile no app. Consistência é **eventual** — clientes atualizam na leitura.
+O cliente mobile conversa com a API via **REST sobre HTTPS** (request/response, iniciado pelo cliente). A API conversa com PostgreSQL via **persistência ORM** e envia e-mail transacional (redefinição de senha) via **Resend**. Não há **push do servidor**, **WebSockets** nem **caminho direto cliente-para-banco de dados**. Convites usam links HTTPS resolvidos pelo SO mobile no app. Consistência é **eventual** — clientes atualizam na leitura.
 
 ---
 
@@ -17,6 +17,7 @@ O cliente mobile conversa com a API via **REST sobre HTTPS** (request/response, 
 ```
 Cliente mobile ──REST (HTTPS)──► API ──JPA/Hibernate──► PostgreSQL
      │                              │
+     │                              └── Resend (HTTPS) ──► caixa de entrada do participante
      └── sem DB direto              └── único gateway de persistência
 ```
 
@@ -24,6 +25,7 @@ Cliente mobile ──REST (HTTPS)──► API ──JPA/Hibernate──► Post
 |------------|-----------|---------|
 | Cliente → API | REST JSON | Cliente inicia |
 | API → DB | SQL via ORM | Apenas API |
+| API → Resend | HTTPS JSON | E-mail transacional de saída |
 | Cliente → folha de compartilhamento do SO | Ponte nativa | Compartilhamento de convite de saída |
 | Deep link → Cliente | App/Universal Links | Abertura de convite de entrada |
 
@@ -41,6 +43,16 @@ Sem notificações ao vivo quando dados mudam. Sem sincronização multi-disposi
 Cliente POST /v1/auth/login { email, password }
   ← { token, participantId, displayName }
 Cliente armazena token localmente para requisições subsequentes
+```
+
+**Redefinição de senha**
+
+```
+Cliente POST /v1/auth/forgot-password { email }
+  ← 204 (sempre; e-mail enviado só se a conta existir)
+API → Resend → caixa de entrada com /auth/reset-password?t={token}
+Cliente POST /v1/auth/reset-password { token, password }
+  ← 204
 ```
 
 **Login conjunto (Caixa de Experiências)**
@@ -109,6 +121,8 @@ Erros REST retornam `{ code, message }` com status HTTP apropriado. Cliente mape
 |---------|-----------|
 | `/v1/auth/login` | POST participante único |
 | `/v1/auth/group` | POST sessão conjunta multi participante (opcional `reuseSessionToken`) |
+| `/v1/auth/forgot-password` | POST solicitar e-mail de redefinição (sempre 204) |
+| `/v1/auth/reset-password` | POST definir nova senha com token |
 | `/v1/participants` | POST registrar |
 | `/v1/groups` | GET listar; POST criar (nome, cor) |
 | `/v1/groups/{id}` | PATCH atualizar nome/cor |
@@ -149,7 +163,7 @@ Ambos os canais resolvem o mesmo registro de convite.
 
 ### Integrações explicitamente ausentes
 
-Gateways de pagamento, SDKs de analytics, serviços de push notification (FCM/APNs), IdP externo (OAuth), pipeline de assets CDN, filas de mensagens, webhooks do cliente.
+Gateways de pagamento, SDKs de analytics, serviços de push notification (FCM/APNs), IdP externo (OAuth), pipeline de assets CDN, filas de mensagens, webhooks do cliente. E-mail transacional usa apenas Resend (redefinição de senha).
 
 ### Webhook operacional (camada de engenharia)
 

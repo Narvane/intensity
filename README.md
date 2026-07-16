@@ -114,6 +114,8 @@ GitHub Actions runs `./mvnw test`, builds the Docker image, and pushes to GHCR o
 | `DEPLOY_WEBHOOK_URL` | POST URL on VPS to pull and restart API after image push |
 | `DEPLOY_WEBHOOK_SECRET` | Shared secret sent as `X-Deploy-Secret` header |
 
+On the VPS `.env` (see @ref:deploy-readme), configure also `INTENSITY_RESEND_API_KEY`, `INTENSITY_RESEND_FROM`, and `INTENSITY_APP_BASE_URL` for password-reset email.
+
 GHCR push uses the built-in `GITHUB_TOKEN` (no extra PAT required for public repos).
 
 **VPS setup:** see @ref:deploy-readme — [deploy/README.md](deploy/README.md) — copy `deploy/.env.example` → `.env`, run `./deploy.sh`.

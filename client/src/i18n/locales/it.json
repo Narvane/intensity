@@ -102,6 +102,25 @@
       "codeLabel": "Codice di 6 caratteri",
       "submit": "Continua"
     },
+    "forgotPassword": {
+      "link": "Password dimenticata?",
+      "title": "Password dimenticata",
+      "subtitle": "Inserisci la tua email: se esiste un account, invieremo un link di reimpostazione.",
+      "submit": "Invia link",
+      "sending": "Invio…",
+      "sent": "Se esiste un account con questa email, il link di reimpostazione è in arrivo. Controlla la posta.",
+      "back": "Indietro",
+      "backToSignIn": "Torna al login"
+    },
+    "resetPassword": {
+      "title": "Nuova password",
+      "subtitle": "Scegli una nuova password per il tuo account Intensity.",
+      "submit": "Aggiorna password",
+      "saving": "Aggiornamento…",
+      "success": "Password aggiornata. Ora puoi accedere.",
+      "goToSignIn": "Accedi",
+      "back": "Indietro"
+    },
     "inviteComingSoon": "L'accettazione invito arriverà in uno slice successivo. Il formato del codice è valido.",
     "errors": {
       "network": "Impossibile contattare il server. Controlla la connessione e riprova.",
@@ -111,11 +130,13 @@
       "invalidEmail": "Inserisci un indirizzo email valido.",
       "displayNameInvalid": "Il nome visualizzato deve avere tra 1 e 80 caratteri.",
       "requiredFields": "Compila tutti i campi obbligatori.",
-      "credentialsRequired": "Inserisci almeno un partecipante per continuare.",
       "validation": "Controlla i dati inseriti e riprova.",
+      "credentialsRequired": "Inserisci almeno un partecipante per continuare.",
       "emailNotAllowlisted": "Questa email non è autorizzata a registrarsi.",
       "emailAlreadyRegistered": "Esiste già un account con questa email.",
       "invalidInviteCode": "Inserisci un codice invito valido di 6 caratteri.",
+      "invalidResetToken": "Questo link di reimpostazione non è valido o è scaduto.",
+      "emailDeliveryFailed": "Impossibile inviare l'email. Riprova più tardi.",
       "groupMembershipConflict": "Queste credenziali appartengono a gruppi diversi. Accedi con membri dello stesso gruppo.",
       "groupTargetMismatch": "Queste credenziali non appartengono al gruppo selezionato.",
       "groupRequiresAllMembers": "Tutti i membri del gruppo devono accedere per questa sessione."

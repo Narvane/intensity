@@ -22,6 +22,11 @@ intensity:
     secret: ${INTENSITY_JWT_SECRET:demo-secret-key-must-be-at-least-32-characters-long}
     expiration-seconds: ${INTENSITY_JWT_EXPIRATION_SECONDS:86400}
     experience-box-expiration-seconds: ${INTENSITY_JWT_EXPERIENCE_BOX_EXPIRATION_SECONDS:14400}
+  email:
+    resend-api-key: ${INTENSITY_RESEND_API_KEY:}
+    from: ${INTENSITY_RESEND_FROM:Intensity Demo <onboarding@resend.dev>}
+    app-base-url: ${INTENSITY_APP_BASE_URL:http://localhost:5173}
+    password-reset-expiration-seconds: ${INTENSITY_PASSWORD_RESET_EXPIRATION_SECONDS:3600}
   cors:
     allowed-origin-patterns:
       # demo-intensity.* / future demo hosts

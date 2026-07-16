@@ -6,7 +6,7 @@ Questo documento inventaria linguaggi, framework, librerie e servizi esterni usa
 
 ## Breve
 
-Intensity è un **monorepo** con `api/` (Java 21, Spring Boot 3.5, Maven, PostgreSQL 16, Flyway) e `client/` (Node 22, TypeScript 5.7, React 19, Vite 6, Capacitor 7). La produzione gira su **VPS con Docker Compose**; la CI usa **GitHub Actions** e **GHCR**. Le release mobile passano attraverso **Google Play** e **App Store Connect**.
+Intensity è un **monorepo** con `api/` (Java 21, Spring Boot 3.5, Maven, PostgreSQL 16, Flyway, Resend per email di reset password) e `client/` (Node 22, TypeScript 5.7, React 19, Vite 6, Capacitor 7). La produzione gira su **VPS con Docker Compose**; la CI usa **GitHub Actions** e **GHCR**. Le release mobile passano attraverso **Google Play** e **App Store Connect**.
 
 ---
 
@@ -36,6 +36,7 @@ intensity/
 | Hibernate / JPA | ORM |
 | Flyway | Migrazioni schema |
 | PostgreSQL | 16 |
+| Resend | Email transazionale (reset password) |
 | springdoc-openapi | Documentazione API |
 | JUnit 5 | Test |
 
@@ -76,8 +77,8 @@ intensity/
 
 | Posizione | Contenuti |
 |-----------|-----------|
-| `api/src/main/resources/application.yml` | Datasource, JWT, flag allowlist registrazione (`intensity.registration.allowlist-enabled`), porte, profili |
-| VPS `.env` | Segreti (non versionati) |
+| `api/src/main/resources/application.yml` | Datasource, JWT, flag allowlist registrazione (`intensity.registration.allowlist-enabled`), email/Resend (`intensity.email.*`), porte, profili |
+| VPS `.env` | Segreti (non versionati): JWT, Postgres, chiave Resend / from / URL base app |
 | `client/.env.development` / `.env.production` | `VITE_API_URL` |
 | `client/capacitor.config.ts` | App id, display name, `webDir` |
 
@@ -114,7 +115,7 @@ api/src/.../
 ├── invite/      ← modulo invito
 ├── box/
 ├── experience/
-└── platform/    ← trasversale: security (JWT), web (CORS, errori, OpenAPI), common, demo seed
+└── platform/    ← trasversale: security (JWT), web (CORS, errori, OpenAPI), email (Resend), common, demo seed
 ```
 
 Ogni cartella di dominio: `controller`, `service`, `repository`, `dto`, `entity`.

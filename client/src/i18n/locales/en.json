@@ -102,6 +102,25 @@
       "codeLabel": "6-character code",
       "submit": "Continue"
     },
+    "forgotPassword": {
+      "link": "Forgot password?",
+      "title": "Forgot password",
+      "subtitle": "Enter your email and we will send a reset link if an account exists.",
+      "submit": "Send reset link",
+      "sending": "Sending…",
+      "sent": "If an account exists for that email, a reset link is on its way. Check your inbox.",
+      "back": "Back",
+      "backToSignIn": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Set a new password",
+      "subtitle": "Choose a new password for your Intensity account.",
+      "submit": "Update password",
+      "saving": "Updating…",
+      "success": "Your password was updated. You can sign in now.",
+      "goToSignIn": "Sign in",
+      "back": "Back"
+    },
     "inviteComingSoon": "Invite acceptance arrives in a later slice. The code format is valid.",
     "errors": {
       "network": "Could not reach the server. Check your connection and try again.",
@@ -116,6 +135,8 @@
       "emailNotAllowlisted": "This email is not authorized to register.",
       "emailAlreadyRegistered": "An account with this email already exists.",
       "invalidInviteCode": "Enter a valid 6-character invite code.",
+      "invalidResetToken": "This password reset link is invalid or has expired.",
+      "emailDeliveryFailed": "Could not send the email. Try again later.",
       "groupMembershipConflict": "These credentials belong to different groups. Sign in with members of the same group.",
       "groupTargetMismatch": "These credentials do not belong to the selected group.",
       "groupRequiresAllMembers": "All group members must sign in for this session."

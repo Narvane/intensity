@@ -24,6 +24,11 @@ intensity:
     experience-box-expiration-seconds: ${INTENSITY_JWT_EXPERIENCE_BOX_EXPIRATION_SECONDS:14400}
   registration:
     allowlist-enabled: ${INTENSITY_REGISTRATION_ALLOWLIST_ENABLED:false}
+  email:
+    resend-api-key: ${INTENSITY_RESEND_API_KEY:}
+    from: ${INTENSITY_RESEND_FROM}
+    app-base-url: ${INTENSITY_APP_BASE_URL}
+    password-reset-expiration-seconds: ${INTENSITY_PASSWORD_RESET_EXPIRATION_SECONDS:3600}
   cors:
     allowed-origin-patterns:
       # Web app (production)

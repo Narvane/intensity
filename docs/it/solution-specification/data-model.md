@@ -17,6 +17,7 @@ Il dominio ruota attorno a **Partecipante**, **Gruppo**, **Scatola** ed **Esperi
 | Entità | Definizione | Attributi chiave |
 |--------|-------------|------------------|
 | **Partecipante** | Persona registrata che contribuisce e si unisce ai gruppi | Nome visualizzato, email (login), credenziali |
+| **Token reset password** | Token opaco monouso per password dimenticata | Token, scadenza, used-at, partecipante padre |
 | **Gruppo** | Insieme di partecipanti che condividono scatole | Elenco membri, nome visualizzato opzionale, colore, momento di creazione |
 | **Scatola** | Contenitore tematico nominato di esperienze | Nome, tipo (1 di 11), flag `requireAllParticipants` (filtra l'elenco in modalità Scatola delle Esperienze), momento di creazione, gruppo padre |
 | **Esperienza** | Idea concreta creata da un partecipante | Descrizione (≤1.000 car.), intensità (1–5), impegno/imprevedibilità/insolito (1–5 ciascuno), tipo (1 di 10 o "senza tipo"), riflessione opzionale (≤2.000 car.), autore, momento di registrazione, sigillo di integrità, scatola padre |
@@ -110,6 +111,8 @@ Foto profilo, preferenze notifiche, cronologia estrazioni, eventi di rivelazione
 ### Partecipante
 
 Rappresenta una persona con login email univoco. La registrazione può richiedere che l'email sia in una allowlist mantenuta dagli operatori (`intensity.registration.allowlist-enabled`). Il nome visualizzato appare agli altri membri del gruppo nelle anteprime invito e nei contesti condivisi.
+
+Il recupero password usa un **token di reset**: UUID opaco, scadenza ~1 ora, monouso. La richiesta di reset restituisce sempre successo al client, esista o meno l'account; la consegna email passa da Resend quando configurato (`intensity.email.*`).
 
 ### Gruppo
 

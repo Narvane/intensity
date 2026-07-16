@@ -35,7 +35,13 @@ public class SecurityConfig {
 								"/swagger-ui.html",
 								"/openapi.yaml")
 						.permitAll()
-						.requestMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/group", "/v1/participants")
+						.requestMatchers(
+								HttpMethod.POST,
+								"/v1/auth/login",
+								"/v1/auth/group",
+								"/v1/auth/forgot-password",
+								"/v1/auth/reset-password",
+								"/v1/participants")
 						.permitAll()
 						.requestMatchers(HttpMethod.GET, "/v1/invites/validate")
 						.permitAll()

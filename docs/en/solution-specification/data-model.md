@@ -17,6 +17,7 @@ The domain centers on **Participant**, **Group**, **Box**, and **Experience**, p
 | Entity | Definition | Key attributes |
 |--------|------------|----------------|
 | **Participant** | Registered person who contributes and joins groups | Display name, email (login), credentials |
+| **Password reset token** | Single-use opaque token for forgot-password | Token, expiry, used-at, parent participant |
 | **Group** | Set of participants who share boxes | Member list, optional display name, accent color, creation moment |
 | **Box** | Named thematic container of experiences | Name, type (1 of 11), `requireAllParticipants` flag, creation moment, parent group |
 | **Experience** | Concrete idea authored by one participant | Description (≤1,000 chars), intensity (1–5), effort/unpredictability/unusualness (1–5 each), type (1 of 10 or "no type"), optional reflection (≤2,000 chars), author, registration moment, integrity seal, parent box |
@@ -110,6 +111,8 @@ Profile photo, notification preferences, draw history, revelation events, social
 ### Participant
 
 Represents a person with a unique email login. Registration may require the email to be on an allowlist maintained by operators (`intensity.registration.allowlist-enabled`). Display name appears to other group members in invite previews and shared contexts.
+
+Password recovery uses a **password reset token**: opaque UUID, ~1 hour expiry, single-use. Requesting a reset always returns success to the client whether or not the email exists; email delivery goes through Resend when configured (`intensity.email.*`).
 
 ### Group
 

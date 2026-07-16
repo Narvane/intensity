@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createDefaultPendingInviteAdapter } from '@adapters/invite/PendingInvitePreferencesAdapter';
 import { createApiClient, createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
 import {
@@ -406,6 +406,11 @@ export function AuthPage() {
                   }
                 />
               </label>
+              {!hasExperiencesSession && (
+                <Link className={styles.signOutButton} to="/auth/forgot-password">
+                  {t('auth.forgotPassword.link')}
+                </Link>
+              )}
               {hasExperiencesSession && (
                 <button
                   type="button"

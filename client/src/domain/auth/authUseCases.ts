@@ -135,3 +135,19 @@ export class ValidateInviteCodeFormatUseCase {
     return /^[A-HJ-NP-Z2-9]{6}$/i.test(code.trim());
   }
 }
+
+export class RequestPasswordResetUseCase {
+  constructor(private readonly api: ApiClient) {}
+
+  async execute(email: string): Promise<void> {
+    await this.api.post<void>('/v1/auth/forgot-password', { email: email.trim() });
+  }
+}
+
+export class ResetPasswordUseCase {
+  constructor(private readonly api: ApiClient) {}
+
+  async execute(token: string, password: string): Promise<void> {
+    await this.api.post<void>('/v1/auth/reset-password', { token, password });
+  }
+}

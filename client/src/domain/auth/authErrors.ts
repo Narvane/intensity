@@ -26,6 +26,10 @@ export function resolveAuthError(err: unknown, t: (key: string) => string): stri
       return t('auth.errors.emailNotAllowlisted');
     case 'EMAIL_ALREADY_REGISTERED':
       return t('auth.errors.emailAlreadyRegistered');
+    case 'INVALID_RESET_TOKEN':
+      return t('auth.errors.invalidResetToken');
+    case 'EMAIL_DELIVERY_FAILED':
+      return t('auth.errors.emailDeliveryFailed');
     case 'VALIDATION_ERROR':
       return resolveValidationMessage(err.message, t);
     default:

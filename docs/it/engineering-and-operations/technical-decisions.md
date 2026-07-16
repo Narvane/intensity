@@ -31,6 +31,7 @@ Intensity usa **Java 21 + Spring Boot 3.5** con **PostgreSQL 16** e **Flyway** s
 | **DT-13** | Client: mappa cognitiva Clean Architecture |
 | **DT-14** | Codici invito: sottoinsieme Crockford Base32 6 caratteri |
 | **DT-15** | Elimina scatola: DB ON DELETE CASCADE + guard servizio |
+| **DT-16** | Email transazionale via Resend (reset password) |
 
 ### DT-01 — Java + Spring Boot
 
@@ -46,7 +47,7 @@ Intensity usa **Java 21 + Spring Boot 3.5** con **PostgreSQL 16** e **Flyway** s
 
 ### DT-12 — Struttura API
 
-Cartelle domain-first (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Ogni modulo: Controller → Service → Repository. Entità anemiche; regole business nei servizi. DTO al confine REST. L'infrastruttura trasversale (sicurezza JWT, configurazione web di CORS/errori/OpenAPI, tipi condivisi, demo seed) vive sotto un unico package `platform/`, così il livello superiore si legge come cinque concetti di dominio più una piattaforma.
+Cartelle domain-first (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Ogni modulo: Controller → Service → Repository. Entità anemiche; regole business nei servizi. DTO al confine REST. L'infrastruttura trasversale (sicurezza JWT, configurazione web di CORS/errori/OpenAPI, tipi condivisi, demo seed, email in uscita) vive sotto un unico package `platform/`, così il livello superiore si legge come cinque concetti di dominio più una piattaforma.
 
 Non aggregati DDD completi — CRUD pragmatico con policy esplicite (`ConviteExpiracaoPolicy`, `GrupoCapacidadeVerifier`).
 
@@ -73,6 +74,14 @@ I componenti presentazione chiamano casi d'uso; i casi d'uso chiamano adapter AP
 FK `experience.box_id` con `ON DELETE CASCADE`. Il servizio verifica appartenenza prima dell'eliminazione. La transazione avvolge eliminazione + hook audit log (opzionale futuro).
 
 **Perché:** Prevenire esperienze orfane; operazione autorevole singola.
+
+### DT-16 — Resend per email transazionale
+
+Il reset password è il primo caso d'uso di email in uscita. L'API chiama Resend via HTTPS (`intensity.email.resend-api-key`, `from`, `app-base-url`). Senza API key, il sender registra l'HTML nel log invece di chiamare Resend — adatto ai profili local e test.
+
+**Perché:** Operazioni minime per un maintainer solo (niente SMTP sul VPS); deliverability con dominio verificato; il free tier copre il volume di reset.
+
+**Alternative rifiutate:** SMTP proprio/Gmail (deliverability fragile), AWS SES (IAM/sandbox più pesante), SendGrid (più superficie di config per lo stesso lavoro).
 
 ---
 
@@ -136,4 +145,5 @@ Gli asset web Capacitor vanno con build store solo. Ciclo deploy API più veloce
 ## Decisioni assunte in questa riscrittura
 
 - **DT-14** e **DT-15** supportano nuove funzionalità invito ed eliminazione scatole.
+- **DT-16** introduce Resend per email di reset password senza SMTP sul VPS.
 - Il modulo **`invite/`** segue lo stesso pattern DT-12 dei domini esistenti.

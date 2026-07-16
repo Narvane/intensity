@@ -37,6 +37,9 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-intensity}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.demo}
       INTENSITY_JWT_SECRET: ${INTENSITY_JWT_SECRET:?Set INTENSITY_JWT_SECRET in .env.demo}
+      INTENSITY_RESEND_API_KEY: ${INTENSITY_RESEND_API_KEY:-}
+      INTENSITY_RESEND_FROM: ${INTENSITY_RESEND_FROM:-Intensity Demo <onboarding@resend.dev>}
+      INTENSITY_APP_BASE_URL: ${INTENSITY_APP_BASE_URL:-https://demo-intensity.narvane.com.br}
     networks:
       - demo
       - intensity

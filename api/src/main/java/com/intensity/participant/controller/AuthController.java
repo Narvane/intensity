@@ -2,12 +2,13 @@ package com.intensity.participant.controller;
 
 import com.intensity.platform.common.exception.ApiException;
 import com.intensity.participant.dto.AuthSessionResponse;
+import com.intensity.participant.dto.ForgotPasswordRequest;
 import com.intensity.participant.dto.JointLoginRequest;
 import com.intensity.participant.dto.LoginRequest;
-import com.intensity.participant.dto.RegisterParticipantRequest;
-import com.intensity.participant.dto.RegisterParticipantResponse;
+import com.intensity.participant.dto.ResetPasswordRequest;
 import com.intensity.participant.entity.Participant;
 import com.intensity.participant.service.ParticipantService;
+import com.intensity.participant.service.PasswordResetService;
 import com.intensity.group.dto.JointAuthSessionResponse;
 import com.intensity.group.service.GroupService;
 import jakarta.validation.Valid;
@@ -26,10 +27,15 @@ import java.util.List;
 public class AuthController {
 
 	private final ParticipantService participantService;
+	private final PasswordResetService passwordResetService;
 	private final GroupService groupService;
 
-	public AuthController(ParticipantService participantService, GroupService groupService) {
+	public AuthController(
+			ParticipantService participantService,
+			PasswordResetService passwordResetService,
+			GroupService groupService) {
 		this.participantService = participantService;
+		this.passwordResetService = passwordResetService;
 		this.groupService = groupService;
 	}
 
@@ -58,5 +64,17 @@ public class AuthController {
 				participants,
 				request.targetGroupId(),
 				request.requiresAllMembers());
+	}
+
+	@PostMapping("/auth/forgot-password")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+		passwordResetService.requestReset(request);
+	}
+
+	@PostMapping("/auth/reset-password")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+		passwordResetService.resetPassword(request);
 	}
 }

@@ -6,6 +6,8 @@ import {
   RequireGuestRoute,
 } from '@app/routeGuards';
 import { AuthPage } from '@presentation/access/auth/AuthPage';
+import { ForgotPasswordPage } from '@presentation/access/auth/ForgotPasswordPage';
+import { ResetPasswordPage } from '@presentation/access/auth/ResetPasswordPage';
 import { BoxSelectionPage } from '@presentation/collection/boxes/BoxSelectionPage';
 import { CreateBoxExperiencesPage } from '@presentation/collection/boxes/CreateBoxExperiencesPage';
 import { BoxHomePage } from '@presentation/moment/experience-box/BoxHomePage';
@@ -26,6 +28,8 @@ export function AppRouter() {
       <Route path="/" element={<BootstrapPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/join" element={<InvitePreviewPage />} />
+      <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
       <Route element={<RequireGuestRoute />}>
         <Route path="/auth" element={<AuthPage />} />
       </Route>

@@ -6,7 +6,7 @@ This document inventories the languages, frameworks, libraries, and external ser
 
 ## Short
 
-Intensity is a **monorepo** with `api/` (Java 21, Spring Boot 3.5, Maven, PostgreSQL 16, Flyway) and `client/` (Node 22, TypeScript 5.7, React 19, Vite 6, Capacitor 7). Production runs on a **VPS with Docker Compose**; CI uses **GitHub Actions** and **GHCR**. Mobile releases go through **Google Play** and **App Store Connect**.
+Intensity is a **monorepo** with `api/` (Java 21, Spring Boot 3.5, Maven, PostgreSQL 16, Flyway, Resend for password-reset email) and `client/` (Node 22, TypeScript 5.7, React 19, Vite 6, Capacitor 7). Production runs on a **VPS with Docker Compose**; CI uses **GitHub Actions** and **GHCR**. Mobile releases go through **Google Play** and **App Store Connect**.
 
 ---
 
@@ -36,6 +36,7 @@ intensity/
 | Hibernate / JPA | ORM |
 | Flyway | Schema migrations |
 | PostgreSQL | 16 |
+| Resend | Transactional email (password reset) |
 | springdoc-openapi | API docs |
 | JUnit 5 | Tests |
 
@@ -76,8 +77,8 @@ intensity/
 
 | Location | Contents |
 |----------|----------|
-| `api/src/main/resources/application.yml` | Datasource, JWT TTLs (`expiration-seconds`, `experience-box-expiration-seconds`), registration allowlist flag (`intensity.registration.allowlist-enabled`), ports, profiles |
-| VPS `.env` | Secrets (not versioned) |
+| `api/src/main/resources/application.yml` | Datasource, JWT TTLs (`expiration-seconds`, `experience-box-expiration-seconds`), registration allowlist flag (`intensity.registration.allowlist-enabled`), email/Resend (`intensity.email.*`), ports, profiles |
+| VPS `.env` | Secrets (not versioned): JWT, Postgres, Resend API key / from / app base URL |
 | `client/.env.development` / `.env.production` | `VITE_API_URL`; production also `VITE_INVITE_BASE_URL` |
 | `client/vite.config.ts` | Optional `VITE_API_PROXY_TARGET` for `/v1` proxy in dev |
 | `client/capacitor.config.ts` | App id, display name, `webDir`, store HTTPS scheme |
@@ -115,7 +116,7 @@ api/src/.../
 ├── invite/      ← invite module
 ├── box/
 ├── experience/
-└── platform/    ← cross-cutting: security (JWT), web (CORS, errors, OpenAPI), common, demo seed
+└── platform/    ← cross-cutting: security (JWT), web (CORS, errors, OpenAPI), email (Resend), common, demo seed
 ```
 
 Each domain folder: `controller`, `service`, `repository`, `dto`, `entity`.

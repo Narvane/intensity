@@ -30,7 +30,8 @@ This folder holds **two** deployable stacks side by side. File paths are referen
    ```bash
    cd deploy
    cp .env.example .env
-   # Edit .env — strong passwords, real domains, GHCR image path
+   # Edit .env — strong passwords, real domains, GHCR image path,
+   # INTENSITY_RESEND_* and INTENSITY_APP_BASE_URL for password-reset email
    ```
 
 3. Make scripts executable:

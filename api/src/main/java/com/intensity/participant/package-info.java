@@ -1,4 +1,4 @@
 /**
- * Participant registration, profile, and authentication.
+ * Participant registration, authentication, and password recovery.
  */
 package com.intensity.participant;

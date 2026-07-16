@@ -6,7 +6,7 @@ Este documento inventaria as linguagens, frameworks, bibliotecas e serviços ext
 
 ## Curta
 
-O Intensity é um **monorepo** com `api/` (Java 21, Spring Boot 3.5, Maven, PostgreSQL 16, Flyway) e `client/` (Node 22, TypeScript 5.7, React 19, Vite 6, Capacitor 7). Produção roda em **VPS com Docker Compose**; CI usa **GitHub Actions** e **GHCR**. Releases mobile passam por **Google Play** e **App Store Connect**.
+O Intensity é um **monorepo** com `api/` (Java 21, Spring Boot 3.5, Maven, PostgreSQL 16, Flyway, Resend para e-mail de redefinição de senha) e `client/` (Node 22, TypeScript 5.7, React 19, Vite 6, Capacitor 7). Produção roda em **VPS com Docker Compose**; CI usa **GitHub Actions** e **GHCR**. Releases mobile passam por **Google Play** e **App Store Connect**.
 
 ---
 
@@ -36,6 +36,7 @@ intensity/
 | Hibernate / JPA | ORM |
 | Flyway | Migrações de schema |
 | PostgreSQL | 16 |
+| Resend | E-mail transacional (redefinição de senha) |
 | springdoc-openapi | Docs da API |
 | JUnit 5 | Testes |
 
@@ -76,8 +77,8 @@ intensity/
 
 | Localização | Conteúdo |
 |-------------|----------|
-| `api/src/main/resources/application.yml` | Datasource, JWT, flag de allowlist de registro (`intensity.registration.allowlist-enabled`), portas, profiles |
-| VPS `.env` | Segredos (não versionados) |
+| `api/src/main/resources/application.yml` | Datasource, JWT, flag de allowlist de registro (`intensity.registration.allowlist-enabled`), e-mail/Resend (`intensity.email.*`), portas, profiles |
+| VPS `.env` | Segredos (não versionados): JWT, Postgres, chave Resend / from / URL base do app |
 | `client/.env.development` / `.env.production` | `VITE_API_URL` |
 | `client/capacitor.config.ts` | App id, nome de exibição, `webDir` |
 
@@ -114,7 +115,7 @@ api/src/.../
 ├── invite/      ← módulo de convite
 ├── box/
 ├── experience/
-└── platform/    ← transversal: security (JWT), web (CORS, erros, OpenAPI), common, demo seed
+└── platform/    ← transversal: security (JWT), web (CORS, erros, OpenAPI), email (Resend), common, demo seed
 ```
 
 Cada pasta de domínio: `controller`, `service`, `repository`, `dto`, `entity`.

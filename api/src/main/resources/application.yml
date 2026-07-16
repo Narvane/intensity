@@ -30,6 +30,11 @@ intensity:
     experience-box-expiration-seconds: 14400
   registration:
     allowlist-enabled: false
+  email:
+    resend-api-key: ${INTENSITY_RESEND_API_KEY:}
+    from: ${INTENSITY_RESEND_FROM:Intensity <onboarding@resend.dev>}
+    app-base-url: ${INTENSITY_APP_BASE_URL:http://localhost:5173}
+    password-reset-expiration-seconds: ${INTENSITY_PASSWORD_RESET_EXPIRATION_SECONDS:3600}
   cors:
     allowed-origin-patterns:
       - http://localhost

@@ -85,6 +85,51 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
+  /v1/auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Request a password reset email
+      description: |
+        Always returns 204 whether or not the email is registered (avoids account enumeration).
+        When a matching participant exists, creates a single-use token and emails a reset link via Resend.
+      operationId: forgotPassword
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '204':
+          description: Request accepted (email sent only if the account exists)
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Set a new password with a reset token
+      operationId: resetPassword
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '204':
+          description: Password updated
+        '400':
+          description: Invalid, expired, or already used reset token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
   /v1/participants:
     post:
       tags: [Participants]
@@ -633,6 +678,28 @@ components:
           type: string
           format: password
           minLength: 8
+
+    ForgotPasswordRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+
+    ResetPasswordRequest:
+      type: object
+      required: [token, password]
+      properties:
+        token:
+          type: string
+          format: uuid
+          description: Opaque token from the password-reset email link
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 128
 
     JointLoginRequest:
       type: object

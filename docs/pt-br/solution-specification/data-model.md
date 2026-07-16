@@ -17,6 +17,7 @@ O domínio centra-se em **Participante**, **Grupo**, **Caixinha** e **Experiênc
 | Entidade | Definição | Atributos-chave |
 |----------|-----------|-----------------|
 | **Participante** | Pessoa registrada que contribui e entra em grupos | Nome de exibição, e-mail (login), credenciais |
+| **Token de redefinição de senha** | Token opaco de uso único para esqueci a senha | Token, expiração, used-at, participante pai |
 | **Grupo** | Conjunto de participantes que compartilham caixinhas | Lista de membros, nome de exibição opcional, cor de destaque, momento de criação |
 | **Caixinha** | Contêiner temático nomeado de experiências | Nome, tipo (1 de 11), flag `requireAllParticipants` (filtra listagem no modo Caixa de Experiências), momento de criação, grupo pai |
 | **Experiência** | Ideia concreta autoria de um participante | Descrição (≤1.000 caracteres), intensidade (1–5), esforço/imprevisível/inusitado (1–5 cada), tipo (1 de 10 ou "sem tipo"), reflexão opcional (≤2.000 caracteres), autor, momento de registro, selo de integridade, caixinha pai |
@@ -110,6 +111,8 @@ Foto de perfil, preferências de notificação, histórico de sorteios, eventos 
 ### Participante
 
 Representa uma pessoa com login de e-mail único. O registro pode exigir que o e-mail esteja em uma allowlist mantida pelos operadores (`intensity.registration.allowlist-enabled`). O nome de exibição aparece para outros membros do grupo em prévias de convite e contextos compartilhados.
+
+A recuperação de senha usa um **token de redefinição**: UUID opaco, validade ~1 hora, uso único. Solicitar redefinição sempre retorna sucesso ao cliente, exista ou não a conta; a entrega do e-mail passa pelo Resend quando configurado (`intensity.email.*`).
 
 ### Grupo
 

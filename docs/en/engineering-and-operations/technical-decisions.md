@@ -31,6 +31,7 @@ Intensity uses **Java 21 + Spring Boot 3.5** with **PostgreSQL 16** and **Flyway
 | **DT-13** | Client: Clean Architecture cognitive map |
 | **DT-14** | Invite codes: 6-char Crockford Base32 subset |
 | **DT-15** | Box delete: DB ON DELETE CASCADE + service guard |
+| **DT-16** | Transactional email via Resend (password reset) |
 
 ### DT-01 — Java + Spring Boot
 
@@ -46,7 +47,7 @@ Intensity uses **Java 21 + Spring Boot 3.5** with **PostgreSQL 16** and **Flyway
 
 ### DT-12 — API structure
 
-Domain-first folders (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Each module: Controller → Service → Repository. Anemic entities; business rules in services. DTOs at REST boundary. Cross-cutting infrastructure (JWT security, CORS/error/OpenAPI web config, shared types, demo seed) lives under a single `platform/` package so the top level reads as five domain concepts plus one platform.
+Domain-first folders (`participant/`, `group/`, `invite/`, `box/`, `experience/`). Each module: Controller → Service → Repository. Anemic entities; business rules in services. DTOs at REST boundary. Cross-cutting infrastructure (JWT security, CORS/error/OpenAPI web config, shared types, demo seed, outbound email) lives under a single `platform/` package so the top level reads as five domain concepts plus one platform.
 
 Not full DDD aggregates — pragmatic CRUD with explicit policies (`InviteExpirationPolicy`, `GroupMembershipService`).
 
@@ -73,6 +74,14 @@ Presentation components call use cases; use cases call API adapters.
 `experience.box_id` FK with `ON DELETE CASCADE`. Service verifies membership before delete. Transaction wraps delete + audit log hook (optional future).
 
 **Why:** Prevent orphaned experiences; single authoritative operation.
+
+### DT-16 — Resend for transactional email
+
+Password reset is the first outbound email use case. The API calls Resend over HTTPS (`intensity.email.resend-api-key`, `from`, `app-base-url`). When the API key is empty, the sender logs the HTML body instead of calling Resend — suitable for local and test profiles.
+
+**Why:** Minimal ops for a solo maintainer (no SMTP relay on the VPS); verified-domain deliverability; free tier covers reset volume.
+
+**Alternatives rejected:** Self-hosted SMTP/Gmail (fragile deliverability), AWS SES (heavier IAM/sandbox setup), SendGrid (more config surface for the same job).
 
 ---
 
@@ -136,4 +145,5 @@ Capacitor web assets ship with store builds only. Faster API deploy cycle intent
 ## Decisions assumed in this rewrite
 
 - **DT-14** and **DT-15** support new invite and box deletion features.
+- **DT-16** introduces Resend for password-reset email without hosting SMTP.
 - **`invite/`** module follows same DT-12 pattern as existing domains.

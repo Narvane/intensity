@@ -102,6 +102,25 @@
       "codeLabel": "Código de 6 caracteres",
       "submit": "Continuar"
     },
+    "forgotPassword": {
+      "link": "Esqueci minha senha",
+      "title": "Esqueci minha senha",
+      "subtitle": "Informe seu email e enviaremos um link de redefinição se a conta existir.",
+      "submit": "Enviar link",
+      "sending": "Enviando…",
+      "sent": "Se existir uma conta com esse email, o link de redefinição está a caminho. Confira sua caixa de entrada.",
+      "back": "Voltar",
+      "backToSignIn": "Voltar ao login"
+    },
+    "resetPassword": {
+      "title": "Nova senha",
+      "subtitle": "Escolha uma nova senha para sua conta Intensity.",
+      "submit": "Atualizar senha",
+      "saving": "Atualizando…",
+      "success": "Senha atualizada. Você já pode entrar.",
+      "goToSignIn": "Entrar",
+      "back": "Voltar"
+    },
     "inviteComingSoon": "Aceite de convite chega em um slice posterior. O formato do código está correto.",
     "errors": {
       "network": "Não foi possível contactar o servidor. Verifique a conexão e tente novamente.",
@@ -116,6 +135,8 @@
       "emailNotAllowlisted": "Este email não está autorizado a se cadastrar.",
       "emailAlreadyRegistered": "Já existe uma conta com este email.",
       "invalidInviteCode": "Informe um código de convite válido com 6 caracteres.",
+      "invalidResetToken": "Este link de redefinição é inválido ou expirou.",
+      "emailDeliveryFailed": "Não foi possível enviar o email. Tente novamente mais tarde.",
       "groupMembershipConflict": "Essas credenciais pertencem a grupos diferentes. Entre com membros do mesmo grupo.",
       "groupTargetMismatch": "Essas credenciais não pertencem ao grupo selecionado.",
       "groupRequiresAllMembers": "Todos os participantes do grupo precisam entrar nesta sessão."

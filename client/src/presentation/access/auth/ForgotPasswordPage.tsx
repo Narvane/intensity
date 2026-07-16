@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { createApiClient } from '@app/SessionProvider';
+import { createAuthApi } from '@adapters/auth/AuthApiAdapter';
 import { resolveAuthError } from '@domain/auth/authErrors';
 import { RequestPasswordResetUseCase } from '@domain/auth/authUseCases';
 import { useI18n } from '../../../i18n/I18nContext';
@@ -12,7 +12,7 @@ import styles from './AuthPage.module.css';
 export function ForgotPasswordPage() {
   const { t } = useI18n();
   const navigate = useNavigate();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => createAuthApi(), []);
   const requestReset = useMemo(() => new RequestPasswordResetUseCase(api), [api]);
 
   const [email, setEmail] = useState('');

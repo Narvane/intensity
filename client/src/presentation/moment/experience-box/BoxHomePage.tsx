@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pencil } from 'lucide-react';
-import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
+import { getApiClient } from '@adapters/http/apiClient';
 import { useAppLogout } from '@app/useAppLogout';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
@@ -43,7 +44,7 @@ export function BoxHomePage() {
   const { showToast } = useToast();
   const logout = useAppLogout('EXPERIENCE_BOX');
   const navigate = useNavigate();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const listBoxes = useMemo(() => new ListBoxesUseCase(api), [api]);
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const deleteBox = useMemo(() => new DeleteBoxUseCase(api), [api]);

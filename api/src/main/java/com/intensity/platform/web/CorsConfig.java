@@ -25,7 +25,6 @@ public class CorsConfig {
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setExposedHeaders(List.of("Authorization"));
-		// Match the last known-good client (WebView fetch from https://localhost).
 		configuration.setAllowCredentials(true);
 		configuration.setMaxAge(3600L);
 

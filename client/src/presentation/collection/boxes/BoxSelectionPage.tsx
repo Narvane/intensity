@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UsersRound } from 'lucide-react';
-import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
+import { getApiClient } from '@adapters/http/apiClient';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
@@ -43,7 +44,7 @@ export function BoxSelectionPage() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const listBoxes = useMemo(() => new ListBoxesUseCase(api), [api]);
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const leaveGroup = useMemo(() => new LeaveGroupUseCase(api), [api]);

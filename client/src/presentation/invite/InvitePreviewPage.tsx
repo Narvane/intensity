@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
+import { getApiClient } from '@adapters/http/apiClient';
 import { createDefaultPendingInviteAdapter } from '@adapters/invite/PendingInvitePreferencesAdapter';
 import { useSession } from '@app/SessionProvider';
 import { useNavigation } from '@app/NavigationProvider';
@@ -27,7 +28,7 @@ export function InvitePreviewPage() {
   const [searchParams] = useSearchParams();
   const { experiencesSession, loading: experiencesSessionLoading } = useSession();
   const { setNavigation } = useNavigation();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const pendingInvitePort = useMemo(() => createDefaultPendingInviteAdapter(), []);
   const validateInvite = useMemo(() => new ValidateInviteUseCase(api), [api]);
   const acceptInvite = useMemo(() => new AcceptInviteUseCase(api), [api]);

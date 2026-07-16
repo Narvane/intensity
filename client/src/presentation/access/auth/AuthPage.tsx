@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { createAuthApi } from '@adapters/auth/AuthApiAdapter';
 import { createDefaultPendingInviteAdapter } from '@adapters/invite/PendingInvitePreferencesAdapter';
-import { createApiClient, createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
+import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
+import { useSession } from '@app/SessionProvider';
 import {
   DEMO_PASSWORD,
   isDemoMode,
@@ -59,7 +61,7 @@ export function AuthPage() {
   const authState = (location.state as AuthLocationState | null) ?? {};
   const { experiencesSession, saveExperiencesSession, saveExperienceBoxSession, logoutExperiences } =
     useSession();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => createAuthApi(), []);
   const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const pendingInvitePort = useMemo(() => createDefaultPendingInviteAdapter(), []);
 

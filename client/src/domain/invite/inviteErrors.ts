@@ -1,4 +1,4 @@
-import { ApiError } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
 
 export function resolveInviteError(err: unknown, t: (key: string) => string): string {
   if (err instanceof ApiError) {

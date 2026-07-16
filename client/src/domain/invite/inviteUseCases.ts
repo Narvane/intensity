@@ -1,4 +1,4 @@
-import type { ApiClient } from '@adapters/api/ApiClient';
+import type { HttpPort } from '@domain/http/HttpPort';
 import type {
   AcceptInviteResult,
   Invite,
@@ -6,7 +6,7 @@ import type {
 } from '@domain/invite/inviteTypes';
 
 export class CreateInviteUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(groupId: string, token: string): Promise<Invite> {
     return this.api.post<Invite>(`/v1/groups/${groupId}/invites`, {}, token);
@@ -14,7 +14,7 @@ export class CreateInviteUseCase {
 }
 
 export class ValidateInviteUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   executeByCode(code: string): Promise<InvitePreview> {
     return this.api.get<InvitePreview>(`/v1/invites/validate?code=${encodeURIComponent(code.trim())}`);
@@ -26,7 +26,7 @@ export class ValidateInviteUseCase {
 }
 
 export class AcceptInviteUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(inviteId: string, token: string): Promise<AcceptInviteResult> {
     return this.api.post<AcceptInviteResult>(`/v1/invites/${inviteId}/accept`, {}, token);
@@ -34,7 +34,7 @@ export class AcceptInviteUseCase {
 }
 
 export class RevokeInviteUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(inviteId: string, token: string): Promise<void> {
     return this.api.delete(`/v1/invites/${inviteId}`, token);

@@ -14,13 +14,28 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Parses the Bearer token, nothing else.
+ *
+ * <p>Public routes are skipped entirely so a stale or malformed Authorization
+ * header can never affect them. On protected routes an unparsable token simply
+ * leaves the request unauthenticated; the entry point in
+ * {@link SecurityConfig} then answers 401.
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+	private static final String BEARER_PREFIX = "Bearer ";
 
 	private final JwtService jwtService;
 
 	public JwtAuthenticationFilter(JwtService jwtService) {
 		this.jwtService = jwtService;
+	}
+
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) {
+		return PublicApiPaths.isPublic(request);
 	}
 
 	@Override
@@ -30,16 +45,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			FilterChain filterChain) throws ServletException, IOException {
 		String authorization = request.getHeader("Authorization");
 
-		if (authorization != null && authorization.startsWith("Bearer ")) {
-			String token = authorization.substring(7);
+		if (authorization != null && authorization.startsWith(BEARER_PREFIX)) {
+			String token = authorization.substring(BEARER_PREFIX.length());
 			try {
 				AuthPrincipal principal = AuthPrincipal.fromClaims(jwtService.parse(token));
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 						principal, null, List.of());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-			} catch (RuntimeException ignored) {
-				SecurityContextHolder.clearContext();
+			} catch (RuntimeException invalidToken) {
+				// Leave the context unauthenticated; the entry point owns the 401.
 			}
 		}
 

@@ -10,14 +10,14 @@ import {
 } from 'react';
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { registerUnauthorizedHandler } from '@adapters/api/apiUnauthorizedBridge';
-import { createApiClient } from '@adapters/api/ApiClient';
+import { getApiClient } from '@adapters/http/apiClient';
 import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
 import { setExperienceBoxSessionEndReason } from '@domain/session/experienceBoxSessionEnd';
 import { isDrawLimitReached } from '@domain/session/experienceBoxSessionPolicy';
 import { isTokenExpired } from '@domain/session/jwtToken';
 import type { SessionPort, SessionState } from '@domain/session/SessionPort';
 import { isValidSession } from '@domain/session/sessionStorage';
+import { resolveUnauthorizedDecision } from '@domain/session/unauthorizedPolicy';
 
 interface SessionContextValue {
   experiencesSession: SessionState | null;
@@ -38,14 +38,9 @@ interface SessionProviderProps extends PropsWithChildren {
 }
 
 function sanitizeSession(session: SessionState | null): SessionState | null {
-  if (!isValidSession(session)) {
+  if (!isValidSession(session) || isTokenExpired(session.token)) {
     return null;
   }
-
-  if (isTokenExpired(session.token)) {
-    return null;
-  }
-
   return session;
 }
 
@@ -57,11 +52,13 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
   const [experienceBoxSession, setExperienceBoxSession] = useState<SessionState | null>(null);
   const [loading, setLoading] = useState(true);
   const [invalid, setInvalid] = useState(false);
-  const sessionsRef = useRef({ experiencesSession, experienceBoxSession });
 
-  useEffect(() => {
-    sessionsRef.current = { experiencesSession, experienceBoxSession };
-  }, [experiencesSession, experienceBoxSession]);
+  // Refs so the unauthorized listener always sees the current values without
+  // re-registering on every render/navigation.
+  const sessionsRef = useRef({ experiencesSession, experienceBoxSession });
+  sessionsRef.current = { experiencesSession, experienceBoxSession };
+  const locationPathRef = useRef(location.pathname);
+  locationPathRef.current = location.pathname;
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -73,7 +70,6 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
       if (stored.experiences && !nextExperiences) {
         await port.clearExperiences();
       }
-
       if (stored.experienceBox && !nextExperienceBox) {
         await port.clearExperienceBox();
       }
@@ -87,16 +83,13 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
         nextExperienceBox = null;
       }
 
-      setExperiencesSession(nextExperiences);
-      setExperienceBoxSession(nextExperienceBox);
-      setInvalid(false);
-
       const hadCorruptStorage =
         (stored.experiences !== null && !isValidSession(stored.experiences)) ||
         (stored.experienceBox !== null && !isValidSession(stored.experienceBox));
-      if (hadCorruptStorage) {
-        setInvalid(true);
-      }
+
+      setExperiencesSession(nextExperiences);
+      setExperienceBoxSession(nextExperienceBox);
+      setInvalid(hadCorruptStorage);
     } catch {
       setExperiencesSession(null);
       setExperienceBoxSession(null);
@@ -110,94 +103,69 @@ export function SessionProvider({ children, sessionPort }: SessionProviderProps)
     void refresh();
   }, [refresh]);
 
-  const redirectAfterUnauthorized = useCallback(
-    (clearedExperiences: boolean, clearedExperienceBox: boolean) => {
-      const path = location.pathname;
-      const onExperiencesRoute = path.startsWith('/groups');
-      const onExperienceBoxRoute = path.startsWith('/box-home');
-
-      if (clearedExperiences && onExperiencesRoute) {
-        navigate('/auth', { replace: true });
-        return;
-      }
-
-      if (clearedExperienceBox && onExperienceBoxRoute) {
-        navigate('/auth', { replace: true, state: { panel: 'experienceBox' } });
-      }
-    },
-    [location.pathname, navigate],
-  );
-
+  // Rejected-token interceptor: clear a session only when the token the API
+  // rejected is exactly that session's token, then leave the protected area
+  // the user is currently on. A 401 without a matching token changes nothing.
   useEffect(() => {
-    registerUnauthorizedHandler(async (token) => {
+    const client = getApiClient();
+    client.setUnauthorizedListener((failedToken) => {
       const { experiencesSession: currentExperiences, experienceBoxSession: currentBox } =
         sessionsRef.current;
-      let clearedExperiences = false;
-      let clearedExperienceBox = false;
+      const decision = resolveUnauthorizedDecision(currentExperiences, currentBox, failedToken);
 
-      // Only clear the session whose token the failed request actually used.
-      // Never wipe everything on a token-less 401 (false positives from
-      // CapacitorHttp / CORS / missing Authorization).
-      if (!token) {
-        return;
-      }
+      void (async () => {
+        if (decision.clearExperiences) {
+          await port.clearExperiences();
+          setExperiencesSession(null);
+        }
+        if (decision.clearExperienceBox) {
+          await port.clearExperienceBox();
+          setExperienceBoxSession(null);
+        }
 
-      if (currentExperiences?.token === token) {
-        await port.clearExperiences();
-        setExperiencesSession(null);
-        clearedExperiences = true;
-      }
-
-      if (currentBox?.token === token) {
-        await port.clearExperienceBox();
-        setExperienceBoxSession(null);
-        clearedExperienceBox = true;
-      }
-
-      redirectAfterUnauthorized(clearedExperiences, clearedExperienceBox);
+        const path = locationPathRef.current;
+        if (decision.clearExperiences && path.startsWith('/groups')) {
+          navigate('/auth', { replace: true });
+        } else if (decision.clearExperienceBox && path.startsWith('/box-home')) {
+          navigate('/auth', { replace: true, state: { panel: 'experienceBox' } });
+        }
+      })();
     });
 
     return () => {
-      registerUnauthorizedHandler(null);
+      client.setUnauthorizedListener(null);
     };
-  }, [port, redirectAfterUnauthorized]);
+  }, [navigate, port]);
 
+  // Local expiry watchdog: when a token expires while the user is inside its
+  // protected area, drop only that session and return to /auth.
   useEffect(() => {
     if (loading) {
       return;
     }
 
     const path = location.pathname;
-    const onExperiencesRoute = path.startsWith('/groups');
-    const onExperienceBoxRoute = path.startsWith('/box-home');
 
-    if (onExperiencesRoute && experiencesSession && isTokenExpired(experiencesSession.token)) {
+    if (path.startsWith('/groups') && experiencesSession && isTokenExpired(experiencesSession.token)) {
       void port.clearExperiences().then(() => {
         setExperiencesSession(null);
         navigate('/auth', { replace: true });
       });
     }
 
-    if (onExperienceBoxRoute && experienceBoxSession && isTokenExpired(experienceBoxSession.token)) {
+    if (path.startsWith('/box-home') && experienceBoxSession && isTokenExpired(experienceBoxSession.token)) {
       void port.clearExperienceBox().then(() => {
         setExperienceBoxSession(null);
         navigate('/auth', { replace: true, state: { panel: 'experienceBox' } });
       });
     }
-  }, [
-    experienceBoxSession,
-    experiencesSession,
-    loading,
-    location.pathname,
-    navigate,
-    port,
-  ]);
+  }, [experienceBoxSession, experiencesSession, loading, location.pathname, navigate, port]);
 
   const saveExperiencesSession = useCallback(
     async (next: SessionState) => {
       await port.saveExperiences(next);
       sessionsRef.current = { ...sessionsRef.current, experiencesSession: next };
-      // Flush before callers navigate — otherwise route guards can still see null.
+      // Commit synchronously so route guards see the session before callers navigate.
       flushSync(() => {
         setExperiencesSession(next);
         setInvalid(false);
@@ -265,5 +233,3 @@ export function useSession(): SessionContextValue {
   }
   return context;
 }
-
-export { createApiClient, createDefaultSessionAdapter };

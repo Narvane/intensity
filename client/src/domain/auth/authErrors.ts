@@ -1,4 +1,4 @@
-import { ApiError } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
 
 const PASSWORD_MIN = 8;
 const PASSWORD_MAX = 128;

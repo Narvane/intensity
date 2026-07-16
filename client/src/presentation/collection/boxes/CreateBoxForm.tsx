@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
+import { getApiClient } from '@adapters/http/apiClient';
 import { DEFAULT_BOX_TYPE, type Box, type BoxType } from '@domain/box/boxTypes';
 import { CreateBoxUseCase } from '@domain/box/boxUseCases';
 import { CreateExperienceUseCase } from '@domain/experience/experienceUseCases';
@@ -40,7 +41,7 @@ export function CreateBoxForm({
 }: CreateBoxFormProps) {
   const { t, locale } = useI18n();
   const navigate = useNavigate();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const createBox = useMemo(() => new CreateBoxUseCase(api), [api]);
   const createExperience = useMemo(() => new CreateExperienceUseCase(api), [api]);
 

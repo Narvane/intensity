@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FlipHorizontal2, Trash2 } from 'lucide-react';
-import { createApiClient } from '@adapters/api/ApiClient';
+import { getApiClient } from '@adapters/http/apiClient';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
@@ -39,7 +39,7 @@ export function ExperienceListPage() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const online = useOnlineStatus();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
   const deleteExperience = useMemo(() => new DeleteExperienceUseCase(api), [api]);
 

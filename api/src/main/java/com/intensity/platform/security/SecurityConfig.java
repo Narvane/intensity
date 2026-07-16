@@ -2,7 +2,6 @@ package com.intensity.platform.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,9 +10,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+/**
+ * Stateless Bearer-only security.
+ *
+ * <p>Public routes are declared once in {@link PublicApiPaths} and permitted
+ * unconditionally, so the 401 entry point below can only ever fire for routes
+ * that genuinely require authentication. Public routes never answer
+ * {@code INVALID_TOKEN}; {@code INVALID_CREDENTIALS} is reserved for the login
+ * endpoints themselves.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -28,25 +35,7 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						// Ant matchers (not MVC): MVC matchers only succeed when a controller
-						// mapping also matches Content-Type, so a missing/odd Content-Type on
-						// public POSTs fell through to authenticated → false INVALID_TOKEN.
-						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS, "/**"))
-						.permitAll()
-						.requestMatchers(
-								AntPathRequestMatcher.antMatcher("/actuator/health"),
-								AntPathRequestMatcher.antMatcher("/v3/api-docs"),
-								AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
-								AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
-								AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
-								AntPathRequestMatcher.antMatcher("/openapi.yaml"))
-						.permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/v1/auth/**"))
-						.permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/v1/participants"))
-						.permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/v1/invites/validate"))
-						.permitAll()
+						.requestMatchers(PublicApiPaths.requestMatchers()).permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, exception) -> {

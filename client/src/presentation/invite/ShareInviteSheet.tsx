@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { shareInviteContent } from '@adapters/share/ShareAdapter';
-import { createApiClient } from '@adapters/api/ApiClient';
+import { getApiClient } from '@adapters/http/apiClient';
 import type { Invite } from '@domain/invite/inviteTypes';
 import { resolveInviteError } from '@domain/invite/inviteErrors';
 import {
@@ -24,7 +24,7 @@ interface ShareInviteSheetProps {
 
 export function ShareInviteSheet({ open, groupId, token, onClose }: ShareInviteSheetProps) {
   const { t, locale } = useI18n();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const createInvite = useMemo(() => new CreateInviteUseCase(api), [api]);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 

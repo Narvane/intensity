@@ -1,10 +1,10 @@
-import type { ApiClient } from '@adapters/api/ApiClient';
+import type { HttpPort } from '@domain/http/HttpPort';
 import type { Box, BoxType, Group, GroupAccent } from '@domain/box/boxTypes';
 import { DEFAULT_BOX_TYPE } from '@domain/box/boxTypes';
 import type { NavigationPort } from '@domain/navigation/NavigationPort';
 
 export class ListGroupsUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(token: string): Promise<Group[]> {
     return this.api.get<Group[]>('/v1/groups', token);
@@ -17,7 +17,7 @@ export interface CreateGroupInput {
 }
 
 export class CreateGroupUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(token: string, input: CreateGroupInput): Promise<Group> {
     return this.api.post<Group>(
@@ -34,7 +34,7 @@ export interface UpdateGroupInput {
 }
 
 export class UpdateGroupUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(groupId: string, token: string, input: UpdateGroupInput): Promise<Group> {
     return this.api.patch<Group>(
@@ -46,7 +46,7 @@ export class UpdateGroupUseCase {
 }
 
 export class ListBoxesUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(groupId: string, token: string): Promise<Box[]> {
     return this.api.get<Box[]>(`/v1/groups/${groupId}/boxes`, token);
@@ -61,7 +61,7 @@ export interface CreateBoxInput {
 }
 
 export class CreateBoxUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(token: string, input: CreateBoxInput): Promise<Box> {
     return this.api.post<Box>(
@@ -83,7 +83,7 @@ export interface UpdateBoxInput {
 }
 
 export class UpdateBoxUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(boxId: string, token: string, input: UpdateBoxInput): Promise<Box> {
     return this.api.patch<Box>(
@@ -98,7 +98,7 @@ export class UpdateBoxUseCase {
 }
 
 export class DeleteBoxUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(boxId: string, token: string): Promise<void> {
     return this.api.delete(`/v1/boxes/${boxId}`, token);
@@ -106,7 +106,7 @@ export class DeleteBoxUseCase {
 }
 
 export class LeaveGroupUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(groupId: string, token: string): Promise<void> {
     return this.api.delete(`/v1/groups/${groupId}/members`, token);

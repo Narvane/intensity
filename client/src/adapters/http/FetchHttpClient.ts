@@ -1,27 +1,28 @@
-import { notifyUnauthorized } from './apiUnauthorizedBridge';
+import { ApiError, type ApiErrorBody } from '@domain/http/ApiError';
+import type { HttpPort, UnauthorizedListener } from '@domain/http/HttpPort';
 
-export class ApiError extends Error {
-  constructor(
-    readonly status: number,
-    readonly code: string,
-    message: string,
-  ) {
-    super(message);
-    this.name = 'ApiError';
-  }
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-  isInvalidToken(): boolean {
-    return this.status === 401 && this.code === 'INVALID_TOKEN';
-  }
-}
+/**
+ * The only HTTP transport in the app: plain WebView fetch.
+ *
+ * Do NOT enable CapacitorHttp globally and do NOT route through
+ * CapacitorHttp.request(): both have dropped the Authorization header on
+ * Android and produced false INVALID_TOKEN logouts.
+ */
+export class FetchHttpClient implements HttpPort {
+  private unauthorizedListener: UnauthorizedListener | null = null;
 
-export interface ApiErrorBody {
-  code: string;
-  message: string;
-}
-
-export class ApiClient {
   constructor(private readonly baseUrl: string) {}
+
+  /**
+   * Typed interceptor for rejected Bearer tokens. Only invoked when the
+   * failing request actually sent a token and the API answered
+   * 401 INVALID_TOKEN — a token-less 401 never reaches the listener.
+   */
+  setUnauthorizedListener(listener: UnauthorizedListener | null): void {
+    this.unauthorizedListener = listener;
+  }
 
   async get<T>(path: string, token?: string): Promise<T> {
     return this.request<T>('GET', path, undefined, token);
@@ -44,24 +45,17 @@ export class ApiClient {
   }
 
   private async request<T>(
-    method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+    method: HttpMethod,
     path: string,
     body: unknown | undefined,
     token?: string,
   ): Promise<T> {
-    // Use WebView fetch — same path as the last known-good build.
-    // Do NOT enable CapacitorHttp globally and do NOT route through
-    // CapacitorHttp.request(): both have dropped Authorization on Android
-    // and produced false INVALID_TOKEN logouts.
-    const headers: Record<string, string> = {
-      Accept: 'application/json',
-      // Always set for mutating calls — Spring MVC security matchers historically
-      // failed open routes when Content-Type was missing (false INVALID_TOKEN).
-      ...(method === 'GET' || method === 'DELETE'
-        ? {}
-        : { 'Content-Type': 'application/json' }),
-    };
-
+    const headers: Record<string, string> = { Accept: 'application/json' };
+    if (method !== 'GET' && method !== 'DELETE') {
+      // Always explicit on mutating calls; a missing Content-Type has
+      // historically produced misleading errors on public routes.
+      headers['Content-Type'] = 'application/json';
+    }
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
@@ -85,16 +79,15 @@ export class ApiClient {
 
     if (!response.ok) {
       const payload = await readErrorBody(response);
+      // Log URL + status + whether a Bearer was sent; never the token itself.
       console.warn(
         `[Intensity] API ${method} ${url} → ${response.status} ${payload.code}: ${payload.message}` +
           (token ? ' (had Bearer)' : ' (no Bearer)'),
       );
 
       const error = new ApiError(response.status, payload.code, payload.message);
-      // Only kill a session when we actually sent that session's token.
-      // A bare 401 without a token must not wipe Preferences.
       if (error.isInvalidToken() && token) {
-        notifyUnauthorized(token);
+        this.unauthorizedListener?.(token);
       }
       throw error;
     }
@@ -131,14 +124,4 @@ async function readErrorBody(response: Response): Promise<ApiErrorBody> {
   } catch {
     return fallback;
   }
-}
-
-export function createApiClient(): ApiClient {
-  const baseUrl = import.meta.env.VITE_API_URL?.trim() ?? '';
-  if (!baseUrl) {
-    console.error(
-      '[Intensity] VITE_API_URL is empty. Rebuild with production/demo env or API calls will hit the WebView origin.',
-    );
-  }
-  return new ApiClient(baseUrl);
 }

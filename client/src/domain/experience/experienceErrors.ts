@@ -1,4 +1,4 @@
-import { ApiError } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
 
 export function resolveExperienceError(
   err: unknown,

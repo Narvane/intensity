@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createApiClient } from '@adapters/api/ApiClient';
-import { createDefaultSessionAdapter, useSession } from '@app/SessionProvider';
+import { createAuthApi } from '@adapters/auth/AuthApiAdapter';
+import { getApiClient } from '@adapters/http/apiClient';
+import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
+import { useSession } from '@app/SessionProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import {
   isValidAuthPasswordLength,
@@ -104,11 +106,12 @@ export function StartDrawSessionModal({
   const { experiencesSession, saveExperienceBoxSession } = useSession();
   const { setNavigation } = useNavigation();
 
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
+  const authApi = useMemo(() => createAuthApi(), []);
   const sessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const loginExperienceBox = useMemo(
-    () => new LoginExperienceBoxUseCase(api, sessionPort),
-    [api, sessionPort],
+    () => new LoginExperienceBoxUseCase(authApi, sessionPort),
+    [authApi, sessionPort],
   );
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
 

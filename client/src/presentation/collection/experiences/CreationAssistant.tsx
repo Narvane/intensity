@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { GitFork, Trash2 } from 'lucide-react';
-import { createApiClient } from '@adapters/api/ApiClient';
+import { getApiClient } from '@adapters/http/apiClient';
 import { useToast } from '@app/ToastProvider';
 import type { BoxType } from '@domain/box/boxTypes';
 import type { Experience, ExperienceInput } from '@domain/experience/experienceTypes';
@@ -83,7 +83,7 @@ export function CreationAssistant({
 }: CreationAssistantProps) {
   const { t } = useI18n();
   const { showToast } = useToast();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const createExperience = useMemo(() => new CreateExperienceUseCase(api), [api]);
   const createBatch = useMemo(() => new CreateExperiencesBatchUseCase(api), [api]);
   const updateExperience = useMemo(() => new UpdateExperienceUseCase(api), [api]);

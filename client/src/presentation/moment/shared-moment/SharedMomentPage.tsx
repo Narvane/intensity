@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
+import { getApiClient } from '@adapters/http/apiClient';
 import { createDefaultSessionAdapter } from '@adapters/session/SessionPreferencesAdapter';
 import { useExperienceBoxSessionEnd } from '@app/useExperienceBoxSessionEnd';
 import { useNavigation } from '@app/NavigationProvider';
@@ -39,7 +40,7 @@ export function SharedMomentPage() {
   const { navigation } = useNavigation();
   const endExperienceBoxSession = useExperienceBoxSessionEnd();
   const navigate = useNavigate();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const experienceBoxSessionPort = useMemo(() => createDefaultSessionAdapter(), []);
   const listExperiences = useMemo(() => new ListExperiencesUseCase(api), [api]);
   const drawUseCase = useMemo(() => new ExecuteDrawUseCase(), []);

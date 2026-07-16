@@ -1,8 +1,8 @@
-import type { ApiClient } from '@adapters/api/ApiClient';
+import type { HttpPort } from '@domain/http/HttpPort';
 import type { Experience, ExperienceInput } from '@domain/experience/experienceTypes';
 
 export class ListExperiencesUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(boxId: string, token: string): Promise<Experience[]> {
     return this.api.get<Experience[]>(`/v1/boxes/${boxId}/experiences`, token);
@@ -10,7 +10,7 @@ export class ListExperiencesUseCase {
 }
 
 export class CreateExperienceUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(boxId: string, token: string, input: ExperienceInput): Promise<Experience> {
     return this.api.post<Experience>(`/v1/boxes/${boxId}/experiences`, input, token);
@@ -18,7 +18,7 @@ export class CreateExperienceUseCase {
 }
 
 export class CreateExperiencesBatchUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(boxId: string, token: string, inputs: ExperienceInput[]): Promise<Experience[]> {
     return this.api.post<Experience[]>(
@@ -30,7 +30,7 @@ export class CreateExperiencesBatchUseCase {
 }
 
 export class UpdateExperienceUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(experienceId: string, token: string, input: ExperienceInput): Promise<Experience> {
     return this.api.put<Experience>(`/v1/experiences/${experienceId}`, input, token);
@@ -38,7 +38,7 @@ export class UpdateExperienceUseCase {
 }
 
 export class DeleteExperienceUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: HttpPort) {}
 
   execute(experienceId: string, token: string): Promise<void> {
     return this.api.delete(`/v1/experiences/${experienceId}`, token);

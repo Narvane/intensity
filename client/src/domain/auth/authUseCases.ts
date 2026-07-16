@@ -1,53 +1,17 @@
-import type { ApiClient } from '@adapters/api/ApiClient';
+import type { AuthApiPort, LoginInput, RegisterInput } from '@domain/auth/AuthApiPort';
 import type { SessionPort, SessionState } from '@domain/session/SessionPort';
 import { createExperienceBoxSessionMeta } from '@domain/session/experienceBoxSessionPolicy';
 
-export interface LoginInput {
-  email: string;
-  password: string;
-}
-
-export interface RegisterInput {
-  displayName: string;
-  email: string;
-  password: string;
-}
-
-interface AuthSessionResponse {
-  token: string;
-  participantId: string;
-  displayName: string;
-  accessMode: 'EXPERIENCES';
-}
-
-interface RegisterResponse {
-  id: string;
-  displayName: string;
-  email: string;
-  token: string;
-}
-
-interface GroupMemberResponse {
-  participantId: string;
-  displayName: string;
-}
-
-interface JointAuthSessionResponse {
-  token: string;
-  groupId: string;
-  groupIds: string[];
-  members: GroupMemberResponse[];
-  accessMode: 'EXPERIENCE_BOX';
-}
+export type { LoginInput, RegisterInput } from '@domain/auth/AuthApiPort';
 
 export class RegisterParticipantUseCase {
   constructor(
-    private readonly api: ApiClient,
+    private readonly authApi: AuthApiPort,
     private readonly sessionPort: SessionPort,
   ) {}
 
   async execute(input: RegisterInput): Promise<SessionState> {
-    const response = await this.api.post<RegisterResponse>('/v1/participants', input);
+    const response = await this.authApi.register(input);
     const session: SessionState = {
       token: response.token,
       accessMode: 'EXPERIENCES',
@@ -62,12 +26,12 @@ export class RegisterParticipantUseCase {
 
 export class LoginExperiencesUseCase {
   constructor(
-    private readonly api: ApiClient,
+    private readonly authApi: AuthApiPort,
     private readonly sessionPort: SessionPort,
   ) {}
 
   async execute(input: LoginInput): Promise<SessionState> {
-    const response = await this.api.post<AuthSessionResponse>('/v1/auth/login', input);
+    const response = await this.authApi.login(input);
     const session: SessionState = {
       token: response.token,
       accessMode: 'EXPERIENCES',
@@ -89,12 +53,12 @@ export interface LoginExperienceBoxInput {
 
 export class LoginExperienceBoxUseCase {
   constructor(
-    private readonly api: ApiClient,
+    private readonly authApi: AuthApiPort,
     private readonly sessionPort: SessionPort,
   ) {}
 
   async execute(input: LoginExperienceBoxInput): Promise<SessionState> {
-    const response = await this.api.post<JointAuthSessionResponse>('/v1/auth/group', {
+    const response = await this.authApi.loginGroup({
       credentials: input.credentials,
       reuseSessionToken: input.reuseSessionToken,
       targetGroupId: input.targetGroupId,
@@ -137,17 +101,17 @@ export class ValidateInviteCodeFormatUseCase {
 }
 
 export class RequestPasswordResetUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly authApi: AuthApiPort) {}
 
   async execute(email: string): Promise<void> {
-    await this.api.post<void>('/v1/auth/forgot-password', { email: email.trim() });
+    await this.authApi.forgotPassword(email.trim());
   }
 }
 
 export class ResetPasswordUseCase {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly authApi: AuthApiPort) {}
 
   async execute(token: string, password: string): Promise<void> {
-    await this.api.post<void>('/v1/auth/reset-password', { token, password });
+    await this.authApi.resetPassword(token, password);
   }
 }

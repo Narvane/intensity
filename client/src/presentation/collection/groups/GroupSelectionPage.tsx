@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pencil, UsersRound } from 'lucide-react';
-import { ApiError, createApiClient } from '@adapters/api/ApiClient';
+import { ApiError } from '@domain/http/ApiError';
+import { getApiClient } from '@adapters/http/apiClient';
 import { useToast } from '@app/ToastProvider';
 import { useNavigation } from '@app/NavigationProvider';
 import { useSession } from '@app/SessionProvider';
@@ -31,7 +32,7 @@ export function GroupSelectionPage() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const { setNavigation } = useNavigation();
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => getApiClient(), []);
   const listGroups = useMemo(() => new ListGroupsUseCase(api), [api]);
   const createGroup = useMemo(() => new CreateGroupUseCase(api), [api]);
   const updateGroup = useMemo(() => new UpdateGroupUseCase(api), [api]);

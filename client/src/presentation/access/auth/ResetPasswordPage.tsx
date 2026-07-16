@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { createApiClient } from '@app/SessionProvider';
+import { createAuthApi } from '@adapters/auth/AuthApiAdapter';
 import {
   isValidAuthPasswordLength,
   resolveAuthError,
@@ -17,7 +17,7 @@ export function ResetPasswordPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('t')?.trim() ?? '';
-  const api = useMemo(() => createApiClient(), []);
+  const api = useMemo(() => createAuthApi(), []);
   const resetPassword = useMemo(() => new ResetPasswordUseCase(api), [api]);
 
   const [password, setPassword] = useState('');

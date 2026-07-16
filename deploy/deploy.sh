@@ -20,6 +20,8 @@ fi
 
 echo "Deploying ${API_IMAGE}..."
 docker compose -f docker-compose.prod.yml pull api
-docker compose -f docker-compose.prod.yml up -d
+# Force recreate so .env changes (Resend, APP_BASE_URL, JWT, etc.) actually apply.
+docker compose -f docker-compose.prod.yml up -d --force-recreate api proxy
 
 echo "Stack restarted. Verify: curl -fsS https://${API_DOMAIN}/actuator/health"
+echo "Reset page: curl -fsS -o /dev/null -w '%{http_code}\n' \"https://${APP_DOMAIN}/auth/reset-password\""

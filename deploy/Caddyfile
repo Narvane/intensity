@@ -13,6 +13,14 @@
 		file_server
 	}
 
+	# Password-reset landing (email links). Production app domain has no SPA.
+	@passwordReset path /auth/reset-password*
+	handle @passwordReset {
+		root * /srv/deep-link
+		rewrite * /auth/reset-password.html
+		file_server
+	}
+
 	respond "Intensity invite links open in the mobile app." 404
 }
 

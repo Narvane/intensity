@@ -50,10 +50,13 @@ Client stores token locally for subsequent requests
 ```
 Client POST /v1/auth/forgot-password { email }
   ← 204 (always; email sent only when the account exists)
-API → Resend → participant inbox with /auth/reset-password?t={token}
+API → Resend → participant inbox with {APP_BASE}/auth/reset-password?t={token}
+Browser or app opens the reset page (static page on APP_DOMAIN; Capacitor deep link when installed)
 Client POST /v1/auth/reset-password { token, password }
   ← 204
 ```
+
+`APP_DOMAIN` hosts deep-link `/.well-known` files and the **static** password-reset page. It does not host the full React SPA (store client is Capacitor; the public demo SPA is on the demo host).
 
 **Joint login (Experience Box)**
 

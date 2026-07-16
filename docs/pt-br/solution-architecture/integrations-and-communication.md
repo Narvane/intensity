@@ -50,10 +50,13 @@ Cliente armazena token localmente para requisições subsequentes
 ```
 Cliente POST /v1/auth/forgot-password { email }
   ← 204 (sempre; e-mail enviado só se a conta existir)
-API → Resend → caixa de entrada com /auth/reset-password?t={token}
+API → Resend → caixa de entrada com {APP_BASE}/auth/reset-password?t={token}
+Navegador ou app abre a página de reset (página estática no APP_DOMAIN; deep link Capacitor quando instalado)
 Cliente POST /v1/auth/reset-password { token, password }
   ← 204
 ```
+
+O `APP_DOMAIN` hospeda `/.well-known` de deep link e a página **estática** de redefinição de senha. Não hospeda o SPA React completo (cliente de loja é Capacitor; o SPA demo público fica no host demo).
 
 **Login conjunto (Caixa de Experiências)**
 

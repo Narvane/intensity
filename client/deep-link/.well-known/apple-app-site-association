@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "REPLACE_WITH_APPLE_TEAM_ID.com.intensity.app",
-        "paths": ["/join", "/join/*"]
+        "paths": ["/join", "/join/*", "/auth/reset-password", "/auth/reset-password/*"]
       }
     ]
   }

@@ -135,7 +135,7 @@ Internet :443
     ↓
   Caddy (proxy, production compose)
     ├── api.<domain>       → intensity-api:8080
-    ├── app.<domain>       → /.well-known/* (deep links)
+    ├── app.<domain>       → /.well-known/* (deep links) + /auth/reset-password (static reset page)
     ├── demo-intensity-api.<domain>  → intensity-demo-api:8080   (optional)
     └── demo-intensity.<domain>      → intensity-demo-web:80     (optional)
 Postgres prod + Postgres demo (separate compose projects / volumes)

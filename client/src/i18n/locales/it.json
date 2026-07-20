@@ -95,7 +95,8 @@
     },
     "register": {
       "title": "Crea account",
-      "submit": "Registrati"
+      "submit": "Registrati",
+      "privacyConsent": "Ho letto e accetto l'"
     },
     "invite": {
       "title": "Unisciti via invito",
@@ -137,10 +138,12 @@
       "invalidInviteCode": "Inserisci un codice invito valido di 6 caratteri.",
       "invalidResetToken": "Questo link di reimpostazione non è valido o è scaduto.",
       "emailDeliveryFailed": "Impossibile inviare l'email. Riprova più tardi.",
+      "privacyConsentRequired": "Devi accettare l'informativa sulla privacy per registrarti.",
       "groupMembershipConflict": "Queste credenziali appartengono a gruppi diversi. Accedi con membri dello stesso gruppo.",
       "groupTargetMismatch": "Queste credenziali non appartengono al gruppo selezionato.",
       "groupRequiresAllMembers": "Tutti i membri del gruppo devono accedere per questa sessione."
-    }
+    },
+    "privacyPolicy": "Informativa sulla privacy"
   },
   "unknownSession": {
     "title": "Sessione non riconosciuta",

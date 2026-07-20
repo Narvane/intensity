@@ -27,9 +27,11 @@ import {
   resolvePostAuthDestination,
 } from '@domain/invite/pendingInvite';
 import { consumeExperienceBoxSessionEndReason } from '@domain/session/experienceBoxSessionEnd';
+import { resolvePrivacyPolicyUrl } from '@domain/legal/privacyPolicyUrl';
 import { useI18n } from '../../../i18n/I18nContext';
 import { AuthModeIntro } from '../../components/chrome/AuthModeIntro';
 import { Button } from '../../components/controls/Button';
+import { Checkbox } from '../../components/controls/Checkbox';
 import { DemoAuthShortcuts } from '../../components/feedback/DemoAuthShortcuts';
 import {
   JointLoginEmailInput,
@@ -55,7 +57,8 @@ interface CredentialForm {
 const emptyCredential = (): CredentialForm => ({ email: '', password: '' });
 
 export function AuthPage() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
+  const privacyPolicyUrl = useMemo(() => resolvePrivacyPolicyUrl(locale), [locale]);
   const navigate = useNavigate();
   const location = useLocation();
   const authState = (location.state as AuthLocationState | null) ?? {};
@@ -94,6 +97,7 @@ export function AuthPage() {
     confirmPassword: '',
   });
   const [inviteCode, setInviteCode] = useState('');
+  const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
   const [pendingReturnPath, setPendingReturnPath] = useState<string | null>(null);
 
   const hasExperiencesSession = experiencesSession?.accessMode === 'EXPERIENCES';
@@ -305,6 +309,10 @@ export function AuthPage() {
       !registerForm.confirmPassword
     ) {
       setError(t('auth.errors.requiredFields'));
+      return;
+    }
+    if (!acceptedPrivacyPolicy) {
+      setError(t('auth.errors.privacyConsentRequired'));
       return;
     }
     if (!isValidAuthPasswordLength(registerForm.password)) {
@@ -600,7 +608,30 @@ export function AuthPage() {
                   }
                 />
               </label>
-              <Button fullWidth disabled={loading} onClick={() => void submitRegister()}>
+              <label className={styles.consent} htmlFor="auth-privacy-consent">
+                <Checkbox
+                  id="auth-privacy-consent"
+                  accent="coral"
+                  checked={acceptedPrivacyPolicy}
+                  onChange={(event) => setAcceptedPrivacyPolicy(event.target.checked)}
+                />
+                <span className={styles.consentLabel}>
+                  {t('auth.register.privacyConsent')}{' '}
+                  <a
+                    href={privacyPolicyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    {t('auth.privacyPolicy')}
+                  </a>
+                </span>
+              </label>
+              <Button
+                fullWidth
+                disabled={loading || !acceptedPrivacyPolicy}
+                onClick={() => void submitRegister()}
+              >
                 {loading ? t('auth.loading') : t('auth.register.submit')}
               </Button>
             </>
@@ -636,6 +667,12 @@ export function AuthPage() {
               {error}
             </p>
           )}
+
+          <p className={styles.legalLink}>
+            <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer">
+              {t('auth.privacyPolicy')}
+            </a>
+          </p>
         </section>
       </main>
       <div className={styles.bottomSafePad} aria-hidden="true" />

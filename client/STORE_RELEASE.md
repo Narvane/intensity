@@ -31,7 +31,7 @@ This runs `vite build --mode production` (bakes `VITE_API_URL`) and `cap sync` w
 2. **Build → Generate Signed Bundle / APK** → Android App Bundle (AAB)
 3. Upload to Play Console (internal testing track first)
 4. Confirm App Links: **Digital Asset Links** verified for `app.<domain>/join`
-5. Store listing: screenshots, privacy policy URL, content rating
+5. Store listing: screenshots, privacy policy URL (`https://app.<domain>/privacy`), content rating
 
 ## 4. iOS (App Store Connect)
 

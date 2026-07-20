@@ -1,14 +1,27 @@
 /// <reference types="vitest/config" />
+import fs from 'node:fs';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
+
+function copyPrivacyPolicyPlugin() {
+  return {
+    name: 'copy-privacy-policy',
+    closeBundle() {
+      const source = path.resolve(__dirname, 'deep-link/privacy/index.html');
+      const destination = path.resolve(__dirname, 'dist/privacy/index.html');
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      fs.copyFileSync(source, destination);
+    },
+  };
+}
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const apiProxyTarget = env.VITE_API_PROXY_TARGET?.trim();
 
   return {
-    plugins: [react()],
+    plugins: [react(), copyPrivacyPolicyPlugin()],
     resolve: {
       alias: {
         '@app': path.resolve(__dirname, 'src/app'),

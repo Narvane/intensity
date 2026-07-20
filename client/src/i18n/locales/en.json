@@ -95,7 +95,8 @@
     },
     "register": {
       "title": "Create account",
-      "submit": "Register"
+      "submit": "Register",
+      "privacyConsent": "I have read and agree to the"
     },
     "invite": {
       "title": "Join via invite",
@@ -137,10 +138,12 @@
       "invalidInviteCode": "Enter a valid 6-character invite code.",
       "invalidResetToken": "This password reset link is invalid or has expired.",
       "emailDeliveryFailed": "Could not send the email. Try again later.",
+      "privacyConsentRequired": "You must accept the privacy policy to create an account.",
       "groupMembershipConflict": "These credentials belong to different groups. Sign in with members of the same group.",
       "groupTargetMismatch": "These credentials do not belong to the selected group.",
       "groupRequiresAllMembers": "All group members must sign in for this session."
-    }
+    },
+    "privacyPolicy": "Privacy policy"
   },
   "unknownSession": {
     "title": "Unrecognized session",

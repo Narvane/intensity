@@ -95,7 +95,8 @@
     },
     "register": {
       "title": "Criar conta",
-      "submit": "Cadastrar"
+      "submit": "Cadastrar",
+      "privacyConsent": "Li e concordo com a"
     },
     "invite": {
       "title": "Entrar via convite",
@@ -137,10 +138,12 @@
       "invalidInviteCode": "Informe um código de convite válido com 6 caracteres.",
       "invalidResetToken": "Este link de redefinição é inválido ou expirou.",
       "emailDeliveryFailed": "Não foi possível enviar o email. Tente novamente mais tarde.",
+      "privacyConsentRequired": "Você precisa aceitar a política de privacidade para se cadastrar.",
       "groupMembershipConflict": "Essas credenciais pertencem a grupos diferentes. Entre com membros do mesmo grupo.",
       "groupTargetMismatch": "Essas credenciais não pertencem ao grupo selecionado.",
       "groupRequiresAllMembers": "Todos os participantes do grupo precisam entrar nesta sessão."
-    }
+    },
+    "privacyPolicy": "Política de privacidade"
   },
   "unknownSession": {
     "title": "Ops, perdemos sua sessão",

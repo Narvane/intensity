@@ -21,6 +21,13 @@
 		file_server
 	}
 
+	@privacy path /privacy /privacy-policy /privacy/*
+	handle @privacy {
+		root * /srv/deep-link
+		rewrite * /privacy/index.html
+		file_server
+	}
+
 	respond "Intensity invite links open in the mobile app." 404
 }
 

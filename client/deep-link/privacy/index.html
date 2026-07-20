@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Intensity privacy policy — how we collect, use, and protect your data." />
+    <title>Intensity — Privacy Policy</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f3ee;
+        --surface: #fffdf9;
+        --text: #2b2118;
+        --muted: #7a6a5c;
+        --coral: #ff6b3d;
+        --border: #e7ddd2;
+        --link: #7b5cf6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: radial-gradient(circle at top, #fff7ef, var(--bg));
+        color: var(--text);
+        line-height: 1.55;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 253, 249, 0.92);
+        border-bottom: 1px solid var(--border);
+      }
+      .header-inner,
+      main {
+        width: min(100%, 42rem);
+        margin: 0 auto;
+        padding: 1rem 1.25rem 2.5rem;
+      }
+      .header-inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding-bottom: 1rem;
+      }
+      .brand {
+        font-weight: 800;
+        font-size: 1.1rem;
+      }
+      .lang-switch {
+        display: flex;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+      .lang-switch button {
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        font: inherit;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+      .lang-switch button[aria-pressed="true"] {
+        background: var(--coral);
+        border-color: var(--coral);
+        color: #fff;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0 0 0.35rem;
+        font-size: clamp(1.6rem, 4vw, 2rem);
+        line-height: 1.2;
+      }
+      .updated {
+        margin: 0 0 1.5rem;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      article section {
+        margin-bottom: 1.35rem;
+      }
+      h2 {
+        margin: 0 0 0.45rem;
+        font-size: 1.08rem;
+      }
+      p,
+      li {
+        margin: 0 0 0.65rem;
+        color: var(--text);
+      }
+      ul {
+        margin: 0 0 0.65rem;
+        padding-left: 1.25rem;
+      }
+      a {
+        color: var(--link);
+      }
+      .contact {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 0.85rem;
+        padding: 1rem 1.1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">Intensity</div>
+        <nav class="lang-switch" aria-label="Language">
+          <button type="button" data-locale="en" aria-pressed="false">English</button>
+          <button type="button" data-locale="pt-BR" aria-pressed="false">Português</button>
+          <button type="button" data-locale="it" aria-pressed="false">Italiano</button>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <article id="content"></article>
+    </main>
+    <script>
+      (function () {
+        const CONTACT_EMAIL = "privacy@narvane.com.br";
+        const LAST_UPDATED = "2026-07-20";
+
+        const copy = {
+          en: {
+            htmlLang: "en",
+            title: "Privacy Policy",
+            updated: "Last updated: {{date}}",
+            sections: [
+              {
+                heading: "1. Who we are",
+                paragraphs: [
+                  'Intensity ("we", "us", "our") is a mobile application that helps couples and friend groups collect shared experience ideas, draw them together, and live meaningful moments with presence.',
+                  "The data controller for the Intensity app is Narvane. Android package: br.com.narvane.intensity.",
+                ],
+              },
+              {
+                heading: "2. Scope",
+                paragraphs: [
+                  "This policy describes how we handle personal data when you use the Intensity mobile app and related web pages on our app domain (for example, invite links and password reset).",
+                  "It does not cover third-party websites or services you may open outside the app.",
+                ],
+              },
+              {
+                heading: "3. Data we collect",
+                paragraphs: ["We collect only the data needed to operate the product:"],
+                list: [
+                  "Account data: display name, email address, and a password stored only as a secure hash on our servers.",
+                  "User content you create: group names and colors, boxes, experience descriptions and reflections, intensity ratings, invite codes and link tokens you generate or accept.",
+                  "Authentication data: session tokens (JWT) issued after sign-in.",
+                  "Password reset data: single-use reset tokens and their expiry when you request a password reset.",
+                  "Device-local preferences: UI language, onboarding completion status, session context, and optional navigation restore data stored on your device through the app's local storage (Capacitor Preferences). Draw results and draw history are not stored on our servers.",
+                ],
+              },
+              {
+                heading: "4. Data we do not collect",
+                paragraphs: ["Intensity is designed without advertising or behavioral tracking. We do not collect:"],
+                list: [
+                  "Health, fitness, or biometric data",
+                  "Precise location",
+                  "Contacts from your address book",
+                  "Analytics or advertising identifiers",
+                  "Payment or billing information",
+                  "Social network profile data (we do not offer social login)",
+                ],
+              },
+              {
+                heading: "5. How we use your data",
+                paragraphs: ["We use personal data to:"],
+                list: [
+                  "Create and authenticate your account",
+                  "Sync your groups, boxes, experiences, and invites across devices",
+                  "Send password-reset emails when you request them",
+                  "Enforce optional registration allowlists configured by the operator",
+                  "Keep the service secure and respond to support requests",
+                ],
+                afterList: ["We do not use your data for advertising or sell it to third parties."],
+              },
+              {
+                heading: "6. Legal bases (where applicable)",
+                paragraphs: [
+                  "Depending on your location, we rely on: performance of a contract (providing the app you signed up for), legitimate interests (security and abuse prevention), and your consent where required (for example, optional communications).",
+                ],
+              },
+              {
+                heading: "7. Sharing and processors",
+                paragraphs: [
+                  "We do not sell personal data. We share data only with service providers that help us run Intensity:",
+                ],
+                list: [
+                  "Email delivery (Resend): to send password-reset messages to the address you provide. Reset links point to our app domain.",
+                  "Infrastructure hosting: our API and database run on servers we operate to store account and content data you submit.",
+                ],
+                afterList: [
+                  "These providers process data on our instructions and only for the purposes described in this policy.",
+                ],
+              },
+              {
+                heading: "8. International transfers",
+                paragraphs: [
+                  "Our infrastructure may be located outside your country. When data is transferred internationally, we apply appropriate safeguards consistent with applicable law.",
+                ],
+              },
+              {
+                heading: "9. Retention",
+                paragraphs: [
+                  "We keep your account and content while your account is active and you remain a member of groups you created or joined.",
+                  "When you leave a group, your authored experiences in that group are removed. When the last member leaves a group, the group, its boxes, experiences, and pending invites are deleted.",
+                  "Password-reset tokens expire and are invalidated after use. Session tokens expire according to our security settings.",
+                  "Device-local preferences remain on your device until you clear app data or uninstall the app.",
+                ],
+              },
+              {
+                heading: "10. Security",
+                paragraphs: [
+                  "Passwords are stored using one-way hashing. API access uses authenticated tokens over HTTPS. We apply reasonable technical and organizational measures to protect data, but no method of transmission or storage is completely secure.",
+                ],
+              },
+              {
+                heading: "11. Your rights",
+                paragraphs: [
+                  "Depending on applicable law (including LGPD in Brazil and GDPR in the European Economic Area), you may have the right to access, correct, delete, or export your personal data, restrict or object to certain processing, and withdraw consent where processing is consent-based.",
+                  "You can delete content you authored inside the app and leave groups. To request account deletion or exercise other rights, contact us using the details below.",
+                ],
+              },
+              {
+                heading: "12. Children",
+                paragraphs: [
+                  "Intensity is not directed at children under 13 (or the minimum age required in your jurisdiction). We do not knowingly collect personal data from children. If you believe a child has provided us data, contact us so we can delete it.",
+                ],
+              },
+              {
+                heading: "13. Changes to this policy",
+                paragraphs: [
+                  "We may update this policy from time to time. We will revise the \"Last updated\" date at the top. Continued use of Intensity after changes means you accept the updated policy.",
+                ],
+              },
+              {
+                heading: "14. Contact",
+                paragraphs: [
+                  "Questions about this policy or your personal data:",
+                  '<a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + "</a>",
+                ],
+                contact: true,
+              },
+            ],
+          },
+          "pt-BR": {
+            htmlLang: "pt-BR",
+            title: "Política de Privacidade",
+            updated: "Última atualização: {{date}}",
+            sections: [
+              {
+                heading: "1. Quem somos",
+                paragraphs: [
+                  'O Intensity ("nós", "nosso") é um aplicativo móvel que ajuda casais e grupos de amigos a reunir ideias de experiências compartilhadas, sortear uma delas juntos e viver momentos significativos com presença.',
+                  "O controlador dos dados pessoais do app Intensity é a Narvane. Pacote Android: br.com.narvane.intensity.",
+                ],
+              },
+              {
+                heading: "2. Escopo",
+                paragraphs: [
+                  "Esta política descreve como tratamos dados pessoais quando você usa o app Intensity e páginas web relacionadas em nosso domínio do app (por exemplo, links de convite e redefinição de senha).",
+                  "Ela não se aplica a sites ou serviços de terceiros que você abrir fora do app.",
+                ],
+              },
+              {
+                heading: "3. Dados que coletamos",
+                paragraphs: ["Coletamos apenas os dados necessários para operar o produto:"],
+                list: [
+                  "Dados de conta: nome de exibição, endereço de e-mail e senha armazenada somente como hash seguro em nossos servidores.",
+                  "Conteúdo que você cria: nomes e cores de grupos, caixas, descrições e reflexões de experiências, classificações de intensidade, códigos de convite e tokens de link que você gera ou aceita.",
+                  "Dados de autenticação: tokens de sessão (JWT) emitidos após o login.",
+                  "Dados de redefinição de senha: tokens de uso único e validade quando você solicita a redefinição.",
+                  "Preferências locais no dispositivo: idioma da interface, conclusão do onboarding, contexto de sessão e dados opcionais de restauração de navegação armazenados no dispositivo pelo app (Capacitor Preferences). Resultados de sorteio e histórico de sorteios não são armazenados em nossos servidores.",
+                ],
+              },
+              {
+                heading: "4. Dados que não coletamos",
+                paragraphs: ["O Intensity foi projetado sem publicidade ou rastreamento comportamental. Não coletamos:"],
+                list: [
+                  "Dados de saúde, fitness ou biométricos",
+                  "Localização precisa",
+                  "Contatos da sua agenda",
+                  "Identificadores de analytics ou publicidade",
+                  "Informações de pagamento ou cobrança",
+                  "Dados de perfis em redes sociais (não oferecemos login social)",
+                ],
+              },
+              {
+                heading: "5. Como usamos seus dados",
+                paragraphs: ["Usamos dados pessoais para:"],
+                list: [
+                  "Criar e autenticar sua conta",
+                  "Sincronizar grupos, caixas, experiências e convites entre dispositivos",
+                  "Enviar e-mails de redefinição de senha quando solicitado",
+                  "Aplicar listas de permissão de registro opcionais configuradas pelo operador",
+                  "Manter a segurança do serviço e responder a solicitações de suporte",
+                ],
+                afterList: ["Não usamos seus dados para publicidade nem os vendemos a terceiros."],
+              },
+              {
+                heading: "6. Bases legais (quando aplicável)",
+                paragraphs: [
+                  "Conforme sua localização, nos baseamos em: execução de contrato (prestação do app para o qual você se cadastrou), interesses legítimos (segurança e prevenção de abuso) e seu consentimento quando exigido (por exemplo, comunicações opcionais).",
+                ],
+              },
+              {
+                heading: "7. Compartilhamento e operadores",
+                paragraphs: [
+                  "Não vendemos dados pessoais. Compartilhamos dados apenas com prestadores que nos ajudam a operar o Intensity:",
+                ],
+                list: [
+                  "Envio de e-mail (Resend): para enviar mensagens de redefinição de senha ao endereço informado. Os links apontam para nosso domínio do app.",
+                  "Hospedagem de infraestrutura: nossa API e banco de dados rodam em servidores que operamos para armazenar conta e conteúdo enviados por você.",
+                ],
+                afterList: [
+                  "Esses prestadores tratam dados conforme nossas instruções e apenas para os fins descritos nesta política.",
+                ],
+              },
+              {
+                heading: "8. Transferências internacionais",
+                paragraphs: [
+                  "Nossa infraestrutura pode estar localizada fora do seu país. Quando houver transferência internacional, aplicamos salvaguardas adequadas conforme a legislação aplicável.",
+                ],
+              },
+              {
+                heading: "9. Retenção",
+                paragraphs: [
+                  "Mantemos sua conta e conteúdo enquanto a conta estiver ativa e você permanecer em grupos que criou ou entrou.",
+                  "Ao sair de um grupo, suas experiências autorais naquele grupo são removidas. Quando o último membro sai, o grupo, suas caixas, experiências e convites pendentes são excluídos.",
+                  "Tokens de redefinição de senha expiram e são invalidados após o uso. Tokens de sessão expiram conforme nossas configurações de segurança.",
+                  "Preferências locais permanecem no dispositivo até você limpar os dados do app ou desinstalá-lo.",
+                ],
+              },
+              {
+                heading: "10. Segurança",
+                paragraphs: [
+                  "Senhas são armazenadas com hash unidirecional. O acesso à API usa tokens autenticados via HTTPS. Adotamos medidas técnicas e organizacionais razoáveis para proteger os dados, mas nenhum método de transmissão ou armazenamento é totalmente seguro.",
+                ],
+              },
+              {
+                heading: "11. Seus direitos",
+                paragraphs: [
+                  "Conforme a legislação aplicável (incluindo a LGPD no Brasil e o GDPR no Espaço Econômico Europeu), você pode ter direito de acessar, corrigir, excluir ou exportar seus dados pessoais, restringir ou se opor a certos tratamentos e revogar consentimento quando o tratamento for baseado nele.",
+                  "Você pode excluir conteúdo que criou no app e sair de grupos. Para solicitar exclusão de conta ou exercer outros direitos, entre em contato pelos canais abaixo.",
+                ],
+              },
+              {
+                heading: "12. Crianças",
+                paragraphs: [
+                  "O Intensity não se destina a crianças menores de 13 anos (ou a idade mínima exigida em sua jurisdição). Não coletamos intencionalmente dados de crianças. Se acreditar que uma criança nos forneceu dados, entre em contato para que possamos excluí-los.",
+                ],
+              },
+              {
+                heading: "13. Alterações nesta política",
+                paragraphs: [
+                  "Podemos atualizar esta política periodicamente. Revisaremos a data de \"Última atualização\" no topo. O uso contínuo do Intensity após alterações significa que você aceita a política atualizada.",
+                ],
+              },
+              {
+                heading: "14. Contato",
+                paragraphs: [
+                  "Dúvidas sobre esta política ou seus dados pessoais:",
+                  '<a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + "</a>",
+                ],
+                contact: true,
+              },
+            ],
+          },
+          it: {
+            htmlLang: "it",
+            title: "Informativa sulla Privacy",
+            updated: "Ultimo aggiornamento: {{date}}",
+            sections: [
+              {
+                heading: "1. Chi siamo",
+                paragraphs: [
+                  'Intensity ("noi", "nostro") è un\'app mobile che aiuta coppie e gruppi di amici a raccogliere idee di esperienze condivise, estrarne una insieme e vivere momenti significativi con presenza.',
+                  "Il titolare del trattamento dei dati per l'app Intensity è Narvane. Pacchetto Android: br.com.narvane.intensity.",
+                ],
+              },
+              {
+                heading: "2. Ambito",
+                paragraphs: [
+                  "Questa informativa descrive come trattiamo i dati personali quando usi l'app Intensity e le pagine web correlate sul nostro dominio app (ad esempio link di invito e reimpostazione password).",
+                  "Non copre siti o servizi di terze parti che apri fuori dall'app.",
+                ],
+              },
+              {
+                heading: "3. Dati che raccogliamo",
+                paragraphs: ["Raccogliamo solo i dati necessari per far funzionare il prodotto:"],
+                list: [
+                  "Dati account: nome visualizzato, indirizzo email e password memorizzata solo come hash sicuro sui nostri server.",
+                  "Contenuti creati da te: nomi e colori dei gruppi, scatole, descrizioni e riflessioni delle esperienze, valutazioni di intensità, codici invito e token di link che generi o accetti.",
+                  "Dati di autenticazione: token di sessione (JWT) emessi dopo l'accesso.",
+                  "Dati di reimpostazione password: token monouso e scadenza quando richiedi un reset.",
+                  "Preferenze locali sul dispositivo: lingua dell'interfaccia, completamento onboarding, contesto di sessione e dati opzionali di ripristino navigazione salvati sul dispositivo tramite l'app (Capacitor Preferences). I risultati dell'estrazione e la cronologia non sono memorizzati sui nostri server.",
+                ],
+              },
+              {
+                heading: "4. Dati che non raccogliamo",
+                paragraphs: ["Intensity è progettata senza pubblicità o tracciamento comportamentale. Non raccogliamo:"],
+                list: [
+                  "Dati sanitari, fitness o biometrici",
+                  "Posizione precisa",
+                  "Contatti dalla rubrica",
+                  "Identificatori analytics o pubblicitari",
+                  "Informazioni di pagamento o fatturazione",
+                  "Dati da profili social (non offriamo login social)",
+                ],
+              },
+              {
+                heading: "5. Come usiamo i tuoi dati",
+                paragraphs: ["Usiamo i dati personali per:"],
+                list: [
+                  "Creare e autenticare il tuo account",
+                  "Sincronizzare gruppi, scatole, esperienze e inviti tra dispositivi",
+                  "Inviare email di reimpostazione password quando richiesto",
+                  "Applicare liste di autorizzazione alla registrazione opzionali configurate dall'operatore",
+                  "Mantenere la sicurezza del servizio e rispondere alle richieste di supporto",
+                ],
+                afterList: ["Non usiamo i tuoi dati per pubblicità né li vendiamo a terzi."],
+              },
+              {
+                heading: "6. Basi giuridiche (ove applicabile)",
+                paragraphs: [
+                  "A seconda della tua ubicazione, ci basiamo su: esecuzione del contratto (fornitura dell'app per cui ti registri), interessi legittimi (sicurezza e prevenzione abusi) e il tuo consenso dove richiesto (ad esempio comunicazioni opzionali).",
+                ],
+              },
+              {
+                heading: "7. Condivisione e responsabili del trattamento",
+                paragraphs: [
+                  "Non vendiamo dati personali. Condividiamo dati solo con fornitori che ci aiutano a gestire Intensity:",
+                ],
+                list: [
+                  "Invio email (Resend): per inviare messaggi di reimpostazione password all'indirizzo fornito. I link puntano al nostro dominio app.",
+                  "Hosting infrastruttura: la nostra API e il database girano su server che gestiamo per memorizzare account e contenuti inviati da te.",
+                ],
+                afterList: [
+                  "Questi fornitori trattano i dati secondo le nostre istruzioni e solo per le finalità descritte in questa informativa.",
+                ],
+              },
+              {
+                heading: "8. Trasferimenti internazionali",
+                paragraphs: [
+                  "La nostra infrastruttura può trovarsi fuori dal tuo paese. In caso di trasferimento internazionale, applichiamo garanzie adeguate conformi alla legge applicabile.",
+                ],
+              },
+              {
+                heading: "9. Conservazione",
+                paragraphs: [
+                  "Conserviamo account e contenuti finché l'account è attivo e resti membro dei gruppi creati o a cui ti sei unito.",
+                  "Quando lasci un gruppo, le tue esperienze in quel gruppo vengono rimosse. Quando l'ultimo membro esce, gruppo, scatole, esperienze e inviti pendenti vengono eliminati.",
+                  "I token di reimpostazione password scadono e vengono invalidati dopo l'uso. I token di sessione scadono secondo le nostre impostazioni di sicurezza.",
+                  "Le preferenze locali restano sul dispositivo finché non cancelli i dati dell'app o la disinstalli.",
+                ],
+              },
+              {
+                heading: "10. Sicurezza",
+                paragraphs: [
+                  "Le password sono memorizzate con hash unidirezionale. L'accesso API usa token autenticati via HTTPS. Applichiamo misure tecniche e organizzative ragionevoli per proteggere i dati, ma nessun metodo di trasmissione o archiviazione è completamente sicuro.",
+                ],
+              },
+              {
+                heading: "11. I tuoi diritti",
+                paragraphs: [
+                  "A seconda della legge applicabile (inclusi LGPD in Brasile e GDPR nello Spazio Economico Europeo), puoi avere diritto ad accedere, correggere, eliminare o esportare i tuoi dati personali, limitare o opporti a certi trattamenti e revocare il consenso dove il trattamento si basa su di esso.",
+                  "Puoi eliminare contenuti creati nell'app e lasciare i gruppi. Per richiedere l'eliminazione dell'account o esercitare altri diritti, contattaci ai recapiti sotto.",
+                ],
+              },
+              {
+                heading: "12. Minori",
+                paragraphs: [
+                  "Intensity non è destinata a minori di 13 anni (o l'età minima richiesta nella tua giurisdizione). Non raccogliamo consapevolmente dati di minori. Se ritieni che un minore ci abbia fornito dati, contattaci per eliminarli.",
+                ],
+              },
+              {
+                heading: "13. Modifiche a questa informativa",
+                paragraphs: [
+                  "Possiamo aggiornare questa informativa periodicamente. Aggiorneremo la data in alto. L'uso continuato di Intensity dopo le modifiche significa che accetti l'informativa aggiornata.",
+                ],
+              },
+              {
+                heading: "14. Contatti",
+                paragraphs: [
+                  "Domande su questa informativa o sui tuoi dati personali:",
+                  '<a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + "</a>",
+                ],
+                contact: true,
+              },
+            ],
+          },
+        };
+
+        function normalizeLocale(value) {
+          if (!value) return "en";
+          const lower = String(value).toLowerCase();
+          if (lower.startsWith("pt")) return "pt-BR";
+          if (lower.startsWith("it")) return "it";
+          return "en";
+        }
+
+        function detectLocale() {
+          const params = new URLSearchParams(window.location.search);
+          const requested = params.get("lang") || params.get("locale");
+          if (requested) {
+            return normalizeLocale(requested);
+          }
+          const candidates = navigator.languages?.length
+            ? navigator.languages
+            : [navigator.language];
+          for (const candidate of candidates) {
+            const normalized = normalizeLocale(candidate);
+            if (copy[normalized]) return normalized;
+          }
+          return "en";
+        }
+
+        function formatDate(locale) {
+          try {
+            return new Intl.DateTimeFormat(locale, {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }).format(new Date(LAST_UPDATED + "T12:00:00"));
+          } catch (_) {
+            return LAST_UPDATED;
+          }
+        }
+
+        function render(locale) {
+          const page = copy[locale] || copy.en;
+          document.documentElement.lang = page.htmlLang;
+          document.title = "Intensity — " + page.title;
+
+          const article = document.getElementById("content");
+          article.innerHTML = "";
+
+          const h1 = document.createElement("h1");
+          h1.textContent = page.title;
+          article.appendChild(h1);
+
+          const updated = document.createElement("p");
+          updated.className = "updated";
+          updated.textContent = page.updated.replace("{{date}}", formatDate(locale));
+          article.appendChild(updated);
+
+          for (const section of page.sections) {
+            const block = document.createElement("section");
+            if (section.contact) block.className = "contact";
+
+            const h2 = document.createElement("h2");
+            h2.textContent = section.heading;
+            block.appendChild(h2);
+
+            for (const paragraph of section.paragraphs || []) {
+              const p = document.createElement("p");
+              p.innerHTML = paragraph;
+              block.appendChild(p);
+            }
+
+            if (section.list) {
+              const ul = document.createElement("ul");
+              for (const item of section.list) {
+                const li = document.createElement("li");
+                li.textContent = item;
+                ul.appendChild(li);
+              }
+              block.appendChild(ul);
+            }
+
+            for (const paragraph of section.afterList || []) {
+              const p = document.createElement("p");
+              p.textContent = paragraph;
+              block.appendChild(p);
+            }
+
+            article.appendChild(block);
+          }
+
+          document.querySelectorAll(".lang-switch button").forEach(function (button) {
+            const active = button.getAttribute("data-locale") === locale;
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+        }
+
+        let currentLocale = detectLocale();
+        render(currentLocale);
+
+        document.querySelectorAll(".lang-switch button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            currentLocale = button.getAttribute("data-locale");
+            const url = new URL(window.location.href);
+            url.searchParams.set("lang", currentLocale);
+            window.history.replaceState({}, "", url);
+            render(currentLocale);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

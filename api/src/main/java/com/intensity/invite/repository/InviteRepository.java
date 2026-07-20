@@ -17,4 +17,8 @@ public interface InviteRepository extends JpaRepository<Invite, UUID> {
 	Optional<Invite> findByLinkToken(UUID linkToken);
 
 	List<Invite> findByGroup_IdAndStatusOrderByCreatedAtDesc(UUID groupId, InviteStatus status);
+
+	void deleteByCreator_Id(UUID creatorId);
+
+	void deleteByAcceptor_Id(UUID acceptorId);
 }

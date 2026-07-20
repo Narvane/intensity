@@ -4,14 +4,18 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 
-function copyPrivacyPolicyPlugin() {
+function copyDeepLinkPagesPlugin() {
+  const pages = ['privacy/index.html', 'delete-account/index.html'];
+
   return {
-    name: 'copy-privacy-policy',
+    name: 'copy-deep-link-pages',
     closeBundle() {
-      const source = path.resolve(__dirname, 'deep-link/privacy/index.html');
-      const destination = path.resolve(__dirname, 'dist/privacy/index.html');
-      fs.mkdirSync(path.dirname(destination), { recursive: true });
-      fs.copyFileSync(source, destination);
+      for (const page of pages) {
+        const source = path.resolve(__dirname, 'deep-link', page);
+        const destination = path.resolve(__dirname, 'dist', page);
+        fs.mkdirSync(path.dirname(destination), { recursive: true });
+        fs.copyFileSync(source, destination);
+      }
     },
   };
 }
@@ -21,7 +25,7 @@ export default defineConfig(({ mode }) => {
   const apiProxyTarget = env.VITE_API_PROXY_TARGET?.trim();
 
   return {
-    plugins: [react(), copyPrivacyPolicyPlugin()],
+    plugins: [react(), copyDeepLinkPagesPlugin()],
     resolve: {
       alias: {
         '@app': path.resolve(__dirname, 'src/app'),

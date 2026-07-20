@@ -28,6 +28,13 @@
 		file_server
 	}
 
+	@deleteAccount path /delete-account /delete-account/*
+	handle @deleteAccount {
+		root * /srv/deep-link
+		rewrite * /delete-account/index.html
+		file_server
+	}
+
 	respond "Intensity invite links open in the mobile app." 404
 }
 

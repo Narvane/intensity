@@ -130,6 +130,29 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
+  /v1/auth/delete-account:
+    post:
+      tags: [Auth]
+      summary: Permanently delete account and associated data
+      description: |
+        Authenticates with email and password, then removes the participant from all
+        groups, deletes authored experiences and invites, and deletes the account.
+      operationId: deleteAccount
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '204':
+          description: Account deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
   /v1/participants:
     post:
       tags: [Participants]

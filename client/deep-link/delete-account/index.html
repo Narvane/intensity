@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Delete your Intensity account and associated data." />
+    <title>Intensity — Delete account</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f3ee;
+        --surface: #fffdf9;
+        --text: #2b2118;
+        --muted: #7a6a5c;
+        --coral: #ff6b3d;
+        --border: #e7ddd2;
+        --danger: #c0392b;
+        --ok: #1f7a4d;
+        --link: #7b5cf6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: radial-gradient(circle at top, #fff7ef, var(--bg));
+        color: var(--text);
+        line-height: 1.55;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 253, 249, 0.92);
+        border-bottom: 1px solid var(--border);
+      }
+      .header-inner,
+      main {
+        width: min(100%, 42rem);
+        margin: 0 auto;
+        padding: 1rem 1.25rem 2.5rem;
+      }
+      .header-inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding-bottom: 1rem;
+      }
+      .brand {
+        font-weight: 800;
+        font-size: 1.1rem;
+      }
+      .lang-switch {
+        display: flex;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+      .lang-switch button {
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        font: inherit;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+      .lang-switch button[aria-pressed="true"] {
+        background: var(--coral);
+        border-color: var(--coral);
+        color: #fff;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.6rem, 4vw, 2rem);
+        line-height: 1.2;
+      }
+      .intro,
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 0.85rem;
+        padding: 1rem 1.1rem;
+        margin-bottom: 1rem;
+      }
+      .intro p,
+      .panel p {
+        margin: 0 0 0.65rem;
+      }
+      .intro p:last-child,
+      .panel p:last-child {
+        margin-bottom: 0;
+      }
+      .intro ul {
+        margin: 0.35rem 0 0.65rem;
+        padding-left: 1.25rem;
+      }
+      .warning {
+        color: var(--danger);
+        font-weight: 700;
+      }
+      label {
+        display: grid;
+        gap: 0.35rem;
+        margin-bottom: 0.85rem;
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+      input[type="email"],
+      input[type="password"] {
+        min-height: 2.75rem;
+        border-radius: 0.65rem;
+        border: 1px solid var(--border);
+        padding: 0.65rem 0.85rem;
+        font: inherit;
+        color: var(--text);
+        background: #fff;
+      }
+      .consent {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.65rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .consent input {
+        margin-top: 0.2rem;
+      }
+      button[type="submit"] {
+        width: 100%;
+        min-height: 2.85rem;
+        border: none;
+        border-radius: 0.75rem;
+        background: var(--danger);
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button[type="submit"]:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .msg {
+        margin-top: 0.85rem;
+        line-height: 1.4;
+      }
+      .msg.error {
+        color: var(--danger);
+      }
+      .msg.ok {
+        color: var(--ok);
+        font-weight: 600;
+      }
+      .footer-links {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+      .footer-links a {
+        color: var(--link);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">Intensity</div>
+        <nav class="lang-switch" aria-label="Language">
+          <button type="button" data-locale="en" aria-pressed="false">English</button>
+          <button type="button" data-locale="pt-BR" aria-pressed="false">Português</button>
+          <button type="button" data-locale="it" aria-pressed="false">Italiano</button>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <h1 id="title"></h1>
+      <section class="intro" id="intro"></section>
+      <section class="panel" id="form-panel">
+        <form id="form">
+          <label>
+            <span id="email-label"></span>
+            <input id="email" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span id="password-label"></span>
+            <input id="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required />
+          </label>
+          <label class="consent">
+            <input id="confirm" type="checkbox" required />
+            <span id="confirm-label"></span>
+          </label>
+          <button id="submit" type="submit"></button>
+        </form>
+        <p id="message" class="msg" hidden></p>
+      </section>
+      <p class="footer-links" id="footer-links"></p>
+    </main>
+    <script>
+      (function () {
+        const CONTACT_EMAIL = "privacy@narvane.com.br";
+
+        const copy = {
+          en: {
+            htmlLang: "en",
+            title: "Delete your account",
+            intro: [
+              "You can permanently delete your Intensity account and the personal data linked to it.",
+              "When you confirm deletion:",
+            ],
+            deletedItems: [
+              "Your login (email, display name, and password)",
+              "Your membership in all groups — you leave every group automatically",
+              "All experiences you authored",
+              "Pending invites you created",
+              "Password-reset tokens associated with your account",
+            ],
+            keptItems:
+              "Groups you shared with others remain for the remaining members, without your content. If you are the only member of a group, that group and its boxes are deleted.",
+            warning: "This action is permanent and cannot be undone.",
+            emailLabel: "Email",
+            passwordLabel: "Password",
+            confirmLabel: "I understand that my account and associated data will be permanently deleted.",
+            submit: "Delete my account",
+            submitting: "Deleting…",
+            successTitle: "Account deleted",
+            successBody:
+              "Your Intensity account and associated data were permanently deleted. You can close this page.",
+            invalidCredentials: "Invalid email or password.",
+            networkError: "Could not reach the server. Check your connection and try again.",
+            genericError: "Could not delete the account. Try again later.",
+            footerPrefix: "See also:",
+            privacyLink: "Privacy policy",
+            contactPrefix: "Questions?",
+          },
+          "pt-BR": {
+            htmlLang: "pt-BR",
+            title: "Excluir sua conta",
+            intro: [
+              "Você pode excluir permanentemente sua conta do Intensity e os dados pessoais vinculados a ela.",
+              "Ao confirmar a exclusão:",
+            ],
+            deletedItems: [
+              "Seu login (email, nome de exibição e senha)",
+              "Sua participação em todos os grupos — você sai de cada grupo automaticamente",
+              "Todas as experiências que você criou",
+              "Convites pendentes que você gerou",
+              "Tokens de redefinição de senha associados à sua conta",
+            ],
+            keptItems:
+              "Grupos compartilhados com outras pessoas permanecem para os membros restantes, sem seu conteúdo. Se você for o único membro de um grupo, esse grupo e suas caixas são excluídos.",
+            warning: "Esta ação é permanente e não pode ser desfeita.",
+            emailLabel: "Email",
+            passwordLabel: "Senha",
+            confirmLabel: "Entendo que minha conta e os dados associados serão excluídos permanentemente.",
+            submit: "Excluir minha conta",
+            submitting: "Excluindo…",
+            successTitle: "Conta excluída",
+            successBody:
+              "Sua conta do Intensity e os dados associados foram excluídos permanentemente. Você pode fechar esta página.",
+            invalidCredentials: "Email ou senha inválidos.",
+            networkError: "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.",
+            genericError: "Não foi possível excluir a conta. Tente novamente mais tarde.",
+            footerPrefix: "Veja também:",
+            privacyLink: "Política de privacidade",
+            contactPrefix: "Dúvidas?",
+          },
+          it: {
+            htmlLang: "it",
+            title: "Elimina il tuo account",
+            intro: [
+              "Puoi eliminare permanentemente il tuo account Intensity e i dati personali collegati.",
+              "Quando confermi l'eliminazione:",
+            ],
+            deletedItems: [
+              "Il tuo accesso (email, nome visualizzato e password)",
+              "La tua appartenenza a tutti i gruppi — esci automaticamente da ogni gruppo",
+              "Tutte le esperienze che hai creato",
+              "Inviti pendenti che hai generato",
+              "Token di reimpostazione password associati al tuo account",
+            ],
+            keptItems:
+              "I gruppi condivisi con altre persone restano per i membri rimanenti, senza i tuoi contenuti. Se sei l'unico membro di un gruppo, quel gruppo e le sue scatole vengono eliminati.",
+            warning: "Questa azione è permanente e non può essere annullata.",
+            emailLabel: "Email",
+            passwordLabel: "Password",
+            confirmLabel: "Comprendo che il mio account e i dati associati saranno eliminati permanentemente.",
+            submit: "Elimina il mio account",
+            submitting: "Eliminazione…",
+            successTitle: "Account eliminato",
+            successBody:
+              "Il tuo account Intensity e i dati associati sono stati eliminati permanentemente. Puoi chiudere questa pagina.",
+            invalidCredentials: "Email o password non validi.",
+            networkError: "Impossibile contattare il server. Controlla la connessione e riprova.",
+            genericError: "Impossibile eliminare l'account. Riprova più tardi.",
+            footerPrefix: "Vedi anche:",
+            privacyLink: "Informativa sulla privacy",
+            contactPrefix: "Domande?",
+          },
+        };
+
+        function normalizeLocale(value) {
+          if (!value) return "en";
+          const lower = String(value).toLowerCase();
+          if (lower.startsWith("pt")) return "pt-BR";
+          if (lower.startsWith("it")) return "it";
+          return "en";
+        }
+
+        function detectLocale() {
+          const params = new URLSearchParams(window.location.search);
+          const requested = params.get("lang") || params.get("locale");
+          if (requested) return normalizeLocale(requested);
+          const candidates = navigator.languages?.length ? navigator.languages : [navigator.language];
+          for (const candidate of candidates) {
+            const normalized = normalizeLocale(candidate);
+            if (copy[normalized]) return normalized;
+          }
+          return "en";
+        }
+
+        function apiBaseUrl() {
+          const host = window.location.hostname;
+          if (host.startsWith("app.")) {
+            return window.location.origin.replace("://app.", "://api.");
+          }
+          if (host.startsWith("demo-intensity.")) {
+            return window.location.origin.replace("://demo-intensity.", "://demo-intensity-api.");
+          }
+          if (host === "localhost" || host === "127.0.0.1") {
+            return "http://localhost:8080";
+          }
+          return window.location.origin;
+        }
+
+        function privacyUrl(locale) {
+          const url = new URL("/privacy", window.location.origin);
+          url.searchParams.set("lang", locale);
+          return url.toString();
+        }
+
+        const form = document.getElementById("form");
+        const message = document.getElementById("message");
+        const submit = document.getElementById("submit");
+        const confirm = document.getElementById("confirm");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+
+        function show(text, kind) {
+          message.hidden = false;
+          message.className = "msg " + kind;
+          message.textContent = text;
+        }
+
+        function render(locale) {
+          const page = copy[locale] || copy.en;
+          document.documentElement.lang = page.htmlLang;
+          document.title = "Intensity — " + page.title;
+
+          document.getElementById("title").textContent = page.title;
+
+          const intro = document.getElementById("intro");
+          intro.innerHTML = "";
+          for (const paragraph of page.intro) {
+            const p = document.createElement("p");
+            p.textContent = paragraph;
+            intro.appendChild(p);
+          }
+          const ul = document.createElement("ul");
+          for (const item of page.deletedItems) {
+            const li = document.createElement("li");
+            li.textContent = item;
+            ul.appendChild(li);
+          }
+          intro.appendChild(ul);
+          const kept = document.createElement("p");
+          kept.textContent = page.keptItems;
+          intro.appendChild(kept);
+          const warning = document.createElement("p");
+          warning.className = "warning";
+          warning.textContent = page.warning;
+          intro.appendChild(warning);
+
+          document.getElementById("email-label").textContent = page.emailLabel;
+          document.getElementById("password-label").textContent = page.passwordLabel;
+          document.getElementById("confirm-label").textContent = page.confirmLabel;
+          submit.textContent = page.submit;
+
+          document.getElementById("footer-links").innerHTML =
+            page.footerPrefix +
+            ' <a href="' +
+            privacyUrl(locale) +
+            '">' +
+            page.privacyLink +
+            "</a>. " +
+            page.contactPrefix +
+            ' <a href="mailto:' +
+            CONTACT_EMAIL +
+            '">' +
+            CONTACT_EMAIL +
+            "</a>";
+
+          document.querySelectorAll(".lang-switch button").forEach(function (button) {
+            const active = button.getAttribute("data-locale") === locale;
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+
+          updateSubmitState();
+        }
+
+        function updateSubmitState() {
+          submit.disabled = !confirm.checked;
+        }
+
+        let currentLocale = detectLocale();
+        render(currentLocale);
+
+        confirm.addEventListener("change", updateSubmitState);
+
+        document.querySelectorAll(".lang-switch button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            currentLocale = button.getAttribute("data-locale");
+            const url = new URL(window.location.href);
+            url.searchParams.set("lang", currentLocale);
+            window.history.replaceState({}, "", url);
+            render(currentLocale);
+          });
+        });
+
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          if (!confirm.checked) return;
+
+          submit.disabled = true;
+          show(copy[currentLocale].submitting, "ok");
+
+          try {
+            const response = await fetch(apiBaseUrl() + "/v1/auth/delete-account", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: emailInput.value.trim(),
+                password: passwordInput.value,
+              }),
+            });
+
+            if (response.status === 204) {
+              form.hidden = true;
+              document.getElementById("intro").innerHTML =
+                "<p><strong>" +
+                copy[currentLocale].successTitle +
+                "</strong></p><p>" +
+                copy[currentLocale].successBody +
+                "</p>";
+              show(copy[currentLocale].successBody, "ok");
+              return;
+            }
+
+            let payload = { code: "", message: copy[currentLocale].genericError };
+            try {
+              payload = await response.json();
+            } catch (_) {}
+
+            if (response.status === 401 || payload.code === "INVALID_CREDENTIALS") {
+              show(copy[currentLocale].invalidCredentials, "error");
+            } else {
+              show(payload.message || copy[currentLocale].genericError, "error");
+            }
+          } catch (_) {
+            show(copy[currentLocale].networkError, "error");
+          } finally {
+            updateSubmitState();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

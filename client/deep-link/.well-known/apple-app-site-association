@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "REPLACE_WITH_APPLE_TEAM_ID.com.intensity.app",
+        "appID": "REPLACE_WITH_APPLE_TEAM_ID.br.com.narvane.intensity",
         "paths": ["/join", "/join/*", "/auth/reset-password", "/auth/reset-password/*"]
       }
     ]

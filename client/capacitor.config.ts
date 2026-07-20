@@ -7,7 +7,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const isStoreBuild = process.env.STORE_BUILD === 'true';
 
 const config: CapacitorConfig = {
-  appId: 'com.intensity.app',
+  appId: 'br.com.narvane.intensity',
   appName: 'Intensity',
   webDir: 'dist',
   server: isStoreBuild

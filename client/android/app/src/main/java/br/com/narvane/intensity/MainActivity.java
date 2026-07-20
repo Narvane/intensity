@@ -1,4 +1,4 @@
-package com.intensity.app;
+package br.com.narvane.intensity;
 
 import android.os.Bundle;
 import android.webkit.WebSettings;

@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Intensity</string>
     <string name="title_activity_main">Intensity</string>
-    <string name="package_name">com.intensity.app</string>
-    <string name="custom_url_scheme">com.intensity.app</string>
+    <string name="package_name">br.com.narvane.intensity</string>
+    <string name="custom_url_scheme">br.com.narvane.intensity</string>
 </resources>

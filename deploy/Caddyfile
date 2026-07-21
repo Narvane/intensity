@@ -21,14 +21,14 @@
 		file_server
 	}
 
-	@privacy path /privacy /privacy-policy /privacy/*
+	@privacy path /privacy*
 	handle @privacy {
 		root * /srv/deep-link
 		rewrite * /privacy/index.html
 		file_server
 	}
 
-	@deleteAccount path /delete-account /delete-account/*
+	@deleteAccount path /delete-account*
 	handle @deleteAccount {
 		root * /srv/deep-link
 		rewrite * /delete-account/index.html

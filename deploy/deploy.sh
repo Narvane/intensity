@@ -23,5 +23,8 @@ docker compose -f docker-compose.prod.yml pull api
 # Force recreate so .env changes (Resend, APP_BASE_URL, JWT, etc.) actually apply.
 docker compose -f docker-compose.prod.yml up -d --force-recreate api proxy
 
-echo "Stack restarted. Verify: curl -fsS https://${API_DOMAIN}/actuator/health"
-echo "Reset page: curl -fsS -o /dev/null -w '%{http_code}\n' \"https://${APP_DOMAIN}/auth/reset-password\""
+echo "Stack restarted. Verify:"
+echo "  curl -fsS https://${API_DOMAIN}/actuator/health"
+echo "  curl -fsS -o /dev/null -w '%{http_code}\n' \"https://${APP_DOMAIN}/auth/reset-password\""
+echo "  curl -fsS -o /dev/null -w '%{http_code}\n' \"https://${APP_DOMAIN}/privacy\""
+echo "  curl -fsS -o /dev/null -w '%{http_code}\n' \"https://${APP_DOMAIN}/delete-account\""
